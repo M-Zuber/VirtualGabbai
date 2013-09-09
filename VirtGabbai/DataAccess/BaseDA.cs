@@ -128,7 +128,7 @@ namespace DataAccess
         public static void LoadToCache(string strTableName)
         {
             // Loads the table using the appropiate data adapter
-            int nRowsFilled = GetAdapter(strTableName).Fill(Cache.CacheData.Tables[strTableName]);
+            //int nRowsFilled = GetAdapter(strTableName).Fill(Cache.CacheData.Tables[strTableName]);
         }
 
         /// <summary>
@@ -153,7 +153,7 @@ namespace DataAccess
             MySqlCommandBuilder cbBuilder = new MySqlCommandBuilder(daAdapter);
 
             // Updating table as is
-            int nRowsUpdated = daAdapter.Update(Cache.CacheData.Tables[strTableName]);
+            //int nRowsUpdated = daAdapter.Update(Cache.CacheData.Tables[strTableName]);
         }
 
         /// <summary>
@@ -167,10 +167,10 @@ namespace DataAccess
             MySqlCommandBuilder cbBuilder = new MySqlCommandBuilder(daAdapter);
 
             // Getting all the deleted rows and updating them
-            DataRow[] drarrDeletedRows =
-                Cache.CacheData.Tables[strTableName].Select(string.Empty, string.Empty,
-                                                        DataViewRowState.Deleted);
-            daAdapter.Update(drarrDeletedRows);
+            //DataRow[] drarrDeletedRows =
+              ///  Cache.CacheData.Tables[strTableName].Select(string.Empty, string.Empty,
+                 //                                       DataViewRowState.Deleted);
+            //daAdapter.Update(drarrDeletedRows);
         }
 
         #endregion

@@ -499,7 +499,7 @@
     </Options>
     <!-- Diagram content (shape and connector positions) -->
     <Diagrams>
-      <Diagram Name="EntityCache" ZoomLevel="47">
+      <Diagram Name="EntityCache" ZoomLevel="106">
         <EntityTypeShape EntityType="VirtGabbaiCache.t_accounts" Width="1.5" PointX="3" PointY="3" Height="2.1725878906249996" IsExpanded="true" />
         <EntityTypeShape EntityType="VirtGabbaiCache.t_donations" Width="1.5" PointX="5.25" PointY="2.75" Height="2.7494921874999996" IsExpanded="true" />
         <EntityTypeShape EntityType="VirtGabbaiCache.t_people" Width="1.5" PointX="0.75" PointY="4" Height="2.5571907552083335" IsExpanded="true" />
