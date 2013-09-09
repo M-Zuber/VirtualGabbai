@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataCache", "Data\DataCache.csproj", "{A5C6F92A-C167-47D3-94E4-DBD66E0EB3F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Framework", "Framework\Framework.csproj", "{DA3BEDDD-9B0B-4D85-A9DC-2DA78896092B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataTypes", "Framework\DataTypes.csproj", "{DA3BEDDD-9B0B-4D85-A9DC-2DA78896092B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "DataAccess\DataAccess.csproj", "{E0E28C03-0AE2-4489-946B-41B8D04B3B37}"
 EndProject

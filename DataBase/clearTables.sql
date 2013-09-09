@@ -1,0 +1,11 @@
+SET FOREIGN_KEY_CHECKS=0;
+TRUNCATE TABLE t_yarthziehts;
+TRUNCATE TABLE t_donations;
+TRUNCATE TABLE t_accounts;
+TRUNCATE TABLE t_phone_numbers;
+TRUNCATE TABLE t_phone_types;
+TRUNCATE TABLE t_people;
+TRUNCATE TABLE t_privilege_groups;
+TRUNCATE TABLE t_privileges;
+TRUNCATE TABLE t_users;
+SET FOREIGN_KEY_CHECKS=1;
