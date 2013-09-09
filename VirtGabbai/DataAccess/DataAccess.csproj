@@ -51,6 +51,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DataTypes\DataTypes.csproj">
+      <Project>{9B2ABB56-D031-4753-ADD5-B5DCEB597E3C}</Project>
+      <Name>DataTypes</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Data\DataCache.csproj">
       <Project>{A5C6F92A-C167-47D3-94E4-DBD66E0EB3F6}</Project>
       <Name>DataCache</Name>

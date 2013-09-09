@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DataTypes
 {
-    public class Class1
+    public class Yarthzieht
     {
     }
 }
