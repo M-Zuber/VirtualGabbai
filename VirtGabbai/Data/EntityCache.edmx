@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="VirtGabbaiCache.Store" Alias="Self" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.6" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+    <Schema Namespace="VirtGabbaiCache.Store" Alias="Self" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.6" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
         <EntityContainer Name="VirtGabbaiCacheStoreContainer">
           <EntitySet Name="t_accounts" EntityType="VirtGabbaiCache.Store.t_accounts" store:Type="Tables" Schema="zera_levi" />
           <EntitySet Name="t_donations" EntityType="VirtGabbaiCache.Store.t_donations" store:Type="Tables" Schema="zera_levi" />
@@ -119,6 +119,8 @@
           <Property Name="_id" Type="uint" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="person_id" Type="uint" Nullable="false" />
           <Property Name="relation" Type="varchar" MaxLength="45" />
+          <Property Name="date" Type="datetime" Nullable="false" />
+          <Property Name="deceaseds_name" Type="varchar" Nullable="false" MaxLength="45" />
         </EntityType>
         <Association Name="fk_accounts_people1">
           <End Role="t_people" Type="VirtGabbaiCache.Store.t_people" Multiplicity="1">
@@ -204,8 +206,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="VirtGabbaiCache" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
@@ -335,6 +336,8 @@
           <Property Name="person_id" Type="Int64" Nullable="false" />
           <Property Name="relation" Type="String" MaxLength="45" Unicode="false" FixedLength="false" />
           <NavigationProperty Name="t_people" Relationship="VirtGabbaiCache.fk_yarthziehts_people1" FromRole="t_yarthziehts" ToRole="t_people" />
+          <Property Type="DateTime" Name="date" Nullable="false" />
+          <Property Type="String" Name="deceaseds_name" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="fk_accounts_people1">
           <End Role="t_people" Type="VirtGabbaiCache.t_people" Multiplicity="1">
@@ -475,7 +478,9 @@
             <ScalarProperty Name="privileges_group" ColumnName="privileges_group" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
           <EntitySetMapping Name="t_yarthziehts"><EntityTypeMapping TypeName="VirtGabbaiCache.t_yarthziehts"><MappingFragment StoreEntitySet="t_yarthziehts">
-            <ScalarProperty Name="C_id" ColumnName="_id" />
+            <ScalarProperty Name="deceaseds_name" ColumnName="deceaseds_name" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="C_id" ColumnName="_id" />
             <ScalarProperty Name="person_id" ColumnName="person_id" />
             <ScalarProperty Name="relation" ColumnName="relation" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>

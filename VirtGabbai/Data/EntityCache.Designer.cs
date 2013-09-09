@@ -1704,11 +1704,15 @@ namespace DataCache
         /// </summary>
         /// <param name="c_id">Initial value of the C_id property.</param>
         /// <param name="person_id">Initial value of the person_id property.</param>
-        public static t_yarthziehts Createt_yarthziehts(global::System.Int64 c_id, global::System.Int64 person_id)
+        /// <param name="date">Initial value of the date property.</param>
+        /// <param name="deceaseds_name">Initial value of the deceaseds_name property.</param>
+        public static t_yarthziehts Createt_yarthziehts(global::System.Int64 c_id, global::System.Int64 person_id, global::System.DateTime date, global::System.String deceaseds_name)
         {
             t_yarthziehts t_yarthziehts = new t_yarthziehts();
             t_yarthziehts.C_id = c_id;
             t_yarthziehts.person_id = person_id;
+            t_yarthziehts.date = date;
+            t_yarthziehts.deceaseds_name = deceaseds_name;
             return t_yarthziehts;
         }
 
@@ -1789,6 +1793,54 @@ namespace DataCache
         private global::System.String _relation;
         partial void OnrelationChanging(global::System.String value);
         partial void OnrelationChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.DateTime date
+        {
+            get
+            {
+                return _date;
+            }
+            set
+            {
+                OndateChanging(value);
+                ReportPropertyChanging("date");
+                _date = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("date");
+                OndateChanged();
+            }
+        }
+        private global::System.DateTime _date;
+        partial void OndateChanging(global::System.DateTime value);
+        partial void OndateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String deceaseds_name
+        {
+            get
+            {
+                return _deceaseds_name;
+            }
+            set
+            {
+                Ondeceaseds_nameChanging(value);
+                ReportPropertyChanging("deceaseds_name");
+                _deceaseds_name = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("deceaseds_name");
+                Ondeceaseds_nameChanged();
+            }
+        }
+        private global::System.String _deceaseds_name;
+        partial void Ondeceaseds_nameChanging(global::System.String value);
+        partial void Ondeceaseds_nameChanged();
 
         #endregion
     
