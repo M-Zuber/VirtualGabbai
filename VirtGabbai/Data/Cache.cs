@@ -9,7 +9,7 @@
         #region Data Members
 
         // Data members
-        private static TabularData m_dsDataSet = new TabularData();
+        private static zera_leviEntities m_dsDataSet = new zera_leviEntities();
 
         #endregion
 
@@ -19,7 +19,7 @@
         /// Allows outside access to the main data set
         ///  - without letting the user access it any other way
         /// </summary>
-        public static TabularData CacheData
+        public static zera_leviEntities CacheData
         {
             get
             {
