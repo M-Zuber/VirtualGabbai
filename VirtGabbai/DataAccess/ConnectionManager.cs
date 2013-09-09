@@ -57,10 +57,8 @@ namespace DataAccess
         {
             // Intializes the connection data member and sets it with the connection string
             this.Connection = new MySqlConnection();
-            this.Connection.ConnectionString = "database=zera_levi; " +
-                                                "Data Source=127.0.0.10; " +
-                                                "User ID = root; " +
-                                                "Password=7BAC61zuber";
+            this.Connection.ConnectionString = "database=zera_levi;server=127.0.0.10;" +
+                                               "User Id=root;password=7BAC61zuber";
         }
 
         #endregion

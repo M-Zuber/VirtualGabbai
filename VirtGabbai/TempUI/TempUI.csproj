@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>f8ebfd2f-cc35-4f63-8dc5-b65ac7e21cb0</ProjectGuid>
+    <ProjectGuid>{78B36A79-486E-4F9C-8978-60914C3FC469}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TempUI</RootNamespace>
