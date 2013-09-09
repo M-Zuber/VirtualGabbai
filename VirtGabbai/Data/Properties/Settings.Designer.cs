@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace VirtGabbai.Properties {
+namespace DataCache.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

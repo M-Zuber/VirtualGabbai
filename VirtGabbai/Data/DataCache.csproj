@@ -8,7 +8,7 @@
     <ProjectGuid>{A5C6F92A-C167-47D3-94E4-DBD66E0EB3F6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>VirtGabbai</RootNamespace>
+    <RootNamespace>DataCache</RootNamespace>
     <AssemblyName>VirtGabbai</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

@@ -1,4 +1,4 @@
-﻿namespace VirtGabbai
+﻿namespace DataCache
 {
     /// <summary>
     /// Allows access to the cached data - but only a single (and constant) instance of it
@@ -19,7 +19,7 @@
         /// Allows outside access to the main data set
         ///  - without letting the user access it any other way
         /// </summary>
-        public static TabularData DataCache
+        public static TabularData CacheData
         {
             get
             {

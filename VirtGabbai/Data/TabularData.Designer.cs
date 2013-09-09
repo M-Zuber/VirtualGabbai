@@ -10,7 +10,7 @@
 
 #pragma warning disable 1591
 
-namespace VirtGabbai {
+namespace DataCache {
     
     
     /// <summary>
@@ -4437,7 +4437,7 @@ namespace VirtGabbai {
         }
     }
 }
-namespace VirtGabbai.TabularDataTableAdapters {
+namespace DataCache.TabularDataTableAdapters {
     
     
     /// <summary>

@@ -1,4 +1,4 @@
-﻿namespace VirtGabbai {
+﻿namespace DataCache {
     
     
     public partial class TabularData {
