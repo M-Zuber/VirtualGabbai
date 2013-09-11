@@ -113,6 +113,7 @@ namespace DataAccess
         {
             t_yarthziehts yaToAdd = this.ConvertSingleYarhtzietToDbType(ya);
             Cache.CacheData.t_yarthziehts.AddObject(yaToAdd);
+            Cache.CacheData.SaveChanges();
         }
 
         public void AddMultipleNewYartzieht(List<Yarthzieht> myYaList)
@@ -178,7 +179,9 @@ namespace DataAccess
 
         private t_yarthziehts ConvertSingleYarhtzietToDbType(Yarthzieht ya)
         {
-            return t_yarthziehts.Createt_yarthziehts(ya._Id, ya.PersonId, ya.Date, ya.Name);
+            var test = t_yarthziehts.Createt_yarthziehts(ya._Id, ya.PersonId, ya.Date, ya.Name);
+            test.relation = ya.Relation;
+            return test;
         }
 
         private List<Yarthzieht> ConvertMultipleYarhtzietToLocalType(List<t_yarthziehts> ya)
