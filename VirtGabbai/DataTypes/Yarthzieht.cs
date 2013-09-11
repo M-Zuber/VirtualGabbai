@@ -14,5 +14,7 @@ namespace DataTypes
         public string Relation { get; set; }
 
         public string Name { get; set; }
+
+        public long PersonId { get; set; }
     }
 }
