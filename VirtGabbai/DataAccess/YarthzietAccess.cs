@@ -9,40 +9,71 @@ namespace DataAccess
 {
     public class YarthzietAccess
     {
-        public Yarthzieht GetYarthzieht(int personId, DateTime yarthziehtId, string personName)
+
+        #region Read Methods
+
+        public Yarthzieht GetSpecificYarthzieht(int personId, DateTime date, string personName)
         {
-            t_yarthziehts RequestedYarhtzieht = (from test in Cache.CacheData.t_yarthziehts
-                                                where test.person_id == personId && test.date == yarthziehtId && test.deceaseds_name == personName
-                                                select test).First();
-            return null; 
+            t_yarthziehts requestedYarhtzieht = (from test in Cache.CacheData.t_yarthziehts
+                                                 where test.person_id == personId &&
+                                                       test.date == date &&
+                                                       test.deceaseds_name == personName
+                                                 select test).First();
+
+            return this.ConverSingleYarhtzietToLocalType(requestedYarhtzieht);
         }
 
-        public List<Yarthzieht> GetYarthziehts(int personId) 
+        public List<Yarthzieht> GetYarhtzietsByName(int personId, string personName)
+        {
+           List<t_yarthziehts> requestedYarhtzieht = (from test in Cache.CacheData.t_yarthziehts
+                                                      where test.deceaseds_name == personName
+                                                      select test).ToList<t_yarthziehts>();
+
+            return this.ConvertYarhtzietListToLocalType(requestedYarhtzieht);
+        }
+
+        public List<Yarthzieht> GetYarhtzietsByDate(int personId, DateTime date)
+        {
+            List<t_yarthziehts> requestedYarhtzieht = (from test in Cache.CacheData.t_yarthziehts
+                                                       where test.date == date
+                                                       select test).ToList<t_yarthziehts>();
+
+            return this.ConvertYarhtzietListToLocalType(requestedYarhtzieht);
+        }
+
+        public List<Yarthzieht> GetYarhtzietsByRelation(int personId, string relation)
+        {
+            List<t_yarthziehts> requestedYarhtzieht = (from test in Cache.CacheData.t_yarthziehts
+                                                       where test.relation == relation
+                                                       select test).ToList<t_yarthziehts>();
+
+            return this.ConvertYarhtzietListToLocalType(requestedYarhtzieht);
+        }
+
+        public List<Yarthzieht> GetAllYarthziehts(int personId)
         {
             t_people test = (t_people)Cache.CacheData.t_people.Take(1);
-            
+
             //List<t_yarthziehts> AllYarhtziets = (from CurrentYarhtziet  in Cache.CacheData.t_yarthziehts
             //                                     where CurrentYarhtziet.person_id == personId
             //                                     select CurrentYarhtziet).ToList<t_yarthziehts>();
 
-            return this.ConvertListToLocalType(test.t_yarthziehts.ToList<t_yarthziehts>()); 
+            return this.ConvertYarhtzietListToLocalType(test.t_yarthziehts.ToList<t_yarthziehts>());
         }
 
-        //public List<Yarthzieht> GetYarthziehts(string s) { return null; }
-
-        private List<Yarthzieht> ConvertListToLocalType(List<t_yarthziehts> ya) 
+        private List<Yarthzieht> ConvertYarhtzietListToLocalType(List<t_yarthziehts> ya)
         {
             List<Yarthzieht> myList = new List<Yarthzieht>();
 
             foreach (var item in ya)
             {
-               myList.Add(this.ConvertToLocalType(item));
+                myList.Add(this.ConverSingleYarhtzietToLocalType(item));
             }
 
             return myList;
         }
 
-        private Yarthzieht ConvertToLocalType(t_yarthziehts ya)
+        private Yarthzieht ConverSingleYarhtzietToLocalType(t_yarthziehts ya)
         {
             Yarthzieht instance = new Yarthzieht();
             instance._Id = ya.C_id;
@@ -50,6 +81,24 @@ namespace DataAccess
             instance.Relation = ya.relation;
             instance.Name = ya.deceaseds_name;
             return instance;
-        }
+        } 
+
+        #endregion
+
+        #region Write
+
+        #region Create
+        
+        #endregion
+
+        #region Update
+        
+        #endregion
+
+        #region Delete
+
+        #endregion
+
+        #endregion
     }
 }
