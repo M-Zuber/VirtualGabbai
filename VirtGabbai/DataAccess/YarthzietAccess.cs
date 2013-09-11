@@ -133,6 +133,14 @@ namespace DataAccess
             //TODO lookup how to do updating when using entity framework
         }
 
+        public void UpdateMultipleYarhtzieht(List<Yarthzieht> myYaList)
+        {
+            foreach (var item in myYaList)
+            {
+                this.UpdateSingleYarhtzieht(item);
+            }
+        }
+
         #endregion
 
         #region Delete
