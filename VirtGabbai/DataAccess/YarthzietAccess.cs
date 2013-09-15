@@ -23,28 +23,10 @@ namespace DataAccess
             return this.ConverSingleYarhtzietToLocalType(requestedYarhtzieht);
         }
 
-        public List<Yarthzieht> GetYarhtzietsByName(long personId, string personName)
-        {
-           List<t_yarthziehts> requestedYarhtzieht = (from test in Cache.CacheData.t_yarthziehts
-                                                      where test.deceaseds_name == personName
-                                                      select test).ToList<t_yarthziehts>();
-
-            return this.ConvertMultipleYarhtzietToLocalType(requestedYarhtzieht);
-        }
-
         public List<Yarthzieht> GetYarhtzietsByDate(long personId, DateTime date)
         {
             List<t_yarthziehts> requestedYarhtzieht = (from test in Cache.CacheData.t_yarthziehts
                                                        where test.date == date
-                                                       select test).ToList<t_yarthziehts>();
-
-            return this.ConvertMultipleYarhtzietToLocalType(requestedYarhtzieht);
-        }
-
-        public List<Yarthzieht> GetYarhtzietsByRelation(long personId, string relation)
-        {
-            List<t_yarthziehts> requestedYarhtzieht = (from test in Cache.CacheData.t_yarthziehts
-                                                       where test.relation == relation
                                                        select test).ToList<t_yarthziehts>();
 
             return this.ConvertMultipleYarhtzietToLocalType(requestedYarhtzieht);
@@ -70,24 +52,10 @@ namespace DataAccess
                     select test).First();
         }
 
-        private List<t_yarthziehts> LookupYarhtzietsByName(long personId, string personName)
-        {
-            return (from test in Cache.CacheData.t_yarthziehts
-                    where test.deceaseds_name == personName
-                    select test).ToList<t_yarthziehts>();
-        }
-
         private List<t_yarthziehts> LookupYarhtzietsByDate(long personId, DateTime date)
         {
             return (from test in Cache.CacheData.t_yarthziehts
                     where test.date == date
-                    select test).ToList<t_yarthziehts>();
-        }
-
-        private List<t_yarthziehts> LookupYarhtzietsByRelation(long personId, string relation)
-        {
-            return (from test in Cache.CacheData.t_yarthziehts
-                    where test.relation == relation
                     select test).ToList<t_yarthziehts>();
         }
 
@@ -149,6 +117,7 @@ namespace DataAccess
         public void DeleteSingleYarhtzieht(Yarthzieht ya)
         {
             Cache.CacheData.t_yarthziehts.DeleteObject(this.ConvertSingleYarhtzietToDbType(ya));
+            Cache.CacheData.SaveChanges();
         }
 
         public void DeleteMultipleYarhtziet(List<Yarthzieht> myYaList)

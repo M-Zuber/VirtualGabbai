@@ -235,36 +235,6 @@ namespace DataAccessTest
             Assert.AreEqual(expected, actual);
         }
 
-        /// <summary>
-        ///A test for GetYarhtzietsByName
-        ///</summary>
-        [TestMethod()]
-        public void GetYarhtzietsByNameTest()
-        {
-            YarthzietAccess target = new YarthzietAccess(); //  : Initialize to an appropriate value
-            long personId = 0; //  : Initialize to an appropriate value
-            string personName = string.Empty; //  : Initialize to an appropriate value
-            List<Yarthzieht> expected = null; //  : Initialize to an appropriate value
-            List<Yarthzieht> actual;
-            actual = target.GetYarhtzietsByName(personId, personName);
-            Assert.AreEqual(expected, actual);
-        }
-
-        /// <summary>
-        ///A test for GetYarhtzietsByRelation
-        ///</summary>
-        [TestMethod()]
-        public void GetYarhtzietsByRelationTest()
-        {
-            YarthzietAccess target = new YarthzietAccess(); //  : Initialize to an appropriate value
-            long personId = 0; //  : Initialize to an appropriate value
-            string relation = string.Empty; //  : Initialize to an appropriate value
-            List<Yarthzieht> expected = null; //  : Initialize to an appropriate value
-            List<Yarthzieht> actual;
-            actual = target.GetYarhtzietsByRelation(personId, relation);
-            Assert.AreEqual(expected, actual);
-        } 
-
         #endregion
 
         #region Lookup Tests
@@ -329,38 +299,6 @@ namespace DataAccessTest
             List<t_yarthziehts> expected = null; //  : Initialize to an appropriate value
             List<t_yarthziehts> actual;
             actual = target.LookupYarhtzietsByDate(personId, date);
-            Assert.AreEqual(expected, actual);
-        }
-
-        /// <summary>
-        ///A test for LookupYarhtzietsByName
-        ///</summary>
-        [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
-        public void LookupYarhtzietsByNameTest()
-        {
-            YarthzietAccess_Accessor target = new YarthzietAccess_Accessor(); //  : Initialize to an appropriate value
-            long personId = 0; //  : Initialize to an appropriate value
-            string personName = string.Empty; //  : Initialize to an appropriate value
-            List<t_yarthziehts> expected = null; //  : Initialize to an appropriate value
-            List<t_yarthziehts> actual;
-            actual = target.LookupYarhtzietsByName(personId, personName);
-            Assert.AreEqual(expected, actual);
-        }
-
-        /// <summary>
-        ///A test for LookupYarhtzietsByRelation
-        ///</summary>
-        [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
-        public void LookupYarhtzietsByRelationTest()
-        {
-            YarthzietAccess_Accessor target = new YarthzietAccess_Accessor(); //  : Initialize to an appropriate value
-            long personId = 0; //  : Initialize to an appropriate value
-            string relation = string.Empty; //  : Initialize to an appropriate value
-            List<t_yarthziehts> expected = null; //  : Initialize to an appropriate value
-            List<t_yarthziehts> actual;
-            actual = target.LookupYarhtzietsByRelation(personId, relation);
             Assert.AreEqual(expected, actual);
         }
 
