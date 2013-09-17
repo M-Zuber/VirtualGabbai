@@ -4,6 +4,8 @@ using System;
 using DataTypes;
 using System.Collections.Generic;
 using DataCache;
+using System.Data.Objects;
+using System.Linq;
 
 namespace DataAccessTest
 {
@@ -66,34 +68,61 @@ namespace DataAccessTest
         //
         #endregion
 
-        #region Add Tests
+        #region Add Tests -Passed#1
 
         /// <summary>
-        ///A test for AddMultipleNewYartzieht
+        ///Adds a list of Yarhtziehts to the database
         ///</summary>
         [TestMethod()]
         public void AddMultipleNewYartziehtTest()
         {
-            YarthzietAccess target = new YarthzietAccess(); //  : Initialize to an appropriate value
-            List<Yarthzieht> myYaList = null; //  : Initialize to an appropriate value
+            if (!Cache.CacheData.t_people.Any(person => person.C_id == 1))
+            {
+                Cache.CacheData.t_people.AddObject(t_people.Createt_people(1));
+            }
+            YarthzietAccess target = new YarthzietAccess();
+            List<Yarthzieht> myYaList = new List<Yarthzieht>();
+
+            for (int i = 1; i <= 10; i++)
+            {
+                Yarthzieht ya = new Yarthzieht();
+                ya._Id = i;
+                ya.Date = DateTime.Now;
+                ya.Name = "ploni ben almoni";
+                ya.Relation = "dogs previous owner";
+                ya.PersonId = 1;
+                myYaList.Add(ya);
+            }
             target.AddMultipleNewYartzieht(myYaList);
         }
 
         /// <summary>
-        ///A test for AddNewYartzieht
+        ///Adds a single new Yarhtzieht to the database
         ///</summary>
         [TestMethod()]
         public void AddNewYartziehtTest()
         {
-            YarthzietAccess target = new YarthzietAccess();
-            Yarthzieht ya = new Yarthzieht();
-            ya._Id = 1;
-            ya.Date = DateTime.Now;
-            ya.Name = "ploni ben almoni";
-            ya.Relation = "dogs previous owner";
-            ya.PersonId = 1;
+            if (!Cache.CacheData.t_people.Any(person => person.C_id == 1))
+            {
+                Cache.CacheData.t_people.AddObject(t_people.Createt_people(1));
+            }
 
-            target.AddNewYartzieht(ya);
+            if (!Cache.CacheData.t_yarthziehts.Any(item => item.C_id == 1))
+            {
+                YarthzietAccess target = new YarthzietAccess();
+                Yarthzieht ya = new Yarthzieht();
+                ya._Id = 1;
+                ya.Date = DateTime.Now;
+                ya.Name = "ploni ben almoni";
+                ya.Relation = "dogs previous owner";
+                ya.PersonId = 1;
+
+                target.AddNewYartzieht(ya); 
+            }
+            else
+            {
+                Assert.Fail("The entity already exists, please delete it from the db and run it again");
+            }
         } 
 
         #endregion
@@ -112,13 +141,19 @@ namespace DataAccessTest
         }
 
         /// <summary>
-        ///A test for DeleteSingleYarhtzieht
+        ///Deletes a yarhtzieht that exists
         ///</summary>
         [TestMethod()]
         public void DeleteSingleYarhtziehtTest()
         {
-            YarthzietAccess target = new YarthzietAccess(); //  : Initialize to an appropriate value
-            Yarthzieht ya = null; //  : Initialize to an appropriate value
+            if (!Cache.CacheData.t_people.Any(person => person.C_id == 1))
+            {
+                Cache.CacheData.t_people.AddObject(t_people.Createt_people(1));
+            }
+
+            YarthzietAccess target = new YarthzietAccess();
+            Yarthzieht ya = new Yarthzieht(1, DateTime.Now, "the dogs friends cat", "rufos maximus", 1);
+            target.AddNewYartzieht(ya);
             target.DeleteSingleYarhtzieht(ya);
         }
         

@@ -317,7 +317,7 @@ namespace DataCache
         /// </summary>
         /// <param name="c_id">Initial value of the C_id property.</param>
         /// <param name="person_id">Initial value of the person_id property.</param>
-        public static t_accounts Createt_accounts(global::System.Int64 c_id, global::System.Int64 person_id)
+        public static t_accounts Createt_accounts(global::System.Int32 c_id, global::System.Int32 person_id)
         {
             t_accounts t_accounts = new t_accounts();
             t_accounts.C_id = c_id;
@@ -333,7 +333,7 @@ namespace DataCache
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int64 C_id
+        public global::System.Int32 C_id
         {
             get
             {
@@ -351,8 +351,8 @@ namespace DataCache
                 }
             }
         }
-        private global::System.Int64 _C_id;
-        partial void OnC_idChanging(global::System.Int64 value);
+        private global::System.Int32 _C_id;
+        partial void OnC_idChanging(global::System.Int32 value);
         partial void OnC_idChanged();
     
         /// <summary>
@@ -360,7 +360,7 @@ namespace DataCache
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int64 person_id
+        public global::System.Int32 person_id
         {
             get
             {
@@ -375,8 +375,8 @@ namespace DataCache
                 Onperson_idChanged();
             }
         }
-        private global::System.Int64 _person_id;
-        partial void Onperson_idChanging(global::System.Int64 value);
+        private global::System.Int32 _person_id;
+        partial void Onperson_idChanging(global::System.Int32 value);
         partial void Onperson_idChanged();
     
         /// <summary>
@@ -513,7 +513,7 @@ namespace DataCache
         /// <param name="amount">Initial value of the amount property.</param>
         /// <param name="date_donated">Initial value of the date_donated property.</param>
         /// <param name="paid">Initial value of the paid property.</param>
-        public static t_donations Createt_donations(global::System.Int64 c_id, global::System.Int64 account_id, global::System.String reason, global::System.Double amount, global::System.DateTime date_donated, global::System.Boolean paid)
+        public static t_donations Createt_donations(global::System.Int32 c_id, global::System.Int32 account_id, global::System.String reason, global::System.Double amount, global::System.DateTime date_donated, global::System.Boolean paid)
         {
             t_donations t_donations = new t_donations();
             t_donations.C_id = c_id;
@@ -533,7 +533,7 @@ namespace DataCache
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int64 C_id
+        public global::System.Int32 C_id
         {
             get
             {
@@ -551,8 +551,8 @@ namespace DataCache
                 }
             }
         }
-        private global::System.Int64 _C_id;
-        partial void OnC_idChanging(global::System.Int64 value);
+        private global::System.Int32 _C_id;
+        partial void OnC_idChanging(global::System.Int32 value);
         partial void OnC_idChanged();
     
         /// <summary>
@@ -560,7 +560,7 @@ namespace DataCache
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int64 account_id
+        public global::System.Int32 account_id
         {
             get
             {
@@ -575,8 +575,8 @@ namespace DataCache
                 Onaccount_idChanged();
             }
         }
-        private global::System.Int64 _account_id;
-        partial void Onaccount_idChanging(global::System.Int64 value);
+        private global::System.Int32 _account_id;
+        partial void Onaccount_idChanging(global::System.Int32 value);
         partial void Onaccount_idChanged();
     
         /// <summary>
@@ -782,7 +782,7 @@ namespace DataCache
         /// Create a new t_people object.
         /// </summary>
         /// <param name="c_id">Initial value of the C_id property.</param>
-        public static t_people Createt_people(global::System.Int64 c_id)
+        public static t_people Createt_people(global::System.Int32 c_id)
         {
             t_people t_people = new t_people();
             t_people.C_id = c_id;
@@ -797,7 +797,7 @@ namespace DataCache
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int64 C_id
+        public global::System.Int32 C_id
         {
             get
             {
@@ -815,8 +815,8 @@ namespace DataCache
                 }
             }
         }
-        private global::System.Int64 _C_id;
-        partial void OnC_idChanging(global::System.Int64 value);
+        private global::System.Int32 _C_id;
+        partial void OnC_idChanging(global::System.Int32 value);
         partial void OnC_idChanged();
     
         /// <summary>
@@ -1005,7 +1005,7 @@ namespace DataCache
         /// <param name="number">Initial value of the number property.</param>
         /// <param name="number_type">Initial value of the number_type property.</param>
         /// <param name="c_id">Initial value of the C_id property.</param>
-        public static t_phone_numbers Createt_phone_numbers(global::System.Int64 person_id, global::System.String number, global::System.Int64 number_type, global::System.Int64 c_id)
+        public static t_phone_numbers Createt_phone_numbers(global::System.Int32 person_id, global::System.String number, global::System.Int32 number_type, global::System.Int32 c_id)
         {
             t_phone_numbers t_phone_numbers = new t_phone_numbers();
             t_phone_numbers.person_id = person_id;
@@ -1023,7 +1023,7 @@ namespace DataCache
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int64 person_id
+        public global::System.Int32 person_id
         {
             get
             {
@@ -1038,8 +1038,8 @@ namespace DataCache
                 Onperson_idChanged();
             }
         }
-        private global::System.Int64 _person_id;
-        partial void Onperson_idChanging(global::System.Int64 value);
+        private global::System.Int32 _person_id;
+        partial void Onperson_idChanging(global::System.Int32 value);
         partial void Onperson_idChanged();
     
         /// <summary>
@@ -1071,7 +1071,7 @@ namespace DataCache
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int64 number_type
+        public global::System.Int32 number_type
         {
             get
             {
@@ -1086,8 +1086,8 @@ namespace DataCache
                 Onnumber_typeChanged();
             }
         }
-        private global::System.Int64 _number_type;
-        partial void Onnumber_typeChanging(global::System.Int64 value);
+        private global::System.Int32 _number_type;
+        partial void Onnumber_typeChanging(global::System.Int32 value);
         partial void Onnumber_typeChanged();
     
         /// <summary>
@@ -1095,7 +1095,7 @@ namespace DataCache
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int64 C_id
+        public global::System.Int32 C_id
         {
             get
             {
@@ -1113,8 +1113,8 @@ namespace DataCache
                 }
             }
         }
-        private global::System.Int64 _C_id;
-        partial void OnC_idChanging(global::System.Int64 value);
+        private global::System.Int32 _C_id;
+        partial void OnC_idChanging(global::System.Int32 value);
         partial void OnC_idChanged();
 
         #endregion
@@ -1215,7 +1215,7 @@ namespace DataCache
         /// </summary>
         /// <param name="c_id">Initial value of the C_id property.</param>
         /// <param name="type_name">Initial value of the type_name property.</param>
-        public static t_phone_types Createt_phone_types(global::System.Int64 c_id, global::System.String type_name)
+        public static t_phone_types Createt_phone_types(global::System.Int32 c_id, global::System.String type_name)
         {
             t_phone_types t_phone_types = new t_phone_types();
             t_phone_types.C_id = c_id;
@@ -1231,7 +1231,7 @@ namespace DataCache
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int64 C_id
+        public global::System.Int32 C_id
         {
             get
             {
@@ -1249,8 +1249,8 @@ namespace DataCache
                 }
             }
         }
-        private global::System.Int64 _C_id;
-        partial void OnC_idChanging(global::System.Int64 value);
+        private global::System.Int32 _C_id;
+        partial void OnC_idChanging(global::System.Int32 value);
         partial void OnC_idChanged();
     
         /// <summary>
@@ -1320,7 +1320,7 @@ namespace DataCache
         /// Create a new t_privilege_groups object.
         /// </summary>
         /// <param name="c_id">Initial value of the C_id property.</param>
-        public static t_privilege_groups Createt_privilege_groups(global::System.Int64 c_id)
+        public static t_privilege_groups Createt_privilege_groups(global::System.Int32 c_id)
         {
             t_privilege_groups t_privilege_groups = new t_privilege_groups();
             t_privilege_groups.C_id = c_id;
@@ -1335,7 +1335,7 @@ namespace DataCache
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int64 C_id
+        public global::System.Int32 C_id
         {
             get
             {
@@ -1353,8 +1353,8 @@ namespace DataCache
                 }
             }
         }
-        private global::System.Int64 _C_id;
-        partial void OnC_idChanging(global::System.Int64 value);
+        private global::System.Int32 _C_id;
+        partial void OnC_idChanging(global::System.Int32 value);
         partial void OnC_idChanged();
     
         /// <summary>
@@ -1424,7 +1424,7 @@ namespace DataCache
         /// Create a new t_privileges object.
         /// </summary>
         /// <param name="c_id">Initial value of the C_id property.</param>
-        public static t_privileges Createt_privileges(global::System.Int64 c_id)
+        public static t_privileges Createt_privileges(global::System.Int32 c_id)
         {
             t_privileges t_privileges = new t_privileges();
             t_privileges.C_id = c_id;
@@ -1439,7 +1439,7 @@ namespace DataCache
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int64 C_id
+        public global::System.Int32 C_id
         {
             get
             {
@@ -1457,8 +1457,8 @@ namespace DataCache
                 }
             }
         }
-        private global::System.Int64 _C_id;
-        partial void OnC_idChanging(global::System.Int64 value);
+        private global::System.Int32 _C_id;
+        partial void OnC_idChanging(global::System.Int32 value);
         partial void OnC_idChanged();
     
         /// <summary>
@@ -1507,7 +1507,7 @@ namespace DataCache
         /// <param name="password">Initial value of the password property.</param>
         /// <param name="email">Initial value of the email property.</param>
         /// <param name="privileges_group">Initial value of the privileges_group property.</param>
-        public static t_users Createt_users(global::System.Int64 c_id, global::System.String name, global::System.String password, global::System.String email, global::System.Int64 privileges_group)
+        public static t_users Createt_users(global::System.Int32 c_id, global::System.String name, global::System.String password, global::System.String email, global::System.Int32 privileges_group)
         {
             t_users t_users = new t_users();
             t_users.C_id = c_id;
@@ -1526,7 +1526,7 @@ namespace DataCache
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int64 C_id
+        public global::System.Int32 C_id
         {
             get
             {
@@ -1544,8 +1544,8 @@ namespace DataCache
                 }
             }
         }
-        private global::System.Int64 _C_id;
-        partial void OnC_idChanging(global::System.Int64 value);
+        private global::System.Int32 _C_id;
+        partial void OnC_idChanging(global::System.Int32 value);
         partial void OnC_idChanged();
     
         /// <summary>
@@ -1625,7 +1625,7 @@ namespace DataCache
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int64 privileges_group
+        public global::System.Int32 privileges_group
         {
             get
             {
@@ -1640,8 +1640,8 @@ namespace DataCache
                 Onprivileges_groupChanged();
             }
         }
-        private global::System.Int64 _privileges_group;
-        partial void Onprivileges_groupChanging(global::System.Int64 value);
+        private global::System.Int32 _privileges_group;
+        partial void Onprivileges_groupChanging(global::System.Int32 value);
         partial void Onprivileges_groupChanged();
 
         #endregion
@@ -1706,7 +1706,7 @@ namespace DataCache
         /// <param name="person_id">Initial value of the person_id property.</param>
         /// <param name="date">Initial value of the date property.</param>
         /// <param name="deceaseds_name">Initial value of the deceaseds_name property.</param>
-        public static t_yarthziehts Createt_yarthziehts(global::System.Int64 c_id, global::System.Int64 person_id, global::System.DateTime date, global::System.String deceaseds_name)
+        public static t_yarthziehts Createt_yarthziehts(global::System.Int32 c_id, global::System.Int32 person_id, global::System.DateTime date, global::System.String deceaseds_name)
         {
             t_yarthziehts t_yarthziehts = new t_yarthziehts();
             t_yarthziehts.C_id = c_id;
@@ -1724,7 +1724,7 @@ namespace DataCache
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int64 C_id
+        public global::System.Int32 C_id
         {
             get
             {
@@ -1742,8 +1742,8 @@ namespace DataCache
                 }
             }
         }
-        private global::System.Int64 _C_id;
-        partial void OnC_idChanging(global::System.Int64 value);
+        private global::System.Int32 _C_id;
+        partial void OnC_idChanging(global::System.Int32 value);
         partial void OnC_idChanged();
     
         /// <summary>
@@ -1751,7 +1751,7 @@ namespace DataCache
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int64 person_id
+        public global::System.Int32 person_id
         {
             get
             {
@@ -1766,8 +1766,8 @@ namespace DataCache
                 Onperson_idChanged();
             }
         }
-        private global::System.Int64 _person_id;
-        partial void Onperson_idChanging(global::System.Int64 value);
+        private global::System.Int32 _person_id;
+        partial void Onperson_idChanging(global::System.Int32 value);
         partial void Onperson_idChanged();
     
         /// <summary>

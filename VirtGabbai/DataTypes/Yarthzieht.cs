@@ -7,7 +7,7 @@ namespace DataTypes
 {
     public class Yarthzieht
     {
-        public long _Id { get; set; }
+        public int _Id { get; set; }
 
         public DateTime Date { get; set; }
 
@@ -15,6 +15,20 @@ namespace DataTypes
 
         public string Name { get; set; }
 
-        public long PersonId { get; set; }
+        public int PersonId { get; set; }
+
+        public Yarthzieht()
+        {
+
+        }
+
+        public Yarthzieht(int _id, DateTime date, string relation, string name, int personId)
+        {
+            this._Id = _Id;
+            this.Date = date;
+            this.Relation = relation;
+            this.Name = name;
+            this.PersonId = personId;
+        }
     }
 }

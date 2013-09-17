@@ -100,6 +100,9 @@ namespace DataAccess
         {
             t_yarthziehts instanceUpdating = this.LookupYarhtzietById(ya._Id);
             //TODO lookup how to do updating when using entity framework
+            //db.users.attach(updateduser)
+            // db.savechanges()
+            // db.Entry(original).currentvalues.setvalues(updatedUser) -after first loading origional
         }
 
         public void UpdateMultipleYarhtzieht(List<Yarthzieht> myYaList)
@@ -116,7 +119,8 @@ namespace DataAccess
 
         public void DeleteSingleYarhtzieht(Yarthzieht ya)
         {
-            Cache.CacheData.t_yarthziehts.DeleteObject(this.ConvertSingleYarhtzietToDbType(ya));
+            t_yarthziehts test = Cache.CacheData.t_yarthziehts.First(person => person.C_id == ya._Id);
+            Cache.CacheData.t_yarthziehts.DeleteObject(test);
             Cache.CacheData.SaveChanges();
         }
 

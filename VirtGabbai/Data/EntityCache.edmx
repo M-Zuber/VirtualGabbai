@@ -44,8 +44,8 @@
           <Key>
             <PropertyRef Name="_id" />
           </Key>
-          <Property Name="_id" Type="uint" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="person_id" Type="uint" Nullable="false" />
+          <Property Name="_id" Type="int" Nullable="false" />
+          <Property Name="person_id" Type="int" Nullable="false" />
           <Property Name="monthly_total" Type="int" />
           <Property Name="last_month_paid" Type="datetime" />
         </EntityType>
@@ -53,8 +53,8 @@
           <Key>
             <PropertyRef Name="_id" />
           </Key>
-          <Property Name="_id" Type="uint" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="account_id" Type="uint" Nullable="false" />
+          <Property Name="_id" Type="int" Nullable="false" />
+          <Property Name="account_id" Type="int" Nullable="false" />
           <Property Name="reason" Type="varchar" Nullable="false" MaxLength="100" />
           <Property Name="amount" Type="double" Nullable="false" />
           <Property Name="date_donated" Type="datetime" Nullable="false" />
@@ -66,7 +66,7 @@
           <Key>
             <PropertyRef Name="_id" />
           </Key>
-          <Property Name="_id" Type="uint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="_id" Type="int" Nullable="false" />
           <Property Name="email" Type="varchar" MaxLength="45" />
           <Property Name="given_name" Type="varchar" MaxLength="45" />
           <Property Name="family_name" Type="varchar" MaxLength="45" />
@@ -76,48 +76,48 @@
           <Key>
             <PropertyRef Name="_id" />
           </Key>
-          <Property Name="person_id" Type="uint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="person_id" Type="int" Nullable="false" />
           <Property Name="number" Type="varchar" Nullable="false" MaxLength="45" />
-          <Property Name="number_type" Type="uint" Nullable="false" />
-          <Property Name="_id" Type="uint" Nullable="false" />
+          <Property Name="number_type" Type="int" Nullable="false" />
+          <Property Name="_id" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="t_phone_types">
           <Key>
             <PropertyRef Name="_id" />
           </Key>
-          <Property Name="_id" Type="uint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="_id" Type="int" Nullable="false" />
           <Property Name="type_name" Type="varchar" Nullable="false" MaxLength="45" />
         </EntityType>
         <EntityType Name="t_privilege_groups">
           <Key>
             <PropertyRef Name="_id" />
           </Key>
-          <Property Name="_id" Type="uint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="_id" Type="int" Nullable="false" />
           <Property Name="privileges" Type="varchar" MaxLength="300" />
         </EntityType>
         <EntityType Name="t_privileges">
           <Key>
             <PropertyRef Name="_id" />
           </Key>
-          <Property Name="_id" Type="uint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="_id" Type="int" Nullable="false" />
           <Property Name="privilege_name" Type="varchar" MaxLength="45" />
         </EntityType>
         <EntityType Name="t_users">
           <Key>
             <PropertyRef Name="_id" />
           </Key>
-          <Property Name="_id" Type="uint" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="_id" Type="int" Nullable="false" />
           <Property Name="name" Type="varchar" Nullable="false" MaxLength="45" />
           <Property Name="password" Type="varchar" Nullable="false" MaxLength="45" />
           <Property Name="email" Type="varchar" Nullable="false" MaxLength="45" />
-          <Property Name="privileges_group" Type="uint" Nullable="false" />
+          <Property Name="privileges_group" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="t_yarthziehts">
           <Key>
             <PropertyRef Name="_id" />
           </Key>
-          <Property Name="_id" Type="uint" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="person_id" Type="uint" Nullable="false" />
+          <Property Name="_id" Type="int" Nullable="false" />
+          <Property Name="person_id" Type="int" Nullable="false" />
           <Property Name="relation" Type="varchar" MaxLength="45" />
           <Property Name="date" Type="datetime" Nullable="false" />
           <Property Name="deceaseds_name" Type="varchar" Nullable="false" MaxLength="45" />
@@ -249,10 +249,10 @@
           <Key>
             <PropertyRef Name="C_id" />
           </Key>
-          <Property Name="C_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="person_id" Type="Int64" Nullable="false" />
-          <Property Name="monthly_total" Type="Int32" />
-          <Property Name="last_month_paid" Type="DateTime" />
+          <Property Type="Int32" Name="C_id" Nullable="false" />
+          <Property Type="Int32" Name="person_id" Nullable="false" />
+          <Property Type="Int32" Name="monthly_total" />
+          <Property Type="DateTime" Name="last_month_paid" />
           <NavigationProperty Name="t_people" Relationship="VirtGabbaiCache.fk_accounts_people1" FromRole="t_accounts" ToRole="t_people" />
           <NavigationProperty Name="t_donations" Relationship="VirtGabbaiCache.fk_donations_accounts" FromRole="t_accounts" ToRole="t_donations" />
         </EntityType>
@@ -260,25 +260,25 @@
           <Key>
             <PropertyRef Name="C_id" />
           </Key>
-          <Property Name="C_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="account_id" Type="Int64" Nullable="false" />
-          <Property Name="reason" Type="String" Nullable="false" MaxLength="100" Unicode="false" FixedLength="false" />
-          <Property Name="amount" Type="Double" Nullable="false" />
-          <Property Name="date_donated" Type="DateTime" Nullable="false" />
-          <Property Name="date_paid" Type="DateTime" />
-          <Property Name="paid" Type="Boolean" Nullable="false" />
-          <Property Name="comments" Type="String" MaxLength="300" Unicode="false" FixedLength="false" />
+          <Property Type="Int32" Name="C_id" Nullable="false" />
+          <Property Type="Int32" Name="account_id" Nullable="false" />
+          <Property Type="String" Name="reason" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Type="Double" Name="amount" Nullable="false" />
+          <Property Type="DateTime" Name="date_donated" Nullable="false" />
+          <Property Type="DateTime" Name="date_paid" />
+          <Property Type="Boolean" Name="paid" Nullable="false" />
+          <Property Type="String" Name="comments" MaxLength="300" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="t_accounts" Relationship="VirtGabbaiCache.fk_donations_accounts" FromRole="t_donations" ToRole="t_accounts" />
         </EntityType>
         <EntityType Name="t_people">
           <Key>
             <PropertyRef Name="C_id" />
           </Key>
-          <Property Name="C_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="email" Type="String" MaxLength="45" Unicode="false" FixedLength="false" />
-          <Property Name="given_name" Type="String" MaxLength="45" Unicode="false" FixedLength="false" />
-          <Property Name="family_name" Type="String" MaxLength="45" Unicode="false" FixedLength="false" />
-          <Property Name="address" Type="String" MaxLength="300" Unicode="false" FixedLength="false" />
+          <Property Type="Int32" Name="C_id" Nullable="false" />
+          <Property Type="String" Name="email" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="given_name" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="family_name" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="address" MaxLength="300" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="t_accounts" Relationship="VirtGabbaiCache.fk_accounts_people1" FromRole="t_people" ToRole="t_accounts" />
           <NavigationProperty Name="t_phone_numbers" Relationship="VirtGabbaiCache.fk_phone_numbers_people1" FromRole="t_people" ToRole="t_phone_numbers" />
           <NavigationProperty Name="t_yarthziehts" Relationship="VirtGabbaiCache.fk_yarthziehts_people1" FromRole="t_people" ToRole="t_yarthziehts" />
@@ -287,10 +287,10 @@
           <Key>
             <PropertyRef Name="C_id" />
           </Key>
-          <Property Name="person_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="number" Type="String" Nullable="false" MaxLength="45" Unicode="false" FixedLength="false" />
-          <Property Name="number_type" Type="Int64" Nullable="false" />
-          <Property Name="C_id" Type="Int64" Nullable="false" />
+          <Property Type="Int32" Name="person_id" Nullable="false" />
+          <Property Type="String" Name="number" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="number_type" Nullable="false" />
+          <Property Type="Int32" Name="C_id" Nullable="false" />
           <NavigationProperty Name="t_people" Relationship="VirtGabbaiCache.fk_phone_numbers_people1" FromRole="t_phone_numbers" ToRole="t_people" />
           <NavigationProperty Name="t_phone_types" Relationship="VirtGabbaiCache.fk_phone_numbers_phone_types1" FromRole="t_phone_numbers" ToRole="t_phone_types" />
         </EntityType>
@@ -298,52 +298,50 @@
           <Key>
             <PropertyRef Name="C_id" />
           </Key>
-          <Property Name="C_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="type_name" Type="String" Nullable="false" MaxLength="45" Unicode="false" FixedLength="false" />
+          <Property Type="Int32" Name="C_id" Nullable="false" />
+          <Property Type="String" Name="type_name" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="t_phone_numbers" Relationship="VirtGabbaiCache.fk_phone_numbers_phone_types1" FromRole="t_phone_types" ToRole="t_phone_numbers" />
         </EntityType>
         <EntityType Name="t_privilege_groups">
           <Key>
             <PropertyRef Name="C_id" />
           </Key>
-          <Property Name="C_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="privileges" Type="String" MaxLength="300" Unicode="false" FixedLength="false" />
+          <Property Type="Int32" Name="C_id" Nullable="false" />
+          <Property Type="String" Name="privileges" MaxLength="300" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="t_users" Relationship="VirtGabbaiCache.fk_users_privilege_groups1" FromRole="t_privilege_groups" ToRole="t_users" />
         </EntityType>
         <EntityType Name="t_privileges">
           <Key>
             <PropertyRef Name="C_id" />
           </Key>
-          <Property Name="C_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="privilege_name" Type="String" MaxLength="45" Unicode="false" FixedLength="false" />
+          <Property Type="Int32" Name="C_id" Nullable="false" />
+          <Property Type="String" Name="privilege_name" MaxLength="45" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="t_users">
           <Key>
             <PropertyRef Name="C_id" />
           </Key>
-          <Property Name="C_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="String" Nullable="false" MaxLength="45" Unicode="false" FixedLength="false" />
-          <Property Name="password" Type="String" Nullable="false" MaxLength="45" Unicode="false" FixedLength="false" />
-          <Property Name="email" Type="String" Nullable="false" MaxLength="45" Unicode="false" FixedLength="false" />
-          <Property Name="privileges_group" Type="Int64" Nullable="false" />
+          <Property Type="Int32" Name="C_id" Nullable="false" />
+          <Property Type="String" Name="name" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="password" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="email" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="privileges_group" Nullable="false" />
           <NavigationProperty Name="t_privilege_groups" Relationship="VirtGabbaiCache.fk_users_privilege_groups1" FromRole="t_users" ToRole="t_privilege_groups" />
         </EntityType>
         <EntityType Name="t_yarthziehts">
           <Key>
             <PropertyRef Name="C_id" />
           </Key>
-          <Property Name="C_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="person_id" Type="Int64" Nullable="false" />
-          <Property Name="relation" Type="String" MaxLength="45" Unicode="false" FixedLength="false" />
-          <NavigationProperty Name="t_people" Relationship="VirtGabbaiCache.fk_yarthziehts_people1" FromRole="t_yarthziehts" ToRole="t_people" />
+          <Property Type="Int32" Name="C_id" Nullable="false" />
+          <Property Type="Int32" Name="person_id" Nullable="false" />
+          <Property Type="String" Name="relation" MaxLength="45" FixedLength="false" Unicode="false" />
           <Property Type="DateTime" Name="date" Nullable="false" />
           <Property Type="String" Name="deceaseds_name" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="t_people" Relationship="VirtGabbaiCache.fk_yarthziehts_people1" FromRole="t_yarthziehts" ToRole="t_people" />
         </EntityType>
         <Association Name="fk_accounts_people1">
-          <End Role="t_people" Type="VirtGabbaiCache.t_people" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="t_accounts" Type="VirtGabbaiCache.t_accounts" Multiplicity="*" />
+          <End Type="VirtGabbaiCache.t_people" Role="t_people" Multiplicity="1" />
+          <End Type="VirtGabbaiCache.t_accounts" Role="t_accounts" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="t_people">
               <PropertyRef Name="C_id" />
@@ -354,10 +352,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_donations_accounts">
-          <End Role="t_accounts" Type="VirtGabbaiCache.t_accounts" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="t_donations" Type="VirtGabbaiCache.t_donations" Multiplicity="*" />
+          <End Type="VirtGabbaiCache.t_accounts" Role="t_accounts" Multiplicity="1" />
+          <End Type="VirtGabbaiCache.t_donations" Role="t_donations" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="t_accounts">
               <PropertyRef Name="C_id" />
@@ -368,10 +364,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_phone_numbers_people1">
-          <End Role="t_people" Type="VirtGabbaiCache.t_people" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="t_phone_numbers" Type="VirtGabbaiCache.t_phone_numbers" Multiplicity="*" />
+          <End Type="VirtGabbaiCache.t_people" Role="t_people" Multiplicity="1" />
+          <End Type="VirtGabbaiCache.t_phone_numbers" Role="t_phone_numbers" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="t_people">
               <PropertyRef Name="C_id" />
@@ -382,10 +376,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_yarthziehts_people1">
-          <End Role="t_people" Type="VirtGabbaiCache.t_people" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="t_yarthziehts" Type="VirtGabbaiCache.t_yarthziehts" Multiplicity="*" />
+          <End Type="VirtGabbaiCache.t_people" Role="t_people" Multiplicity="1" />
+          <End Type="VirtGabbaiCache.t_yarthziehts" Role="t_yarthziehts" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="t_people">
               <PropertyRef Name="C_id" />
@@ -396,10 +388,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_phone_numbers_phone_types1">
-          <End Role="t_phone_types" Type="VirtGabbaiCache.t_phone_types" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="t_phone_numbers" Type="VirtGabbaiCache.t_phone_numbers" Multiplicity="*" />
+          <End Type="VirtGabbaiCache.t_phone_types" Role="t_phone_types" Multiplicity="1" />
+          <End Type="VirtGabbaiCache.t_phone_numbers" Role="t_phone_numbers" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="t_phone_types">
               <PropertyRef Name="C_id" />
@@ -410,10 +400,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_users_privilege_groups1">
-          <End Role="t_privilege_groups" Type="VirtGabbaiCache.t_privilege_groups" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="t_users" Type="VirtGabbaiCache.t_users" Multiplicity="*" />
+          <End Type="VirtGabbaiCache.t_privilege_groups" Role="t_privilege_groups" Multiplicity="1" />
+          <End Type="VirtGabbaiCache.t_users" Role="t_users" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="t_privilege_groups">
               <PropertyRef Name="C_id" />
@@ -423,67 +411,103 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="VirtGabbaiCacheStoreContainer" CdmEntityContainer="zera_leviEntities">
-          <EntitySetMapping Name="t_accounts"><EntityTypeMapping TypeName="VirtGabbaiCache.t_accounts"><MappingFragment StoreEntitySet="t_accounts">
-            <ScalarProperty Name="C_id" ColumnName="_id" />
-            <ScalarProperty Name="person_id" ColumnName="person_id" />
-            <ScalarProperty Name="monthly_total" ColumnName="monthly_total" />
-            <ScalarProperty Name="last_month_paid" ColumnName="last_month_paid" />
-          </MappingFragment></EntityTypeMapping></EntitySetMapping>
-          <EntitySetMapping Name="t_donations"><EntityTypeMapping TypeName="VirtGabbaiCache.t_donations"><MappingFragment StoreEntitySet="t_donations">
-            <ScalarProperty Name="C_id" ColumnName="_id" />
-            <ScalarProperty Name="account_id" ColumnName="account_id" />
-            <ScalarProperty Name="reason" ColumnName="reason" />
-            <ScalarProperty Name="amount" ColumnName="amount" />
-            <ScalarProperty Name="date_donated" ColumnName="date_donated" />
-            <ScalarProperty Name="date_paid" ColumnName="date_paid" />
-            <ScalarProperty Name="paid" ColumnName="paid" />
-            <ScalarProperty Name="comments" ColumnName="comments" />
-          </MappingFragment></EntityTypeMapping></EntitySetMapping>
-          <EntitySetMapping Name="t_people"><EntityTypeMapping TypeName="VirtGabbaiCache.t_people"><MappingFragment StoreEntitySet="t_people">
-            <ScalarProperty Name="C_id" ColumnName="_id" />
-            <ScalarProperty Name="email" ColumnName="email" />
-            <ScalarProperty Name="given_name" ColumnName="given_name" />
-            <ScalarProperty Name="family_name" ColumnName="family_name" />
-            <ScalarProperty Name="address" ColumnName="address" />
-          </MappingFragment></EntityTypeMapping></EntitySetMapping>
-          <EntitySetMapping Name="t_phone_numbers"><EntityTypeMapping TypeName="VirtGabbaiCache.t_phone_numbers"><MappingFragment StoreEntitySet="t_phone_numbers">
-            <ScalarProperty Name="person_id" ColumnName="person_id" />
-            <ScalarProperty Name="number" ColumnName="number" />
-            <ScalarProperty Name="number_type" ColumnName="number_type" />
-            <ScalarProperty Name="C_id" ColumnName="_id" />
-          </MappingFragment></EntityTypeMapping></EntitySetMapping>
-          <EntitySetMapping Name="t_phone_types"><EntityTypeMapping TypeName="VirtGabbaiCache.t_phone_types"><MappingFragment StoreEntitySet="t_phone_types">
-            <ScalarProperty Name="C_id" ColumnName="_id" />
-            <ScalarProperty Name="type_name" ColumnName="type_name" />
-          </MappingFragment></EntityTypeMapping></EntitySetMapping>
-          <EntitySetMapping Name="t_privilege_groups"><EntityTypeMapping TypeName="VirtGabbaiCache.t_privilege_groups"><MappingFragment StoreEntitySet="t_privilege_groups">
-            <ScalarProperty Name="C_id" ColumnName="_id" />
-            <ScalarProperty Name="privileges" ColumnName="privileges" />
-          </MappingFragment></EntityTypeMapping></EntitySetMapping>
-          <EntitySetMapping Name="t_privileges"><EntityTypeMapping TypeName="VirtGabbaiCache.t_privileges"><MappingFragment StoreEntitySet="t_privileges">
-            <ScalarProperty Name="C_id" ColumnName="_id" />
-            <ScalarProperty Name="privilege_name" ColumnName="privilege_name" />
-          </MappingFragment></EntityTypeMapping></EntitySetMapping>
-          <EntitySetMapping Name="t_users"><EntityTypeMapping TypeName="VirtGabbaiCache.t_users"><MappingFragment StoreEntitySet="t_users">
-            <ScalarProperty Name="C_id" ColumnName="_id" />
-            <ScalarProperty Name="name" ColumnName="name" />
-            <ScalarProperty Name="password" ColumnName="password" />
-            <ScalarProperty Name="email" ColumnName="email" />
-            <ScalarProperty Name="privileges_group" ColumnName="privileges_group" />
-          </MappingFragment></EntityTypeMapping></EntitySetMapping>
-          <EntitySetMapping Name="t_yarthziehts"><EntityTypeMapping TypeName="VirtGabbaiCache.t_yarthziehts"><MappingFragment StoreEntitySet="t_yarthziehts">
-            <ScalarProperty Name="deceaseds_name" ColumnName="deceaseds_name" />
-                <ScalarProperty Name="date" ColumnName="date" />
+          <EntitySetMapping Name="t_accounts">
+            <EntityTypeMapping TypeName="VirtGabbaiCache.t_accounts">
+              <MappingFragment StoreEntitySet="t_accounts">
+                <ScalarProperty Name="last_month_paid" ColumnName="last_month_paid" />
+                <ScalarProperty Name="monthly_total" ColumnName="monthly_total" />
+                <ScalarProperty Name="person_id" ColumnName="person_id" />
                 <ScalarProperty Name="C_id" ColumnName="_id" />
-            <ScalarProperty Name="person_id" ColumnName="person_id" />
-            <ScalarProperty Name="relation" ColumnName="relation" />
-          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_donations">
+            <EntityTypeMapping TypeName="VirtGabbaiCache.t_donations">
+              <MappingFragment StoreEntitySet="t_donations">
+                <ScalarProperty Name="comments" ColumnName="comments" />
+                <ScalarProperty Name="paid" ColumnName="paid" />
+                <ScalarProperty Name="date_paid" ColumnName="date_paid" />
+                <ScalarProperty Name="date_donated" ColumnName="date_donated" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="reason" ColumnName="reason" />
+                <ScalarProperty Name="account_id" ColumnName="account_id" />
+                <ScalarProperty Name="C_id" ColumnName="_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_people">
+            <EntityTypeMapping TypeName="VirtGabbaiCache.t_people">
+              <MappingFragment StoreEntitySet="t_people">
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="family_name" ColumnName="family_name" />
+                <ScalarProperty Name="given_name" ColumnName="given_name" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="C_id" ColumnName="_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_phone_numbers">
+            <EntityTypeMapping TypeName="VirtGabbaiCache.t_phone_numbers">
+              <MappingFragment StoreEntitySet="t_phone_numbers">
+                <ScalarProperty Name="C_id" ColumnName="_id" />
+                <ScalarProperty Name="number_type" ColumnName="number_type" />
+                <ScalarProperty Name="number" ColumnName="number" />
+                <ScalarProperty Name="person_id" ColumnName="person_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_phone_types">
+            <EntityTypeMapping TypeName="VirtGabbaiCache.t_phone_types">
+              <MappingFragment StoreEntitySet="t_phone_types">
+                <ScalarProperty Name="type_name" ColumnName="type_name" />
+                <ScalarProperty Name="C_id" ColumnName="_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_privilege_groups">
+            <EntityTypeMapping TypeName="VirtGabbaiCache.t_privilege_groups">
+              <MappingFragment StoreEntitySet="t_privilege_groups">
+                <ScalarProperty Name="privileges" ColumnName="privileges" />
+                <ScalarProperty Name="C_id" ColumnName="_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_privileges">
+            <EntityTypeMapping TypeName="VirtGabbaiCache.t_privileges">
+              <MappingFragment StoreEntitySet="t_privileges">
+                <ScalarProperty Name="privilege_name" ColumnName="privilege_name" />
+                <ScalarProperty Name="C_id" ColumnName="_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_users">
+            <EntityTypeMapping TypeName="VirtGabbaiCache.t_users">
+              <MappingFragment StoreEntitySet="t_users">
+                <ScalarProperty Name="privileges_group" ColumnName="privileges_group" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="C_id" ColumnName="_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="t_yarthziehts">
+            <EntityTypeMapping TypeName="VirtGabbaiCache.t_yarthziehts">
+              <MappingFragment StoreEntitySet="t_yarthziehts">
+                <ScalarProperty Name="deceaseds_name" ColumnName="deceaseds_name" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="relation" ColumnName="relation" />
+                <ScalarProperty Name="person_id" ColumnName="person_id" />
+                <ScalarProperty Name="C_id" ColumnName="_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -504,40 +528,40 @@
     </Options>
     <!-- Diagram content (shape and connector positions) -->
     <Diagrams>
-      <Diagram Name="EntityCache" ZoomLevel="106">
-        <EntityTypeShape EntityType="VirtGabbaiCache.t_accounts" Width="1.5" PointX="3" PointY="3" Height="2.1725878906249996" IsExpanded="true" />
-        <EntityTypeShape EntityType="VirtGabbaiCache.t_donations" Width="1.5" PointX="5.25" PointY="2.75" Height="2.7494921874999996" IsExpanded="true" />
-        <EntityTypeShape EntityType="VirtGabbaiCache.t_people" Width="1.5" PointX="0.75" PointY="4" Height="2.5571907552083335" IsExpanded="true" />
-        <EntityTypeShape EntityType="VirtGabbaiCache.t_phone_numbers" Width="1.5" PointX="6" PointY="6.25" Height="2.1725878906249996" IsExpanded="true" />
-        <EntityTypeShape EntityType="VirtGabbaiCache.t_phone_types" Width="1.5" PointX="3.75" PointY="6.5" Height="1.5956835937499996" IsExpanded="true" />
-        <EntityTypeShape EntityType="VirtGabbaiCache.t_privilege_groups" Width="1.5" PointX="7.75" PointY="1.25" Height="1.5956835937499996" IsExpanded="true" />
-        <EntityTypeShape EntityType="VirtGabbaiCache.t_privileges" Width="1.5" PointX="0.75" PointY="0.75" Height="1.4033821614583317" IsExpanded="true" />
-        <EntityTypeShape EntityType="VirtGabbaiCache.t_users" Width="1.5" PointX="10" PointY="0.875" Height="2.1725878906249996" IsExpanded="true" />
-        <EntityTypeShape EntityType="VirtGabbaiCache.t_yarthziehts" Width="1.5" PointX="3" PointY="9.125" Height="1.7879850260416674" IsExpanded="true" />
-        <AssociationConnector Association="VirtGabbaiCache.fk_accounts_people1" ManuallyRouted="false">
-          <ConnectorPoint PointX="2.25" PointY="4.5862939453125" />
-          <ConnectorPoint PointX="3" PointY="4.5862939453125" />
+      <Diagram Name="EntityCache" ZoomLevel="60">
+        <EntityTypeShape EntityType="VirtGabbaiCache.t_accounts" Width="1.5" PointX="3" PointY="3" Height="2.1725878906249996" />
+        <EntityTypeShape EntityType="VirtGabbaiCache.t_donations" Width="1.5" PointX="5.25" PointY="2.75" Height="2.7494921875000031" />
+        <EntityTypeShape EntityType="VirtGabbaiCache.t_people" Width="1.5" PointX="0.75" PointY="4.25" Height="2.5571907552083317" />
+        <EntityTypeShape EntityType="VirtGabbaiCache.t_phone_numbers" Width="1.5" PointX="6" PointY="6.5" Height="2.1725878906249969" />
+        <EntityTypeShape EntityType="VirtGabbaiCache.t_phone_types" Width="1.5" PointX="3.75" PointY="6.75" Height="1.5956835937500031" />
+        <EntityTypeShape EntityType="VirtGabbaiCache.t_privilege_groups" Width="1.5" PointX="7.75" PointY="1.25" Height="1.5956835937500031" />
+        <EntityTypeShape EntityType="VirtGabbaiCache.t_privileges" Width="1.5" PointX="0.75" PointY="0.75" Height="1.4033821614583388" />
+        <EntityTypeShape EntityType="VirtGabbaiCache.t_users" Width="1.5" PointX="10" PointY="0.875" Height="2.1725878906250031" />
+        <EntityTypeShape EntityType="VirtGabbaiCache.t_yarthziehts" Width="1.5" PointX="3" PointY="9.125" Height="2.1725878906250031" />
+        <AssociationConnector Association="VirtGabbaiCache.fk_accounts_people1" >
+          <ConnectorPoint PointX="2.25" PointY="4.7112939453125" />
+          <ConnectorPoint PointX="3" PointY="4.7112939453125" />
         </AssociationConnector>
-        <AssociationConnector Association="VirtGabbaiCache.fk_donations_accounts" ManuallyRouted="false">
+        <AssociationConnector Association="VirtGabbaiCache.fk_donations_accounts" >
           <ConnectorPoint PointX="4.5" PointY="4.0862939453125" />
           <ConnectorPoint PointX="5.25" PointY="4.0862939453125" />
         </AssociationConnector>
-        <AssociationConnector Association="VirtGabbaiCache.fk_phone_numbers_people1" ManuallyRouted="false">
-          <ConnectorPoint PointX="2.25" PointY="6.34375" />
-          <ConnectorPoint PointX="6" PointY="6.34375" />
+        <AssociationConnector Association="VirtGabbaiCache.fk_phone_numbers_people1" >
+          <ConnectorPoint PointX="2.25" PointY="6.59375" />
+          <ConnectorPoint PointX="6" PointY="6.59375" />
         </AssociationConnector>
-        <AssociationConnector Association="VirtGabbaiCache.fk_yarthziehts_people1" ManuallyRouted="false">
-          <ConnectorPoint PointX="1.5" PointY="6.5571907552083335" />
-          <ConnectorPoint PointX="1.5" PointY="10.018992513020834" />
-          <ConnectorPoint PointX="3" PointY="10.018992513020834" />
+        <AssociationConnector Association="VirtGabbaiCache.fk_yarthziehts_people1" >
+          <ConnectorPoint PointX="1.5" PointY="6.8071907552083317" />
+          <ConnectorPoint PointX="1.5" PointY="10.211293945312502" />
+          <ConnectorPoint PointX="3" PointY="10.211293945312502" />
         </AssociationConnector>
-        <AssociationConnector Association="VirtGabbaiCache.fk_phone_numbers_phone_types1" ManuallyRouted="false">
-          <ConnectorPoint PointX="5.25" PointY="7.297841796875" />
-          <ConnectorPoint PointX="6" PointY="7.297841796875" />
+        <AssociationConnector Association="VirtGabbaiCache.fk_phone_numbers_phone_types1" >
+          <ConnectorPoint PointX="5.25" PointY="7.5478417968750016" />
+          <ConnectorPoint PointX="6" PointY="7.5478417968750016" />
         </AssociationConnector>
-        <AssociationConnector Association="VirtGabbaiCache.fk_users_privilege_groups1" ManuallyRouted="false">
-          <ConnectorPoint PointX="9.25" PointY="2.047841796875" />
-          <ConnectorPoint PointX="10" PointY="2.047841796875" />
+        <AssociationConnector Association="VirtGabbaiCache.fk_users_privilege_groups1" >
+          <ConnectorPoint PointX="9.25" PointY="2.0478417968750016" />
+          <ConnectorPoint PointX="10" PointY="2.0478417968750016" />
         </AssociationConnector>
       </Diagram>
     </Diagrams>
