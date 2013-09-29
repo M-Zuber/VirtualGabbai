@@ -99,6 +99,8 @@ namespace DataAccess
         public void UpdateSingleYarhtzieht(Yarthzieht ya)
         {
             t_yarthziehts instanceUpdating = this.LookupYarhtzietById(ya._Id);
+            Cache.CacheData.t_yarthziehts.Attach(instanceUpdating);
+            Cache.CacheData.SaveChanges();
             //TODO lookup how to do updating when using entity framework
             //db.users.attach(updateduser)
             // db.savechanges()

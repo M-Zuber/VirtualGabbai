@@ -294,8 +294,15 @@ namespace DataAccessTest
         [TestMethod()]
         public void UpdateSingleYarhtziehtTest()
         {
-            YarthzietAccess target = new YarthzietAccess(); //  : Initialize to an appropriate value
-            Yarthzieht ya = null; //  : Initialize to an appropriate value
+            if (!Cache.CacheData.t_people.Any(person => person.C_id == 1))
+            {
+                Cache.CacheData.t_people.AddObject(t_people.Createt_people(1));
+            }
+
+            YarthzietAccess target = new YarthzietAccess();
+            Yarthzieht ya = new Yarthzieht(1, DateTime.Now, "the dogs friends cat", "rufos maximus", 1);
+            target.AddNewYartzieht(ya);
+            ya.Name = "The second name";
             target.UpdateSingleYarhtzieht(ya);
         } 
 
