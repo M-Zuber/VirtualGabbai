@@ -93,7 +93,7 @@ namespace DataAccessTest
                 ya.PersonId = 1;
                 myYaList.Add(ya);
             }
-            target.AddMultipleNewYartzieht(myYaList);
+            target.AddMultipleNewYahrtzieht(myYaList);
         }
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace DataAccessTest
                 ya.Relation = "dogs previous owner";
                 ya.PersonId = 1;
 
-                target.AddNewYartzieht(ya); 
+                target.AddNewYahrtzieht(ya); 
             }
             else
             {
@@ -128,17 +128,6 @@ namespace DataAccessTest
         #endregion
 
         #region Delete Tests
-
-        /// <summary>
-        ///A test for DeleteMultipleYarhtziet
-        ///</summary>
-        [TestMethod()]
-        public void DeleteMultipleYarhtzietTest()
-        {
-            YahrtziehtAccess target = new YahrtziehtAccess(); //  : Initialize to an appropriate value
-            List<Yahrtzieht> myYaList = null; //  : Initialize to an appropriate value
-            target.DeleteMultipleYarhtziet(myYaList);
-        }
 
         /// <summary>
         ///Deletes a yarhtzieht that exists
@@ -153,8 +142,8 @@ namespace DataAccessTest
 
             YahrtziehtAccess target = new YahrtziehtAccess();
             Yahrtzieht ya = new Yahrtzieht(1, DateTime.Now, "the dogs friends cat", "rufos maximus", 1);
-            target.AddNewYartzieht(ya);
-            target.DeleteSingleYarhtzieht(ya);
+            target.AddNewYahrtzieht(ya);
+            target.DeleteSingleYahrtzieht(ya);
         }
         
         #endregion
@@ -171,7 +160,7 @@ namespace DataAccessTest
             long personId = 0; //  : Initialize to an appropriate value
             List<Yahrtzieht> expected = null; //  : Initialize to an appropriate value
             List<Yahrtzieht> actual;
-            actual = target.GetAllYarthziehts(personId);
+            actual = target.GetAllYahrtziehts(personId);
             Assert.AreEqual(expected, actual);
         }
 
@@ -187,7 +176,7 @@ namespace DataAccessTest
             string personName = string.Empty; //  : Initialize to an appropriate value
             Yahrtzieht expected = null; //  : Initialize to an appropriate value
             Yahrtzieht actual;
-            actual = target.GetSpecificYarthzieht(personId, date, personName);
+            actual = target.GetSpecificYahrtzieht(personId, date, personName);
             Assert.AreEqual(expected, actual);
         }
 
@@ -202,7 +191,7 @@ namespace DataAccessTest
             DateTime date = new DateTime(); //  : Initialize to an appropriate value
             List<Yahrtzieht> expected = null; //  : Initialize to an appropriate value
             List<Yahrtzieht> actual;
-            actual = target.GetYarhtzietsByDate(personId, date);
+            actual = target.GetYahrtziehtsByDate(personId, date);
             Assert.AreEqual(expected, actual);
         }
 
@@ -221,7 +210,7 @@ namespace DataAccessTest
             long personId = 0; //  : Initialize to an appropriate value
             List<t_yahrtziehts> expected = null; //  : Initialize to an appropriate value
             List<t_yahrtziehts> actual;
-            actual = target.LookupAllYarthziehts(personId);
+            actual = target.LookupAllYahrtziehts(personId);
             Assert.AreEqual(expected, actual);
         }
 
@@ -238,7 +227,7 @@ namespace DataAccessTest
             string personName = string.Empty; //  : Initialize to an appropriate value
             t_yahrtziehts expected = null; //  : Initialize to an appropriate value
             t_yahrtziehts actual;
-            actual = target.LookupSpecificYarthzieht(personId, date, personName);
+            actual = target.LookupSpecificYahrtzieht(personId, date, personName);
             Assert.AreEqual(expected, actual);
         }
 
@@ -253,7 +242,7 @@ namespace DataAccessTest
             long ID = 0; //  : Initialize to an appropriate value
             t_yahrtziehts expected = null; //  : Initialize to an appropriate value
             t_yahrtziehts actual;
-            actual = target.LookupYarhtzietById(ID);
+            actual = target.LookupYahrtziehtById(ID);
             Assert.AreEqual(expected, actual);
         }
 
@@ -269,7 +258,7 @@ namespace DataAccessTest
             DateTime date = new DateTime(); //  : Initialize to an appropriate value
             List<t_yahrtziehts> expected = null; //  : Initialize to an appropriate value
             List<t_yahrtziehts> actual;
-            actual = target.LookupYarhtzietsByDate(personId, date);
+            actual = target.LookupYahrtziehtsByDate(personId, date);
             Assert.AreEqual(expected, actual);
         }
 
@@ -285,7 +274,7 @@ namespace DataAccessTest
         {
             YahrtziehtAccess target = new YahrtziehtAccess(); //  : Initialize to an appropriate value
             List<Yahrtzieht> myYaList = null; //  : Initialize to an appropriate value
-            target.UpdateMultipleYarhtzieht(myYaList);
+            target.UpdateMultipleYahrtzieht(myYaList);
         }
 
         /// <summary>
@@ -301,9 +290,9 @@ namespace DataAccessTest
 
             YahrtziehtAccess target = new YahrtziehtAccess();
             Yahrtzieht ya = new Yahrtzieht(1, DateTime.Now, "the dogs friends cat", "rufos maximus", 1);
-            target.AddNewYartzieht(ya);
+            target.AddNewYahrtzieht(ya);
             ya.Name = "The second name";
-            target.UpdateSingleYarhtzieht(ya);
+            target.UpdateSingleYahrtzieht(ya);
         } 
 
         #endregion
