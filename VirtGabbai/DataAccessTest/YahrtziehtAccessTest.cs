@@ -267,17 +267,6 @@ namespace DataAccessTest
         #region UpdateTest
 
         /// <summary>
-        ///A test for UpdateMultipleYarhtzieht
-        ///</summary>
-        [TestMethod()]
-        public void UpdateMultipleYarhtziehtTest()
-        {
-            YahrtziehtAccess target = new YahrtziehtAccess(); //  : Initialize to an appropriate value
-            List<Yahrtzieht> myYaList = null; //  : Initialize to an appropriate value
-            target.UpdateMultipleYahrtzieht(myYaList);
-        }
-
-        /// <summary>
         ///A test for UpdateSingleYarhtzieht
         ///</summary>
         [TestMethod()]
@@ -289,7 +278,7 @@ namespace DataAccessTest
             }
 
             YahrtziehtAccess target = new YahrtziehtAccess();
-            Yahrtzieht ya = new Yahrtzieht(1, DateTime.Now, "the dogs friends cat", "rufos maximus", 1);
+            Yahrtzieht ya = new Yahrtzieht(27, DateTime.Now, "the dogs friends cat", "rufos maximus", 1);
             target.AddNewYahrtzieht(ya);
             ya.Name = "The second name";
             target.UpdateSingleYahrtzieht(ya);

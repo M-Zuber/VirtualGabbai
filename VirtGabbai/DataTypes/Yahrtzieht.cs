@@ -24,7 +24,7 @@ namespace DataTypes
 
         public Yahrtzieht(int _id, DateTime date, string relation, string name, int personId)
         {
-            this._Id = _Id;
+            this._Id = _id;
             this.Date = date;
             this.Relation = relation;
             this.Name = name;
