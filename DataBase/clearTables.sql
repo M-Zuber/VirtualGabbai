@@ -1,5 +1,5 @@
 SET FOREIGN_KEY_CHECKS=0;
-TRUNCATE TABLE t_yarthziehts;
+TRUNCATE TABLE t_yahrtziehts;
 TRUNCATE TABLE t_donations;
 TRUNCATE TABLE t_accounts;
 TRUNCATE TABLE t_phone_numbers;

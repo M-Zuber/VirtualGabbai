@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DataTypes
 {
-    public class Yarthzieht
+    public class Yahrtzieht
     {
         public int _Id { get; set; }
 
@@ -17,12 +17,12 @@ namespace DataTypes
 
         public int PersonId { get; set; }
 
-        public Yarthzieht()
+        public Yahrtzieht()
         {
 
         }
 
-        public Yarthzieht(int _id, DateTime date, string relation, string name, int personId)
+        public Yahrtzieht(int _id, DateTime date, string relation, string name, int personId)
         {
             this._Id = _Id;
             this.Date = date;

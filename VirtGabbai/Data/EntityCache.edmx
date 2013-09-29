@@ -14,7 +14,7 @@
           <EntitySet Name="t_privilege_groups" EntityType="VirtGabbaiCache.Store.t_privilege_groups" store:Type="Tables" Schema="zera_levi" />
           <EntitySet Name="t_privileges" EntityType="VirtGabbaiCache.Store.t_privileges" store:Type="Tables" Schema="zera_levi" />
           <EntitySet Name="t_users" EntityType="VirtGabbaiCache.Store.t_users" store:Type="Tables" Schema="zera_levi" />
-          <EntitySet Name="t_yarthziehts" EntityType="VirtGabbaiCache.Store.t_yarthziehts" store:Type="Tables" Schema="zera_levi" />
+          <EntitySet Name="t_yahrtziehts" EntityType="VirtGabbaiCache.Store.t_yahrtziehts" store:Type="Tables" Schema="zera_levi" />
           <AssociationSet Name="fk_accounts_people1" Association="VirtGabbaiCache.Store.fk_accounts_people1">
             <End Role="t_people" EntitySet="t_people" />
             <End Role="t_accounts" EntitySet="t_accounts" />
@@ -35,9 +35,9 @@
             <End Role="t_privilege_groups" EntitySet="t_privilege_groups" />
             <End Role="t_users" EntitySet="t_users" />
           </AssociationSet>
-          <AssociationSet Name="fk_yarthziehts_people1" Association="VirtGabbaiCache.Store.fk_yarthziehts_people1">
+          <AssociationSet Name="fk_yahrtziehts_people1" Association="VirtGabbaiCache.Store.fk_yahrtziehts_people1">
             <End Role="t_people" EntitySet="t_people" />
-            <End Role="t_yarthziehts" EntitySet="t_yarthziehts" />
+            <End Role="t_yahrtziehts" EntitySet="t_yahrtziehts" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="t_accounts">
@@ -112,7 +112,7 @@
           <Property Name="email" Type="varchar" Nullable="false" MaxLength="45" />
           <Property Name="privileges_group" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="t_yarthziehts">
+        <EntityType Name="t_yahrtziehts">
           <Key>
             <PropertyRef Name="_id" />
           </Key>
@@ -192,16 +192,16 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_yarthziehts_people1">
+        <Association Name="fk_yahrtziehts_people1">
           <End Role="t_people" Type="VirtGabbaiCache.Store.t_people" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="t_yarthziehts" Type="VirtGabbaiCache.Store.t_yarthziehts" Multiplicity="*" />
+          <End Role="t_yahrtziehts" Type="VirtGabbaiCache.Store.t_yahrtziehts" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="t_people">
               <PropertyRef Name="_id" />
             </Principal>
-            <Dependent Role="t_yarthziehts">
+            <Dependent Role="t_yahrtziehts">
               <PropertyRef Name="person_id" />
             </Dependent>
           </ReferentialConstraint>
@@ -219,7 +219,6 @@
           <EntitySet Name="t_privilege_groups" EntityType="VirtGabbaiCache.t_privilege_groups" />
           <EntitySet Name="t_privileges" EntityType="VirtGabbaiCache.t_privileges" />
           <EntitySet Name="t_users" EntityType="VirtGabbaiCache.t_users" />
-          <EntitySet Name="t_yarthziehts" EntityType="VirtGabbaiCache.t_yarthziehts" />
           <AssociationSet Name="fk_accounts_people1" Association="VirtGabbaiCache.fk_accounts_people1">
             <End Role="t_people" EntitySet="t_people" />
             <End Role="t_accounts" EntitySet="t_accounts" />
@@ -232,10 +231,6 @@
             <End Role="t_people" EntitySet="t_people" />
             <End Role="t_phone_numbers" EntitySet="t_phone_numbers" />
           </AssociationSet>
-          <AssociationSet Name="fk_yarthziehts_people1" Association="VirtGabbaiCache.fk_yarthziehts_people1">
-            <End Role="t_people" EntitySet="t_people" />
-            <End Role="t_yarthziehts" EntitySet="t_yarthziehts" />
-          </AssociationSet>
           <AssociationSet Name="fk_phone_numbers_phone_types1" Association="VirtGabbaiCache.fk_phone_numbers_phone_types1">
             <End Role="t_phone_types" EntitySet="t_phone_types" />
             <End Role="t_phone_numbers" EntitySet="t_phone_numbers" />
@@ -243,6 +238,11 @@
           <AssociationSet Name="fk_users_privilege_groups1" Association="VirtGabbaiCache.fk_users_privilege_groups1">
             <End Role="t_privilege_groups" EntitySet="t_privilege_groups" />
             <End Role="t_users" EntitySet="t_users" />
+          </AssociationSet>
+          <EntitySet Name="t_yahrtziehts" EntityType="VirtGabbaiCache.t_yahrtziehts" />
+          <AssociationSet Name="fk_yahrtziehts_people1" Association="VirtGabbaiCache.fk_yahrtziehts_people1">
+            <End Role="t_people" EntitySet="t_people" />
+            <End Role="t_yahrtziehts" EntitySet="t_yahrtziehts" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="t_accounts">
@@ -281,7 +281,7 @@
           <Property Type="String" Name="address" MaxLength="300" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="t_accounts" Relationship="VirtGabbaiCache.fk_accounts_people1" FromRole="t_people" ToRole="t_accounts" />
           <NavigationProperty Name="t_phone_numbers" Relationship="VirtGabbaiCache.fk_phone_numbers_people1" FromRole="t_people" ToRole="t_phone_numbers" />
-          <NavigationProperty Name="t_yarthziehts" Relationship="VirtGabbaiCache.fk_yarthziehts_people1" FromRole="t_people" ToRole="t_yarthziehts" />
+          <NavigationProperty Name="t_yahrtziehts" Relationship="VirtGabbaiCache.fk_yahrtziehts_people1" FromRole="t_people" ToRole="t_yahrtziehts" />
         </EntityType>
         <EntityType Name="t_phone_numbers">
           <Key>
@@ -328,17 +328,6 @@
           <Property Type="Int32" Name="privileges_group" Nullable="false" />
           <NavigationProperty Name="t_privilege_groups" Relationship="VirtGabbaiCache.fk_users_privilege_groups1" FromRole="t_users" ToRole="t_privilege_groups" />
         </EntityType>
-        <EntityType Name="t_yarthziehts">
-          <Key>
-            <PropertyRef Name="C_id" />
-          </Key>
-          <Property Type="Int32" Name="C_id" Nullable="false" />
-          <Property Type="Int32" Name="person_id" Nullable="false" />
-          <Property Type="String" Name="relation" MaxLength="45" FixedLength="false" Unicode="false" />
-          <Property Type="DateTime" Name="date" Nullable="false" />
-          <Property Type="String" Name="deceaseds_name" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="t_people" Relationship="VirtGabbaiCache.fk_yarthziehts_people1" FromRole="t_yarthziehts" ToRole="t_people" />
-        </EntityType>
         <Association Name="fk_accounts_people1">
           <End Type="VirtGabbaiCache.t_people" Role="t_people" Multiplicity="1" />
           <End Type="VirtGabbaiCache.t_accounts" Role="t_accounts" Multiplicity="*" />
@@ -375,18 +364,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_yarthziehts_people1">
-          <End Type="VirtGabbaiCache.t_people" Role="t_people" Multiplicity="1" />
-          <End Type="VirtGabbaiCache.t_yarthziehts" Role="t_yarthziehts" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="t_people">
-              <PropertyRef Name="C_id" />
-            </Principal>
-            <Dependent Role="t_yarthziehts">
-              <PropertyRef Name="person_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="fk_phone_numbers_phone_types1">
           <End Type="VirtGabbaiCache.t_phone_types" Role="t_phone_types" Multiplicity="1" />
           <End Type="VirtGabbaiCache.t_phone_numbers" Role="t_phone_numbers" Multiplicity="*" />
@@ -408,6 +385,29 @@
             </Principal>
             <Dependent Role="t_users">
               <PropertyRef Name="privileges_group" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="t_yahrtziehts">
+          <Key>
+            <PropertyRef Name="C_id" />
+          </Key>
+          <Property Type="Int32" Name="C_id" Nullable="false" />
+          <Property Type="Int32" Name="person_id" Nullable="false" />
+          <Property Type="String" Name="relation" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="date" Nullable="false" />
+          <Property Type="String" Name="deceaseds_name" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="t_people" Relationship="VirtGabbaiCache.fk_yahrtziehts_people1" FromRole="t_yahrtziehts" ToRole="t_people" />
+        </EntityType>
+        <Association Name="fk_yahrtziehts_people1">
+          <End Type="VirtGabbaiCache.t_people" Role="t_people" Multiplicity="1" />
+          <End Type="VirtGabbaiCache.t_yahrtziehts" Role="t_yahrtziehts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="t_people">
+              <PropertyRef Name="C_id" />
+            </Principal>
+            <Dependent Role="t_yahrtziehts">
+              <PropertyRef Name="person_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -497,9 +497,9 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="t_yarthziehts">
-            <EntityTypeMapping TypeName="VirtGabbaiCache.t_yarthziehts">
-              <MappingFragment StoreEntitySet="t_yarthziehts">
+          <EntitySetMapping Name="t_yahrtziehts">
+            <EntityTypeMapping TypeName="VirtGabbaiCache.t_yahrtziehts">
+              <MappingFragment StoreEntitySet="t_yahrtziehts">
                 <ScalarProperty Name="deceaseds_name" ColumnName="deceaseds_name" />
                 <ScalarProperty Name="date" ColumnName="date" />
                 <ScalarProperty Name="relation" ColumnName="relation" />
@@ -528,7 +528,7 @@
     </Options>
     <!-- Diagram content (shape and connector positions) -->
     <Diagrams>
-      <Diagram Name="EntityCache" ZoomLevel="60">
+      <Diagram Name="EntityCache" ZoomLevel="102">
         <EntityTypeShape EntityType="VirtGabbaiCache.t_accounts" Width="1.5" PointX="3" PointY="3" Height="2.1725878906249996" />
         <EntityTypeShape EntityType="VirtGabbaiCache.t_donations" Width="1.5" PointX="5.25" PointY="2.75" Height="2.7494921875000031" />
         <EntityTypeShape EntityType="VirtGabbaiCache.t_people" Width="1.5" PointX="0.75" PointY="4.25" Height="2.5571907552083317" />
@@ -537,7 +537,6 @@
         <EntityTypeShape EntityType="VirtGabbaiCache.t_privilege_groups" Width="1.5" PointX="7.75" PointY="1.25" Height="1.5956835937500031" />
         <EntityTypeShape EntityType="VirtGabbaiCache.t_privileges" Width="1.5" PointX="0.75" PointY="0.75" Height="1.4033821614583388" />
         <EntityTypeShape EntityType="VirtGabbaiCache.t_users" Width="1.5" PointX="10" PointY="0.875" Height="2.1725878906250031" />
-        <EntityTypeShape EntityType="VirtGabbaiCache.t_yarthziehts" Width="1.5" PointX="3" PointY="9.125" Height="2.1725878906250031" />
         <AssociationConnector Association="VirtGabbaiCache.fk_accounts_people1" >
           <ConnectorPoint PointX="2.25" PointY="4.7112939453125" />
           <ConnectorPoint PointX="3" PointY="4.7112939453125" />
@@ -550,11 +549,6 @@
           <ConnectorPoint PointX="2.25" PointY="6.59375" />
           <ConnectorPoint PointX="6" PointY="6.59375" />
         </AssociationConnector>
-        <AssociationConnector Association="VirtGabbaiCache.fk_yarthziehts_people1" >
-          <ConnectorPoint PointX="1.5" PointY="6.8071907552083317" />
-          <ConnectorPoint PointX="1.5" PointY="10.211293945312502" />
-          <ConnectorPoint PointX="3" PointY="10.211293945312502" />
-        </AssociationConnector>
         <AssociationConnector Association="VirtGabbaiCache.fk_phone_numbers_phone_types1" >
           <ConnectorPoint PointX="5.25" PointY="7.5478417968750016" />
           <ConnectorPoint PointX="6" PointY="7.5478417968750016" />
@@ -562,6 +556,13 @@
         <AssociationConnector Association="VirtGabbaiCache.fk_users_privilege_groups1" >
           <ConnectorPoint PointX="9.25" PointY="2.0478417968750016" />
           <ConnectorPoint PointX="10" PointY="2.0478417968750016" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="VirtGabbaiCache.t_yahrtziehts" Width="1.5" PointX="3" PointY="0.75" Height="2.1725878906249996" />
+        <AssociationConnector Association="VirtGabbaiCache.fk_yahrtziehts_people1" >
+          <ConnectorPoint PointX="2.25" PointY="4.25" />
+          <ConnectorPoint PointX="2.625" PointY="3.875" />
+          <ConnectorPoint PointX="2.625" PointY="1.8362939453124998" />
+          <ConnectorPoint PointX="3" PointY="1.8362939453124998" />
         </AssociationConnector>
       </Diagram>
     </Diagrams>

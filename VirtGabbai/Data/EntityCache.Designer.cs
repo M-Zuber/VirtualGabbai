@@ -21,9 +21,9 @@ using System.Runtime.Serialization;
 [assembly: EdmRelationshipAttribute("VirtGabbaiCache", "fk_accounts_people1", "t_people", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(DataCache.t_people), "t_accounts", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(DataCache.t_accounts), true)]
 [assembly: EdmRelationshipAttribute("VirtGabbaiCache", "fk_donations_accounts", "t_accounts", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(DataCache.t_accounts), "t_donations", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(DataCache.t_donations), true)]
 [assembly: EdmRelationshipAttribute("VirtGabbaiCache", "fk_phone_numbers_people1", "t_people", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(DataCache.t_people), "t_phone_numbers", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(DataCache.t_phone_numbers), true)]
-[assembly: EdmRelationshipAttribute("VirtGabbaiCache", "fk_yarthziehts_people1", "t_people", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(DataCache.t_people), "t_yarthziehts", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(DataCache.t_yarthziehts), true)]
 [assembly: EdmRelationshipAttribute("VirtGabbaiCache", "fk_phone_numbers_phone_types1", "t_phone_types", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(DataCache.t_phone_types), "t_phone_numbers", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(DataCache.t_phone_numbers), true)]
 [assembly: EdmRelationshipAttribute("VirtGabbaiCache", "fk_users_privilege_groups1", "t_privilege_groups", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(DataCache.t_privilege_groups), "t_users", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(DataCache.t_users), true)]
+[assembly: EdmRelationshipAttribute("VirtGabbaiCache", "fk_yahrtziehts_people1", "t_people", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(DataCache.t_people), "t_yahrtziehts", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(DataCache.t_yahrtziehts), true)]
 
 #endregion
 
@@ -206,18 +206,18 @@ namespace DataCache
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<t_yarthziehts> t_yarthziehts
+        public ObjectSet<t_yahrtziehts> t_yahrtziehts
         {
             get
             {
-                if ((_t_yarthziehts == null))
+                if ((_t_yahrtziehts == null))
                 {
-                    _t_yarthziehts = base.CreateObjectSet<t_yarthziehts>("t_yarthziehts");
+                    _t_yahrtziehts = base.CreateObjectSet<t_yahrtziehts>("t_yahrtziehts");
                 }
-                return _t_yarthziehts;
+                return _t_yahrtziehts;
             }
         }
-        private ObjectSet<t_yarthziehts> _t_yarthziehts;
+        private ObjectSet<t_yahrtziehts> _t_yahrtziehts;
 
         #endregion
         #region AddTo Methods
@@ -287,11 +287,11 @@ namespace DataCache
         }
     
         /// <summary>
-        /// Deprecated Method for adding a new object to the t_yarthziehts EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// Deprecated Method for adding a new object to the t_yahrtziehts EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
-        public void AddTot_yarthziehts(t_yarthziehts t_yarthziehts)
+        public void AddTot_yahrtziehts(t_yahrtziehts t_yahrtziehts)
         {
-            base.AddObject("t_yarthziehts", t_yarthziehts);
+            base.AddObject("t_yahrtziehts", t_yahrtziehts);
         }
 
         #endregion
@@ -969,18 +969,18 @@ namespace DataCache
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("VirtGabbaiCache", "fk_yarthziehts_people1", "t_yarthziehts")]
-        public EntityCollection<t_yarthziehts> t_yarthziehts
+        [EdmRelationshipNavigationPropertyAttribute("VirtGabbaiCache", "fk_yahrtziehts_people1", "t_yahrtziehts")]
+        public EntityCollection<t_yahrtziehts> t_yahrtziehts
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<t_yarthziehts>("VirtGabbaiCache.fk_yarthziehts_people1", "t_yarthziehts");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<t_yahrtziehts>("VirtGabbaiCache.fk_yahrtziehts_people1", "t_yahrtziehts");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<t_yarthziehts>("VirtGabbaiCache.fk_yarthziehts_people1", "t_yarthziehts", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<t_yahrtziehts>("VirtGabbaiCache.fk_yahrtziehts_people1", "t_yahrtziehts", value);
                 }
             }
         }
@@ -1692,28 +1692,28 @@ namespace DataCache
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="VirtGabbaiCache", Name="t_yarthziehts")]
+    [EdmEntityTypeAttribute(NamespaceName="VirtGabbaiCache", Name="t_yahrtziehts")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
-    public partial class t_yarthziehts : EntityObject
+    public partial class t_yahrtziehts : EntityObject
     {
         #region Factory Method
     
         /// <summary>
-        /// Create a new t_yarthziehts object.
+        /// Create a new t_yahrtziehts object.
         /// </summary>
         /// <param name="c_id">Initial value of the C_id property.</param>
         /// <param name="person_id">Initial value of the person_id property.</param>
         /// <param name="date">Initial value of the date property.</param>
         /// <param name="deceaseds_name">Initial value of the deceaseds_name property.</param>
-        public static t_yarthziehts Createt_yarthziehts(global::System.Int32 c_id, global::System.Int32 person_id, global::System.DateTime date, global::System.String deceaseds_name)
+        public static t_yahrtziehts Createt_yahrtziehts(global::System.Int32 c_id, global::System.Int32 person_id, global::System.DateTime date, global::System.String deceaseds_name)
         {
-            t_yarthziehts t_yarthziehts = new t_yarthziehts();
-            t_yarthziehts.C_id = c_id;
-            t_yarthziehts.person_id = person_id;
-            t_yarthziehts.date = date;
-            t_yarthziehts.deceaseds_name = deceaseds_name;
-            return t_yarthziehts;
+            t_yahrtziehts t_yahrtziehts = new t_yahrtziehts();
+            t_yahrtziehts.C_id = c_id;
+            t_yahrtziehts.person_id = person_id;
+            t_yahrtziehts.date = date;
+            t_yahrtziehts.deceaseds_name = deceaseds_name;
+            return t_yahrtziehts;
         }
 
         #endregion
@@ -1852,16 +1852,16 @@ namespace DataCache
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("VirtGabbaiCache", "fk_yarthziehts_people1", "t_people")]
+        [EdmRelationshipNavigationPropertyAttribute("VirtGabbaiCache", "fk_yahrtziehts_people1", "t_people")]
         public t_people t_people
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<t_people>("VirtGabbaiCache.fk_yarthziehts_people1", "t_people").Value;
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<t_people>("VirtGabbaiCache.fk_yahrtziehts_people1", "t_people").Value;
             }
             set
             {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<t_people>("VirtGabbaiCache.fk_yarthziehts_people1", "t_people").Value = value;
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<t_people>("VirtGabbaiCache.fk_yahrtziehts_people1", "t_people").Value = value;
             }
         }
         /// <summary>
@@ -1873,13 +1873,13 @@ namespace DataCache
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<t_people>("VirtGabbaiCache.fk_yarthziehts_people1", "t_people");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<t_people>("VirtGabbaiCache.fk_yahrtziehts_people1", "t_people");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<t_people>("VirtGabbaiCache.fk_yarthziehts_people1", "t_people", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<t_people>("VirtGabbaiCache.fk_yahrtziehts_people1", "t_people", value);
                 }
             }
         }

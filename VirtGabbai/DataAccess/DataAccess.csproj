@@ -47,7 +47,7 @@
   <ItemGroup>
     <Compile Include="BaseDA.cs" />
     <Compile Include="ConnectionManager.cs" />
-    <Compile Include="YarthzietAccess.cs" />
+    <Compile Include="YahrtziehtAccess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

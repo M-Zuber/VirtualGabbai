@@ -7,14 +7,14 @@ using DataCache;
 
 namespace DataAccess
 {
-    public class YarthzietAccess
+    public class YahrtziehtAccess
     {
 
         #region Read Methods
 
-        public Yarthzieht GetSpecificYarthzieht(long personId, DateTime date, string personName)
+        public Yahrtzieht GetSpecificYarthzieht(long personId, DateTime date, string personName)
         {
-            t_yarthziehts requestedYarhtzieht = (from test in Cache.CacheData.t_yarthziehts
+            t_yahrtziehts requestedYarhtzieht = (from test in Cache.CacheData.t_yahrtziehts
                                                  where test.person_id == personId &&
                                                        test.date == date &&
                                                        test.deceaseds_name == personName
@@ -23,16 +23,16 @@ namespace DataAccess
             return this.ConverSingleYarhtzietToLocalType(requestedYarhtzieht);
         }
 
-        public List<Yarthzieht> GetYarhtzietsByDate(long personId, DateTime date)
+        public List<Yahrtzieht> GetYarhtzietsByDate(long personId, DateTime date)
         {
-            List<t_yarthziehts> requestedYarhtzieht = (from test in Cache.CacheData.t_yarthziehts
+            List<t_yahrtziehts> requestedYarhtzieht = (from test in Cache.CacheData.t_yahrtziehts
                                                        where test.date == date
-                                                       select test).ToList<t_yarthziehts>();
+                                                       select test).ToList<t_yahrtziehts>();
 
             return this.ConvertMultipleYarhtzietToLocalType(requestedYarhtzieht);
         }
 
-        public List<Yarthzieht> GetAllYarthziehts(long personId)
+        public List<Yahrtzieht> GetAllYarthziehts(long personId)
         {
             t_people test = (t_people)Cache.CacheData.t_people.Take(1);
 
@@ -40,33 +40,33 @@ namespace DataAccess
             //                                     where CurrentYarhtziet.person_id == personId
             //                                     select CurrentYarhtziet).ToList<t_yarthziehts>();
 
-            return this.ConvertMultipleYarhtzietToLocalType(test.t_yarthziehts.ToList<t_yarthziehts>());
+            return this.ConvertMultipleYarhtzietToLocalType(test.t_yahrtziehts.ToList<t_yahrtziehts>());
         }
 
-        private t_yarthziehts LookupSpecificYarthzieht(long personId, DateTime date, string personName)
+        private t_yahrtziehts LookupSpecificYarthzieht(long personId, DateTime date, string personName)
         {
-            return (from test in Cache.CacheData.t_yarthziehts
+            return (from test in Cache.CacheData.t_yahrtziehts
                     where test.person_id == personId &&
                         test.date == date &&
                         test.deceaseds_name == personName
                     select test).First();
         }
 
-        private List<t_yarthziehts> LookupYarhtzietsByDate(long personId, DateTime date)
+        private List<t_yahrtziehts> LookupYarhtzietsByDate(long personId, DateTime date)
         {
-            return (from test in Cache.CacheData.t_yarthziehts
+            return (from test in Cache.CacheData.t_yahrtziehts
                     where test.date == date
-                    select test).ToList<t_yarthziehts>();
+                    select test).ToList<t_yahrtziehts>();
         }
 
-        private List<t_yarthziehts> LookupAllYarthziehts(long personId)
+        private List<t_yahrtziehts> LookupAllYarthziehts(long personId)
         {
-            return ((t_people)Cache.CacheData.t_people.Take(1)).t_yarthziehts.ToList<t_yarthziehts>();
+            return ((t_people)Cache.CacheData.t_people.Take(1)).t_yahrtziehts.ToList<t_yahrtziehts>();
         }
 
-        private t_yarthziehts LookupYarhtzietById(long ID)
+        private t_yahrtziehts LookupYarhtzietById(long ID)
         {
-            return (from test in Cache.CacheData.t_yarthziehts
+            return (from test in Cache.CacheData.t_yahrtziehts
                     where test.C_id == ID
                     select test).First();
         }
@@ -77,14 +77,14 @@ namespace DataAccess
 
         #region Create
 
-        public void AddNewYartzieht(Yarthzieht ya)
+        public void AddNewYartzieht(Yahrtzieht ya)
         {
-            t_yarthziehts yaToAdd = this.ConvertSingleYarhtzietToDbType(ya);
-            Cache.CacheData.t_yarthziehts.AddObject(yaToAdd);
+            t_yahrtziehts yaToAdd = this.ConvertSingleYarhtzietToDbType(ya);
+            Cache.CacheData.t_yahrtziehts.AddObject(yaToAdd);
             Cache.CacheData.SaveChanges();
         }
 
-        public void AddMultipleNewYartzieht(List<Yarthzieht> myYaList)
+        public void AddMultipleNewYartzieht(List<Yahrtzieht> myYaList)
         {
             foreach (var item in myYaList)
             {
@@ -96,10 +96,10 @@ namespace DataAccess
 
         #region Update
 
-        public void UpdateSingleYarhtzieht(Yarthzieht ya)
+        public void UpdateSingleYarhtzieht(Yahrtzieht ya)
         {
-            t_yarthziehts instanceUpdating = this.LookupYarhtzietById(ya._Id);
-            Cache.CacheData.t_yarthziehts.Attach(instanceUpdating);
+            t_yahrtziehts instanceUpdating = this.LookupYarhtzietById(ya._Id);
+            Cache.CacheData.t_yahrtziehts.Attach(instanceUpdating);
             Cache.CacheData.SaveChanges();
             //TODO lookup how to do updating when using entity framework
             //db.users.attach(updateduser)
@@ -107,7 +107,7 @@ namespace DataAccess
             // db.Entry(original).currentvalues.setvalues(updatedUser) -after first loading origional
         }
 
-        public void UpdateMultipleYarhtzieht(List<Yarthzieht> myYaList)
+        public void UpdateMultipleYarhtzieht(List<Yahrtzieht> myYaList)
         {
             foreach (var item in myYaList)
             {
@@ -119,14 +119,14 @@ namespace DataAccess
 
         #region Delete
 
-        public void DeleteSingleYarhtzieht(Yarthzieht ya)
+        public void DeleteSingleYarhtzieht(Yahrtzieht ya)
         {
-            t_yarthziehts test = Cache.CacheData.t_yarthziehts.First(person => person.C_id == ya._Id);
-            Cache.CacheData.t_yarthziehts.DeleteObject(test);
+            t_yahrtziehts test = Cache.CacheData.t_yahrtziehts.First(person => person.C_id == ya._Id);
+            Cache.CacheData.t_yahrtziehts.DeleteObject(test);
             Cache.CacheData.SaveChanges();
         }
 
-        public void DeleteMultipleYarhtziet(List<Yarthzieht> myYaList)
+        public void DeleteMultipleYarhtziet(List<Yahrtzieht> myYaList)
         {
             foreach (var item in myYaList)
             {
@@ -140,9 +140,9 @@ namespace DataAccess
 
         #region Private Methods
 
-        private List<t_yarthziehts> ConvertMultipleYarhtzietToDbType(List<Yarthzieht> myYaList)
+        private List<t_yahrtziehts> ConvertMultipleYarhtzietToDbType(List<Yahrtzieht> myYaList)
         {
-            List<t_yarthziehts> myList = new List<t_yarthziehts>();
+            List<t_yahrtziehts> myList = new List<t_yahrtziehts>();
 
             foreach (var item in myYaList)
             {
@@ -152,16 +152,16 @@ namespace DataAccess
             return myList;
         }
 
-        private t_yarthziehts ConvertSingleYarhtzietToDbType(Yarthzieht ya)
+        private t_yahrtziehts ConvertSingleYarhtzietToDbType(Yahrtzieht ya)
         {
-            var test = t_yarthziehts.Createt_yarthziehts(ya._Id, ya.PersonId, ya.Date, ya.Name);
+            var test = t_yahrtziehts.Createt_yahrtziehts(ya._Id, ya.PersonId, ya.Date, ya.Name);
             test.relation = ya.Relation;
             return test;
         }
 
-        private List<Yarthzieht> ConvertMultipleYarhtzietToLocalType(List<t_yarthziehts> ya)
+        private List<Yahrtzieht> ConvertMultipleYarhtzietToLocalType(List<t_yahrtziehts> ya)
         {
-            List<Yarthzieht> myList = new List<Yarthzieht>();
+            List<Yahrtzieht> myList = new List<Yahrtzieht>();
 
             foreach (var item in ya)
             {
@@ -171,9 +171,9 @@ namespace DataAccess
             return myList;
         }
 
-        private Yarthzieht ConverSingleYarhtzietToLocalType(t_yarthziehts ya)
+        private Yahrtzieht ConverSingleYarhtzietToLocalType(t_yahrtziehts ya)
         {
-            Yarthzieht instance = new Yarthzieht();
+            Yahrtzieht instance = new Yahrtzieht();
             instance._Id = ya.C_id;
             instance.Date = ya.date;
             instance.Relation = ya.relation;

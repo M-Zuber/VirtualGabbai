@@ -23,17 +23,17 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `zera_levi`.`t_yarthziehts`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `zera_levi`.`t_yarthziehts` ;
+DROP TABLE IF EXISTS `zera_levi`.`t_yahrtziehts` ;
 
-CREATE TABLE IF NOT EXISTS `zera_levi`.`t_yarthziehts` (
+CREATE TABLE IF NOT EXISTS `zera_levi`.`t_yahrtziehts` (
   `_id` INT NOT NULL,
   `person_id` INT NOT NULL,
   `relation` VARCHAR(45) NULL,
   `date` DATETIME NOT NULL,
   `deceaseds_name` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`_id`),
-  INDEX `fk_yarthziehts_people1_idx` (`person_id` ASC),
-  CONSTRAINT `fk_yarthziehts_people1`
+  INDEX `fk_yahrtziehts_people1_idx` (`person_id` ASC),
+  CONSTRAINT `fk_yahrtziehts_people1`
     FOREIGN KEY (`person_id`)
     REFERENCES `zera_levi`.`t_people` (`_id`)
     ON DELETE CASCADE
