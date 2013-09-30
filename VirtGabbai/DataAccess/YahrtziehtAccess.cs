@@ -98,23 +98,10 @@ namespace DataAccess
 
         public void UpdateSingleYahrtzieht(Yahrtzieht ya)
         {
-            /*
-             * 1) LookUpYahrtziehtById
-             * 2) convert the parameter passed in to the entity type
-             * 3) make the reference from step 1 equal to the result from step 2
-             * TRIAL
-             * 4) attach
-             * 5) SaveChanges
-             * OR----
-             * 4) SaveChanges
-             * */
             t_yahrtziehts instanceUpdating = this.LookupYahrtziehtById(ya._Id);
-            Cache.CacheData.t_yahrtziehts.Attach(instanceUpdating);
+            instanceUpdating = this.ConvertSingleYahrtziehtToDbType(ya);
+            Cache.CacheData.t_yahrtziehts.ApplyCurrentValues(instanceUpdating);
             Cache.CacheData.SaveChanges();
-            //TODO lookup how to do updating when using entity framework
-            //db.users.attach(updateduser)
-            // db.savechanges()
-            // db.Entry(original).currentvalues.setvalues(updatedUser) -after first loading origional
         }
 
         public void UpdateMultipleYahrtzieht(List<Yahrtzieht> myYaList)
