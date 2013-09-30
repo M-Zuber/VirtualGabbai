@@ -98,6 +98,16 @@ namespace DataAccess
 
         public void UpdateSingleYahrtzieht(Yahrtzieht ya)
         {
+            /*
+             * 1) LookUpYahrtziehtById
+             * 2) convert the parameter passed in to the entity type
+             * 3) make the reference from step 1 equal to the result from step 2
+             * TRIAL
+             * 4) attach
+             * 5) SaveChanges
+             * OR----
+             * 4) SaveChanges
+             * */
             t_yahrtziehts instanceUpdating = this.LookupYahrtziehtById(ya._Id);
             Cache.CacheData.t_yahrtziehts.Attach(instanceUpdating);
             Cache.CacheData.SaveChanges();
