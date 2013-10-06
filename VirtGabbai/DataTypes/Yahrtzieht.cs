@@ -4,6 +4,8 @@ namespace DataTypes
 {
     public class Yahrtzieht
     {
+        #region Properties
+
         public int _Id { get; set; }
 
         public DateTime Date { get; set; }
@@ -13,8 +15,12 @@ namespace DataTypes
         public string Name { get; set; }
 
         public int PersonId { get; set; }
+        
+        #endregion
 
-        public Yahrtzieht(){}
+        #region C'tor
+
+        public Yahrtzieht() { }
 
         public Yahrtzieht(int _id, DateTime date, string relation, string name, int personId)
         {
@@ -24,5 +30,20 @@ namespace DataTypes
             this.Name = name;
             this.PersonId = personId;
         }
+        
+        #endregion
+
+        #region Helper Methods
+
+        public bool Equals(Yahrtzieht yahrComparing)
+        {
+            return ((this._Id == yahrComparing._Id) || 
+                    (this.Date == yahrComparing.Date) || 
+                    (this.Name == yahrComparing.Name) || 
+                    (this.PersonId == yahrComparing.PersonId) ||
+                    (this.Relation == this.Relation));
+        }
+
+        #endregion
     }
 }

@@ -172,7 +172,7 @@ namespace DataAccessTest
                 ya.PersonId = 1;
                 expected.Add(ya);
             }
-            injector.AddMultipleNewYahrtzieht(expected);
+            //injector.AddMultipleNewYahrtzieht(expected);
 
             YahrtziehtAccess target = new YahrtziehtAccess();
             long personId = 1;
@@ -180,6 +180,11 @@ namespace DataAccessTest
             List<Yahrtzieht> actual;
             actual = target.GetAllYahrtziehts(personId);
             Assert.AreEqual(expected.Count, actual.Count);
+
+            for (int yahrIndex = 0; yahrIndex < actual.Count; yahrIndex++)
+            {
+                Assert.IsTrue(expected[yahrIndex].Equals(actual[yahrIndex]));
+            }
         }
 
         /// <summary>
