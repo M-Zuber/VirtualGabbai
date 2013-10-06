@@ -68,7 +68,7 @@ namespace DataAccessTest
         //
         #endregion
 
-        #region Add Tests -Passed#1
+        #region Add Tests
 
         /// <summary>
         ///Adds a list of Yarhtziehts to the database
@@ -156,12 +156,30 @@ namespace DataAccessTest
         [TestMethod()]
         public void GetAllYarthziehtsTest()
         {
-            YahrtziehtAccess target = new YahrtziehtAccess(); //  : Initialize to an appropriate value
-            long personId = 0; //  : Initialize to an appropriate value
-            List<Yahrtzieht> expected = null; //  : Initialize to an appropriate value
+            if (!Cache.CacheData.t_people.Any(person => person.C_id == 1))
+            {
+                Cache.CacheData.t_people.AddObject(t_people.Createt_people(1));
+            }
+            YahrtziehtAccess injector = new YahrtziehtAccess();
+            List<Yahrtzieht> expected = new List<Yahrtzieht>();
+            for (int i = 1; i <= 10; i++)
+            {
+                Yahrtzieht ya = new Yahrtzieht();
+                ya._Id = i;
+                ya.Date = DateTime.Now;
+                ya.Name = "ploni ben almoni";
+                ya.Relation = "dogs previous owner";
+                ya.PersonId = 1;
+                expected.Add(ya);
+            }
+            injector.AddMultipleNewYahrtzieht(expected);
+
+            YahrtziehtAccess target = new YahrtziehtAccess();
+            long personId = 1;
+            
             List<Yahrtzieht> actual;
             actual = target.GetAllYahrtziehts(personId);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected.Count, actual.Count);
         }
 
         /// <summary>

@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using DataTypes;
 using DataCache;
+using DataTypes;
 
 namespace DataAccess
 {
@@ -12,34 +11,27 @@ namespace DataAccess
 
         #region Read Methods
 
+        #region Local type return
+        
         public Yahrtzieht GetSpecificYahrtzieht(long personId, DateTime yahr_date, string personName)
         {
-            t_yahrtziehts requestedYahrtzieht = (from CurrYahr in Cache.CacheData.t_yahrtziehts
-                                                 where CurrYahr.person_id == personId &&
-                                                       CurrYahr.date == yahr_date &&
-                                                       CurrYahr.deceaseds_name == personName
-                                                 select CurrYahr).First();
-
-            return this.ConverSingleYahrtziehtToLocalType(requestedYahrtzieht);
+            return this.ConverSingleYahrtziehtToLocalType(this.LookupSpecificYahrtzieht(personId, yahr_date,personName));
         }
 
         public List<Yahrtzieht> GetYahrtziehtsByDate(long personId, DateTime yahr_date)
         {
-            List<t_yahrtziehts> requestedYahrtziehts = (from CurrYahr in Cache.CacheData.t_yahrtziehts
-                                                        where CurrYahr.date == yahr_date
-                                                        select CurrYahr).ToList<t_yahrtziehts>();
-
-            return this.ConvertMultipleYahrtziehtsToLocalType(requestedYahrtziehts);
+            return this.ConvertMultipleYahrtziehtsToLocalType(this.LookupYahrtziehtsByDate(personId, yahr_date));
         }
 
         public List<Yahrtzieht> GetAllYahrtziehts(long personId)
         {
-            return this.ConvertMultipleYahrtziehtsToLocalType(
-                                       (from CurrPerson in Cache.CacheData.t_people
-                                        where CurrPerson.C_id == personId
-                                        select CurrPerson).First().t_yahrtziehts.ToList<t_yahrtziehts>());
-        }
+            return this.ConvertMultipleYahrtziehtsToLocalType(this.LookupAllYahrtziehts(personId));
+        } 
 
+        #endregion
+
+        #region Db type return
+        
         private t_yahrtziehts LookupSpecificYahrtzieht(long personId, DateTime yahr_date, string personName)
         {
             return (from CurrYahr in Cache.CacheData.t_yahrtziehts
@@ -58,9 +50,9 @@ namespace DataAccess
 
         private List<t_yahrtziehts> LookupAllYahrtziehts(long personId)
         {
-            return  (from CurrPerson in Cache.CacheData.t_people
-                     where CurrPerson.C_id == personId
-                     select CurrPerson).First().t_yahrtziehts.ToList<t_yahrtziehts>();
+            return (from CurrPerson in Cache.CacheData.t_people
+                    where CurrPerson.C_id == personId
+                    select CurrPerson).First().t_yahrtziehts.ToList<t_yahrtziehts>();
         }
 
         private t_yahrtziehts LookupYahrtziehtById(long ID)
@@ -68,7 +60,9 @@ namespace DataAccess
             return (from CurrYahr in Cache.CacheData.t_yahrtziehts
                     where CurrYahr.C_id == ID
                     select CurrYahr).First();
-        }
+        } 
+
+        #endregion
 
         #endregion
 

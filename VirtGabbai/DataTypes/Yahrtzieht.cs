@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace DataTypes
 {
@@ -17,10 +14,7 @@ namespace DataTypes
 
         public int PersonId { get; set; }
 
-        public Yahrtzieht()
-        {
-
-        }
+        public Yahrtzieht(){}
 
         public Yahrtzieht(int _id, DateTime date, string relation, string name, int personId)
         {
