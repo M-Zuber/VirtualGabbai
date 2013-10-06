@@ -262,7 +262,8 @@ namespace DataAccessTest
             expected.relation = relation;
             t_yahrtziehts actual;
             actual = target.LookupSpecificYahrtzieht(personId, date, personName);
-            Assert.AreEqual(expected, actual);
+            Assert.IsTrue(target.ConverSingleYahrtziehtToLocalType(expected).
+                Equals(target.ConverSingleYahrtziehtToLocalType(actual)));
         }
 
         /// <summary>
