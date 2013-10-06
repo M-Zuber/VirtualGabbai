@@ -237,12 +237,13 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupAllYarthziehtsTest()
         {
-            YahrtziehtAccess_Accessor target = new YahrtziehtAccess_Accessor(); //  : Initialize to an appropriate value
-            int personId = 0; //  : Initialize to an appropriate value
-            List<t_yahrtziehts> expected = null; //  : Initialize to an appropriate value
+            YahrtziehtAccess_Accessor target = new YahrtziehtAccess_Accessor();
+            int personId = 1;
+            List<t_yahrtziehts> expected = 
+                target.ConvertMultipleYahrtziehtsToDbType(target.GetAllYahrtziehts(personId));
             List<t_yahrtziehts> actual;
             actual = target.LookupAllYahrtziehts(personId);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected.Count, actual.Count);
         }
 
         /// <summary>
@@ -252,11 +253,13 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupSpecificYarthziehtTest()
         {
-            YahrtziehtAccess_Accessor target = new YahrtziehtAccess_Accessor(); //  : Initialize to an appropriate value
-            int personId = 0; //  : Initialize to an appropriate value
-            DateTime date = new DateTime(); //  : Initialize to an appropriate value
-            string personName = string.Empty; //  : Initialize to an appropriate value
-            t_yahrtziehts expected = null; //  : Initialize to an appropriate value
+            int personId = 1;
+            DateTime date = DateTime.Today;
+            string personName = "Ploni ben Almoni";
+            string relation = "mothers cat";
+            YahrtziehtAccess_Accessor target = new YahrtziehtAccess_Accessor();
+            t_yahrtziehts expected = t_yahrtziehts.Createt_yahrtziehts(27,personId,date,personName);
+            expected.relation = relation;
             t_yahrtziehts actual;
             actual = target.LookupSpecificYahrtzieht(personId, date, personName);
             Assert.AreEqual(expected, actual);
