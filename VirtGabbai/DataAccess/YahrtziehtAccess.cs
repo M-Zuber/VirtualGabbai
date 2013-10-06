@@ -13,17 +13,17 @@ namespace DataAccess
 
         #region Local type return
         
-        public Yahrtzieht GetSpecificYahrtzieht(long personId, DateTime yahr_date, string personName)
+        public Yahrtzieht GetSpecificYahrtzieht(int personId, DateTime yahr_date, string personName)
         {
             return this.ConverSingleYahrtziehtToLocalType(this.LookupSpecificYahrtzieht(personId, yahr_date,personName));
         }
 
-        public List<Yahrtzieht> GetYahrtziehtsByDate(long personId, DateTime yahr_date)
+        public List<Yahrtzieht> GetYahrtziehtsByDate(int personId, DateTime yahr_date)
         {
             return this.ConvertMultipleYahrtziehtsToLocalType(this.LookupYahrtziehtsByDate(personId, yahr_date));
         }
 
-        public List<Yahrtzieht> GetAllYahrtziehts(long personId)
+        public List<Yahrtzieht> GetAllYahrtziehts(int personId)
         {
             return this.ConvertMultipleYahrtziehtsToLocalType(this.LookupAllYahrtziehts(personId));
         } 
@@ -32,7 +32,7 @@ namespace DataAccess
 
         #region Db type return
         
-        private t_yahrtziehts LookupSpecificYahrtzieht(long personId, DateTime yahr_date, string personName)
+        private t_yahrtziehts LookupSpecificYahrtzieht(int personId, DateTime yahr_date, string personName)
         {
             return (from CurrYahr in Cache.CacheData.t_yahrtziehts
                     where CurrYahr.person_id == personId &&
@@ -41,21 +41,21 @@ namespace DataAccess
                     select CurrYahr).First();
         }
 
-        private List<t_yahrtziehts> LookupYahrtziehtsByDate(long personId, DateTime yahr_date)
+        private List<t_yahrtziehts> LookupYahrtziehtsByDate(int personId, DateTime yahr_date)
         {
             return (from CurrYahr in Cache.CacheData.t_yahrtziehts
                     where CurrYahr.date == yahr_date
                     select CurrYahr).ToList<t_yahrtziehts>();
         }
 
-        private List<t_yahrtziehts> LookupAllYahrtziehts(long personId)
+        private List<t_yahrtziehts> LookupAllYahrtziehts(int personId)
         {
             return (from CurrPerson in Cache.CacheData.t_people
                     where CurrPerson.C_id == personId
                     select CurrPerson).First().t_yahrtziehts.ToList<t_yahrtziehts>();
         }
 
-        private t_yahrtziehts LookupYahrtziehtById(long ID)
+        private t_yahrtziehts LookupYahrtziehtById(int ID)
         {
             return (from CurrYahr in Cache.CacheData.t_yahrtziehts
                     where CurrYahr.C_id == ID

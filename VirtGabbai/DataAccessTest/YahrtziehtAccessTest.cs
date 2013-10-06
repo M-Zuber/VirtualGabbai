@@ -87,7 +87,7 @@ namespace DataAccessTest
             {
                 Yahrtzieht ya = new Yahrtzieht();
                 ya._Id = i;
-                ya.Date = DateTime.Now;
+                ya.Date = DateTime.Today;
                 ya.Name = "ploni ben almoni";
                 ya.Relation = "dogs previous owner";
                 ya.PersonId = 1;
@@ -151,7 +151,7 @@ namespace DataAccessTest
         #region Get Tests
 
         /// <summary>
-        ///A test for GetAllYarthziehts
+        ///Recieves all the yahrtziehts of the person with the given id
         ///</summary>
         [TestMethod()]
         public void GetAllYarthziehtsTest()
@@ -166,7 +166,7 @@ namespace DataAccessTest
             {
                 Yahrtzieht ya = new Yahrtzieht();
                 ya._Id = i;
-                ya.Date = DateTime.Now;
+                ya.Date = DateTime.Today;
                 ya.Name = "ploni ben almoni";
                 ya.Relation = "dogs previous owner";
                 ya.PersonId = 1;
@@ -175,7 +175,7 @@ namespace DataAccessTest
             //injector.AddMultipleNewYahrtzieht(expected);
 
             YahrtziehtAccess target = new YahrtziehtAccess();
-            long personId = 1;
+            int personId = 1;
             
             List<Yahrtzieht> actual;
             actual = target.GetAllYahrtziehts(personId);
@@ -193,14 +193,16 @@ namespace DataAccessTest
         [TestMethod()]
         public void GetSpecificYarthziehtTest()
         {
-            YahrtziehtAccess target = new YahrtziehtAccess(); //  : Initialize to an appropriate value
-            long personId = 0; //  : Initialize to an appropriate value
-            DateTime date = new DateTime(); //  : Initialize to an appropriate value
-            string personName = string.Empty; //  : Initialize to an appropriate value
-            Yahrtzieht expected = null; //  : Initialize to an appropriate value
-            Yahrtzieht actual;
-            actual = target.GetSpecificYahrtzieht(personId, date, personName);
-            Assert.AreEqual(expected, actual);
+            int personId = 1;
+            DateTime date = DateTime.Today;
+            string personName = "Ploni ben Almoni";
+            string relation = "mothers cat";
+            Yahrtzieht newYahr = new Yahrtzieht(78, date, relation, personName, personId);
+            YahrtziehtAccess target = new YahrtziehtAccess();
+            target.AddNewYahrtzieht(newYahr);
+            Yahrtzieht expected = newYahr;
+            Yahrtzieht actual = target.GetSpecificYahrtzieht(personId, date, personName);
+            Assert.IsTrue(expected.Equals(actual));
         }
 
         /// <summary>
@@ -209,13 +211,19 @@ namespace DataAccessTest
         [TestMethod()]
         public void GetYarhtzietsByDateTest()
         {
-            YahrtziehtAccess target = new YahrtziehtAccess(); //  : Initialize to an appropriate value
-            long personId = 0; //  : Initialize to an appropriate value
-            DateTime date = new DateTime(); //  : Initialize to an appropriate value
-            List<Yahrtzieht> expected = null; //  : Initialize to an appropriate value
-            List<Yahrtzieht> actual;
-            actual = target.GetYahrtziehtsByDate(personId, date);
-            Assert.AreEqual(expected, actual);
+            YahrtziehtAccess target = new YahrtziehtAccess();
+            int personId = 1;
+            DateTime date = DateTime.Today;
+
+            // ugly hack
+            List<Yahrtzieht> expected = target.GetAllYahrtziehts(personId);
+            List<Yahrtzieht> actual = target.GetYahrtziehtsByDate(personId, date);
+            Assert.AreEqual(expected.Count, actual.Count);
+
+            for (int yahrIndex = 0; yahrIndex < actual.Count; yahrIndex++)
+            {
+                Assert.IsTrue(expected[yahrIndex].Equals(actual[yahrIndex]));
+            }
         }
 
         #endregion
@@ -230,7 +238,7 @@ namespace DataAccessTest
         public void LookupAllYarthziehtsTest()
         {
             YahrtziehtAccess_Accessor target = new YahrtziehtAccess_Accessor(); //  : Initialize to an appropriate value
-            long personId = 0; //  : Initialize to an appropriate value
+            int personId = 0; //  : Initialize to an appropriate value
             List<t_yahrtziehts> expected = null; //  : Initialize to an appropriate value
             List<t_yahrtziehts> actual;
             actual = target.LookupAllYahrtziehts(personId);
@@ -245,7 +253,7 @@ namespace DataAccessTest
         public void LookupSpecificYarthziehtTest()
         {
             YahrtziehtAccess_Accessor target = new YahrtziehtAccess_Accessor(); //  : Initialize to an appropriate value
-            long personId = 0; //  : Initialize to an appropriate value
+            int personId = 0; //  : Initialize to an appropriate value
             DateTime date = new DateTime(); //  : Initialize to an appropriate value
             string personName = string.Empty; //  : Initialize to an appropriate value
             t_yahrtziehts expected = null; //  : Initialize to an appropriate value
@@ -262,7 +270,7 @@ namespace DataAccessTest
         public void LookupYarhtzietByIdTest()
         {
             YahrtziehtAccess_Accessor target = new YahrtziehtAccess_Accessor(); //  : Initialize to an appropriate value
-            long ID = 0; //  : Initialize to an appropriate value
+            int ID = 0; //  : Initialize to an appropriate value
             t_yahrtziehts expected = null; //  : Initialize to an appropriate value
             t_yahrtziehts actual;
             actual = target.LookupYahrtziehtById(ID);
@@ -277,7 +285,7 @@ namespace DataAccessTest
         public void LookupYarhtzietsByDateTest()
         {
             YahrtziehtAccess_Accessor target = new YahrtziehtAccess_Accessor(); //  : Initialize to an appropriate value
-            long personId = 0; //  : Initialize to an appropriate value
+            int personId = 0; //  : Initialize to an appropriate value
             DateTime date = new DateTime(); //  : Initialize to an appropriate value
             List<t_yahrtziehts> expected = null; //  : Initialize to an appropriate value
             List<t_yahrtziehts> actual;
