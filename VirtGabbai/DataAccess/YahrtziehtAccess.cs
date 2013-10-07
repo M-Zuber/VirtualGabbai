@@ -111,7 +111,7 @@ namespace DataAccess
 
         public void DeleteSingleYahrtzieht(Yahrtzieht deletedYahr)
         {
-            t_yahrtziehts yahrDeleting = Cache.CacheData.t_yahrtziehts.First(person => person.C_id == deletedYahr._Id);
+            t_yahrtziehts yahrDeleting = Cache.CacheData.t_yahrtziehts.First(yahr => yahr.C_id == deletedYahr._Id);
             Cache.CacheData.t_yahrtziehts.DeleteObject(yahrDeleting);
             Cache.CacheData.SaveChanges();
         }
