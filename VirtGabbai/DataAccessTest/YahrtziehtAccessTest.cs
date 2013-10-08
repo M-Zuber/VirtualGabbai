@@ -181,7 +181,7 @@ namespace DataAccessTest
             DateTime date = DateTime.Today;
             string personName = "Ploni ben Almoni";
             string relation = "dogs previous owner";
-            Yahrtzieht expected = new Yahrtzieht(10, date, personName, relation, personId);
+            Yahrtzieht expected = new Yahrtzieht(1, date, personName, relation, personId);
 
             YahrtziehtAccess target = new YahrtziehtAccess();
             Yahrtzieht actual = target.GetSpecificYahrtzieht(personId, date, personName);
