@@ -35,8 +35,9 @@ namespace DataTypes
 
         #region Helper Methods
 
-        public bool Equals(Yahrtzieht yahrComparing)
+        public override bool Equals(object yahrComparingObj)
         {
+            Yahrtzieht yahrComparing = (Yahrtzieht)yahrComparingObj;
             return ((this._Id == yahrComparing._Id) && 
                     (this.Date.Date == yahrComparing.Date.Date) &&
                     (this.Name == yahrComparing.Name) &&
