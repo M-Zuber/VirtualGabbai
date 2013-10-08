@@ -125,7 +125,7 @@ namespace DataAccessTest
         public void DeleteSingleYarhtziehtTest()
         {
             YahrtziehtAccess target = new YahrtziehtAccess();
-            Yahrtzieht ya = new Yahrtzieht(12, DateTime.Now, "the dogs friends cat", "rufos maximus", 1);
+            Yahrtzieht ya = new Yahrtzieht(12, DateTime.Today, "the dogs friends cat", "rufos maximus", 1);
             target.DeleteSingleYahrtzieht(ya);
         }
         
@@ -139,10 +139,11 @@ namespace DataAccessTest
         [TestMethod()]
         public void GetAllYarthziehtsTest()
         {
+            Yahrtzieht ya;
             List<Yahrtzieht> expected = new List<Yahrtzieht>();
             for (int i = 1; i <= 10; i++)
             {
-                Yahrtzieht ya = new Yahrtzieht();
+                ya = new Yahrtzieht();
                 ya._Id = i;
                 ya.Date = DateTime.Today;
                 ya.Name = "Ploni ben Almoni";
@@ -150,7 +151,13 @@ namespace DataAccessTest
                 ya.PersonId = 1;
                 expected.Add(ya);
             }
-
+            ya = new Yahrtzieht();
+            ya._Id = 12;
+            ya.Date = DateTime.Today;
+            ya.Name = "Ploni ben Almoni";
+            ya.Relation = "dogs previous owner";
+            ya.PersonId = 1;
+            expected.Add(ya);
             YahrtziehtAccess target = new YahrtziehtAccess();
             int personId = 1;
             
@@ -235,7 +242,7 @@ namespace DataAccessTest
             string relation = "dogs previous owner";
             YahrtziehtAccess_Accessor target = new YahrtziehtAccess_Accessor();
             t_yahrtziehts expected = new t_yahrtziehts();
-            expected.C_id = 10;
+            expected.C_id = 1;
             expected.date = date;
             expected.deceaseds_name = personName;
             expected.person_id = personId;
@@ -253,12 +260,22 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupYarhtzietByIdTest()
         {
-            //YahrtziehtAccess_Accessor target = new YahrtziehtAccess_Accessor(); //  : Initialize to an appropriate value
-            //int ID = 0; //  : Initialize to an appropriate value
-            //t_yahrtziehts expected = null; //  : Initialize to an appropriate value
-            //t_yahrtziehts actual;
-            //actual = target.LookupYahrtziehtById(ID);
-            //Assert.AreEqual(expected, actual);
+            int personId = 1;
+            DateTime date = DateTime.Today;
+            string personName = "Ploni ben Almoni";
+            string relation = "dogs previous owner";
+            YahrtziehtAccess_Accessor target = new YahrtziehtAccess_Accessor();
+            t_yahrtziehts expected = new t_yahrtziehts();
+            expected.C_id = 1;
+            expected.date = date;
+            expected.deceaseds_name = personName;
+            expected.person_id = personId;
+            expected.relation = relation;
+            int ID = 1;
+            t_yahrtziehts actual;
+            actual = target.LookupYahrtziehtById(ID);
+            Assert.IsTrue(target.ConverSingleYahrtziehtToLocalType(expected).
+                Equals(target.ConverSingleYahrtziehtToLocalType(actual)));
         }
 
         /// <summary>
@@ -268,13 +285,13 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupYarhtzietsByDateTest()
         {
-            //YahrtziehtAccess_Accessor target = new YahrtziehtAccess_Accessor(); //  : Initialize to an appropriate value
-            //int personId = 0; //  : Initialize to an appropriate value
-            //DateTime date = new DateTime(); //  : Initialize to an appropriate value
-            //List<t_yahrtziehts> expected = null; //  : Initialize to an appropriate value
-            //List<t_yahrtziehts> actual;
-            //actual = target.LookupYahrtziehtsByDate(personId, date);
-            //Assert.AreEqual(expected, actual);
+            YahrtziehtAccess_Accessor target = new YahrtziehtAccess_Accessor();
+            int personId = 1;
+            DateTime date = DateTime.Today;
+            List<t_yahrtziehts> expected = target.LookupAllYahrtziehts(personId);
+            List<t_yahrtziehts> actual;
+            actual = target.LookupYahrtziehtsByDate(personId, date);
+            Assert.AreEqual(expected.Count, actual.Count);
         }
 
         #endregion
