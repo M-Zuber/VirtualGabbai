@@ -47,8 +47,11 @@ namespace DataTypes
 
         public override string ToString()
         {
-            return base.ToString();
+            return "Deceased's Name:\"" + this.Name + "\" " +
+                   "Date:\""+ this.Date.Date.ToString("dd/MM/yyyy") + "\" " +
+                   "Relation:\"" +this.Relation + "\"";
         }
+
         #endregion
     }
 }

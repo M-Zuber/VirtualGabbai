@@ -187,9 +187,9 @@ namespace DataTypesTest
         [TestMethod()]
         public void ToStringTest()
         {
-            Yahrtzieht target = new Yahrtzieht();
-            string expected = "Deseaceds Name:\"Ploni ben Almoni\" "+
-                              "Date:\"08/10/2013\"" + 
+            Yahrtzieht target = new Yahrtzieht(1,DateTime.Today,"Ploni ben Almoni", "Cats dog", 1);
+            string expected = "Deceased's Name:\"Ploni ben Almoni\" " +
+                              "Date:\"08/10/2013\" " + 
                               "Relation:\"Cats dog\"";
             string actual;
             actual = target.ToString();
