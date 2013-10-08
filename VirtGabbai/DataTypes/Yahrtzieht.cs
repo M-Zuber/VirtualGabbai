@@ -45,6 +45,10 @@ namespace DataTypes
                     (this.Relation == yahrComparing.Relation));
         }
 
+        public override string ToString()
+        {
+            return base.ToString();
+        }
         #endregion
     }
 }

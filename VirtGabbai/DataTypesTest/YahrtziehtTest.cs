@@ -178,5 +178,24 @@ namespace DataTypesTest
         }
 
         #endregion
+
+        #region ToString
+
+        /// <summary>
+        ///A test for ToString
+        ///</summary>
+        [TestMethod()]
+        public void ToStringTest()
+        {
+            Yahrtzieht target = new Yahrtzieht();
+            string expected = "Deseaceds Name:\"Ploni ben Almoni\" "+
+                              "Date:\"08/10/2013\"" + 
+                              "Relation:\"Cats dog\"";
+            string actual;
+            actual = target.ToString();
+            Assert.AreEqual(expected, actual);
+        }
+
+        #endregion
     }
 }
