@@ -52,6 +52,11 @@ namespace DataTypes
                    "Relation:\"" +this.Relation + "\"";
         }
 
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
         #endregion
     }
 }

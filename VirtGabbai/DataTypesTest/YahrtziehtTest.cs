@@ -191,8 +191,7 @@ namespace DataTypesTest
             string expected = "Deceased's Name:\"Ploni ben Almoni\" " +
                               "Date:\"08/10/2013\" " + 
                               "Relation:\"Cats dog\"";
-            string actual;
-            actual = target.ToString();
+            string actual= target.ToString();
             Assert.AreEqual(expected, actual);
         }
 
