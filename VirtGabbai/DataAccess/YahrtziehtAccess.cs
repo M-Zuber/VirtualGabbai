@@ -164,8 +164,7 @@ namespace DataAccess
 
         private Yahrtzieht ConverSingleYahrtziehtToLocalType(t_yahrtziehts dbTypeYahr)
         {
-            Yahrtzieht localTypeYahr = new Yahrtzieht(dbTypeYahr.C_id, dbTypeYahr.date, dbTypeYahr.relation,
-                                                      dbTypeYahr.deceaseds_name,dbTypeYahr.person_id);
+            Yahrtzieht localTypeYahr = new Yahrtzieht(dbTypeYahr.C_id, dbTypeYahr.date, dbTypeYahr.deceaseds_name, dbTypeYahr.relation, dbTypeYahr.person_id);
             return localTypeYahr;
         } 
 

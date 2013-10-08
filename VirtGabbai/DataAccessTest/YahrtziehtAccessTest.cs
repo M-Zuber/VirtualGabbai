@@ -125,7 +125,7 @@ namespace DataAccessTest
         public void DeleteSingleYarhtziehtTest()
         {
             YahrtziehtAccess target = new YahrtziehtAccess();
-            Yahrtzieht ya = new Yahrtzieht(12, DateTime.Today, "the dogs friends cat", "rufos maximus", 1);
+            Yahrtzieht ya = new Yahrtzieht(12, DateTime.Today, "rufos maximus", "the dogs friends cat", 1);
             target.DeleteSingleYahrtzieht(ya);
         }
         
@@ -181,7 +181,7 @@ namespace DataAccessTest
             DateTime date = DateTime.Today;
             string personName = "Ploni ben Almoni";
             string relation = "dogs previous owner";
-            Yahrtzieht expected = new Yahrtzieht(10, date, relation, personName, personId);
+            Yahrtzieht expected = new Yahrtzieht(10, date, personName, relation, personId);
 
             YahrtziehtAccess target = new YahrtziehtAccess();
             Yahrtzieht actual = target.GetSpecificYahrtzieht(personId, date, personName);

@@ -71,9 +71,9 @@ namespace DataTypesTest
         [TestMethod()]
         public void AllIsEqualEqualsTest()
         {
-            Yahrtzieht target = new Yahrtzieht();
-            Yahrtzieht yahrComparing = null;
-            bool expected = false;
+            Yahrtzieht target = new Yahrtzieht(1, DateTime.Today, "rufus", "cats", 12);
+            Yahrtzieht yahrComparing = new Yahrtzieht(1, DateTime.Today, "rufus", "cats", 12);
+            bool expected = true;
             bool actual;
             actual = target.Equals(yahrComparing);
             Assert.AreEqual(expected, actual);
@@ -85,8 +85,8 @@ namespace DataTypesTest
         [TestMethod()]
         public void DiffIdEqualsTest()
         {
-            Yahrtzieht target = new Yahrtzieht();
-            Yahrtzieht yahrComparing = null;
+            Yahrtzieht target = new Yahrtzieht(1, DateTime.Today, "rufus", "cats", 12);
+            Yahrtzieht yahrComparing = new Yahrtzieht(14, DateTime.Today, "rufus", "cats", 12);
             bool expected = false;
             bool actual;
             actual = target.Equals(yahrComparing);
@@ -99,8 +99,8 @@ namespace DataTypesTest
         [TestMethod()]
         public void DiffDateEqualsTest()
         {
-            Yahrtzieht target = new Yahrtzieht();
-            Yahrtzieht yahrComparing = null;
+            Yahrtzieht target = new Yahrtzieht(1, DateTime.Today, "rufus", "cats", 12);
+            Yahrtzieht yahrComparing = new Yahrtzieht(1, DateTime.MinValue, "rufus", "cats", 12);
             bool expected = false;
             bool actual;
             actual = target.Equals(yahrComparing);
@@ -113,8 +113,8 @@ namespace DataTypesTest
         [TestMethod()]
         public void DiffNameEqualsTest()
         {
-            Yahrtzieht target = new Yahrtzieht();
-            Yahrtzieht yahrComparing = null;
+            Yahrtzieht target = new Yahrtzieht(1, DateTime.Today, "rufus", "cats", 12);
+            Yahrtzieht yahrComparing = new Yahrtzieht(1, DateTime.Today, "fido", "cats", 12);
             bool expected = false;
             bool actual;
             actual = target.Equals(yahrComparing);
@@ -127,8 +127,8 @@ namespace DataTypesTest
         [TestMethod()]
         public void DiffPersonIdEqualsTest()
         {
-            Yahrtzieht target = new Yahrtzieht();
-            Yahrtzieht yahrComparing = null;
+            Yahrtzieht target = new Yahrtzieht(1, DateTime.Today, "rufus", "cats", 12);
+            Yahrtzieht yahrComparing = new Yahrtzieht(1, DateTime.Today, "rufus", "cats", 27);
             bool expected = false;
             bool actual;
             actual = target.Equals(yahrComparing);
@@ -141,8 +141,8 @@ namespace DataTypesTest
         [TestMethod()]
         public void DiffRelationEqualsTest()
         {
-            Yahrtzieht target = new Yahrtzieht();
-            Yahrtzieht yahrComparing = null;
+            Yahrtzieht target = new Yahrtzieht(1, DateTime.Today, "rufus", "cats", 12);
+            Yahrtzieht yahrComparing = new Yahrtzieht(1, DateTime.Today, "rufus", "dogs", 12);
             bool expected = false;
             bool actual;
             actual = target.Equals(yahrComparing);
@@ -155,8 +155,8 @@ namespace DataTypesTest
         [TestMethod()]
         public void AllDiffEqualsTest()
         {
-            Yahrtzieht target = new Yahrtzieht();
-            Yahrtzieht yahrComparing = null;
+            Yahrtzieht target = new Yahrtzieht(1, DateTime.Today, "rufus", "cats", 12);
+            Yahrtzieht yahrComparing = new Yahrtzieht(12, DateTime.MinValue, "fido", "dogs", 27);
             bool expected = false;
             bool actual;
             actual = target.Equals(yahrComparing);
@@ -169,8 +169,8 @@ namespace DataTypesTest
         [TestMethod()]
         public void MultiDiffEqualsTest()
         {
-            Yahrtzieht target = new Yahrtzieht();
-            Yahrtzieht yahrComparing = null;
+            Yahrtzieht target = new Yahrtzieht(1, DateTime.Today, "rufus", "cats", 12);
+            Yahrtzieht yahrComparing = new Yahrtzieht(14, DateTime.Today, "fido", "cats", 27);
             bool expected = false;
             bool actual;
             actual = target.Equals(yahrComparing);

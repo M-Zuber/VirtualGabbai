@@ -22,7 +22,7 @@ namespace DataTypes
 
         public Yahrtzieht() { }
 
-        public Yahrtzieht(int _id, DateTime date, string relation, string name, int personId)
+        public Yahrtzieht(int _id, DateTime date, string name, string relation, int personId)
         {
             this._Id = _id;
             this.Date = date;
@@ -37,11 +37,11 @@ namespace DataTypes
 
         public bool Equals(Yahrtzieht yahrComparing)
         {
-            return ((this._Id == yahrComparing._Id) || 
-                    (this.Date == yahrComparing.Date) || 
-                    (this.Name == yahrComparing.Name) || 
-                    (this.PersonId == yahrComparing.PersonId) ||
-                    (this.Relation == this.Relation));
+            return ((this._Id == yahrComparing._Id) && 
+                    (this.Date.Date == yahrComparing.Date.Date) &&
+                    (this.Name == yahrComparing.Name) &&
+                    (this.PersonId == yahrComparing.PersonId) &&
+                    (this.Relation == yahrComparing.Relation));
         }
 
         #endregion
