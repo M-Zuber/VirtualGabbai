@@ -97,6 +97,18 @@ namespace DataAccessTest
                 newPhoneTypeList.Add(new PhoneType(newPhoneTypeIndex, "phonetype:" + newPhoneTypeIndex.ToString()));
             }
             target.AddMultipleNewPhoneTypes(newPhoneTypeList);
+
+            List<PhoneType> actual = new List<PhoneType>();
+
+            for (int actualIndex = 11; actualIndex <= 20; actualIndex++)
+            {
+                actual.Add(target.GetPhoneTypeById(actualIndex));
+            }
+
+            for (int assertIndex = 0; assertIndex < newPhoneTypeList.Count; assertIndex++)
+            {
+                Assert.IsTrue(newPhoneTypeList[assertIndex].Equals(actual[assertIndex]));
+            }
         }
 
         /// <summary>
@@ -105,9 +117,11 @@ namespace DataAccessTest
         [TestMethod()]
         public void AddNewPhoneTypeTest()
         {
-            PhoneTypeAccess target = new PhoneTypeAccess(); // l: Initialize to an appropriate value
-            PhoneType newPhoneType = null; // l: Initialize to an appropriate value
+            PhoneTypeAccess target = new PhoneTypeAccess();
+            PhoneType newPhoneType = new PhoneType(21, "phonetype:21");
             target.AddNewPhoneType(newPhoneType);
+            PhoneType actual = target.GetPhoneTypeById(21);
+            Assert.IsTrue(newPhoneType.Equals(actual));
         }
         
         #endregion
