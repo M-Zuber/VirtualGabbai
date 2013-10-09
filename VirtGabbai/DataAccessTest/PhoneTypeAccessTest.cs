@@ -240,11 +240,18 @@ namespace DataAccessTest
         [TestMethod()]
         public void GetAllPhoneTypesTest()
         {
-            PhoneTypeAccess target = new PhoneTypeAccess(); // l: Initialize to an appropriate value
-            List<PhoneType> expected = null; // l: Initialize to an appropriate value
+            PhoneTypeAccess target = new PhoneTypeAccess();
+            List<PhoneType> expected = new List<PhoneType>();
+            for (int newPhoneTypeIndex = 1; newPhoneTypeIndex <= 10; newPhoneTypeIndex++)
+            {
+                expected.Add(new PhoneType(newPhoneTypeIndex,"phonetype:" + newPhoneTypeIndex.ToString()));
+            }
             List<PhoneType> actual;
             actual = target.GetAllPhoneTypes();
-            Assert.AreEqual(expected, actual);
+            for (int i = 0; i < expected.Count; i++)
+            {
+                Assert.IsTrue(expected[i].Equals(actual[i]));
+            }
         }
 
         /// <summary>
@@ -253,12 +260,13 @@ namespace DataAccessTest
         [TestMethod()]
         public void GetPhoneTypeByIdTest()
         {
-            PhoneTypeAccess target = new PhoneTypeAccess(); // l: Initialize to an appropriate value
-            int id = 0; // l: Initialize to an appropriate value
-            PhoneType expected = null; // l: Initialize to an appropriate value
+            PhoneTypeAccess target = new PhoneTypeAccess();
+            int id = 1;
+            PhoneType expected = new PhoneType(1, "phonetype:1");
             PhoneType actual;
             actual = target.GetPhoneTypeById(id);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected._Id, actual._Id);
+            Assert.AreEqual(expected.PhoneTypeName, actual.PhoneTypeName);
         }
 
         /// <summary>
@@ -267,12 +275,13 @@ namespace DataAccessTest
         [TestMethod()]
         public void GetPhoneTypeByTypeNameTest()
         {
-            PhoneTypeAccess target = new PhoneTypeAccess(); // l: Initialize to an appropriate value
-            string typeName = string.Empty; // l: Initialize to an appropriate value
-            PhoneType expected = null; // l: Initialize to an appropriate value
+            PhoneTypeAccess target = new PhoneTypeAccess();
+            string typename = "phonetype:1";
+            PhoneType expected = new PhoneType(1, "phonetype:1");
             PhoneType actual;
-            actual = target.GetPhoneTypeByTypeName(typeName);
-            Assert.AreEqual(expected, actual);
+            actual = target.GetPhoneTypeByTypeName(typename);
+            Assert.AreEqual(expected._Id, actual._Id);
+            Assert.AreEqual(expected.PhoneTypeName, actual.PhoneTypeName);
         }
         
         #endregion

@@ -14,18 +14,17 @@ namespace DataAccess
 
         public PhoneType GetPhoneTypeByTypeName(string typeName)
         {
-            return null;//this.ConverSingleYahrtziehtToLocalType(this.LookupSpecificYahrtzieht(personId, yahr_date, personName));
+            return this.ConvertSingleDbPhoneTypeToLocalType(this.LookupPhoneTypeByTypeName(typeName));
         }
 
         public PhoneType GetPhoneTypeById(int id)
         {
-            return null;//this.ConverSingleYahrtziehtToLocalType(this.LookupSpecificYahrtzieht(personId, yahr_date, personName));
+            return this.ConvertSingleDbPhoneTypeToLocalType(this.LookupPhoneTypById(id));
         }
 
         public List<PhoneType> GetAllPhoneTypes()
         {
-            return null;
-            //return this.ConvertMultipleYahrtziehtsToLocalType(this.LookupAllYahrtziehts(personId));
+            return this.ConvertMultipleDbPhoneTypesToLocalType(this.LookupAllPhoneTypes());
         }
 
         #endregion
