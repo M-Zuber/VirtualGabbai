@@ -68,7 +68,7 @@ namespace DataAccess
 
         public void AddNewPhoneType(PhoneType newPhoneType)
         {
-            t_phone_types phonrTypeToAdd = this.ConvertSinglePhoneTypeToDbType(newPhoneType);
+            t_phone_types phonrTypeToAdd = this.ConvertSingleLocalPhoneTypeToDbType(newPhoneType);
             Cache.CacheData.t_phone_types.AddObject(phonrTypeToAdd);
             Cache.CacheData.SaveChanges();
         }
@@ -88,7 +88,7 @@ namespace DataAccess
         public void UpdateSinglePhoneType(PhoneType updatedPhoneType)
         {
             t_phone_types phoneTypeUpdating = this.LookupPhoneTypById(updatedPhoneType._Id);
-            phoneTypeUpdating = this.ConvertSinglePhoneTypeToDbType(updatedPhoneType);
+            phoneTypeUpdating = this.ConvertSingleLocalPhoneTypeToDbType(updatedPhoneType);
             Cache.CacheData.t_phone_types.ApplyCurrentValues(phoneTypeUpdating);
             Cache.CacheData.SaveChanges();
         }
@@ -127,7 +127,7 @@ namespace DataAccess
 
         #region Private Methods
 
-        private List<t_phone_types> ConvertMultiplePhoneTypesToDbType(List<PhoneType> localTypePhoneTypeList)
+        private List<t_phone_types> ConvertMultipleLocalPhoneTypesToDbType(List<PhoneType> localTypePhoneTypeList)
         {
             //List<t_yahrtziehts> dbTypeYahrList = new List<t_yahrtziehts>();
 
@@ -140,7 +140,7 @@ namespace DataAccess
             return null;
         }
 
-        private t_phone_types ConvertSinglePhoneTypeToDbType(PhoneType localTypePhoneType)
+        private t_phone_types ConvertSingleLocalPhoneTypeToDbType(PhoneType localTypePhoneType)
         {
             return null;
             //var dbTypeYahr = t_yahrtziehts.Createt_yahrtziehts(localTypeYahr._Id, localTypeYahr.PersonId,
@@ -149,7 +149,7 @@ namespace DataAccess
             //return dbTypeYahr;
         }
 
-        private List<PhoneType> ConvertMultiplePhoneTypesToLocalType(List<t_phone_types> dbTypePhoneTypeList)
+        private List<PhoneType> ConvertMultipleDbPhoneTypesToLocalType(List<t_phone_types> dbTypePhoneTypeList)
         {
             return null;
             //List<Yahrtzieht> localTypeYahrList = new List<Yahrtzieht>();
@@ -162,11 +162,9 @@ namespace DataAccess
             //return localTypeYahrList;
         }
 
-        private PhoneType ConverSinglePhoneTypeToLocalType(t_phone_types dbTypePhoneType)
+        private PhoneType ConvertSingleDbPhoneTypeToLocalType(t_phone_types dbTypePhoneType)
         {
-            return null;
-            //Yahrtzieht localTypeYahr = new Yahrtzieht(dbTypeYahr.C_id, dbTypeYahr.date, dbTypeYahr.deceaseds_name, dbTypeYahr.relation, dbTypeYahr.person_id);
-            //return localTypeYahr;
+            return new PhoneType(dbTypePhoneType.C_id, dbTypePhoneType.type_name);
         }
 
         #endregion

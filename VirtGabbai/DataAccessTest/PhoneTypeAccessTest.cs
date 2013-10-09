@@ -1,6 +1,7 @@
 ﻿using DataAccess;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Linq;
 using DataTypes;
 using System.Collections.Generic;
 using DataCache;
@@ -41,16 +42,30 @@ namespace DataAccessTest
         //You can use the following additional attributes as you write your tests:
         //
         //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
+        [ClassInitialize()]
+        public static void MyClassInitialize(TestContext testContext)
+        {
+            for (int newPhoneTypeIndex = 1; newPhoneTypeIndex <= 10; newPhoneTypeIndex++)
+            {
+                Cache.CacheData.t_phone_types.AddObject(
+                    t_phone_types.Createt_phone_types(newPhoneTypeIndex,
+                                                "phonetype:" + newPhoneTypeIndex.ToString()));
+            }
+            Cache.CacheData.SaveChanges();
+        }
         //
         //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
+        [ClassCleanup()]
+        public static void MyClassCleanup()
+        {
+            var test = (from ptype in Cache.CacheData.t_phone_types select ptype).ToList<t_phone_types>();
+
+            for (int i = 0; i < test.Count; i++)
+            {
+                Cache.CacheData.t_phone_types.DeleteObject(test[i]);
+            }
+            Cache.CacheData.SaveChanges();
+        }
         //
         //Use TestInitialize to run code before running each test
         //[TestInitialize()]
@@ -74,8 +89,13 @@ namespace DataAccessTest
         [TestMethod()]
         public void AddMultipleNewPhoneTypesTest()
         {
-            PhoneTypeAccess target = new PhoneTypeAccess(); // l: Initialize to an appropriate value
-            List<PhoneType> newPhoneTypeList = null; // l: Initialize to an appropriate value
+            PhoneTypeAccess target = new PhoneTypeAccess();
+            List<PhoneType> newPhoneTypeList = new List<PhoneType>();
+
+            for (int newPhoneTypeIndex = 11; newPhoneTypeIndex <= 20; newPhoneTypeIndex++)
+            {
+                newPhoneTypeList.Add(new PhoneType(newPhoneTypeIndex, "phonetype:" + newPhoneTypeIndex.ToString()));
+            }
             target.AddMultipleNewPhoneTypes(newPhoneTypeList);
         }
 
@@ -101,27 +121,16 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void ConverSinglePhoneTypeToLocalTypeTest()
         {
-            PhoneTypeAccess_Accessor target = new PhoneTypeAccess_Accessor(); // l: Initialize to an appropriate value
-            t_phone_types dbTypePhoneType = null; // l: Initialize to an appropriate value
-            PhoneType expected = null; // l: Initialize to an appropriate value
+            PhoneTypeAccess_Accessor target = new PhoneTypeAccess_Accessor();
+            t_phone_types dbTypePhoneType = new t_phone_types();
+            dbTypePhoneType.C_id = 3;
+            dbTypePhoneType.type_name = "cell phone";
+            int expectedId = 3;
+            string expectedTypeName = "cell phone";
             PhoneType actual;
-            actual = target.ConverSinglePhoneTypeToLocalType(dbTypePhoneType);
-            Assert.AreEqual(expected, actual);
-        }
-
-        /// <summary>
-        ///A test for ConvertMultiplePhoneTypesToDbType
-        ///</summary>
-        [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
-        public void ConvertMultiplePhoneTypesToDbTypeTest()
-        {
-            PhoneTypeAccess_Accessor target = new PhoneTypeAccess_Accessor(); // l: Initialize to an appropriate value
-            List<PhoneType> localTypePhoneTypeList = null; // l: Initialize to an appropriate value
-            List<t_phone_types> expected = null; // l: Initialize to an appropriate value
-            List<t_phone_types> actual;
-            actual = target.ConvertMultiplePhoneTypesToDbType(localTypePhoneTypeList);
-            Assert.AreEqual(expected, actual);
+            actual = target.ConvertSingleDbPhoneTypeToLocalType(dbTypePhoneType);
+            Assert.AreEqual(expectedId, actual._Id);
+            Assert.AreEqual(expectedTypeName, actual.PhoneTypeName);
         }
 
         /// <summary>
@@ -131,11 +140,19 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void ConvertMultiplePhoneTypesToLocalTypeTest()
         {
-            PhoneTypeAccess_Accessor target = new PhoneTypeAccess_Accessor(); // l: Initialize to an appropriate value
-            List<t_phone_types> dbTypePhoneTypeList = null; // l: Initialize to an appropriate value
-            List<PhoneType> expected = null; // l: Initialize to an appropriate value
+            PhoneTypeAccess_Accessor target = new PhoneTypeAccess_Accessor();
+            List<t_phone_types> dbTypePhoneTypeList = new List<t_phone_types>();
+            List<PhoneType> expected = new List<PhoneType>();            
+            for (int i = 0; i < 10; i++)
+            {
+                t_phone_types toAdd = new t_phone_types();
+                toAdd.C_id = i;
+                toAdd.type_name = "Type name number: " + i.ToString();
+                dbTypePhoneTypeList.Add(toAdd);
+                expected.Add(target.ConvertSingleDbPhoneTypeToLocalType(toAdd));
+            }
             List<PhoneType> actual;
-            actual = target.ConvertMultiplePhoneTypesToLocalType(dbTypePhoneTypeList);
+            actual = target.ConvertMultipleDbPhoneTypesToLocalType(dbTypePhoneTypeList);
             Assert.AreEqual(expected, actual);
         }
 
@@ -150,10 +167,25 @@ namespace DataAccessTest
             PhoneType localTypePhoneType = null; // l: Initialize to an appropriate value
             t_phone_types expected = null; // l: Initialize to an appropriate value
             t_phone_types actual;
-            actual = target.ConvertSinglePhoneTypeToDbType(localTypePhoneType);
+            actual = target.ConvertSingleLocalPhoneTypeToDbType(localTypePhoneType);
             Assert.AreEqual(expected, actual);
         }
-        
+
+        /// <summary>
+        ///A test for ConvertMultiplePhoneTypesToDbType
+        ///</summary>
+        [TestMethod()]
+        [DeploymentItem("DataAccess.dll")]
+        public void ConvertMultiplePhoneTypesToDbTypeTest()
+        {
+            PhoneTypeAccess_Accessor target = new PhoneTypeAccess_Accessor(); // l: Initialize to an appropriate value
+            List<PhoneType> localTypePhoneTypeList = null; // l: Initialize to an appropriate value
+            List<t_phone_types> expected = null; // l: Initialize to an appropriate value
+            List<t_phone_types> actual;
+            actual = target.ConvertMultipleLocalPhoneTypesToDbType(localTypePhoneTypeList);
+            Assert.AreEqual(expected, actual);
+        }
+
         #endregion
 
         #region Delete Tests

@@ -33,7 +33,7 @@ namespace DataTypes
         
         #endregion
 
-        #region Helper Methods
+        #region Object Methods
 
         public override bool Equals(object yahrComparingObj)
         {
