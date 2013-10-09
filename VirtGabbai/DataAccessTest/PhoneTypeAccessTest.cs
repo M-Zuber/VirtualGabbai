@@ -249,7 +249,7 @@ namespace DataAccessTest
         public void DeleteSinglePhoneTypeTest()
         {
             PhoneTypeAccess target = new PhoneTypeAccess();
-            PhoneType deletedPhoneType = new PhoneType(2,"phonetype:2");
+            PhoneType deletedPhoneType = new PhoneType(4,"phonetype:4");
             target.DeleteSinglePhoneType(deletedPhoneType);
             List<PhoneType> allPhoneTypes = target.GetAllPhoneTypes();
             Assert.IsFalse(allPhoneTypes.Contains(deletedPhoneType));
@@ -266,17 +266,12 @@ namespace DataAccessTest
         public void GetAllPhoneTypesTest()
         {
             PhoneTypeAccess target = new PhoneTypeAccess();
-            List<PhoneType> expected = new List<PhoneType>();
-            for (int newPhoneTypeIndex = 1; newPhoneTypeIndex <= 10; newPhoneTypeIndex++)
-            {
-                expected.Add(new PhoneType(newPhoneTypeIndex,"phonetype:" + newPhoneTypeIndex.ToString()));
-            }
+
             List<PhoneType> actual;
             actual = target.GetAllPhoneTypes();
-            for (int i = 0; i < expected.Count; i++)
-            {
-                Assert.IsTrue(expected[i].Equals(actual[i]));
-            }
+
+            Assert.IsInstanceOfType(actual, typeof(List<PhoneType>));
+            Assert.IsNull(actual.Count > 0);
         }
 
         /// <summary>
@@ -321,23 +316,12 @@ namespace DataAccessTest
         public void LookupAllPhoneTypesTest()
         {
             PhoneTypeAccess_Accessor target = new PhoneTypeAccess_Accessor();
-            List<t_phone_types> expected = new List<t_phone_types>();
-            for (int newPhoneTypeIndex = 1; newPhoneTypeIndex <= 10; newPhoneTypeIndex++)
-            {
-                expected.Add(
-                    t_phone_types.Createt_phone_types(newPhoneTypeIndex,
-                                                "phonetype:" + newPhoneTypeIndex.ToString()));
-            }
+
             List<t_phone_types> actual;
             actual = target.LookupAllPhoneTypes();
 
-            List<PhoneType> expectedLocal = target.ConvertMultipleDbPhoneTypesToLocalType(expected);
-            List<PhoneType> actualLocal = target.ConvertMultipleDbPhoneTypesToLocalType(actual);
-
-            for (int i = 0; i < expectedLocal.Count; i++)
-            {
-                Assert.IsTrue(expectedLocal[i].Equals(actualLocal[i]));
-            }
+            Assert.IsInstanceOfType(actual, typeof(List<t_phone_types>));
+            Assert.IsNull(actual.Count > 0);
         }
 
         /// <summary>
@@ -385,10 +369,26 @@ namespace DataAccessTest
         ///</summary>
         [TestMethod()]
         public void UpdateMultiplePhoneTypesTest()
-        {
-            PhoneTypeAccess target = new PhoneTypeAccess(); // l: Initialize to an appropriate value
-            List<PhoneType> updatedPhoneTypeList = null; // l: Initialize to an appropriate value
+        {//5,6
+            PhoneTypeAccess target = new PhoneTypeAccess();
+            List<PhoneType> updatedPhoneTypeList = new List<PhoneType>()
+            {
+                new PhoneType(5, "updatedphonetype:5"),
+                new PhoneType(6, "updatedphonetype:6")
+            };
+            
             target.UpdateMultiplePhoneTypes(updatedPhoneTypeList);
+
+            List<PhoneType> actual = new List<PhoneType>()
+            {
+                target.GetPhoneTypeById(5),
+                target.GetPhoneTypeById(6)
+            };
+
+            for (int i = 0; i < updatedPhoneTypeList.Count; i++)
+            {
+                Assert.IsTrue(updatedPhoneTypeList[i].Equals(actual[i]));
+            }
         }
 
         /// <summary>
@@ -397,9 +397,11 @@ namespace DataAccessTest
         [TestMethod()]
         public void UpdateSinglePhoneTypeTest()
         {
-            PhoneTypeAccess target = new PhoneTypeAccess(); // l: Initialize to an appropriate value
-            PhoneType updatedPhoneType = null; // l: Initialize to an appropriate value
+            PhoneTypeAccess target = new PhoneTypeAccess();
+            PhoneType updatedPhoneType = new PhoneType(7, "updatedphonetype:7");
             target.UpdateSinglePhoneType(updatedPhoneType);
+            PhoneType actual = target.GetPhoneTypeById(7);
+            Assert.IsTrue(updatedPhoneType.Equals(actual));
         }
 
         #endregion
