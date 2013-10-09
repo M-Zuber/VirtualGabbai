@@ -528,14 +528,14 @@
     </Options>
     <!-- Diagram content (shape and connector positions) -->
     <Diagrams>
-      <Diagram Name="EntityCache" ZoomLevel="102">
+      <Diagram Name="EntityCache" ZoomLevel="94">
         <EntityTypeShape EntityType="VirtGabbaiCache.t_accounts" Width="1.5" PointX="3" PointY="3" Height="2.1725878906249996" />
         <EntityTypeShape EntityType="VirtGabbaiCache.t_donations" Width="1.5" PointX="5.25" PointY="2.75" Height="2.7494921875000031" />
         <EntityTypeShape EntityType="VirtGabbaiCache.t_people" Width="1.5" PointX="0.75" PointY="4.25" Height="2.5571907552083317" />
         <EntityTypeShape EntityType="VirtGabbaiCache.t_phone_numbers" Width="1.5" PointX="6" PointY="6.5" Height="2.1725878906249969" />
         <EntityTypeShape EntityType="VirtGabbaiCache.t_phone_types" Width="1.5" PointX="3.75" PointY="6.75" Height="1.5956835937500031" />
         <EntityTypeShape EntityType="VirtGabbaiCache.t_privilege_groups" Width="1.5" PointX="7.75" PointY="1.25" Height="1.5956835937500031" />
-        <EntityTypeShape EntityType="VirtGabbaiCache.t_privileges" Width="1.5" PointX="0.75" PointY="0.75" Height="1.4033821614583388" />
+        <EntityTypeShape EntityType="VirtGabbaiCache.t_privileges" Width="1.5" PointX="5.875" PointY="1.125" Height="1.4033821614583388" />
         <EntityTypeShape EntityType="VirtGabbaiCache.t_users" Width="1.5" PointX="10" PointY="0.875" Height="2.1725878906250031" />
         <AssociationConnector Association="VirtGabbaiCache.fk_accounts_people1" >
           <ConnectorPoint PointX="2.25" PointY="4.7112939453125" />
@@ -559,9 +559,8 @@
         </AssociationConnector>
         <EntityTypeShape EntityType="VirtGabbaiCache.t_yahrtziehts" Width="1.5" PointX="3" PointY="0.75" Height="2.1725878906249996" />
         <AssociationConnector Association="VirtGabbaiCache.fk_yahrtziehts_people1" >
-          <ConnectorPoint PointX="2.25" PointY="4.25" />
-          <ConnectorPoint PointX="2.625" PointY="3.875" />
-          <ConnectorPoint PointX="2.625" PointY="1.8362939453124998" />
+          <ConnectorPoint PointX="1.5" PointY="4.25" />
+          <ConnectorPoint PointX="1.5" PointY="1.8362939453124998" />
           <ConnectorPoint PointX="3" PointY="1.8362939453124998" />
         </AssociationConnector>
       </Diagram>

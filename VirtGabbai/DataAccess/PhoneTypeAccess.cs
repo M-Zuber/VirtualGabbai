@@ -129,24 +129,19 @@ namespace DataAccess
 
         private List<t_phone_types> ConvertMultipleLocalPhoneTypesToDbType(List<PhoneType> localTypePhoneTypeList)
         {
-            //List<t_yahrtziehts> dbTypeYahrList = new List<t_yahrtziehts>();
+            List<t_phone_types> dbTypePhoneTypeList = new List<t_phone_types>();
 
-            //foreach (Yahrtzieht CurrYahr in localTypeYahrList)
-            //{
-            //    dbTypeYahrList.Add(this.ConvertSingleYahrtziehtToDbType(CurrYahr));
-            //}
+            foreach (PhoneType CurrPhoneType in localTypePhoneTypeList)
+            {
+                dbTypePhoneTypeList.Add(this.ConvertSingleLocalPhoneTypeToDbType(CurrPhoneType));
+            }
 
-            //return dbTypeYahrList;
-            return null;
+            return dbTypePhoneTypeList;
         }
 
         private t_phone_types ConvertSingleLocalPhoneTypeToDbType(PhoneType localTypePhoneType)
         {
-            return null;
-            //var dbTypeYahr = t_yahrtziehts.Createt_yahrtziehts(localTypeYahr._Id, localTypeYahr.PersonId,
-            //                                             localTypeYahr.Date, localTypeYahr.Name);
-            //dbTypeYahr.relation = localTypeYahr.Relation;
-            //return dbTypeYahr;
+            return t_phone_types.Createt_phone_types(localTypePhoneType._Id, localTypePhoneType.PhoneTypeName);
         }
 
         private List<PhoneType> ConvertMultipleDbPhoneTypesToLocalType(List<t_phone_types> dbTypePhoneTypeList)
