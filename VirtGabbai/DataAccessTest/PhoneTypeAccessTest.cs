@@ -271,7 +271,7 @@ namespace DataAccessTest
             actual = target.GetAllPhoneTypes();
 
             Assert.IsInstanceOfType(actual, typeof(List<PhoneType>));
-            Assert.IsNull(actual.Count > 0);
+            Assert.IsTrue(actual.Count > 0);
         }
 
         /// <summary>
@@ -321,7 +321,7 @@ namespace DataAccessTest
             actual = target.LookupAllPhoneTypes();
 
             Assert.IsInstanceOfType(actual, typeof(List<t_phone_types>));
-            Assert.IsNull(actual.Count > 0);
+            Assert.IsTrue(actual.Count > 0);
         }
 
         /// <summary>
