@@ -228,9 +228,18 @@ namespace DataAccessTest
         [TestMethod()]
         public void DeleteMultiplePhoneTypesTest()
         {
-            PhoneTypeAccess target = new PhoneTypeAccess(); // l: Initialize to an appropriate value
-            List<PhoneType> deletedPhoneTypeList = null; // l: Initialize to an appropriate value
+            PhoneTypeAccess target = new PhoneTypeAccess();
+            List<PhoneType> deletedPhoneTypeList = new List<PhoneType>() 
+            {
+                new PhoneType(2, "phonetype:2"),
+                new PhoneType(3, "phonetype:3")
+            };
             target.DeleteMultiplePhoneTypes(deletedPhoneTypeList);
+            List<PhoneType> allPhoneTypes = target.GetAllPhoneTypes();
+            for (int i = 0; i < deletedPhoneTypeList.Count; i++)
+            {
+                Assert.IsFalse(allPhoneTypes.Contains(deletedPhoneTypeList[i]));
+            }
         }
 
         /// <summary>
@@ -239,9 +248,11 @@ namespace DataAccessTest
         [TestMethod()]
         public void DeleteSinglePhoneTypeTest()
         {
-            PhoneTypeAccess target = new PhoneTypeAccess(); // l: Initialize to an appropriate value
-            PhoneType deletedPhoneType = null; // l: Initialize to an appropriate value
+            PhoneTypeAccess target = new PhoneTypeAccess();
+            PhoneType deletedPhoneType = new PhoneType(2,"phonetype:2");
             target.DeleteSinglePhoneType(deletedPhoneType);
+            List<PhoneType> allPhoneTypes = target.GetAllPhoneTypes();
+            Assert.IsFalse(allPhoneTypes.Contains(deletedPhoneType));
         }
         
         #endregion
