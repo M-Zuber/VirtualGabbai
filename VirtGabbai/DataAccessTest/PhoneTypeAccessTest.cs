@@ -153,7 +153,10 @@ namespace DataAccessTest
             }
             List<PhoneType> actual;
             actual = target.ConvertMultipleDbPhoneTypesToLocalType(dbTypePhoneTypeList);
-            Assert.AreEqual(expected, actual);
+            for (int i = 0; i < expected.Count; i++)
+            {
+                Assert.IsTrue(expected[i].Equals(actual[i]));
+            }
         }
 
         /// <summary>
