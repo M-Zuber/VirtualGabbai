@@ -286,11 +286,24 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupAllPhoneTypesTest()
         {
-            PhoneTypeAccess_Accessor target = new PhoneTypeAccess_Accessor(); // l: Initialize to an appropriate value
-            List<t_phone_types> expected = null; // l: Initialize to an appropriate value
+            PhoneTypeAccess_Accessor target = new PhoneTypeAccess_Accessor();
+            List<t_phone_types> expected = new List<t_phone_types>();
+            for (int newPhoneTypeIndex = 1; newPhoneTypeIndex <= 10; newPhoneTypeIndex++)
+            {
+                expected.Add(
+                    t_phone_types.Createt_phone_types(newPhoneTypeIndex,
+                                                "phonetype:" + newPhoneTypeIndex.ToString()));
+            }
             List<t_phone_types> actual;
             actual = target.LookupAllPhoneTypes();
-            Assert.AreEqual(expected, actual);
+
+            List<PhoneType> expectedLocal = target.ConvertMultipleDbPhoneTypesToLocalType(expected);
+            List<PhoneType> actualLocal = target.ConvertMultipleDbPhoneTypesToLocalType(actual);
+
+            for (int i = 0; i < expectedLocal.Count; i++)
+            {
+                Assert.IsTrue(expectedLocal[i].Equals(actualLocal[i]));
+            }
         }
 
         /// <summary>
@@ -300,12 +313,15 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupPhoneTypByIdTest()
         {
-            PhoneTypeAccess_Accessor target = new PhoneTypeAccess_Accessor(); // l: Initialize to an appropriate value
-            int ID = 0; // l: Initialize to an appropriate value
-            t_phone_types expected = null; // l: Initialize to an appropriate value
+            PhoneTypeAccess_Accessor target = new PhoneTypeAccess_Accessor();
+            int ID = 1;
+            t_phone_types expected = new t_phone_types();
+            expected.C_id = 1;
+            expected.type_name = "phonetype:1";
             t_phone_types actual;
             actual = target.LookupPhoneTypById(ID);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected.C_id, actual.C_id);
+            Assert.AreEqual(expected.type_name, actual.type_name);
         }
 
         /// <summary>
@@ -315,12 +331,15 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupPhoneTypeByTypeNameTest()
         {
-            PhoneTypeAccess_Accessor target = new PhoneTypeAccess_Accessor(); // l: Initialize to an appropriate value
-            string typeName = string.Empty; // l: Initialize to an appropriate value
-            t_phone_types expected = null; // l: Initialize to an appropriate value
+            PhoneTypeAccess_Accessor target = new PhoneTypeAccess_Accessor();
+            string typeName = "phonetype:1";
+            t_phone_types expected = new t_phone_types();
+            expected.C_id = 1;
+            expected.type_name = "phonetype:1";
             t_phone_types actual;
             actual = target.LookupPhoneTypeByTypeName(typeName);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected.C_id, actual.C_id);
+            Assert.AreEqual(expected.type_name, actual.type_name);
         }
         
         #endregion

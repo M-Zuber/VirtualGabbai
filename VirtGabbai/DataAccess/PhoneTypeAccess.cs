@@ -34,28 +34,22 @@ namespace DataAccess
 
         private t_phone_types LookupPhoneTypeByTypeName(string typeName)
         {
-            return null;
-            //return (from CurrYahr in Cache.CacheData.t_yahrtziehts
-            //        where CurrYahr.person_id == personId &&
-            //              CurrYahr.date == yahr_date &&
-            //              CurrYahr.deceaseds_name == personName
-            //        select CurrYahr).First();
+            return (from CurrPhoneType in Cache.CacheData.t_phone_types
+                    where CurrPhoneType.type_name == typeName
+                    select CurrPhoneType).First();
         }
 
         private List<t_phone_types> LookupAllPhoneTypes()
         {
-            return null;
-            //return (from CurrPerson in Cache.CacheData.t_people
-            //        where CurrPerson.C_id == personId
-            //        select CurrPerson).First().t_yahrtziehts.ToList<t_yahrtziehts>();
+            return (from CurrPhoneType in Cache.CacheData.t_phone_types
+                    select CurrPhoneType).ToList<t_phone_types>();
         }
 
         private t_phone_types LookupPhoneTypById(int ID)
         {
-            return null;
-            //return (from CurrYahr in Cache.CacheData.t_yahrtziehts
-            //        where CurrYahr.C_id == ID
-            //        select CurrYahr).First();
+            return (from CurrPhoneType in Cache.CacheData.t_phone_types
+                    where CurrPhoneType.C_id == ID
+                    select CurrPhoneType).First();
         }
 
         #endregion
