@@ -12,10 +12,15 @@ namespace DataAccess
         #region Read Methods
 
         #region Local type return
-        
+
+        public Yahrtzieht GetYahrtziehtById(int yahrId)
+        {
+            return (this.ConvertSingleYahrtziehtToLocalType(this.LookupYahrtziehtById(yahrId)));
+        }
+
         public Yahrtzieht GetSpecificYahrtzieht(int personId, DateTime yahr_date, string personName)
         {
-            return this.ConverSingleYahrtziehtToLocalType(this.LookupSpecificYahrtzieht(personId, yahr_date,personName));
+            return this.ConvertSingleYahrtziehtToLocalType(this.LookupSpecificYahrtzieht(personId, yahr_date,personName));
         }
 
         public List<Yahrtzieht> GetYahrtziehtsByDate(int personId, DateTime yahr_date)
@@ -156,13 +161,13 @@ namespace DataAccess
 
             foreach (t_yahrtziehts Curryahr in dbTypeYahrList)
             {
-                localTypeYahrList.Add(this.ConverSingleYahrtziehtToLocalType(Curryahr));
+                localTypeYahrList.Add(this.ConvertSingleYahrtziehtToLocalType(Curryahr));
             }
 
             return localTypeYahrList;
         }
 
-        private Yahrtzieht ConverSingleYahrtziehtToLocalType(t_yahrtziehts dbTypeYahr)
+        private Yahrtzieht ConvertSingleYahrtziehtToLocalType(t_yahrtziehts dbTypeYahr)
         {
             Yahrtzieht localTypeYahr = new Yahrtzieht(dbTypeYahr.C_id, dbTypeYahr.date, dbTypeYahr.deceaseds_name, dbTypeYahr.relation, dbTypeYahr.person_id);
             return localTypeYahr;

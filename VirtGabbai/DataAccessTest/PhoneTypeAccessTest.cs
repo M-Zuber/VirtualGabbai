@@ -285,8 +285,7 @@ namespace DataAccessTest
             PhoneType expected = new PhoneType(1, "phonetype:1");
             PhoneType actual;
             actual = target.GetPhoneTypeById(id);
-            Assert.AreEqual(expected._Id, actual._Id);
-            Assert.AreEqual(expected.PhoneTypeName, actual.PhoneTypeName);
+            Assert.IsTrue(expected.Equals(actual));
         }
 
         /// <summary>
@@ -300,8 +299,7 @@ namespace DataAccessTest
             PhoneType expected = new PhoneType(1, "phonetype:1");
             PhoneType actual;
             actual = target.GetPhoneTypeByTypeName(typename);
-            Assert.AreEqual(expected._Id, actual._Id);
-            Assert.AreEqual(expected.PhoneTypeName, actual.PhoneTypeName);
+            Assert.IsTrue(expected.Equals(actual));
         }
         
         #endregion
@@ -338,8 +336,8 @@ namespace DataAccessTest
             expected.type_name = "phonetype:1";
             t_phone_types actual;
             actual = target.LookupPhoneTypById(ID);
-            Assert.AreEqual(expected.C_id, actual.C_id);
-            Assert.AreEqual(expected.type_name, actual.type_name);
+            Assert.IsTrue(target.ConvertSingleDbPhoneTypeToLocalType(expected).
+                Equals(target.ConvertSingleDbPhoneTypeToLocalType(actual)));
         }
 
         /// <summary>
