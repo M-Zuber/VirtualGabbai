@@ -46,7 +46,7 @@ namespace DataTypes
 
         public override string ToString()
         {
-            return base.ToString();
+            return ("Phone Type Name:\"" + this.PhoneTypeName + "\"");
         }
 
         #endregion

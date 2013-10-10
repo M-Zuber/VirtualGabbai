@@ -127,11 +127,11 @@ namespace DataTypesTest
         [TestMethod()]
         public void ToStringTest()
         {
-            PhoneType target = new PhoneType(); // l: Initialize to an appropriate value
-            string expected = string.Empty; // l: Initialize to an appropriate value
+            PhoneType target = new PhoneType(1, "cell phone");
+            string expected = "Phone Type Name:\"cell phone\"";
             string actual;
             actual = target.ToString();
-            //Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected, actual);
         }
 
         #endregion
