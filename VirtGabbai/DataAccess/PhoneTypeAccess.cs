@@ -44,10 +44,10 @@ namespace DataAccess
                     select CurrPhoneType).ToList<t_phone_types>();
         }
 
-        private t_phone_types LookupPhoneTypById(int ID)
+        private t_phone_types LookupPhoneTypById(int id)
         {
             return (from CurrPhoneType in Cache.CacheData.t_phone_types
-                    where CurrPhoneType.C_id == ID
+                    where CurrPhoneType.C_id == id
                     select CurrPhoneType).First();
         }
 

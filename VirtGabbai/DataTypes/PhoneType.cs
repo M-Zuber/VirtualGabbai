@@ -17,10 +17,7 @@ namespace DataTypes
 
         #region C'tor
 
-        public PhoneType()
-        {
-
-        }
+        public PhoneType(){}
 
         public PhoneType(int _id, string typeName)
         {
