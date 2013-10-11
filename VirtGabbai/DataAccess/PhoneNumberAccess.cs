@@ -30,6 +30,11 @@ namespace DataAccess
             //return this.ConvertMultipleDbPhoneNumbersToLocalType(this.LookupAllPhoneTypes());
         }
 
+        public PhoneNumber GetSpecificPhoneNumber(string phoneNumber)
+        {
+            return null;
+        }
+
         #endregion
 
         #region Db type return

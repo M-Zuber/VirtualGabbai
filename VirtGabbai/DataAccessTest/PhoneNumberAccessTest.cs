@@ -214,6 +214,20 @@ namespace DataAccessTest
         }
 
         /// <summary>
+        ///A test for GetSpecificPhoneNumber
+        ///</summary>
+        [TestMethod()]
+        public void GetSpecificPhoneNumberTest()
+        {
+            PhoneNumberAccess target = new PhoneNumberAccess(); // TODO: Initialize to an appropriate value
+            string phoneNumber = string.Empty; // TODO: Initialize to an appropriate value
+            PhoneNumber expected = null; // TODO: Initialize to an appropriate value
+            PhoneNumber actual;
+            actual = target.GetSpecificPhoneNumber(phoneNumber);
+            Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
         ///A test for LookupAllPhoneNumbers
         ///</summary>
         [TestMethod()]
