@@ -43,7 +43,7 @@ namespace DataTypes
 
         public override string ToString()
         {
-            return ("Phone Type Name:\"" + this.PhoneTypeName + "\"");
+            return ("Type:\"" + this.PhoneTypeName + "\"");
         }
 
         #endregion

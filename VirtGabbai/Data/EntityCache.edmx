@@ -288,7 +288,7 @@
             <PropertyRef Name="C_id" />
           </Key>
           <Property Type="Int32" Name="person_id" Nullable="false" />
-          <Property Type="String" Name="number" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" />
+          <Property Name="number" Nullable="false" MaxLength="45" FixedLength="false" Unicode="false" Type="String" />
           <Property Type="Int32" Name="number_type" Nullable="false" />
           <Property Type="Int32" Name="C_id" Nullable="false" />
           <NavigationProperty Name="t_people" Relationship="VirtGabbaiCache.fk_phone_numbers_people1" FromRole="t_phone_numbers" ToRole="t_people" />
@@ -528,7 +528,7 @@
     </Options>
     <!-- Diagram content (shape and connector positions) -->
     <Diagrams>
-      <Diagram Name="EntityCache" ZoomLevel="94">
+      <Diagram Name="EntityCache" ZoomLevel="80">
         <EntityTypeShape EntityType="VirtGabbaiCache.t_accounts" Width="1.5" PointX="3" PointY="3" Height="2.1725878906249996" />
         <EntityTypeShape EntityType="VirtGabbaiCache.t_donations" Width="1.5" PointX="5.25" PointY="2.75" Height="2.7494921875000031" />
         <EntityTypeShape EntityType="VirtGabbaiCache.t_people" Width="1.5" PointX="0.75" PointY="4.25" Height="2.5571907552083317" />

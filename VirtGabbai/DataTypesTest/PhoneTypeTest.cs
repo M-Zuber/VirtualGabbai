@@ -128,7 +128,7 @@ namespace DataTypesTest
         public void ToStringTest()
         {
             PhoneType target = new PhoneType(1, "cell phone");
-            string expected = "Phone Type Name:\"cell phone\"";
+            string expected = "Type:\"cell phone\"";
             string actual;
             actual = target.ToString();
             Assert.AreEqual(expected, actual);

@@ -1,0 +1,59 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace DataTypes
+{
+    public class PhoneNumber
+    {
+        #region Properties
+
+        public int _Id { get; set; }
+
+        public string Number { get; set; }
+
+        public PhoneType NumberType { get; set; }
+
+        public int PersonId { get; set; }
+
+        #endregion
+
+        #region C'tor
+
+        public PhoneNumber() {}
+
+        public PhoneNumber(int _id, string phoneNumber, PhoneType numberType, int personId)
+        {
+            this._Id = _id;
+            this.Number = phoneNumber;
+            this.NumberType = numberType;
+            this.PersonId = personId;
+        }
+
+        #endregion
+
+        #region Object methods
+
+        public override bool Equals(object obj)
+        {
+            PhoneNumber numberComparing = (PhoneNumber)obj;
+            return ((this._Id == numberComparing._Id) &&
+                    (this.Number == numberComparing.Number) &&
+                    (this.NumberType.Equals(numberComparing.NumberType)) &&
+                    (this.PersonId == numberComparing.PersonId));
+        }
+
+        public override string ToString()
+        {
+            return "Number:\"" + this.Number + "\" " + this.NumberType.ToString();
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        #endregion
+    }
+}
