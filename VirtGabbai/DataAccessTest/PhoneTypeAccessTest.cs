@@ -335,7 +335,7 @@ namespace DataAccessTest
             expected.C_id = 1;
             expected.type_name = "phonetype:1";
             t_phone_types actual;
-            actual = target.LookupPhoneTypById(ID);
+            actual = target.LookupPhoneTypeById(ID);
             Assert.IsTrue(target.ConvertSingleDbPhoneTypeToLocalType(expected).
                 Equals(target.ConvertSingleDbPhoneTypeToLocalType(actual)));
         }

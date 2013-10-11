@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using DataTypes;
 
 namespace TempUI
 {
@@ -9,6 +10,8 @@ namespace TempUI
     {
         static void Main(string[] args)
         {
+            PhoneNumber test = new PhoneNumber(1, "0546137475", new PhoneType(1, "cell phone"), 1);
+            Console.WriteLine(test.GetHashCode());
         }
     }
 }

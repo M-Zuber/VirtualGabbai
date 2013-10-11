@@ -1,0 +1,19 @@
+Phone Number:
+	Id
+	number
+	type
+		id
+		type name
+	person id
+
+LookupBy:
+	Id
+	all (based on person id)
+	specific (based on number -should be enough)
+	with a given type (based on type name? or overload with an option of either one)
+
+GetBy:
+	all -uses corrosponding lookup method
+	id  	 ''		''		 ''		   ''
+	specific ''		''		 ''		   ''
+	byType 	 ''		''		 ''		   ''

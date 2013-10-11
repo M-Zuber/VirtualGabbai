@@ -274,6 +274,14 @@ namespace DataAccessTest
 
             Assert.IsInstanceOfType(actual, typeof(List<t_yahrtziehts>));
             Assert.IsTrue(actual.Count > 0);
+
+            List<t_yahrtziehts> expected = (from yahr in Cache.CacheData.t_yahrtziehts
+                                            select yahr).ToList<t_yahrtziehts>();
+
+            for (int i = 0; i < expected.Count; i++)
+            {
+                Assert.IsTrue((expected[i].person_id == personId) && (actual.Contains(expected[i])));
+            }
         }
 
         /// <summary>

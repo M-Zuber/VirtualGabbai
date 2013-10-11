@@ -19,7 +19,7 @@ namespace DataAccess
 
         public PhoneType GetPhoneTypeById(int id)
         {
-            return this.ConvertSingleDbPhoneTypeToLocalType(this.LookupPhoneTypById(id));
+            return this.ConvertSingleDbPhoneTypeToLocalType(this.LookupPhoneTypeById(id));
         }
 
         public List<PhoneType> GetAllPhoneTypes()
@@ -44,7 +44,7 @@ namespace DataAccess
                     select CurrPhoneType).ToList<t_phone_types>();
         }
 
-        private t_phone_types LookupPhoneTypById(int id)
+        private t_phone_types LookupPhoneTypeById(int id)
         {
             return (from CurrPhoneType in Cache.CacheData.t_phone_types
                     where CurrPhoneType.C_id == id
@@ -80,7 +80,7 @@ namespace DataAccess
 
         public void UpdateSinglePhoneType(PhoneType updatedPhoneType)
         {
-            t_phone_types phoneTypeUpdating = this.LookupPhoneTypById(updatedPhoneType._Id);
+            t_phone_types phoneTypeUpdating = this.LookupPhoneTypeById(updatedPhoneType._Id);
             phoneTypeUpdating = this.ConvertSingleLocalPhoneTypeToDbType(updatedPhoneType);
             Cache.CacheData.t_phone_types.ApplyCurrentValues(phoneTypeUpdating);
             Cache.CacheData.SaveChanges();
