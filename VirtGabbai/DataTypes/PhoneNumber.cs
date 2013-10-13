@@ -15,20 +15,17 @@ namespace DataTypes
 
         public PhoneType NumberType { get; set; }
 
-        public int PersonId { get; set; }
-
         #endregion
 
         #region C'tor
 
         public PhoneNumber() {}
 
-        public PhoneNumber(int _id, string phoneNumber, PhoneType numberType, int personId)
+        public PhoneNumber(int _id, string phoneNumber, PhoneType numberType)
         {
             this._Id = _id;
             this.Number = phoneNumber;
             this.NumberType = numberType;
-            this.PersonId = personId;
         }
 
         #endregion
@@ -40,8 +37,7 @@ namespace DataTypes
             PhoneNumber numberComparing = (PhoneNumber)obj;
             return ((this._Id == numberComparing._Id) &&
                     (this.Number == numberComparing.Number) &&
-                    (this.NumberType.Equals(numberComparing.NumberType)) &&
-                    (this.PersonId == numberComparing.PersonId));
+                    (this.NumberType.Equals(numberComparing.NumberType)));
         }
 
         public override string ToString()
