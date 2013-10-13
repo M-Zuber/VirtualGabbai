@@ -6,31 +6,31 @@ using DataTypes;
 
 namespace DataAccess
 {
-    public class PhoneNumberAccess
+    public static class PhoneNumberAccess
     {
         #region Read Methods
 
         #region Local type return
 
-        public PhoneNumber GetPhoneNumberByType(PhoneType searchedType)
+        public static PhoneNumber GetPhoneNumberByType(PhoneType searchedType)
         {
             return null;
             //return this.ConvertSingleDbPhoneNumberToLocalType(this.LookupPhoneTypeByTypeName(typeName));
         }
 
-        public PhoneNumber GetPhoneNumberById(int id)
+        public static PhoneNumber GetPhoneNumberById(int id)
         {
             return null;
             //return this.ConvertSingleDbPhoneNumberToLocalType(this.LookupPhoneNumberById(id));
         }
 
-        public List<PhoneNumber> GetAllPhoneNumbers(int personId)
+        public static List<PhoneNumber> GetAllPhoneNumbers(int personId)
         {
             return null;
             //return this.ConvertMultipleDbPhoneNumbersToLocalType(this.LookupAllPhoneTypes());
         }
 
-        public PhoneNumber GetSpecificPhoneNumber(string phoneNumber)
+        public static PhoneNumber GetSpecificPhoneNumber(string phoneNumber)
         {
             return null;
         }
@@ -39,12 +39,12 @@ namespace DataAccess
 
         #region Db type return
 
-        private t_phone_numbers LookupPhoneNumberByType(PhoneType searchedType)
+        private static t_phone_numbers LookupPhoneNumberByType(PhoneType searchedType)
         {
             return null;
         }
 
-        private t_phone_numbers LookupSpecificPhoneNumber(string phoneNumber)
+        private static t_phone_numbers LookupSpecificPhoneNumber(string phoneNumber)
         {
             return null;
             //return (from CurrPhoneType in Cache.CacheData.t_phone_types
@@ -52,14 +52,14 @@ namespace DataAccess
             //        select CurrPhoneType).First();
         }
 
-        private List<t_phone_numbers> LookupAllPhoneNumbers(int personId)
+        private static List<t_phone_numbers> LookupAllPhoneNumbers(int personId)
         {
             return null;
             //return (from CurrPhoneType in Cache.CacheData.t_phone_numbers
             //        select CurrPhoneType).ToList<t_phone_numbers>();
         }
 
-        private t_phone_numbers LookupPhoneNumberById(int id)
+        private static t_phone_numbers LookupPhoneNumberById(int id)
         {
             return null;
             //return (from CurrPhoneType in Cache.CacheData.t_phone_numbers
@@ -75,18 +75,18 @@ namespace DataAccess
 
         #region Create
 
-        public void AddNewPhoneNumber(PhoneNumber newPhoneNumber)
+        public static void AddNewPhoneNumber(PhoneNumber newPhoneNumber)
         {
             //t_phone_types phonrTypeToAdd = this.ConvertSingleLocalPhoneNumberToDbType(newPhoneNumber);
             //Cache.CacheData.t_phone_types.AddObject(phonrTypeToAdd);
             //Cache.CacheData.SaveChanges();
         }
 
-        public void AddMultipleNewPhoneTypes(List<PhoneNumber> newPhoneNumberList)
+        public static void AddMultipleNewPhoneTypes(List<PhoneNumber> newPhoneNumberList)
         {
             foreach (PhoneNumber newPhoneNumber in newPhoneNumberList)
             {
-                this.AddNewPhoneNumber(newPhoneNumber);
+                PhoneNumberAccess.AddNewPhoneNumber(newPhoneNumber);
             }
         }
 
@@ -94,7 +94,7 @@ namespace DataAccess
 
         #region Update
 
-        public void UpdateSinglePhoneNumber(PhoneNumber updatedPhoneNumber)
+        public static void UpdateSinglePhoneNumber(PhoneNumber updatedPhoneNumber)
         {
             //t_phone_types phoneTypeUpdating = this.LookupPhoneTypById(updatedPhoneNumber._Id);
             //phoneTypeUpdating = this.ConvertSingleLocalPhoneNumberToDbType(updatedPhoneNumber);
@@ -102,11 +102,11 @@ namespace DataAccess
             //Cache.CacheData.SaveChanges();
         }
 
-        public void UpdateMultiplePhoneNumbers(List<PhoneNumber> updatedPhoneNumberList)
+        public static void UpdateMultiplePhoneNumbers(List<PhoneNumber> updatedPhoneNumberList)
         {
             foreach (PhoneNumber updatedPhoneNumber in updatedPhoneNumberList)
             {
-                this.UpdateSinglePhoneNumber(updatedPhoneNumber);
+                PhoneNumberAccess.UpdateSinglePhoneNumber(updatedPhoneNumber);
             }
         }
 
@@ -114,7 +114,7 @@ namespace DataAccess
 
         #region Delete
 
-        public void DeleteSinglePhoneNumber(PhoneNumber deletedPhoneNumber)
+        public static void DeleteSinglePhoneNumber(PhoneNumber deletedPhoneNumber)
         {
             //t_phone_types phoneTypeDeleting =
             //    Cache.CacheData.t_phone_types.First(phoneType => phoneType.C_id == deletedPhoneNumber._Id);
@@ -122,11 +122,11 @@ namespace DataAccess
             //Cache.CacheData.SaveChanges();
         }
 
-        public void DeleteMultiplePhoneNumbers(List<PhoneNumber> deletedPhoneNumberList)
+        public static void DeleteMultiplePhoneNumbers(List<PhoneNumber> deletedPhoneNumberList)
         {
             foreach (PhoneNumber deletedPhoneNumber in deletedPhoneNumberList)
             {
-                this.DeleteSinglePhoneNumber(deletedPhoneNumber);
+                PhoneNumberAccess.DeleteSinglePhoneNumber(deletedPhoneNumber);
             }
         }
 
@@ -136,7 +136,7 @@ namespace DataAccess
 
         #region Private Methods
 
-        private List<t_phone_numbers> ConvertMultipleLocalPhoneNumbersToDbType(List<PhoneNumber> localTypePhoneNumberList)
+        private static List<t_phone_numbers> ConvertMultipleLocalPhoneNumbersToDbType(List<PhoneNumber> localTypePhoneNumberList)
         {
             return null;
             //List<t_phone_numbers> dbTypePhoneNumberList = new List<t_phone_numbers>();
@@ -149,13 +149,13 @@ namespace DataAccess
             //return dbTypePhoneNumberList;
         }
 
-        private t_phone_numbers ConvertSingleLocalPhoneNumberToDbType(PhoneNumber localTypePhoneNumber)
+        private static t_phone_numbers ConvertSingleLocalPhoneNumberToDbType(PhoneNumber localTypePhoneNumber)
         {
             return null;
             //return t_phone_numbers.Createt_phone_types(localTypePhoneType._Id, localTypePhoneType.PhoneTypeName);
         }
 
-        private List<PhoneNumber> ConvertMultipleDbPhoneNumbersToLocalType(List<t_phone_numbers> dbTypePhoneNumberList)
+        private static List<PhoneNumber> ConvertMultipleDbPhoneNumbersToLocalType(List<t_phone_numbers> dbTypePhoneNumberList)
         {
             return null;
             //List<PhoneNumber> localTypePhoneTypeList = new List<PhoneNumber>();
@@ -168,7 +168,7 @@ namespace DataAccess
             //return localTypePhoneTypeList;
         }
 
-        private PhoneNumber ConvertSingleDbPhoneNumberToLocalType(t_phone_numbers dbTypePhoneNumber)
+        private static PhoneNumber ConvertSingleDbPhoneNumberToLocalType(t_phone_numbers dbTypePhoneNumber)
         {
             return null;
             //return new PhoneType(dbTypePhoneType.C_id, dbTypePhoneType.type_name);
