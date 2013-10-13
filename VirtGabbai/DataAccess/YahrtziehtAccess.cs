@@ -149,7 +149,7 @@ namespace DataAccess
 
         private static t_yahrtziehts ConvertSingleYahrtziehtToDbType(Yahrtzieht localTypeYahr)
         {
-            var dbTypeYahr = t_yahrtziehts.Createt_yahrtziehts(localTypeYahr._Id, localTypeYahr.PersonId,
+            var dbTypeYahr = t_yahrtziehts.Createt_yahrtziehts(localTypeYahr._Id, 1,
                                                          localTypeYahr.Date, localTypeYahr.Name);
             dbTypeYahr.relation = localTypeYahr.Relation;
             return dbTypeYahr;
@@ -169,7 +169,7 @@ namespace DataAccess
 
         private static Yahrtzieht ConvertSingleYahrtziehtToLocalType(t_yahrtziehts dbTypeYahr)
         {
-            Yahrtzieht localTypeYahr = new Yahrtzieht(dbTypeYahr.C_id, dbTypeYahr.date, dbTypeYahr.deceaseds_name, dbTypeYahr.relation, dbTypeYahr.person_id);
+            Yahrtzieht localTypeYahr = new Yahrtzieht(dbTypeYahr.C_id, dbTypeYahr.date, dbTypeYahr.deceaseds_name, dbTypeYahr.relation);
             return localTypeYahr;
         } 
 

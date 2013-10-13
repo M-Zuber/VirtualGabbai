@@ -13,8 +13,6 @@ namespace DataTypes
         public string Relation { get; set; }
 
         public string Name { get; set; }
-
-        public int PersonId { get; set; }
         
         #endregion
 
@@ -22,13 +20,12 @@ namespace DataTypes
 
         public Yahrtzieht() { }
 
-        public Yahrtzieht(int _id, DateTime date, string name, string relation, int personId)
+        public Yahrtzieht(int _id, DateTime date, string name, string relation)
         {
             this._Id = _id;
             this.Date = date;
             this.Relation = relation;
             this.Name = name;
-            this.PersonId = personId;
         }
         
         #endregion
@@ -41,7 +38,6 @@ namespace DataTypes
             return ((this._Id == yahrComparing._Id) && 
                     (this.Date.Date == yahrComparing.Date.Date) &&
                     (this.Name == yahrComparing.Name) &&
-                    (this.PersonId == yahrComparing.PersonId) &&
                     (this.Relation == yahrComparing.Relation));
         }
 
