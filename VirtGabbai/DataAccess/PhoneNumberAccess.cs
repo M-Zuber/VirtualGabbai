@@ -150,9 +150,12 @@ namespace DataAccess
 
         private static t_phone_numbers ConvertSingleLocalPhoneNumberToDbType(PhoneNumber localTypePhoneNumber)
         {
-            //TODO replace the first 1 with a method call to PersonAccess.GetPersonByPhoneNumber
-            //      another option would be-- to pass in a parameter of the person id
-            return t_phone_numbers.Createt_phone_numbers(1, localTypePhoneNumber.Number, 
+            // Due to the fact that the local type -PhoneNumber - does not keep track of the person id,
+            // the id must be pulled out this way
+            var personId = (from cpn in Cache.CacheData.t_phone_numbers
+                            where cpn.number == localTypePhoneNumber.Number
+                            select cpn).First().t_people.C_id;
+            return t_phone_numbers.Createt_phone_numbers(personId, localTypePhoneNumber.Number, 
                                             localTypePhoneNumber.NumberType._Id, localTypePhoneNumber._Id);
         }
 
