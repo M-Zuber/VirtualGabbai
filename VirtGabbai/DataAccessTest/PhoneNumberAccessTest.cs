@@ -4,6 +4,7 @@ using System;
 using DataTypes;
 using System.Collections.Generic;
 using DataCache;
+using System.Linq;
 
 namespace DataAccessTest
 {
@@ -41,16 +42,44 @@ namespace DataAccessTest
         //You can use the following additional attributes as you write your tests:
         //
         //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
+        [ClassInitialize()]
+        public static void MyClassInitialize(TestContext testContext)
+        {
+            Cache.CacheData.t_people.AddObject(t_people.Createt_people(1));
+            Cache.CacheData.t_phone_types.AddObject(t_phone_types.Createt_phone_types(1, "cell phone"));
+            for (int newPhoneNumberIndex = 1; newPhoneNumberIndex <= 10; newPhoneNumberIndex++)
+            {
+                var newPhoneNumber = t_phone_numbers.Createt_phone_numbers(
+                    1,"phone number:" + newPhoneNumberIndex.ToString(), 1, newPhoneNumberIndex);
+                Cache.CacheData.t_phone_numbers.AddObject(newPhoneNumber);
+            }
+            Cache.CacheData.SaveChanges();
+        }
         //
         //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
+        [ClassCleanup()]
+        public static void MyClassCleanup()
+        {
+            var allCurrentPeople = (from currP in Cache.CacheData.t_people select currP).ToList<t_people>();
+            for (int i = 0; i < allCurrentPeople.Count; i++)
+            {
+                Cache.CacheData.DeleteObject(allCurrentPeople[i]);
+            }
+
+            var allCurrentPhoneTypes = (from currPT in Cache.CacheData.t_phone_types select currPT).ToList<t_phone_types>();
+            for (int i = 0; i < allCurrentPhoneTypes.Count; i++)
+            {
+                Cache.CacheData.DeleteObject(allCurrentPhoneTypes[i]);
+            }
+            
+            var allCurrentPhoneNumbers = (from currPN in Cache.CacheData.t_phone_numbers select currPN).ToList<t_phone_numbers>();
+            for (int i = 0; i < allCurrentPhoneNumbers.Count; i++)
+            {
+                Cache.CacheData.DeleteObject(allCurrentPhoneNumbers[i]);
+            }
+            
+            Cache.CacheData.SaveChanges();
+        }
         //
         //Use TestInitialize to run code before running each test
         //[TestInitialize()]
@@ -66,6 +95,7 @@ namespace DataAccessTest
         //
         #endregion
 
+        #region Add Tests
 
         /// <summary>
         ///A test for AddMultipleNewPhoneTypes
@@ -86,6 +116,10 @@ namespace DataAccessTest
             PhoneNumber newPhoneNumber = null; // TODO: Initialize to an appropriate value
             PhoneNumberAccess.AddNewPhoneNumber(newPhoneNumber);
         }
+        
+        #endregion
+
+        #region Conversion Tests
 
         /// <summary>
         ///A test for ConvertMultipleDbPhoneNumbersToLocalType
@@ -142,6 +176,10 @@ namespace DataAccessTest
             actual = PhoneNumberAccess_Accessor.ConvertSingleLocalPhoneNumberToDbType(localTypePhoneNumber);
             Assert.AreEqual(expected, actual);
         }
+        
+        #endregion
+
+        #region Delete Tests
 
         /// <summary>
         ///A test for DeleteMultiplePhoneNumbers
@@ -163,6 +201,11 @@ namespace DataAccessTest
             PhoneNumberAccess.DeleteSinglePhoneNumber(deletedPhoneNumber);
         }
 
+        
+        #endregion
+
+        #region Get Tests
+        
         /// <summary>
         ///A test for GetAllPhoneNumbers
         ///</summary>
@@ -215,6 +258,11 @@ namespace DataAccessTest
             Assert.AreEqual(expected, actual);
         }
 
+        
+        #endregion        
+
+        #region Lookup Tests
+        
         /// <summary>
         ///A test for LookupAllPhoneNumbers
         ///</summary>
@@ -271,6 +319,11 @@ namespace DataAccessTest
             Assert.AreEqual(expected, actual);
         }
 
+        
+        #endregion        
+
+        #region Update Tests
+        
         /// <summary>
         ///A test for UpdateMultiplePhoneNumbers
         ///</summary>
@@ -289,6 +342,8 @@ namespace DataAccessTest
         {
             PhoneNumber updatedPhoneNumber = null; // TODO: Initialize to an appropriate value
             PhoneNumberAccess.UpdateSinglePhoneNumber(updatedPhoneNumber);
-        }
+        } 
+
+        #endregion
     }
 }
