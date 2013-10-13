@@ -96,7 +96,6 @@ namespace DataAccessTest
         [TestMethod()]
         public void AddMultipleNewYartziehtTest()
         {
-            YahrtziehtAccess target = new YahrtziehtAccess();
             List<Yahrtzieht> myYaList = new List<Yahrtzieht>();
 
             for (int i = 11; i <= 20; i++)
@@ -109,13 +108,13 @@ namespace DataAccessTest
                 ya.PersonId = 1;
                 myYaList.Add(ya);
             }
-            target.AddMultipleNewYahrtzieht(myYaList);
+            YahrtziehtAccess.AddMultipleNewYahrtzieht(myYaList);
 
             List<Yahrtzieht> actual = new List<Yahrtzieht>();
 
             for (int actualIndex = 11; actualIndex <= 20; actualIndex++)
             {
-                actual.Add(target.GetYahrtziehtById(actualIndex));
+                actual.Add(YahrtziehtAccess.GetYahrtziehtById(actualIndex));
             }
 
             for (int assertIndex = 0; assertIndex < myYaList.Count; assertIndex++)
@@ -130,7 +129,6 @@ namespace DataAccessTest
         [TestMethod()]
         public void AddNewYartziehtTest()
         {
-            YahrtziehtAccess target = new YahrtziehtAccess();
             Yahrtzieht ya = new Yahrtzieht();
             ya._Id = 21;
             ya.Date = DateTime.Today;
@@ -138,8 +136,8 @@ namespace DataAccessTest
             ya.Relation = "best friends dog";
             ya.PersonId = 1;
 
-            target.AddNewYahrtzieht(ya);
-            Yahrtzieht actual = target.GetYahrtziehtById(21);
+            YahrtziehtAccess.AddNewYahrtzieht(ya);
+            Yahrtzieht actual = YahrtziehtAccess.GetYahrtziehtById(21);
             Assert.IsTrue(ya.Equals(actual));
         } 
 
@@ -153,11 +151,10 @@ namespace DataAccessTest
         [TestMethod()]
         public void DeleteSingleYarhtziehtTest()
         {
-            YahrtziehtAccess target = new YahrtziehtAccess();
             Yahrtzieht ya = new Yahrtzieht(4, DateTime.Today, "passed on number:4", "best friends dog", 1);
-            target.DeleteSingleYahrtzieht(ya);
+            YahrtziehtAccess.DeleteSingleYahrtzieht(ya);
 
-            List<Yahrtzieht> allYahrtziehts = target.GetAllYahrtziehts(1);
+            List<Yahrtzieht> allYahrtziehts = YahrtziehtAccess.GetAllYahrtziehts(1);
 
             Assert.IsFalse(allYahrtziehts.Contains(ya));
         }
@@ -168,15 +165,14 @@ namespace DataAccessTest
         [TestMethod()]
         public void DeleteMultipleYahrtziehtsTest()
         {
-            YahrtziehtAccess target = new YahrtziehtAccess();
             List<Yahrtzieht> deletedYahrList = new List<Yahrtzieht>()
             {
                 new Yahrtzieht(2, DateTime.Today, "passed on number:2", "best friends dog", 1),
                 new Yahrtzieht(3, DateTime.Today, "passed on number:3", "best friends dog", 1)
             };
-            target.DeleteMultipleYahrtziehts(deletedYahrList);
+            YahrtziehtAccess.DeleteMultipleYahrtziehts(deletedYahrList);
 
-            List<Yahrtzieht> allYahrtziehts = target.GetAllYahrtziehts(1);
+            List<Yahrtzieht> allYahrtziehts = YahrtziehtAccess.GetAllYahrtziehts(1);
 
             for (int i = 0; i < deletedYahrList.Count; i++)
             {
@@ -194,11 +190,10 @@ namespace DataAccessTest
         [TestMethod()]
         public void GetYahrtziehtByIdTest()
         {
-            YahrtziehtAccess target = new YahrtziehtAccess();
             int yahrId = 1;
             Yahrtzieht expected = new Yahrtzieht(1, DateTime.Today, "passed on number:1", "best friends dog", 1);
             Yahrtzieht actual;
-            actual = target.GetYahrtziehtById(yahrId);
+            actual = YahrtziehtAccess.GetYahrtziehtById(yahrId);
             Assert.IsTrue(expected.Equals(actual));
         }
 
@@ -208,12 +203,10 @@ namespace DataAccessTest
         [TestMethod()]
         public void GetAllYarthziehtsTest()
         {
-            YahrtziehtAccess target = new YahrtziehtAccess();
-
             int personId = 1;
             
             List<Yahrtzieht> actual;
-            actual = target.GetAllYahrtziehts(personId);
+            actual = YahrtziehtAccess.GetAllYahrtziehts(personId);
 
             Assert.IsInstanceOfType(actual, typeof(List<Yahrtzieht>));
             Assert.IsTrue(actual.Count > 0);
@@ -231,8 +224,7 @@ namespace DataAccessTest
             string relation = "best friends dog";
             Yahrtzieht expected = new Yahrtzieht(1, date, personName, relation, personId);
 
-            YahrtziehtAccess target = new YahrtziehtAccess();
-            Yahrtzieht actual = target.GetSpecificYahrtzieht(personId, date, personName);
+            Yahrtzieht actual = YahrtziehtAccess.GetSpecificYahrtzieht(personId, date, personName);
             Assert.IsTrue(expected.Equals(actual));
         }
 
@@ -242,12 +234,11 @@ namespace DataAccessTest
         [TestMethod()]
         public void GetYarhtzietsByDateTest()
         {
-            YahrtziehtAccess target = new YahrtziehtAccess();
             int personId = 1;
             DateTime date = DateTime.Today;
 
-            List<Yahrtzieht> expected = target.GetAllYahrtziehts(personId);
-            List<Yahrtzieht> actual = target.GetYahrtziehtsByDate(personId, date);
+            List<Yahrtzieht> expected = YahrtziehtAccess.GetAllYahrtziehts(personId);
+            List<Yahrtzieht> actual = YahrtziehtAccess.GetYahrtziehtsByDate(personId, date);
 
             for (int yahrIndex = 0; yahrIndex < expected.Count; yahrIndex++)
             {
@@ -266,11 +257,10 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupAllYarthziehtsTest()
         {
-            YahrtziehtAccess_Accessor target = new YahrtziehtAccess_Accessor();
             int personId = 1;
 
             List<t_yahrtziehts> actual;
-            actual = target.LookupAllYahrtziehts(personId);
+            actual = YahrtziehtAccess_Accessor.LookupAllYahrtziehts(personId);
 
             Assert.IsInstanceOfType(actual, typeof(List<t_yahrtziehts>));
             Assert.IsTrue(actual.Count > 0);
@@ -295,7 +285,6 @@ namespace DataAccessTest
             DateTime date = DateTime.Today;
             string personName = "passed on number:1";
             string relation = "best friends dog";
-            YahrtziehtAccess_Accessor target = new YahrtziehtAccess_Accessor();
             t_yahrtziehts expected = new t_yahrtziehts();
             expected.C_id = 1;
             expected.date = date;
@@ -303,9 +292,9 @@ namespace DataAccessTest
             expected.person_id = personId;
             expected.relation = relation;
             t_yahrtziehts actual;
-            actual = target.LookupSpecificYahrtzieht(personId, date, personName);
-            Assert.IsTrue(target.ConvertSingleYahrtziehtToLocalType(expected).
-                Equals(target.ConvertSingleYahrtziehtToLocalType(actual)));
+            actual = YahrtziehtAccess_Accessor.LookupSpecificYahrtzieht(personId, date, personName);
+            Assert.IsTrue(YahrtziehtAccess_Accessor.ConvertSingleYahrtziehtToLocalType(expected).
+                Equals(YahrtziehtAccess_Accessor.ConvertSingleYahrtziehtToLocalType(actual)));
         }
 
         /// <summary>
@@ -319,7 +308,6 @@ namespace DataAccessTest
             DateTime date = DateTime.Today;
             string personName = "passed on number:1";
             string relation = "best friends dog";
-            YahrtziehtAccess_Accessor target = new YahrtziehtAccess_Accessor();
             t_yahrtziehts expected = new t_yahrtziehts();
             expected.C_id = 1;
             expected.date = date;
@@ -328,9 +316,9 @@ namespace DataAccessTest
             expected.relation = relation;
             int ID = 1;
             t_yahrtziehts actual;
-            actual = target.LookupYahrtziehtById(ID);
-            Assert.IsTrue(target.ConvertSingleYahrtziehtToLocalType(expected).
-                Equals(target.ConvertSingleYahrtziehtToLocalType(actual)));
+            actual = YahrtziehtAccess_Accessor.LookupYahrtziehtById(ID);
+            Assert.IsTrue(YahrtziehtAccess_Accessor.ConvertSingleYahrtziehtToLocalType(expected).
+                Equals(YahrtziehtAccess_Accessor.ConvertSingleYahrtziehtToLocalType(actual)));
         }
 
         /// <summary>
@@ -340,12 +328,11 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupYarhtzietsByDateTest()
         {
-            YahrtziehtAccess_Accessor target = new YahrtziehtAccess_Accessor();
             int personId = 1;
             DateTime date = DateTime.Today;
-            List<t_yahrtziehts> expected = target.LookupAllYahrtziehts(personId);
+            List<t_yahrtziehts> expected = YahrtziehtAccess_Accessor.LookupAllYahrtziehts(personId);
             List<t_yahrtziehts> actual;
-            actual = target.LookupYahrtziehtsByDate(personId, date);
+            actual = YahrtziehtAccess_Accessor.LookupYahrtziehtsByDate(personId, date);
 
             for (int yahrIndex = 0; yahrIndex < expected.Count; yahrIndex++)
             {
@@ -363,10 +350,9 @@ namespace DataAccessTest
         [TestMethod()]
         public void UpdateSingleYarhtziehtTest()
         {
-            YahrtziehtAccess target = new YahrtziehtAccess();
             Yahrtzieht updatedYahr = new Yahrtzieht(7, DateTime.Today, "updated passed on number:7", "best friends dog", 1);
-            target.UpdateSingleYahrtzieht(updatedYahr);
-            Yahrtzieht actual = target.GetYahrtziehtById(7);
+            YahrtziehtAccess.UpdateSingleYahrtzieht(updatedYahr);
+            Yahrtzieht actual = YahrtziehtAccess.GetYahrtziehtById(7);
             Assert.IsTrue(actual.Equals(updatedYahr));
         }
 
@@ -376,19 +362,18 @@ namespace DataAccessTest
         [TestMethod()]
         public void UpdateMultipleYahrtziehtsTest()
         {
-            YahrtziehtAccess target = new YahrtziehtAccess();
             List<Yahrtzieht> updatedYahrList = new List<Yahrtzieht>()
             {
                 new Yahrtzieht(5, DateTime.Today, "updated passed on number:5", "best friends dog", 1),
                 new Yahrtzieht(6, DateTime.Today, "updated passed on number:6", "best friends dog", 1)
             };
 
-            target.UpdateMultipleYahrtziehts(updatedYahrList);
+            YahrtziehtAccess.UpdateMultipleYahrtziehts(updatedYahrList);
 
             List<Yahrtzieht> actual = new List<Yahrtzieht>()
             {
-                target.GetYahrtziehtById(5),
-                target.GetYahrtziehtById(6)
+                YahrtziehtAccess.GetYahrtziehtById(5),
+                YahrtziehtAccess.GetYahrtziehtById(6)
             };
 
             for (int i = 0; i < updatedYahrList.Count; i++)
@@ -408,7 +393,6 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void ConvertMultipleYahrtziehtsToLocalTypeTest()
         {
-            YahrtziehtAccess_Accessor target = new YahrtziehtAccess_Accessor();
             List<t_yahrtziehts> dbTypeYahrList = new List<t_yahrtziehts>();
             List<Yahrtzieht> expected = new List<Yahrtzieht>();
 
@@ -417,11 +401,11 @@ namespace DataAccessTest
                 t_yahrtziehts toAdd = t_yahrtziehts.Createt_yahrtziehts(i, 1, DateTime.Today, "passed on number:1");
                 toAdd.relation = "best friends dog";
                 dbTypeYahrList.Add(toAdd);
-                expected.Add(target.ConvertSingleYahrtziehtToLocalType(toAdd));
+                expected.Add(YahrtziehtAccess_Accessor.ConvertSingleYahrtziehtToLocalType(toAdd));
             }
 
             List<Yahrtzieht> actual;
-            actual = target.ConvertMultipleYahrtziehtsToLocalType(dbTypeYahrList);
+            actual = YahrtziehtAccess_Accessor.ConvertMultipleYahrtziehtsToLocalType(dbTypeYahrList);
             for (int i = 0; i < expected.Count; i++)
             {
                 Assert.IsTrue(expected[i].Equals(actual[i]));
@@ -435,20 +419,19 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void ConvertMultipleYahrtziehtsToDbTypeTest()
         {
-            YahrtziehtAccess_Accessor target = new YahrtziehtAccess_Accessor();
             List<Yahrtzieht> localTypeYahrList = new List<Yahrtzieht>();
             List<t_yahrtziehts> expected = new List<t_yahrtziehts>();
             for (int i = 0; i < 5; i++)
             {
                 t_yahrtziehts toAdd = t_yahrtziehts.Createt_yahrtziehts(i, 1, DateTime.Today, "passed on number:1");
                 toAdd.relation = "best friends dog";
-                localTypeYahrList.Add(target.ConvertSingleYahrtziehtToLocalType(toAdd));
+                localTypeYahrList.Add(YahrtziehtAccess_Accessor.ConvertSingleYahrtziehtToLocalType(toAdd));
                 expected.Add(toAdd);
             }
             List<t_yahrtziehts> actual;
-            actual = target.ConvertMultipleYahrtziehtsToDbType(localTypeYahrList);
-            List<Yahrtzieht> localActual = target.ConvertMultipleYahrtziehtsToLocalType(actual);
-            List<Yahrtzieht> localExpected = target.ConvertMultipleYahrtziehtsToLocalType(expected);
+            actual = YahrtziehtAccess_Accessor.ConvertMultipleYahrtziehtsToDbType(localTypeYahrList);
+            List<Yahrtzieht> localActual = YahrtziehtAccess_Accessor.ConvertMultipleYahrtziehtsToLocalType(actual);
+            List<Yahrtzieht> localExpected = YahrtziehtAccess_Accessor.ConvertMultipleYahrtziehtsToLocalType(expected);
             for (int i = 0; i < expected.Count; i++)
             {
                 Assert.IsTrue(localExpected[i].Equals(localActual[i]));
@@ -462,14 +445,13 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void ConvertSingleYahrtziehtToDbTypeTest()
         {
-            YahrtziehtAccess_Accessor target = new YahrtziehtAccess_Accessor();
             Yahrtzieht localTypeYahr = new Yahrtzieht(1, DateTime.Today, "passed on number:1", "best friends dog", 1);
             t_yahrtziehts expected = t_yahrtziehts.Createt_yahrtziehts(1, 1, DateTime.Today, "passed on number:1");
             expected.relation = "best friends dog";
             t_yahrtziehts actual;
-            actual = target.ConvertSingleYahrtziehtToDbType(localTypeYahr);
-            Assert.IsTrue(target.ConvertSingleYahrtziehtToLocalType(expected).Equals(
-                                            target.ConvertSingleYahrtziehtToLocalType(actual)));
+            actual = YahrtziehtAccess_Accessor.ConvertSingleYahrtziehtToDbType(localTypeYahr);
+            Assert.IsTrue(YahrtziehtAccess_Accessor.ConvertSingleYahrtziehtToLocalType(expected).Equals(
+                                            YahrtziehtAccess_Accessor.ConvertSingleYahrtziehtToLocalType(actual)));
         }
 
         /// <summary>
@@ -479,12 +461,11 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void ConvertSingleYahrtziehtToLocalTypeTest()
         {
-            YahrtziehtAccess_Accessor target = new YahrtziehtAccess_Accessor();
             t_yahrtziehts dbTypeYahr = t_yahrtziehts.Createt_yahrtziehts(1, 1, DateTime.Today, "passed on number:1");
             dbTypeYahr.relation = "best friends dog";
             Yahrtzieht expected = new Yahrtzieht(1, DateTime.Today, "passed on number:1", "best friends dog", 1);
             Yahrtzieht actual;
-            actual = target.ConvertSingleYahrtziehtToLocalType(dbTypeYahr);
+            actual = YahrtziehtAccess_Accessor.ConvertSingleYahrtziehtToLocalType(dbTypeYahr);
             Assert.IsTrue(expected.Equals(actual));
         } 
 
