@@ -138,40 +138,40 @@ namespace DataAccess
 
         private static List<t_phone_numbers> ConvertMultipleLocalPhoneNumbersToDbType(List<PhoneNumber> localTypePhoneNumberList)
         {
-            return null;
-            //List<t_phone_numbers> dbTypePhoneNumberList = new List<t_phone_numbers>();
+            List<t_phone_numbers> dbTypePhoneNumberList = new List<t_phone_numbers>();
 
-            //foreach (PhoneNumber CurrPhoneNumber in localTypePhoneNumberList)
-            //{
-            //    dbTypePhoneNumberList.Add(this.ConvertSingleLocalPhoneNumberToDbType(CurrPhoneNumber));
-            //}
+            foreach (PhoneNumber CurrPhoneNumber in localTypePhoneNumberList)
+            {
+                dbTypePhoneNumberList.Add(PhoneNumberAccess.ConvertSingleLocalPhoneNumberToDbType(CurrPhoneNumber));
+            }
 
-            //return dbTypePhoneNumberList;
+            return dbTypePhoneNumberList;
         }
 
         private static t_phone_numbers ConvertSingleLocalPhoneNumberToDbType(PhoneNumber localTypePhoneNumber)
         {
-            return null;
-            //return t_phone_numbers.Createt_phone_types(localTypePhoneType._Id, localTypePhoneType.PhoneTypeName);
+            //TODO replace the first 1 with a method call to PersonAccess.GetPersonByPhoneNumber
+            //      another option would be-- to pass in a parameter of the person id
+            return t_phone_numbers.Createt_phone_numbers(1, localTypePhoneNumber.Number, 
+                                            localTypePhoneNumber.NumberType._Id, localTypePhoneNumber._Id);
         }
 
         private static List<PhoneNumber> ConvertMultipleDbPhoneNumbersToLocalType(List<t_phone_numbers> dbTypePhoneNumberList)
         {
-            return null;
-            //List<PhoneNumber> localTypePhoneTypeList = new List<PhoneNumber>();
+            List<PhoneNumber> localTypePhoneTypeList = new List<PhoneNumber>();
 
-            //foreach (t_phone_numbers CurrPhoneNumber in dbTypePhoneNumberList)
-            //{
-            //    localTypePhoneTypeList.Add(this.ConvertSingleDbPhoneNumberToLocalType(CurrPhoneNumber));
-            //}
+            foreach (t_phone_numbers CurrPhoneNumber in dbTypePhoneNumberList)
+            {
+                localTypePhoneTypeList.Add(PhoneNumberAccess.ConvertSingleDbPhoneNumberToLocalType(CurrPhoneNumber));
+            }
 
-            //return localTypePhoneTypeList;
+            return localTypePhoneTypeList;
         }
 
         private static PhoneNumber ConvertSingleDbPhoneNumberToLocalType(t_phone_numbers dbTypePhoneNumber)
         {
-            return null;
-            //return new PhoneType(dbTypePhoneType.C_id, dbTypePhoneType.type_name);
+            PhoneType numberType = PhoneTypeAccess.GetPhoneTypeById(dbTypePhoneNumber.number_type);
+            return new PhoneNumber(dbTypePhoneNumber.C_id, dbTypePhoneNumber.number, numberType);
         }
 
         #endregion
