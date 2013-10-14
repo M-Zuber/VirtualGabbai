@@ -75,16 +75,16 @@ namespace DataAccess
 
         public static void AddNewPhoneNumber(PhoneNumber newPhoneNumber)
         {
-            //t_phone_types phonrTypeToAdd = this.ConvertSingleLocalPhoneNumberToDbType(newPhoneNumber);
-            //Cache.CacheData.t_phone_types.AddObject(phonrTypeToAdd);
-            //Cache.CacheData.SaveChanges();
+            t_phone_numbers phonrNumberToAdd = ConvertSingleLocalPhoneNumberToDbType(newPhoneNumber);
+            Cache.CacheData.t_phone_numbers.AddObject(phonrNumberToAdd);
+            Cache.CacheData.SaveChanges();
         }
 
         public static void AddMultipleNewPhoneTypes(List<PhoneNumber> newPhoneNumberList)
         {
             foreach (PhoneNumber newPhoneNumber in newPhoneNumberList)
             {
-                PhoneNumberAccess.AddNewPhoneNumber(newPhoneNumber);
+                AddNewPhoneNumber(newPhoneNumber);
             }
         }
 
@@ -150,10 +150,11 @@ namespace DataAccess
         {
             // Due to the fact that the local type -PhoneNumber - does not keep track of the person id,
             // the id must be pulled out this way
-            var personId = (from cpn in Cache.CacheData.t_phone_numbers
-                            where cpn.number == localTypePhoneNumber.Number
-                            select cpn).First().t_people.C_id;
-            return t_phone_numbers.Createt_phone_numbers(personId, localTypePhoneNumber.Number, 
+            //var dbNumber = LookupPhoneNumberById(localTypePhoneNumber._Id).t_people.C_id;
+            //var personId = (from cpn in Cache.CacheData.t_phone_numbers
+            //                where cpn.number == localTypePhoneNumber.Number
+            //                select cpn).First().t_people.C_id;
+            return t_phone_numbers.Createt_phone_numbers(1, localTypePhoneNumber.Number, 
                                             localTypePhoneNumber.NumberType._Id, localTypePhoneNumber._Id);
         }
 

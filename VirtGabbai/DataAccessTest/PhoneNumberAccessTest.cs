@@ -103,8 +103,23 @@ namespace DataAccessTest
         [TestMethod()]
         public void AddMultipleNewPhoneTypesTest()
         {
-            List<PhoneNumber> newPhoneNumberList = null; // TODO: Initialize to an appropriate value
+            List<PhoneNumber> newPhoneNumberList = new List<PhoneNumber>();
+
+            for (int i = 11; i <= 20; i++)
+            {
+                PhoneNumber newNumber = new PhoneNumber(i, "phone number:" + i.ToString(), new PhoneType(1, "cell phone"));
+                newPhoneNumberList.Add(newNumber);
+            }
             PhoneNumberAccess.AddMultipleNewPhoneTypes(newPhoneNumberList);
+
+            List<PhoneNumber> actual = new List<PhoneNumber>();
+
+            for (int i = 11; i <= 20; i++)
+            {
+                actual.Add(PhoneNumberAccess.GetPhoneNumberById(i));
+            }
+
+            CollectionAssert.AreEqual(newPhoneNumberList, actual);
         }
 
         /// <summary>
@@ -113,8 +128,10 @@ namespace DataAccessTest
         [TestMethod()]
         public void AddNewPhoneNumberTest()
         {
-            PhoneNumber newPhoneNumber = null; // TODO: Initialize to an appropriate value
+            PhoneNumber newPhoneNumber = new PhoneNumber(21, "phone number:1", new PhoneType(1, "cell phone"));
             PhoneNumberAccess.AddNewPhoneNumber(newPhoneNumber);
+            PhoneNumber actual = PhoneNumberAccess.GetPhoneNumberById(21);
+            Assert.AreEqual(newPhoneNumber, actual);
         }
         
         #endregion
