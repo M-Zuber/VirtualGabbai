@@ -237,11 +237,24 @@ namespace DataAccessTest
         [TestMethod()]
         public void GetAllPhoneNumbersTest()
         {
-            int personId = 0; // TODO: Initialize to an appropriate value
-            List<PhoneNumber> expected = null; // TODO: Initialize to an appropriate value
+            int personId = 1;
+            List <t_phone_numbers> expected = (from currNum in Cache.CacheData.t_phone_numbers
+                                                 select currNum).ToList<t_phone_numbers>();
+            List<PhoneNumber> localExpected = PhoneNumberAccess_Accessor.ConvertMultipleDbPhoneNumbersToLocalType(expected);
             List<PhoneNumber> actual;
             actual = PhoneNumberAccess.GetAllPhoneNumbers(personId);
-            Assert.AreEqual(expected, actual);
+            List<t_phone_numbers> dbActual = PhoneNumberAccess_Accessor.ConvertMultipleLocalPhoneNumbersToDbType(actual);
+            for (int i = 0; i < expected.Count; i++)
+            {
+                if ((expected[i].person_id == personId) && (!actual.Contains(localExpected[i])))
+                {
+                    Assert.Fail();
+                }
+                if ((expected[i].person_id != personId) && (actual.Contains(localExpected[i])))
+                {
+                    Assert.Fail();
+                }
+            }
         }
 
         /// <summary>
@@ -250,8 +263,8 @@ namespace DataAccessTest
         [TestMethod()]
         public void GetPhoneNumberByIdTest()
         {
-            int id = 0; // TODO: Initialize to an appropriate value
-            PhoneNumber expected = null; // TODO: Initialize to an appropriate value
+            int id = 1;
+            PhoneNumber expected = new PhoneNumber(1, "phone number:1", new PhoneType(1, "cell phone"));
             PhoneNumber actual;
             actual = PhoneNumberAccess.GetPhoneNumberById(id);
             Assert.AreEqual(expected, actual);
@@ -263,11 +276,24 @@ namespace DataAccessTest
         [TestMethod()]
         public void GetPhoneNumberByTypeTest()
         {
-            PhoneType searchedType = null; // TODO: Initialize to an appropriate value
-            PhoneNumber expected = null; // TODO: Initialize to an appropriate value
-            PhoneNumber actual;
+            PhoneType searchedType = new PhoneType(1, "cell phone");
+            var allNumbers = (from currNum in Cache.CacheData.t_phone_numbers
+                              select currNum).ToList<t_phone_numbers>();
+            List<PhoneNumber> expected = PhoneNumberAccess_Accessor.ConvertMultipleDbPhoneNumbersToLocalType(allNumbers);
+            List<PhoneNumber> actual;
             actual = PhoneNumberAccess.GetPhoneNumberByType(searchedType);
-            Assert.AreEqual(expected, actual);
+
+            for (int i = 0; i < expected.Count; i++)
+            {
+                if ((expected[i].NumberType.Equals(searchedType)) && (!actual.Contains(expected[i])))
+                {
+                    Assert.Fail();
+                }
+                if ((!expected[i].NumberType.Equals(searchedType)) && (actual.Contains(expected[i])))
+                {
+                    Assert.Fail();
+                }
+            }
         }
 
         /// <summary>
@@ -276,10 +302,11 @@ namespace DataAccessTest
         [TestMethod()]
         public void GetSpecificPhoneNumberTest()
         {
-            string phoneNumber = string.Empty; // TODO: Initialize to an appropriate value
-            PhoneNumber expected = null; // TODO: Initialize to an appropriate value
+            string phoneNumber = "phone number:1";
+            PhoneType wantedType = new PhoneType(1, "cell phone");
+            PhoneNumber expected = new PhoneNumber(1, "phone number:1", new PhoneType(1, "cell phone"));
             PhoneNumber actual;
-            actual = PhoneNumberAccess.GetSpecificPhoneNumber(phoneNumber);
+            actual = PhoneNumberAccess.GetSpecificPhoneNumber(phoneNumber, wantedType);
             Assert.AreEqual(expected, actual);
         }
 
@@ -295,11 +322,23 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupAllPhoneNumbersTest()
         {
-            int personId = 0; // TODO: Initialize to an appropriate value
-            List<t_phone_numbers> expected = null; // TODO: Initialize to an appropriate value
+            int personId = 1;
+            List<t_phone_numbers> expected = (from pNumber in Cache.CacheData.t_phone_numbers
+                                              select pNumber).ToList<t_phone_numbers>();
             List<t_phone_numbers> actual;
             actual = PhoneNumberAccess_Accessor.LookupAllPhoneNumbers(personId);
-            Assert.AreEqual(expected, actual);
+
+            for (int i = 0; i < expected.Count; i++)
+            {
+                if ((expected[i].person_id == personId) && (!actual.Contains(expected[i])))
+                {
+                    Assert.Fail();
+                }
+                if ((expected[i].person_id != personId) && (actual.Contains(expected[i])))
+                {
+                    Assert.Fail();
+                }
+            }
         }
 
         /// <summary>
@@ -309,11 +348,14 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupPhoneNumberByIdTest()
         {
-            int id = 0; // TODO: Initialize to an appropriate value
-            t_phone_numbers expected = null; // TODO: Initialize to an appropriate value
+            int id = 1;
+            t_phone_numbers expected = t_phone_numbers.Createt_phone_numbers(1,"phone number:1",1,1);
             t_phone_numbers actual;
             actual = PhoneNumberAccess_Accessor.LookupPhoneNumberById(id);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected.C_id, actual.C_id);
+            Assert.AreEqual(expected.number, actual.number);
+            Assert.AreEqual(expected.number_type, actual.number_type);
+            Assert.AreEqual(expected.person_id, actual.person_id);
         }
 
         /// <summary>
@@ -323,11 +365,23 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupPhoneNumberByTypeTest()
         {
-            PhoneType searchedType = null; // TODO: Initialize to an appropriate value
-            t_phone_numbers expected = null; // TODO: Initialize to an appropriate value
-            t_phone_numbers actual;
+            PhoneType searchedType = new PhoneType(1, "cell phone");
+            List<t_phone_numbers> expected = (from pNumber in Cache.CacheData.t_phone_numbers
+                                              select pNumber).ToList<t_phone_numbers>();
+            List<t_phone_numbers> actual;
             actual = PhoneNumberAccess_Accessor.LookupPhoneNumberByType(searchedType);
-            Assert.AreEqual(expected, actual);
+
+            for (int i = 0; i < expected.Count; i++)
+            {
+                if ((expected[i].number_type == searchedType._Id) && (!actual.Contains(expected[i])))
+                {
+                    Assert.Fail();
+                }
+                if ((expected[i].number_type != searchedType._Id) && (actual.Contains(expected[i])))
+                {
+                    Assert.Fail();
+                }
+            }
         }
 
         /// <summary>
@@ -337,14 +391,17 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupSpecificPhoneNumberTest()
         {
-            string phoneNumber = string.Empty; // TODO: Initialize to an appropriate value
-            t_phone_numbers expected = null; // TODO: Initialize to an appropriate value
+            string phoneNumber = "phone number:1";
+            int numberType = 1;
+            t_phone_numbers expected = t_phone_numbers.Createt_phone_numbers(1,"phone number:1", 1, 1);
             t_phone_numbers actual;
-            actual = PhoneNumberAccess_Accessor.LookupSpecificPhoneNumber(phoneNumber);
-            Assert.AreEqual(expected, actual);
+            actual = PhoneNumberAccess_Accessor.LookupSpecificPhoneNumber(phoneNumber, numberType);
+            Assert.AreEqual(expected.C_id, actual.C_id);
+            Assert.AreEqual(expected.number, actual.number);
+            Assert.AreEqual(expected.number_type, actual.number_type);
+            Assert.AreEqual(expected.person_id, actual.person_id);
         }
-
-        
+     
         #endregion        
 
         #region Update Tests
