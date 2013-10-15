@@ -94,17 +94,17 @@ namespace DataAccess
 
         public static void UpdateSinglePhoneNumber(PhoneNumber updatedPhoneNumber)
         {
-            //t_phone_types phoneTypeUpdating = this.LookupPhoneTypById(updatedPhoneNumber._Id);
-            //phoneTypeUpdating = this.ConvertSingleLocalPhoneNumberToDbType(updatedPhoneNumber);
-            //Cache.CacheData.t_phone_types.ApplyCurrentValues(phoneTypeUpdating);
-            //Cache.CacheData.SaveChanges();
+            t_phone_numbers phoneTypeUpdating = LookupPhoneNumberById(updatedPhoneNumber._Id);
+            phoneTypeUpdating = ConvertSingleLocalPhoneNumberToDbType(updatedPhoneNumber);
+            Cache.CacheData.t_phone_numbers.ApplyCurrentValues(phoneTypeUpdating);
+            Cache.CacheData.SaveChanges();
         }
 
         public static void UpdateMultiplePhoneNumbers(List<PhoneNumber> updatedPhoneNumberList)
         {
             foreach (PhoneNumber updatedPhoneNumber in updatedPhoneNumberList)
             {
-                PhoneNumberAccess.UpdateSinglePhoneNumber(updatedPhoneNumber);
+                UpdateSinglePhoneNumber(updatedPhoneNumber);
             }
         }
 
@@ -114,17 +114,17 @@ namespace DataAccess
 
         public static void DeleteSinglePhoneNumber(PhoneNumber deletedPhoneNumber)
         {
-            //t_phone_types phoneTypeDeleting =
-            //    Cache.CacheData.t_phone_types.First(phoneType => phoneType.C_id == deletedPhoneNumber._Id);
-            //Cache.CacheData.t_phone_types.DeleteObject(phoneTypeDeleting);
-            //Cache.CacheData.SaveChanges();
+            t_phone_numbers phoneTypeDeleting =
+                Cache.CacheData.t_phone_numbers.First(phoneNumber => phoneNumber.C_id == deletedPhoneNumber._Id);
+            Cache.CacheData.t_phone_numbers.DeleteObject(phoneTypeDeleting);
+            Cache.CacheData.SaveChanges();
         }
 
         public static void DeleteMultiplePhoneNumbers(List<PhoneNumber> deletedPhoneNumberList)
         {
             foreach (PhoneNumber deletedPhoneNumber in deletedPhoneNumberList)
             {
-                PhoneNumberAccess.DeleteSinglePhoneNumber(deletedPhoneNumber);
+                DeleteSinglePhoneNumber(deletedPhoneNumber);
             }
         }
 
