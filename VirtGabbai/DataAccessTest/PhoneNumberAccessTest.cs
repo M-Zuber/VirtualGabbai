@@ -45,8 +45,15 @@ namespace DataAccessTest
         [ClassInitialize()]
         public static void MyClassInitialize(TestContext testContext)
         {
-            Cache.CacheData.t_people.AddObject(t_people.Createt_people(1));
-            Cache.CacheData.t_phone_types.AddObject(t_phone_types.Createt_phone_types(1, "cell phone"));
+            if (!Cache.CacheData.t_people.Any(person => person.C_id == 1))
+            {
+                Cache.CacheData.t_people.AddObject(t_people.Createt_people(1));
+            }
+
+            if (!Cache.CacheData.t_phone_types.Any(numberType => numberType.C_id == 1))
+            {
+                Cache.CacheData.t_phone_types.AddObject(t_phone_types.Createt_phone_types(1, "phonetype:1"));
+            }
             for (int newPhoneNumberIndex = 1; newPhoneNumberIndex <= 10; newPhoneNumberIndex++)
             {
                 var newPhoneNumber = t_phone_numbers.Createt_phone_numbers(
@@ -107,7 +114,7 @@ namespace DataAccessTest
 
             for (int i = 11; i <= 20; i++)
             {
-                PhoneNumber newNumber = new PhoneNumber(i, "phone number:" + i.ToString(), new PhoneType(1, "cell phone"));
+                PhoneNumber newNumber = new PhoneNumber(i, "phone number:" + i.ToString(), new PhoneType(1, "phonetype:1"));
                 newPhoneNumberList.Add(newNumber);
             }
             PhoneNumberAccess.AddMultipleNewPhoneTypes(newPhoneNumberList);
@@ -128,7 +135,7 @@ namespace DataAccessTest
         [TestMethod()]
         public void AddNewPhoneNumberTest()
         {
-            PhoneNumber newPhoneNumber = new PhoneNumber(21, "phone number:1", new PhoneType(1, "cell phone"));
+            PhoneNumber newPhoneNumber = new PhoneNumber(21, "phone number:1", new PhoneType(1, "phonetype:1"));
             PhoneNumberAccess.AddNewPhoneNumber(newPhoneNumber);
             PhoneNumber actual = PhoneNumberAccess.GetPhoneNumberById(21);
             Assert.AreEqual(newPhoneNumber, actual);
@@ -196,7 +203,7 @@ namespace DataAccessTest
         public void ConvertSingleDbPhoneNumberToLocalTypeTest()
         {
             t_phone_numbers dbTypePhoneNumber = t_phone_numbers.Createt_phone_numbers(1, "phone number:1", 1, 1); 
-            PhoneNumber expected = new PhoneNumber(1, "phone number:1", new PhoneType(1, "cell phone"));
+            PhoneNumber expected = new PhoneNumber(1, "phone number:1", new PhoneType(1, "phonetype:1"));
             PhoneNumber actual;
             actual = PhoneNumberAccess_Accessor.ConvertSingleDbPhoneNumberToLocalType(dbTypePhoneNumber);
             Assert.IsTrue(expected.Equals(actual));
@@ -209,7 +216,7 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void ConvertSingleLocalPhoneNumberToDbTypeTest()
         {
-            PhoneNumber localTypePhoneNumber = new PhoneNumber(1, "phone number:1", new PhoneType(1, "cell phone"));
+            PhoneNumber localTypePhoneNumber = new PhoneNumber(1, "phone number:1", new PhoneType(1, "phonetype:1"));
             t_phone_numbers expected = t_phone_numbers.Createt_phone_numbers(1, "phone number:1", 1, 1);
             t_phone_numbers actual;
             actual = PhoneNumberAccess_Accessor.ConvertSingleLocalPhoneNumberToDbType(localTypePhoneNumber);
@@ -231,8 +238,8 @@ namespace DataAccessTest
         {
             List<PhoneNumber> deletedPhoneNumberList = new List<PhoneNumber>() 
             {
-                new PhoneNumber(2,"phone number:2", new PhoneType(1, "cell phone")),
-                new PhoneNumber(3,"phone number:3", new PhoneType(1, "cell phone"))
+                new PhoneNumber(2,"phone number:2", new PhoneType(1, "phonetype:1")),
+                new PhoneNumber(3,"phone number:3", new PhoneType(1, "phonetype:1"))
             };
 
             PhoneNumberAccess.DeleteMultiplePhoneNumbers(deletedPhoneNumberList);
@@ -250,7 +257,7 @@ namespace DataAccessTest
         [TestMethod()]
         public void DeleteSinglePhoneNumberTest()
         {
-            PhoneNumber deletedPhoneNumber = new PhoneNumber(4, "phone number:4", new PhoneType(1, "cell phone"));
+            PhoneNumber deletedPhoneNumber = new PhoneNumber(4, "phone number:4", new PhoneType(1, "phonetype:1"));
             PhoneNumberAccess.DeleteSinglePhoneNumber(deletedPhoneNumber);
 
             List<PhoneNumber> allPhoneNumbers = PhoneNumberAccess.GetAllPhoneNumbers(1);
@@ -295,7 +302,7 @@ namespace DataAccessTest
         public void GetPhoneNumberByIdTest()
         {
             int id = 1;
-            PhoneNumber expected = new PhoneNumber(1, "phone number:1", new PhoneType(1, "cell phone"));
+            PhoneNumber expected = new PhoneNumber(1, "phone number:1", new PhoneType(1, "phonetype:1"));
             PhoneNumber actual;
             actual = PhoneNumberAccess.GetPhoneNumberById(id);
             Assert.AreEqual(expected, actual);
@@ -307,7 +314,7 @@ namespace DataAccessTest
         [TestMethod()]
         public void GetPhoneNumberByTypeTest()
         {
-            PhoneType searchedType = new PhoneType(1, "cell phone");
+            PhoneType searchedType = new PhoneType(1, "phonetype:1");
             var allNumbers = (from currNum in Cache.CacheData.t_phone_numbers
                               select currNum).ToList<t_phone_numbers>();
             List<PhoneNumber> expected = PhoneNumberAccess_Accessor.ConvertMultipleDbPhoneNumbersToLocalType(allNumbers);
@@ -334,8 +341,8 @@ namespace DataAccessTest
         public void GetSpecificPhoneNumberTest()
         {
             string phoneNumber = "phone number:1";
-            PhoneType wantedType = new PhoneType(1, "cell phone");
-            PhoneNumber expected = new PhoneNumber(1, "phone number:1", new PhoneType(1, "cell phone"));
+            PhoneType wantedType = new PhoneType(1, "phonetype:1");
+            PhoneNumber expected = new PhoneNumber(1, "phone number:1", new PhoneType(1, "phonetype:1"));
             PhoneNumber actual;
             actual = PhoneNumberAccess.GetSpecificPhoneNumber(phoneNumber, wantedType);
             Assert.AreEqual(expected, actual);
@@ -396,7 +403,7 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupPhoneNumberByTypeTest()
         {
-            PhoneType searchedType = new PhoneType(1, "cell phone");
+            PhoneType searchedType = new PhoneType(1, "phonetype:1");
             List<t_phone_numbers> expected = (from pNumber in Cache.CacheData.t_phone_numbers
                                               select pNumber).ToList<t_phone_numbers>();
             List<t_phone_numbers> actual;
@@ -445,8 +452,8 @@ namespace DataAccessTest
         {
             List<PhoneNumber> updatedPhoneNumberList = new List<PhoneNumber>()
             {
-                new PhoneNumber(5, "updated phone number:5", new PhoneType(1, "cell phone")),
-                new PhoneNumber(6, "updated phone number:6", new PhoneType(1, "cell phone"))
+                new PhoneNumber(5, "updated phone number:5", new PhoneType(1, "phonetype:1")),
+                new PhoneNumber(6, "updated phone number:6", new PhoneType(1, "phonetype:1"))
             };
             PhoneNumberAccess.UpdateMultiplePhoneNumbers(updatedPhoneNumberList);
 
@@ -465,7 +472,7 @@ namespace DataAccessTest
         [TestMethod()]
         public void UpdateSinglePhoneNumberTest()
         {
-            PhoneNumber updatedPhoneNumber = new PhoneNumber(7, "updated phone number:7", new PhoneType(1, "cell phone"));
+            PhoneNumber updatedPhoneNumber = new PhoneNumber(7, "updated phone number:7", new PhoneType(1, "phonetype:1"));
             PhoneNumberAccess.UpdateSinglePhoneNumber(updatedPhoneNumber);
             PhoneNumber actual = PhoneNumberAccess.GetPhoneNumberById(7);
             Assert.AreEqual(updatedPhoneNumber, actual);

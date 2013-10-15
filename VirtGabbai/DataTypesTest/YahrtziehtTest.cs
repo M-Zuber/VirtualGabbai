@@ -175,7 +175,7 @@ namespace DataTypesTest
         {
             Yahrtzieht target = new Yahrtzieht(1,DateTime.Today,"Ploni ben Almoni", "Cats dog");
             string expected = "Deceased's Name:\"Ploni ben Almoni\" " +
-                              "Date:\"08/10/2013\" " + 
+                              "Date:\"" + DateTime.Today.Date.ToString("dd/MM/yyyy")+"\" " + 
                               "Relation:\"Cats dog\"";
             string actual= target.ToString();
             Assert.AreEqual(expected, actual);

@@ -46,7 +46,11 @@ namespace DataAccessTest
         [ClassInitialize()]
         public static void MyClassInitialize(TestContext testContext)
         {
-            Cache.CacheData.t_people.AddObject(t_people.Createt_people(1));
+            if (!Cache.CacheData.t_people.Any(person => person.C_id == 1))
+            {
+                Cache.CacheData.t_people.AddObject(t_people.Createt_people(1));
+            }
+
             for (int newYahrIndex = 1; newYahrIndex <= 10; newYahrIndex++)
             {
                 var newYahr = t_yahrtziehts.Createt_yahrtziehts(

@@ -45,7 +45,11 @@ namespace DataAccessTest
         [ClassInitialize()]
         public static void MyClassInitialize(TestContext testContext)
         {
-            for (int newPhoneTypeIndex = 1; newPhoneTypeIndex <= 10; newPhoneTypeIndex++)
+            if (!Cache.CacheData.t_phone_types.Any(numberType => numberType.C_id == 1))
+            {
+                Cache.CacheData.t_phone_types.AddObject(t_phone_types.Createt_phone_types(1, "phonetype:1"));
+            }
+            for (int newPhoneTypeIndex = 2; newPhoneTypeIndex <= 10; newPhoneTypeIndex++)
             {
                 Cache.CacheData.t_phone_types.AddObject(
                     t_phone_types.Createt_phone_types(newPhoneTypeIndex,
