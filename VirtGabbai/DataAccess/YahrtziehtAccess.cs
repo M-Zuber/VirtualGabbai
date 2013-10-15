@@ -149,7 +149,9 @@ namespace DataAccess
 
         private static t_yahrtziehts ConvertSingleYahrtziehtToDbType(Yahrtzieht localTypeYahr)
         {
-            var dbTypeYahr = t_yahrtziehts.Createt_yahrtziehts(localTypeYahr._Id, 1,
+            //TODO person id should be replaced with more real information -prob a parameter passed in
+            int personId = 1;
+            var dbTypeYahr = t_yahrtziehts.Createt_yahrtziehts(localTypeYahr._Id, personId,
                                                          localTypeYahr.Date, localTypeYahr.Name);
             dbTypeYahr.relation = localTypeYahr.Relation;
             return dbTypeYahr;

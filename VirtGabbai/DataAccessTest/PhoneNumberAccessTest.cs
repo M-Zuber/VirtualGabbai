@@ -229,8 +229,19 @@ namespace DataAccessTest
         [TestMethod()]
         public void DeleteMultiplePhoneNumbersTest()
         {
-            List<PhoneNumber> deletedPhoneNumberList = null; // TODO: Initialize to an appropriate value
+            List<PhoneNumber> deletedPhoneNumberList = new List<PhoneNumber>() 
+            {
+                new PhoneNumber(2,"phone number:2", new PhoneType(1, "cell phone")),
+                new PhoneNumber(3,"phone number:3", new PhoneType(1, "cell phone"))
+            };
+
             PhoneNumberAccess.DeleteMultiplePhoneNumbers(deletedPhoneNumberList);
+
+            List<PhoneNumber> allNumbers = PhoneNumberAccess.GetAllPhoneNumbers(1);
+            for (int i = 0; i < deletedPhoneNumberList.Count; i++)
+			{
+			 Assert.IsFalse(allNumbers.Contains(deletedPhoneNumberList[i]));
+			}
         }
 
         /// <summary>
@@ -239,8 +250,11 @@ namespace DataAccessTest
         [TestMethod()]
         public void DeleteSinglePhoneNumberTest()
         {
-            PhoneNumber deletedPhoneNumber = null; // TODO: Initialize to an appropriate value
+            PhoneNumber deletedPhoneNumber = new PhoneNumber(4, "phone number:4", new PhoneType(1, "cell phone"));
             PhoneNumberAccess.DeleteSinglePhoneNumber(deletedPhoneNumber);
+
+            List<PhoneNumber> allPhoneNumbers = PhoneNumberAccess.GetAllPhoneNumbers(1);
+            Assert.IsFalse(allPhoneNumbers.Contains(deletedPhoneNumber));
         }
 
         
@@ -429,8 +443,20 @@ namespace DataAccessTest
         [TestMethod()]
         public void UpdateMultiplePhoneNumbersTest()
         {
-            List<PhoneNumber> updatedPhoneNumberList = null; // TODO: Initialize to an appropriate value
+            List<PhoneNumber> updatedPhoneNumberList = new List<PhoneNumber>()
+            {
+                new PhoneNumber(5, "updated phone number:5", new PhoneType(1, "cell phone")),
+                new PhoneNumber(6, "updated phone number:6", new PhoneType(1, "cell phone"))
+            };
             PhoneNumberAccess.UpdateMultiplePhoneNumbers(updatedPhoneNumberList);
+
+            List<PhoneNumber> actual = new List<PhoneNumber>()
+            {
+                PhoneNumberAccess.GetPhoneNumberById(5),
+                PhoneNumberAccess.GetPhoneNumberById(6)
+            };
+
+            CollectionAssert.AreEqual(updatedPhoneNumberList, actual);
         }
 
         /// <summary>
@@ -439,8 +465,10 @@ namespace DataAccessTest
         [TestMethod()]
         public void UpdateSinglePhoneNumberTest()
         {
-            PhoneNumber updatedPhoneNumber = null; // TODO: Initialize to an appropriate value
+            PhoneNumber updatedPhoneNumber = new PhoneNumber(7, "updated phone number:7", new PhoneType(1, "cell phone"));
             PhoneNumberAccess.UpdateSinglePhoneNumber(updatedPhoneNumber);
+            PhoneNumber actual = PhoneNumberAccess.GetPhoneNumberById(7);
+            Assert.AreEqual(updatedPhoneNumber, actual);
         } 
 
         #endregion
