@@ -74,7 +74,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
     <EntityDeploy Include="EntityCache.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>EntityCache.Designer.cs</LastGenOutput>

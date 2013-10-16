@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DataTypes;
+using DataAccess;
 
 namespace TempUI
 {
@@ -10,8 +11,14 @@ namespace TempUI
     {
         static void Main(string[] args)
         {
-            PhoneNumber test = new PhoneNumber(1, "0546137475", new PhoneType(1, "cell phone"));
-            Console.WriteLine(test.GetHashCode());
+            try
+            {
+                PhoneTypeAccess.AddNewPhoneType(new PhoneType(1, "poper"));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.ToString());
+            }
         }
     }
 }
