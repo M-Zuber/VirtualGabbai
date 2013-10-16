@@ -33,7 +33,7 @@
   <ItemGroup>
     <Reference Include="MySql.Data, Version=6.6.5.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\..\Program Files\MySQL\MySQL Connector Net 6.6.5\Assemblies\v4.0\MySql.Data.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\..\Program Files\MySQL\MySQL for Visual Studio 1.0.2\Assemblies\v4.0\MySql.Data.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -53,13 +53,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DataCache\DataCache.csproj">
+      <Project>{41C40F86-3FAF-415E-BB93-725FD4E4DF0F}</Project>
+      <Name>DataCache</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DataTypes\DataTypes.csproj">
       <Project>{9B2ABB56-D031-4753-ADD5-B5DCEB597E3C}</Project>
       <Name>DataTypes</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Data\DataCache.csproj">
-      <Project>{A5C6F92A-C167-47D3-94E4-DBD66E0EB3F6}</Project>
-      <Name>DataCache</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
