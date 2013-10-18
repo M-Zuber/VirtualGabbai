@@ -45,8 +45,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseDA.cs" />
-    <Compile Include="ConnectionManager.cs" />
     <Compile Include="PhoneNumberAccess.cs" />
     <Compile Include="PhoneTypeAccess.cs" />
     <Compile Include="YahrtziehtAccess.cs" />

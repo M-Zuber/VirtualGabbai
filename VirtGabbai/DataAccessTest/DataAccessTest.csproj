@@ -58,7 +58,6 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConnectionManagerTest.cs" />
     <Compile Include="PhoneNumberAccessTest.cs" />
     <Compile Include="PhoneTypeAccessTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
