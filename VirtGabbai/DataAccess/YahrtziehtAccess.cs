@@ -75,18 +75,18 @@ namespace DataAccess
 
         #region Create
 
-        public static void AddNewYahrtzieht(Yahrtzieht newYahr)
+        public static void AddNewYahrtzieht(Yahrtzieht newYahr, int personId)
         {
-            t_yahrtziehts yahrToAdd = YahrtziehtAccess.ConvertSingleYahrtziehtToDbType(newYahr);
+            t_yahrtziehts yahrToAdd = YahrtziehtAccess.ConvertSingleYahrtziehtToDbType(newYahr, personId);
             Cache.CacheData.t_yahrtziehts.AddObject(yahrToAdd);
             Cache.CacheData.SaveChanges();
         }
 
-        public static void AddMultipleNewYahrtzieht(List<Yahrtzieht> newYahrList)
+        public static void AddMultipleNewYahrtzieht(List<Yahrtzieht> newYahrList, int personId)
         {
             foreach (Yahrtzieht newYahr in newYahrList)
             {
-                YahrtziehtAccess.AddNewYahrtzieht(newYahr);
+                YahrtziehtAccess.AddNewYahrtzieht(newYahr, personId);
             }
         }
 
@@ -94,19 +94,19 @@ namespace DataAccess
 
         #region Update
 
-        public static void UpdateSingleYahrtzieht(Yahrtzieht updatedYahr)
+        public static void UpdateSingleYahrtzieht(Yahrtzieht updatedYahr, int personId)
         {
             t_yahrtziehts yahrUpdating = YahrtziehtAccess.LookupYahrtziehtById(updatedYahr._Id);
-            yahrUpdating = YahrtziehtAccess.ConvertSingleYahrtziehtToDbType(updatedYahr);
+            yahrUpdating = YahrtziehtAccess.ConvertSingleYahrtziehtToDbType(updatedYahr, personId);
             Cache.CacheData.t_yahrtziehts.ApplyCurrentValues(yahrUpdating);
             Cache.CacheData.SaveChanges();
         }
 
-        public static void UpdateMultipleYahrtziehts(List<Yahrtzieht> updatedYahrList)
+        public static void UpdateMultipleYahrtziehts(List<Yahrtzieht> updatedYahrList, int personId)
         {
             foreach (Yahrtzieht updatedYahr in updatedYahrList)
             {
-                YahrtziehtAccess.UpdateSingleYahrtzieht(updatedYahr);
+                YahrtziehtAccess.UpdateSingleYahrtzieht(updatedYahr, personId);
             }
         }
 
@@ -135,22 +135,20 @@ namespace DataAccess
 
         #region Private Methods
 
-        private static List<t_yahrtziehts> ConvertMultipleYahrtziehtsToDbType(List<Yahrtzieht> localTypeYahrList)
+        private static List<t_yahrtziehts> ConvertMultipleYahrtziehtsToDbType(List<Yahrtzieht> localTypeYahrList, int personId)
         {
             List<t_yahrtziehts> dbTypeYahrList = new List<t_yahrtziehts>();
 
             foreach (Yahrtzieht CurrYahr in localTypeYahrList)
             {
-                dbTypeYahrList.Add(YahrtziehtAccess.ConvertSingleYahrtziehtToDbType(CurrYahr));
+                dbTypeYahrList.Add(YahrtziehtAccess.ConvertSingleYahrtziehtToDbType(CurrYahr, personId));
             }
 
             return dbTypeYahrList;
         }
 
-        private static t_yahrtziehts ConvertSingleYahrtziehtToDbType(Yahrtzieht localTypeYahr)
+        private static t_yahrtziehts ConvertSingleYahrtziehtToDbType(Yahrtzieht localTypeYahr, int personId)
         {
-            //TODO person id should be replaced with more real information -prob a parameter passed in
-            int personId = 1;
             var dbTypeYahr = t_yahrtziehts.Createt_yahrtziehts(localTypeYahr._Id, personId,
                                                          localTypeYahr.Date, localTypeYahr.Name);
             dbTypeYahr.relation = localTypeYahr.Relation;
