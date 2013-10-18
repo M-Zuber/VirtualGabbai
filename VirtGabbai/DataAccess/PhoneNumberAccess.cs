@@ -73,18 +73,18 @@ namespace DataAccess
 
         #region Create
 
-        public static void AddNewPhoneNumber(PhoneNumber newPhoneNumber)
+        public static void AddNewPhoneNumber(PhoneNumber newPhoneNumber, int personId)
         {
-            t_phone_numbers phonrNumberToAdd = ConvertSingleLocalPhoneNumberToDbType(newPhoneNumber);
+            t_phone_numbers phonrNumberToAdd = ConvertSingleLocalPhoneNumberToDbType(newPhoneNumber, personId);
             Cache.CacheData.t_phone_numbers.AddObject(phonrNumberToAdd);
             Cache.CacheData.SaveChanges();
         }
 
-        public static void AddMultipleNewPhoneTypes(List<PhoneNumber> newPhoneNumberList)
+        public static void AddMultipleNewPhoneTypes(List<PhoneNumber> newPhoneNumberList, int personId)
         {
             foreach (PhoneNumber newPhoneNumber in newPhoneNumberList)
             {
-                AddNewPhoneNumber(newPhoneNumber);
+                AddNewPhoneNumber(newPhoneNumber, personId);
             }
         }
 
@@ -92,19 +92,19 @@ namespace DataAccess
 
         #region Update
 
-        public static void UpdateSinglePhoneNumber(PhoneNumber updatedPhoneNumber)
+        public static void UpdateSinglePhoneNumber(PhoneNumber updatedPhoneNumber, int personId)
         {
             t_phone_numbers phoneTypeUpdating = LookupPhoneNumberById(updatedPhoneNumber._Id);
-            phoneTypeUpdating = ConvertSingleLocalPhoneNumberToDbType(updatedPhoneNumber);
+            phoneTypeUpdating = ConvertSingleLocalPhoneNumberToDbType(updatedPhoneNumber, personId);
             Cache.CacheData.t_phone_numbers.ApplyCurrentValues(phoneTypeUpdating);
             Cache.CacheData.SaveChanges();
         }
 
-        public static void UpdateMultiplePhoneNumbers(List<PhoneNumber> updatedPhoneNumberList)
+        public static void UpdateMultiplePhoneNumbers(List<PhoneNumber> updatedPhoneNumberList, int personId)
         {
             foreach (PhoneNumber updatedPhoneNumber in updatedPhoneNumberList)
             {
-                UpdateSinglePhoneNumber(updatedPhoneNumber);
+                UpdateSinglePhoneNumber(updatedPhoneNumber, personId);
             }
         }
 
@@ -114,8 +114,8 @@ namespace DataAccess
 
         public static void DeleteSinglePhoneNumber(PhoneNumber deletedPhoneNumber)
         {
-            t_phone_numbers phoneTypeDeleting =
-                Cache.CacheData.t_phone_numbers.First(phoneNumber => phoneNumber.C_id == deletedPhoneNumber._Id);
+            t_phone_numbers phoneTypeDeleting = 
+                Cache.CacheData.t_phone_numbers.First(number => number.C_id == deletedPhoneNumber._Id);
             Cache.CacheData.t_phone_numbers.DeleteObject(phoneTypeDeleting);
             Cache.CacheData.SaveChanges();
         }
@@ -134,27 +134,21 @@ namespace DataAccess
 
         #region Private Methods
 
-        private static List<t_phone_numbers> ConvertMultipleLocalPhoneNumbersToDbType(List<PhoneNumber> localTypePhoneNumberList)
+        private static List<t_phone_numbers> ConvertMultipleLocalPhoneNumbersToDbType(List<PhoneNumber> localTypePhoneNumberList, int personId)
         {
             List<t_phone_numbers> dbTypePhoneNumberList = new List<t_phone_numbers>();
 
             foreach (PhoneNumber CurrPhoneNumber in localTypePhoneNumberList)
             {
-                dbTypePhoneNumberList.Add(ConvertSingleLocalPhoneNumberToDbType(CurrPhoneNumber));
+                dbTypePhoneNumberList.Add(ConvertSingleLocalPhoneNumberToDbType(CurrPhoneNumber, personId));
             }
 
             return dbTypePhoneNumberList;
         }
 
-        private static t_phone_numbers ConvertSingleLocalPhoneNumberToDbType(PhoneNumber localTypePhoneNumber)
+        private static t_phone_numbers ConvertSingleLocalPhoneNumberToDbType(PhoneNumber localTypePhoneNumber, int personId)
         {
-            // Due to the fact that the local type -PhoneNumber - does not keep track of the person id,
-            // the id must be pulled out this way
-            //var dbNumber = LookupPhoneNumberById(localTypePhoneNumber._Id).t_people.C_id;
-            //var personId = (from cpn in Cache.CacheData.t_phone_numbers
-            //                where cpn.number == localTypePhoneNumber.Number
-            //                select cpn).First().t_people.C_id;
-            return t_phone_numbers.Createt_phone_numbers(1, localTypePhoneNumber.Number, 
+            return t_phone_numbers.Createt_phone_numbers(personId, localTypePhoneNumber.Number, 
                                             localTypePhoneNumber.NumberType._Id, localTypePhoneNumber._Id);
         }
 

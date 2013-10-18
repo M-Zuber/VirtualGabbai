@@ -117,7 +117,7 @@ namespace DataAccessTest
                 PhoneNumber newNumber = new PhoneNumber(i, "phone number:" + i.ToString(), new PhoneType(1, "phonetype:1"));
                 newPhoneNumberList.Add(newNumber);
             }
-            PhoneNumberAccess.AddMultipleNewPhoneTypes(newPhoneNumberList);
+            PhoneNumberAccess.AddMultipleNewPhoneTypes(newPhoneNumberList, 1);
 
             List<PhoneNumber> actual = new List<PhoneNumber>();
 
@@ -136,7 +136,7 @@ namespace DataAccessTest
         public void AddNewPhoneNumberTest()
         {
             PhoneNumber newPhoneNumber = new PhoneNumber(21, "phone number:1", new PhoneType(1, "phonetype:1"));
-            PhoneNumberAccess.AddNewPhoneNumber(newPhoneNumber);
+            PhoneNumberAccess.AddNewPhoneNumber(newPhoneNumber, 1);
             PhoneNumber actual = PhoneNumberAccess.GetPhoneNumberById(21);
             Assert.AreEqual(newPhoneNumber, actual);
         }
@@ -185,7 +185,7 @@ namespace DataAccessTest
                 expected.Add(toAdd);
             }
             List<t_phone_numbers> actual;
-            actual = PhoneNumberAccess_Accessor.ConvertMultipleLocalPhoneNumbersToDbType(localTypePhoneNumberList);
+            actual = PhoneNumberAccess_Accessor.ConvertMultipleLocalPhoneNumbersToDbType(localTypePhoneNumberList, 1);
             List<PhoneNumber> localExpected = PhoneNumberAccess_Accessor.ConvertMultipleDbPhoneNumbersToLocalType(expected);
             List<PhoneNumber> localActual = PhoneNumberAccess_Accessor.ConvertMultipleDbPhoneNumbersToLocalType(actual);
 
@@ -219,7 +219,7 @@ namespace DataAccessTest
             PhoneNumber localTypePhoneNumber = new PhoneNumber(1, "phone number:1", new PhoneType(1, "phonetype:1"));
             t_phone_numbers expected = t_phone_numbers.Createt_phone_numbers(1, "phone number:1", 1, 1);
             t_phone_numbers actual;
-            actual = PhoneNumberAccess_Accessor.ConvertSingleLocalPhoneNumberToDbType(localTypePhoneNumber);
+            actual = PhoneNumberAccess_Accessor.ConvertSingleLocalPhoneNumberToDbType(localTypePhoneNumber, 1);
             Assert.AreEqual(expected.C_id, actual.C_id);
             Assert.AreEqual(expected.number, actual.number);
             Assert.AreEqual(expected.number_type, actual.number_type);
@@ -281,7 +281,7 @@ namespace DataAccessTest
             List<PhoneNumber> localExpected = PhoneNumberAccess_Accessor.ConvertMultipleDbPhoneNumbersToLocalType(expected);
             List<PhoneNumber> actual;
             actual = PhoneNumberAccess.GetAllPhoneNumbers(personId);
-            List<t_phone_numbers> dbActual = PhoneNumberAccess_Accessor.ConvertMultipleLocalPhoneNumbersToDbType(actual);
+            List<t_phone_numbers> dbActual = PhoneNumberAccess_Accessor.ConvertMultipleLocalPhoneNumbersToDbType(actual, 1);
             for (int i = 0; i < expected.Count; i++)
             {
                 if ((expected[i].person_id == personId) && (!actual.Contains(localExpected[i])))
@@ -455,7 +455,7 @@ namespace DataAccessTest
                 new PhoneNumber(5, "updated phone number:5", new PhoneType(1, "phonetype:1")),
                 new PhoneNumber(6, "updated phone number:6", new PhoneType(1, "phonetype:1"))
             };
-            PhoneNumberAccess.UpdateMultiplePhoneNumbers(updatedPhoneNumberList);
+            PhoneNumberAccess.UpdateMultiplePhoneNumbers(updatedPhoneNumberList, 1);
 
             List<PhoneNumber> actual = new List<PhoneNumber>()
             {
@@ -473,7 +473,7 @@ namespace DataAccessTest
         public void UpdateSinglePhoneNumberTest()
         {
             PhoneNumber updatedPhoneNumber = new PhoneNumber(7, "updated phone number:7", new PhoneType(1, "phonetype:1"));
-            PhoneNumberAccess.UpdateSinglePhoneNumber(updatedPhoneNumber);
+            PhoneNumberAccess.UpdateSinglePhoneNumber(updatedPhoneNumber, 1);
             PhoneNumber actual = PhoneNumberAccess.GetPhoneNumberById(7);
             Assert.AreEqual(updatedPhoneNumber, actual);
         } 
