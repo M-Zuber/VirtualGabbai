@@ -63,6 +63,10 @@
       <Project>{9B2ABB56-D031-4753-ADD5-B5DCEB597E3C}</Project>
       <Name>DataTypes</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Framework\Framework.csproj">
+      <Project>{23F121B4-CA1D-4E7A-B72C-241A93886EAF}</Project>
+      <Name>Framework</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config">
