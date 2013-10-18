@@ -5,6 +5,7 @@ using System.Linq;
 using DataTypes;
 using System.Collections.Generic;
 using DataCache;
+using Framework;
 
 namespace DataAccessTest
 {
@@ -121,11 +122,12 @@ namespace DataAccessTest
         public void AddNewPhoneTypeTest()
         {
             PhoneType newPhoneType = new PhoneType(21, "phonetype:21");
-            PhoneTypeAccess.AddNewPhoneType(newPhoneType);
+            Enums.CRUDResults result = PhoneTypeAccess.AddNewPhoneType(newPhoneType);
             PhoneType actual = PhoneTypeAccess.GetPhoneTypeById(21);
+            Assert.AreEqual(Enums.CRUDResults.CREATE_SUCCESS, result);
             Assert.IsTrue(newPhoneType.Equals(actual));
         }
-        
+
         #endregion
 
         #region Conversion Tests
@@ -221,7 +223,7 @@ namespace DataAccessTest
         #region Delete Tests
 
         /// <summary>
-        ///A test for DeleteMultiplePhoneTypes
+        ///Deleting a list of phone types that exist
         ///</summary>
         [TestMethod()]
         public void DeleteMultiplePhoneTypesTest()
@@ -233,6 +235,7 @@ namespace DataAccessTest
             };
             PhoneTypeAccess.DeleteMultiplePhoneTypes(deletedPhoneTypeList);
             List<PhoneType> allPhoneTypes = PhoneTypeAccess.GetAllPhoneTypes();
+
             for (int i = 0; i < deletedPhoneTypeList.Count; i++)
             {
                 Assert.IsFalse(allPhoneTypes.Contains(deletedPhoneTypeList[i]));
@@ -240,17 +243,30 @@ namespace DataAccessTest
         }
 
         /// <summary>
-        ///A test for DeleteSinglePhoneType
+        ///Deleting a phone type that exists
         ///</summary>
         [TestMethod()]
         public void DeleteSinglePhoneTypeTest()
         {
             PhoneType deletedPhoneType = new PhoneType(4,"phonetype:4");
-            PhoneTypeAccess.DeleteSinglePhoneType(deletedPhoneType);
+            Enums.CRUDResults result = PhoneTypeAccess.DeleteSinglePhoneType(deletedPhoneType);
             List<PhoneType> allPhoneTypes = PhoneTypeAccess.GetAllPhoneTypes();
+            Assert.AreEqual(Enums.CRUDResults.DELETE_SUCCESS, result);
             Assert.IsFalse(allPhoneTypes.Contains(deletedPhoneType));
         }
-        
+
+        /// <summary>
+        ///Deleting a phone type that does not exist
+        ///</summary>
+        [TestMethod()]
+        public void DeleteNotExistSinglePhoneTypeTest()
+        {
+            PhoneType deletedPhoneType = new PhoneType(50, "phonetype:50");
+            Enums.CRUDResults result = PhoneTypeAccess.DeleteSinglePhoneType(deletedPhoneType);
+            List<PhoneType> allPhoneTypes = PhoneTypeAccess.GetAllPhoneTypes();
+            Assert.AreEqual(Enums.CRUDResults.DELETE_FAIL, result);
+        }
+
         #endregion
 
         #region Get Tests
@@ -293,6 +309,28 @@ namespace DataAccessTest
             actual = PhoneTypeAccess.GetPhoneTypeByTypeName(typename);
             Assert.IsTrue(expected.Equals(actual));
         }
+
+        /// <summary>
+        ///A test for GetPhoneTypeById
+        ///</summary>
+        [TestMethod()]
+        public void GetPhoneTypeByNonExistintIdTest()
+        {
+            int id = 50;
+            PhoneType actual = PhoneTypeAccess.GetPhoneTypeById(id);
+            Assert.IsNull(actual);
+        }
+
+        /// <summary>
+        ///A test for GetPhoneTypeByTypeName
+        ///</summary>
+        [TestMethod()]
+        public void GetPhoneTypeByNonExistintTypeNameTest()
+        {
+            string typeName = "phonetype:50";
+            PhoneType actual = PhoneTypeAccess.GetPhoneTypeByTypeName(typeName);
+            Assert.IsNull(actual);
+        }
         
         #endregion
 
@@ -330,6 +368,19 @@ namespace DataAccessTest
         }
 
         /// <summary>
+        ///A test for LookupPhoneTypById
+        ///</summary>
+        [TestMethod()]
+        [DeploymentItem("DataAccess.dll")]
+        public void LookupPhoneTypByNonExistintIdTest()
+        {
+            int ID = 50;
+            t_phone_types actual;
+            actual = PhoneTypeAccess_Accessor.LookupPhoneTypeById(ID);
+            Assert.IsNull(actual);
+        }
+
+        /// <summary>
         ///A test for LookupPhoneTypeByTypeName
         ///</summary>
         [TestMethod()]
@@ -344,6 +395,19 @@ namespace DataAccessTest
             actual = PhoneTypeAccess_Accessor.LookupPhoneTypeByTypeName(typeName);
             Assert.AreEqual(expected.C_id, actual.C_id);
             Assert.AreEqual(expected.type_name, actual.type_name);
+        }
+
+        /// <summary>
+        ///A test for LookupPhoneTypeByTypeName
+        ///</summary>
+        [TestMethod()]
+        [DeploymentItem("DataAccess.dll")]
+        public void LookupPhoneTypeByNonExistintTypeNameTest()
+        {
+            string typeName = "phonetype:50";
+            t_phone_types actual;
+            actual = PhoneTypeAccess_Accessor.LookupPhoneTypeByTypeName(typeName);
+            Assert.IsNull(actual);
         }
         
         #endregion
@@ -383,9 +447,22 @@ namespace DataAccessTest
         public void UpdateSinglePhoneTypeTest()
         {
             PhoneType updatedPhoneType = new PhoneType(7, "updatedphonetype:7");
-            PhoneTypeAccess.UpdateSinglePhoneType(updatedPhoneType);
+            Enums.CRUDResults result = PhoneTypeAccess.UpdateSinglePhoneType(updatedPhoneType);
             PhoneType actual = PhoneTypeAccess.GetPhoneTypeById(7);
+            Assert.AreEqual(Enums.CRUDResults.UPDATE_SUCCESS, result);
             Assert.IsTrue(updatedPhoneType.Equals(actual));
+        }
+
+        /// <summary>
+        ///A test for UpdateSinglePhoneType
+        ///</summary>
+        [TestMethod()]
+        public void UpdateSinglePhoneTypeFailTest()
+        {
+            PhoneType updatedPhoneType = new PhoneType(50, "updatedphonetype:7");
+            Enums.CRUDResults result = PhoneTypeAccess.UpdateSinglePhoneType(updatedPhoneType);
+            PhoneType actual = PhoneTypeAccess.GetPhoneTypeById(7);
+            Assert.AreEqual(Enums.CRUDResults.UPDATE_FAIL, result);
         }
 
         #endregion
