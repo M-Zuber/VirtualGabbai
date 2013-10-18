@@ -14,6 +14,8 @@ namespace TempUI
             try
             {
                 PhoneTypeAccess.AddNewPhoneType(new PhoneType(1, "poper"));
+                var test = PhoneTypeAccess.GetPhoneTypeById(1);
+                Console.WriteLine(test.ToString());
             }
             catch (Exception e)
             {
