@@ -13,10 +13,6 @@ namespace TempUI
         {
             try
             {
-                PhoneTypeAccess.AddNewPhoneType(new PhoneType(1, "cell phone"));
-                var test = PhoneTypeAccess.GetPhoneTypeById(1);
-                Console.WriteLine(test.ToString());
-                PhoneTypeAccess.DeleteSinglePhoneType(test);
             }
             catch (Exception e)
             {
