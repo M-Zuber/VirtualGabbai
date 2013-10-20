@@ -5,6 +5,7 @@ using DataTypes;
 using System.Collections.Generic;
 using DataCache;
 using System.Linq;
+using Framework;
 
 namespace DataAccessTest
 {
@@ -136,8 +137,22 @@ namespace DataAccessTest
         public void AddNewPhoneNumberTest()
         {
             PhoneNumber newPhoneNumber = new PhoneNumber(21, "phone number:1", new PhoneType(1, "phonetype:1"));
-            PhoneNumberAccess.AddNewPhoneNumber(newPhoneNumber, 1);
+            Enums.CRUDResults result = PhoneNumberAccess.AddNewPhoneNumber(newPhoneNumber, 1);
             PhoneNumber actual = PhoneNumberAccess.GetPhoneNumberById(21);
+            Assert.AreEqual(Enums.CRUDResults.CREATE_SUCCESS, result);
+            Assert.AreEqual(newPhoneNumber, actual);
+        }
+
+        /// <summary>
+        ///A test for AddNewPhoneNumber
+        ///</summary>
+        [TestMethod()]
+        public void AddNewPhoneNumberWithNonExistintTypeTest()
+        {
+            PhoneNumber newPhoneNumber = new PhoneNumber(22, "phone number:1", new PhoneType(100, "phonetype:1"));
+            Enums.CRUDResults result = PhoneNumberAccess.AddNewPhoneNumber(newPhoneNumber, 1);
+            PhoneNumber actual = PhoneNumberAccess.GetPhoneNumberById(22);
+            Assert.AreEqual(Enums.CRUDResults.CREATE_SUCCESS, result);
             Assert.AreEqual(newPhoneNumber, actual);
         }
         
@@ -258,13 +273,23 @@ namespace DataAccessTest
         public void DeleteSinglePhoneNumberTest()
         {
             PhoneNumber deletedPhoneNumber = new PhoneNumber(4, "phone number:4", new PhoneType(1, "phonetype:1"));
-            PhoneNumberAccess.DeleteSinglePhoneNumber(deletedPhoneNumber);
-
+            Enums.CRUDResults result = PhoneNumberAccess.DeleteSinglePhoneNumber(deletedPhoneNumber);
             List<PhoneNumber> allPhoneNumbers = PhoneNumberAccess.GetAllPhoneNumbers(1);
+            Assert.AreEqual(Enums.CRUDResults.DELETE_SUCCESS, result);
             Assert.IsFalse(allPhoneNumbers.Contains(deletedPhoneNumber));
         }
 
-        
+        /// <summary>
+        ///A test for DeleteSinglePhoneNumber
+        ///</summary>
+        [TestMethod()]
+        public void DeleteSingleNonExistintPhoneNumberTest()
+        {
+            PhoneNumber deletedPhoneNumber = new PhoneNumber(50, "phone number:4", new PhoneType(1, "phonetype:1"));
+            Enums.CRUDResults result = PhoneNumberAccess.DeleteSinglePhoneNumber(deletedPhoneNumber);
+            Assert.AreEqual(Enums.CRUDResults.DELETE_FAIL, result);
+        }
+
         #endregion
 
         #region Get Tests
@@ -296,6 +321,17 @@ namespace DataAccessTest
         }
 
         /// <summary>
+        ///A test for GetAllPhoneNumbers
+        ///</summary>
+        [TestMethod()]
+        public void GetAllPhoneNumbersOfNonExistintPersonTest()
+        {
+            int personId = 50;
+            List<PhoneNumber> actual = PhoneNumberAccess.GetAllPhoneNumbers(personId);
+            Assert.AreEqual(0, actual.Count);
+        }
+
+        /// <summary>
         ///A test for GetPhoneNumberById
         ///</summary>
         [TestMethod()]
@@ -306,6 +342,18 @@ namespace DataAccessTest
             PhoneNumber actual;
             actual = PhoneNumberAccess.GetPhoneNumberById(id);
             Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
+        ///A test for GetPhoneNumberById
+        ///</summary>
+        [TestMethod()]
+        public void GetPhoneNumberByNonExistintIdTest()
+        {
+            int id = 50;
+            PhoneNumber actual;
+            actual = PhoneNumberAccess.GetPhoneNumberById(id);
+            Assert.IsNull(actual);
         }
 
         /// <summary>
@@ -335,6 +383,17 @@ namespace DataAccessTest
         }
 
         /// <summary>
+        ///A test for GetPhoneNumberByType
+        ///</summary>
+        [TestMethod()]
+        public void GetPhoneNumberByNonExistintTypeTest()
+        {
+            PhoneType searchedType = new PhoneType(50, "phonetype:50");
+            List<PhoneNumber> actual = PhoneNumberAccess.GetPhoneNumberByType(searchedType);
+            Assert.AreEqual(0, actual.Count);
+        }
+
+        /// <summary>
         ///A test for GetSpecificPhoneNumber
         ///</summary>
         [TestMethod()]
@@ -348,7 +407,18 @@ namespace DataAccessTest
             Assert.AreEqual(expected, actual);
         }
 
-        
+        /// <summary>
+        ///A test for GetSpecificPhoneNumber
+        ///</summary>
+        [TestMethod()]
+        public void GetSpecificNonExistintPhoneNumberTest()
+        {
+            string phoneNumber = "phone number:50";
+            PhoneType wantedType = new PhoneType(1, "phonetype:1");
+            PhoneNumber actual = PhoneNumberAccess.GetSpecificPhoneNumber(phoneNumber, wantedType);
+            Assert.IsNull(actual);
+        }
+
         #endregion        
 
         #region Lookup Tests
@@ -380,6 +450,19 @@ namespace DataAccessTest
         }
 
         /// <summary>
+        ///A test for LookupAllPhoneNumbers
+        ///</summary>
+        [TestMethod()]
+        [DeploymentItem("DataAccess.dll")]
+        public void LookupAllPhoneNumbersOfNonExistintPersonTest()
+        {
+            int personId = 2;
+            List<t_phone_numbers> actual;
+            actual = PhoneNumberAccess_Accessor.LookupAllPhoneNumbers(personId);
+            Assert.AreEqual(0, actual.Count);
+        }
+
+        /// <summary>
         ///A test for LookupPhoneNumberById
         ///</summary>
         [TestMethod()]
@@ -394,6 +477,19 @@ namespace DataAccessTest
             Assert.AreEqual(expected.number, actual.number);
             Assert.AreEqual(expected.number_type, actual.number_type);
             Assert.AreEqual(expected.person_id, actual.person_id);
+        }
+
+        /// <summary>
+        ///A test for LookupPhoneNumberById
+        ///</summary>
+        [TestMethod()]
+        [DeploymentItem("DataAccess.dll")]
+        public void LookupPhoneNumberByNonExistintIdTest()
+        {
+            int id = 50;
+            t_phone_numbers actual;
+            actual = PhoneNumberAccess_Accessor.LookupPhoneNumberById(id);
+            Assert.IsNull(actual);
         }
 
         /// <summary>
@@ -423,6 +519,19 @@ namespace DataAccessTest
         }
 
         /// <summary>
+        ///A test for LookupPhoneNumberByType
+        ///</summary>
+        [TestMethod()]
+        [DeploymentItem("DataAccess.dll")]
+        public void LookupPhoneNumberByTypeTestNonExistint()
+        {
+            PhoneType searchedType = new PhoneType(50, "phonetype:50");
+            List<t_phone_numbers> actual;
+            actual = PhoneNumberAccess_Accessor.LookupPhoneNumberByType(searchedType);
+            Assert.AreEqual(0, actual.Count);
+        }
+
+        /// <summary>
         ///A test for LookupSpecificPhoneNumber
         ///</summary>
         [TestMethod()]
@@ -438,6 +547,19 @@ namespace DataAccessTest
             Assert.AreEqual(expected.number, actual.number);
             Assert.AreEqual(expected.number_type, actual.number_type);
             Assert.AreEqual(expected.person_id, actual.person_id);
+        }
+
+        /// <summary>
+        ///A test for LookupSpecificPhoneNumber
+        ///</summary>
+        [TestMethod()]
+        [DeploymentItem("DataAccess.dll")]
+        public void LookupSpecificNonExistintPhoneNumberTest()
+        {
+            string phoneNumber = "phone number:50";
+            int numberType = 1;
+            t_phone_numbers actual = PhoneNumberAccess_Accessor.LookupSpecificPhoneNumber(phoneNumber, numberType);
+            Assert.IsNull(actual);
         }
      
         #endregion        
@@ -473,9 +595,21 @@ namespace DataAccessTest
         public void UpdateSinglePhoneNumberTest()
         {
             PhoneNumber updatedPhoneNumber = new PhoneNumber(7, "updated phone number:7", new PhoneType(1, "phonetype:1"));
-            PhoneNumberAccess.UpdateSinglePhoneNumber(updatedPhoneNumber, 1);
+            Enums.CRUDResults result = PhoneNumberAccess.UpdateSinglePhoneNumber(updatedPhoneNumber, 1);
             PhoneNumber actual = PhoneNumberAccess.GetPhoneNumberById(7);
+            Assert.AreEqual(Enums.CRUDResults.UPDATE_SUCCESS, result);
             Assert.AreEqual(updatedPhoneNumber, actual);
+        }
+
+        /// <summary>
+        ///A test for UpdateSinglePhoneNumber
+        ///</summary>
+        [TestMethod()]
+        public void UpdateSingleNonExistintPhoneNumberTest()
+        {
+            PhoneNumber updatedPhoneNumber = new PhoneNumber(50, "updated phone number:7", new PhoneType(1, "phonetype:1"));
+            Enums.CRUDResults result = PhoneNumberAccess.UpdateSinglePhoneNumber(updatedPhoneNumber, 1);
+            Assert.AreEqual(Enums.CRUDResults.UPDATE_FAIL, result);
         } 
 
         #endregion
