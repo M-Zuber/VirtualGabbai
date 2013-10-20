@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using DataCache;
 using System.Data.Objects;
 using System.Linq;
+using Framework;
 
 namespace DataAccessTest
 {
@@ -138,10 +139,11 @@ namespace DataAccessTest
             ya.Name = "passed on number:" + ya._Id.ToString();
             ya.Relation = "best friends dog";
 
-            YahrtziehtAccess.AddNewYahrtzieht(ya, 1);
+            Enums.CRUDResults result = YahrtziehtAccess.AddNewYahrtzieht(ya, 1);
             Yahrtzieht actual = YahrtziehtAccess.GetYahrtziehtById(21);
+            Assert.AreEqual(Enums.CRUDResults.CREATE_SUCCESS, result);
             Assert.IsTrue(ya.Equals(actual));
-        } 
+        }
 
         #endregion
 
@@ -154,11 +156,22 @@ namespace DataAccessTest
         public void DeleteSingleYarhtziehtTest()
         {
             Yahrtzieht ya = new Yahrtzieht(4, DateTime.Today, "passed on number:4", "best friends dog");
-            YahrtziehtAccess.DeleteSingleYahrtzieht(ya);
+            Enums.CRUDResults result = YahrtziehtAccess.DeleteSingleYahrtzieht(ya);
 
             List<Yahrtzieht> allYahrtziehts = YahrtziehtAccess.GetAllYahrtziehts(1);
-
+            Assert.AreEqual(Enums.CRUDResults.DELETE_SUCCESS, result);
             Assert.IsFalse(allYahrtziehts.Contains(ya));
+        }
+
+        /// <summary>
+        ///Deletes a yarhtzieht that does not exist
+        ///</summary>
+        [TestMethod()]
+        public void DeleteSingleNonExsistentYarhtziehtTest()
+        {
+            Yahrtzieht ya = new Yahrtzieht(50, DateTime.Today, "passed on number:4", "best friends dog");
+            Enums.CRUDResults actual = YahrtziehtAccess.DeleteSingleYahrtzieht(ya);
+            Assert.AreEqual(Enums.CRUDResults.DELETE_FAIL, actual);
         }
 
         /// <summary>
@@ -200,6 +213,18 @@ namespace DataAccessTest
         }
 
         /// <summary>
+        ///A test for GetYahrtziehtById
+        ///</summary>
+        [TestMethod()]
+        public void GetYahrtziehtByNonExistintIdTest()
+        {
+            int yahrId = 50;
+            Yahrtzieht actual;
+            actual = YahrtziehtAccess.GetYahrtziehtById(yahrId);
+            Assert.IsNull(actual);
+        }
+
+        /// <summary>
         ///Recieves all the yahrtziehts of the person with the given id
         ///</summary>
         [TestMethod()]
@@ -212,6 +237,18 @@ namespace DataAccessTest
 
             Assert.IsInstanceOfType(actual, typeof(List<Yahrtzieht>));
             Assert.IsTrue(actual.Count > 0);
+        }
+
+        /// <summary>
+        ///Recieves all the yahrtziehts of the person with the given id
+        ///</summary>
+        [TestMethod()]
+        public void GetAllYarthziehtsOfNonExistintPersonTest()
+        {
+            int personId = 2;
+            List<Yahrtzieht> actual;
+            actual = YahrtziehtAccess.GetAllYahrtziehts(personId);
+            Assert.IsNull(actual);
         }
 
         /// <summary>
@@ -231,6 +268,20 @@ namespace DataAccessTest
         }
 
         /// <summary>
+        ///A test for GetSpecificYarthzieht
+        ///</summary>
+        [TestMethod()]
+        public void GetSpecificNonExstintYarthziehtTest()
+        {
+            int personId = 1;
+            DateTime date = DateTime.Today;
+            string personName = "passed on number:50";
+
+            Yahrtzieht actual = YahrtziehtAccess.GetSpecificYahrtzieht(personId, date, personName);
+            Assert.IsNull(actual);
+        }
+
+        /// <summary>
         ///A test for GetYarhtzietsByDate
         ///</summary>
         [TestMethod()]
@@ -246,6 +297,18 @@ namespace DataAccessTest
             {
                 Assert.IsTrue((expected[yahrIndex].Date == date) && (actual.Contains(expected[yahrIndex])));
             }
+        }
+
+        /// <summary>
+        ///A test for GetYarhtzietsByDate
+        ///</summary>
+        [TestMethod()]
+        public void GetYarhtzietsByDateTestNotExist()
+        {
+            int personId = 1;
+            DateTime date = DateTime.MinValue;
+            List<Yahrtzieht> actual = YahrtziehtAccess.GetYahrtziehtsByDate(personId, date);
+            Assert.AreEqual(0, actual.Count);
         }
 
         #endregion
@@ -275,6 +338,19 @@ namespace DataAccessTest
                 Assert.IsTrue((expected[i].person_id == personId) && (actual.Contains(expected[i])));
             }
         }
+        /// <summary>
+        ///A test for LookupAllYarthziehts
+        ///</summary>
+        [TestMethod()]
+        [DeploymentItem("DataAccess.dll")]
+        public void LookupAllYarthziehtsOfNonExistintPersonTest()
+        {
+            int personId = 2;
+
+            List<t_yahrtziehts> actual;
+            actual = YahrtziehtAccess_Accessor.LookupAllYahrtziehts(personId);
+            Assert.IsNull(actual);
+        }
 
         /// <summary>
         ///A test for LookupSpecificYarthzieht
@@ -297,6 +373,21 @@ namespace DataAccessTest
             actual = YahrtziehtAccess_Accessor.LookupSpecificYahrtzieht(personId, date, personName);
             Assert.IsTrue(YahrtziehtAccess_Accessor.ConvertSingleYahrtziehtToLocalType(expected).
                 Equals(YahrtziehtAccess_Accessor.ConvertSingleYahrtziehtToLocalType(actual)));
+        }
+
+        /// <summary>
+        ///A test for LookupSpecificYarthzieht
+        ///</summary>
+        [TestMethod()]
+        [DeploymentItem("DataAccess.dll")]
+        public void LookupSpecificNonExistintYarthziehtTest()
+        {
+            int personId = 1;
+            DateTime date = DateTime.Today;
+            string personName = "passed on number:50";
+            t_yahrtziehts actual;
+            actual = YahrtziehtAccess_Accessor.LookupSpecificYahrtzieht(personId, date, personName);
+            Assert.IsNull(actual);
         }
 
         /// <summary>
@@ -324,6 +415,19 @@ namespace DataAccessTest
         }
 
         /// <summary>
+        ///A test for LookupYarhtzietById
+        ///</summary>
+        [TestMethod()]
+        [DeploymentItem("DataAccess.dll")]
+        public void LookupYarhtzietByNonExistintIdTest()
+        {
+            int ID = 50;
+            t_yahrtziehts actual;
+            actual = YahrtziehtAccess_Accessor.LookupYahrtziehtById(ID);
+            Assert.IsNull(actual);
+        }
+
+        /// <summary>
         ///A test for LookupYarhtzietsByDate
         ///</summary>
         [TestMethod()]
@@ -342,6 +446,20 @@ namespace DataAccessTest
             }
         }
 
+        /// <summary>
+        ///A test for LookupYarhtzietsByDate
+        ///</summary>
+        [TestMethod()]
+        [DeploymentItem("DataAccess.dll")]
+        public void LookupYarhtzietsByNonExistentDateTest()
+        {
+            int personId = 1;
+            DateTime date = DateTime.MinValue;
+            List<t_yahrtziehts> actual;
+            actual = YahrtziehtAccess_Accessor.LookupYahrtziehtsByDate(personId, date);
+            Assert.AreEqual(0, actual.Count);
+        }
+
         #endregion
 
         #region UpdateTest
@@ -353,9 +471,22 @@ namespace DataAccessTest
         public void UpdateSingleYarhtziehtTest()
         {
             Yahrtzieht updatedYahr = new Yahrtzieht(7, DateTime.Today, "updated passed on number:7", "best friends dog");
-            YahrtziehtAccess.UpdateSingleYahrtzieht(updatedYahr, 1);
+            Enums.CRUDResults result = YahrtziehtAccess.UpdateSingleYahrtzieht(updatedYahr, 1);
             Yahrtzieht actual = YahrtziehtAccess.GetYahrtziehtById(7);
+            Assert.AreEqual(Enums.CRUDResults.UPDATE_SUCCESS, result);
             Assert.IsTrue(actual.Equals(updatedYahr));
+        }
+
+        /// <summary>
+        ///A test for UpdateSingleYarhtzieht
+        ///</summary>
+        [TestMethod()]
+        public void UpdateSingleNonExistentYarhtziehtTest()
+        {
+            Yahrtzieht updatedYahr = new Yahrtzieht(50, DateTime.Today, "updated passed on number:7", "best friends dog");
+            Enums.CRUDResults result = YahrtziehtAccess.UpdateSingleYahrtzieht(updatedYahr, 1);
+            Yahrtzieht actual = YahrtziehtAccess.GetYahrtziehtById(7);
+            Assert.AreEqual(Enums.CRUDResults.UPDATE_FAIL, result);
         }
 
         /// <summary>
