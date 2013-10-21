@@ -15,25 +15,11 @@ namespace DataTypes
 
         public double Amount { get; set; }
 
-        public DateTime DonationDate 
-        {
-            get
-            {
-                return this.DonationDate;
-            }
-            set
-            {
-                if (value == null)
-                {
-                    //LOG
-                    this.DonationDate = DateTime.Today;
-                }
-            }
-        }
+        public DateTime DonationDate { get; set; }
 
         public DateTime PaymentDate { get; set; }
 
-        public bool DonationPaid { get; set; }
+        public bool DonationPaid { get; private set; }
 
         public string Comments { get; set; }
 
@@ -46,19 +32,21 @@ namespace DataTypes
         public Donation(int id, string reason, double amount, DateTime donationDate, DateTime paymentDate, string comments)
         {
             this._Id = id;
+            this.Amount = amount;
             this.Reason = reason;
             this.DonationDate = donationDate;
             this.PaymentDate = paymentDate;
+            this.DonationPaid = true;
+            this.Comments = comments;
+        }
 
-            if (paymentDate == null)
-            {
-                this.DonationPaid = false;
-            }
-            else
-            {
-                this.DonationPaid = true;
-            }
-
+        public Donation(int id, string reason, double amount, DateTime donationDate, string comments)
+        {
+            this._Id = id;
+            this.Amount = amount;
+            this.Reason = reason;
+            this.DonationDate = donationDate;
+            this.DonationPaid = false;
             this.Comments = comments;
         }
 
@@ -68,12 +56,32 @@ namespace DataTypes
 
         public override string ToString()
         {
-            return base.ToString();
+            string returnString = "Donated for: \"" + this.Reason +
+                                  "\" Amount donated: \"" + this.Amount +
+                                  "\" Date donated: \"" + this.DonationDate.ToString("dd/MM/yyyy") +"\"";
+            if (this.Comments != string.Empty)
+            {
+                returnString += " Comments: \"" + this.Comments + "\"";
+                
+            }
+            if (this.DonationPaid)
+            {
+                returnString += " Date paid: \"" + this.PaymentDate.ToString("dd/MM/yyyy") + "\"";
+            }
+            return returnString;
         }
 
         public override bool Equals(object obj)
         {
-            return base.Equals(obj);
+            Donation donationToCompare = (Donation)obj;
+            
+            return ((this._Id == donationToCompare._Id) &&
+                    (this.Amount == donationToCompare.Amount) &&
+                    (this.Comments == donationToCompare.Comments) &&
+                    (this.DonationDate == donationToCompare.DonationDate) &&
+                    (this.DonationPaid == donationToCompare.DonationPaid) &&
+                    (this.PaymentDate == donationToCompare.PaymentDate) &&
+                    (this.Reason == donationToCompare.Reason));
         }
 
         public override int GetHashCode()

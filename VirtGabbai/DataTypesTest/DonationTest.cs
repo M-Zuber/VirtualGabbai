@@ -71,8 +71,12 @@ namespace DataTypesTest
         [TestMethod()]
         public void AllFieldsSetToStringTest()
         {
-            Donation target = new Donation(); // TODO: Initialize to an appropriate value
-            string expected = string.Empty; // TODO: Initialize to an appropriate value
+            Donation target = new Donation(1, "reason", 23.09, DateTime.Today, DateTime.Today, "comments");
+            string expected = "Donated for: \"" + target.Reason +
+                              "\" Amount donated: \"" + target.Amount + 
+                              "\" Date donated: \"" + target.DonationDate.ToString("dd/MM/yyyy") +
+                              "\" Comments: \"" + "comments" +
+                              "\" Date paid: \"" + target.PaymentDate.ToString("dd/MM/yyyy") + "\"";
             string actual;
             actual = target.ToString();
             Assert.AreEqual(expected, actual);
@@ -84,22 +88,42 @@ namespace DataTypesTest
         [TestMethod()]
         public void UnpaidDonationToStringTest()
         {
-            Donation target = new Donation(); // TODO: Initialize to an appropriate value
-            string expected = string.Empty; // TODO: Initialize to an appropriate value
+            Donation target = new Donation(1, "reason", 23.09, DateTime.Today, "comments");
+            string expected = "Donated for: \"" + target.Reason +
+                              "\" Amount donated: \"" + target.Amount +
+                              "\" Date donated: \"" + target.DonationDate.ToString("dd/MM/yyyy") +
+                              "\" Comments: \"" + "comments" + "\"";
             string actual;
             actual = target.ToString();
             Assert.AreEqual(expected, actual);
         }
 
+        /// <summary>
+        ///A test for ToString
+        ///</summary>
+        [TestMethod()]
+        public void NoCommentPaidToStringTest()
+        {
+            Donation target = new Donation(1, "reason", 23.09, DateTime.Today, DateTime.Today, "");
+            string expected = "Donated for: \"" + target.Reason +
+                              "\" Amount donated: \"" + target.Amount +
+                              "\" Date donated: \"" + target.DonationDate.ToString("dd/MM/yyyy") +
+                              "\" Date paid: \"" + target.PaymentDate.ToString("dd/MM/yyyy") + "\"";
+            string actual;
+            actual = target.ToString();
+            Assert.AreEqual(expected, actual);
+        }
 
         /// <summary>
         ///A test for ToString
         ///</summary>
         [TestMethod()]
-        public void NoCommentToStringTest()
+        public void NoCommentUnpaidToStringTest()
         {
-            Donation target = new Donation(); // TODO: Initialize to an appropriate value
-            string expected = string.Empty; // TODO: Initialize to an appropriate value
+            Donation target = new Donation(1, "reason", 23.09, DateTime.Today, "");
+            string expected = "Donated for: \"" + target.Reason +
+                              "\" Amount donated: \"" + target.Amount +
+                              "\" Date donated: \"" + target.DonationDate.ToString("dd/MM/yyyy") + "\"";
             string actual;
             actual = target.ToString();
             Assert.AreEqual(expected, actual);
@@ -113,13 +137,25 @@ namespace DataTypesTest
         ///A test for Equals
         ///</summary>
         [TestMethod()]
-        public void AllSameEqualsTest()
+        public void AllSamePaidDonationEqualsTest()
         {
-            Donation target = new Donation(); // TODO: Initialize to an appropriate value
-            object obj = null; // TODO: Initialize to an appropriate value
-            bool expected = false; // TODO: Initialize to an appropriate value
-            bool actual;
-            actual = target.Equals(obj);
+            Donation target = new Donation(1, "reason", 23.09, DateTime.Today,DateTime.Today, "comments");
+            Donation obj = new Donation(1, "reason", 23.09, DateTime.Today, DateTime.Today, "comments");
+            bool expected = true;
+            bool actual = target.Equals(obj);
+            Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
+        ///A test for Equals
+        ///</summary>
+        [TestMethod()]
+        public void AllSameUnpaidDonationEqualsTest()
+        {
+            Donation target = new Donation(1, "reason", 23.09, DateTime.Today, "comments");
+            Donation obj = new Donation(1, "reason", 23.09, DateTime.Today, "comments");
+            bool expected = true;
+            bool actual = target.Equals(obj);
             Assert.AreEqual(expected, actual);
         }
 
@@ -129,11 +165,10 @@ namespace DataTypesTest
         [TestMethod()]
         public void DiffIdEqualsTest()
         {
-            Donation target = new Donation(); // TODO: Initialize to an appropriate value
-            object obj = null; // TODO: Initialize to an appropriate value
-            bool expected = false; // TODO: Initialize to an appropriate value
-            bool actual;
-            actual = target.Equals(obj);
+            Donation target = new Donation(1, "reason", 23.09, DateTime.Today, DateTime.Today, "comments");
+            Donation obj = new Donation(2, "reason", 23.09, DateTime.Today, DateTime.Today, "comments");
+            bool expected = false;
+            bool actual = target.Equals(obj);
             Assert.AreEqual(expected, actual);
         }
 
@@ -143,11 +178,10 @@ namespace DataTypesTest
         [TestMethod()]
         public void DiffReasonEqualsTest()
         {
-            Donation target = new Donation(); // TODO: Initialize to an appropriate value
-            object obj = null; // TODO: Initialize to an appropriate value
-            bool expected = false; // TODO: Initialize to an appropriate value
-            bool actual;
-            actual = target.Equals(obj);
+            Donation target = new Donation(1, "reason", 23.09, DateTime.Today, DateTime.Today, "comments");
+            Donation obj = new Donation(1, "reason:2", 23.09, DateTime.Today, DateTime.Today, "comments");
+            bool expected = false;
+            bool actual = target.Equals(obj);
             Assert.AreEqual(expected, actual);
         }
 
@@ -157,11 +191,10 @@ namespace DataTypesTest
         [TestMethod()]
         public void DiffAmountEqualsTest()
         {
-            Donation target = new Donation(); // TODO: Initialize to an appropriate value
-            object obj = null; // TODO: Initialize to an appropriate value
-            bool expected = false; // TODO: Initialize to an appropriate value
-            bool actual;
-            actual = target.Equals(obj);
+            Donation target = new Donation(1, "reason", 23.09, DateTime.Today, DateTime.Today, "comments");
+            Donation obj = new Donation(1, "reason", 23.10, DateTime.Today, DateTime.Today, "comments");
+            bool expected = false;
+            bool actual = target.Equals(obj);
             Assert.AreEqual(expected, actual);
         }
 
@@ -171,11 +204,11 @@ namespace DataTypesTest
         [TestMethod()]
         public void DiffDonationDateEqualsTest()
         {
-            Donation target = new Donation(); // TODO: Initialize to an appropriate value
-            object obj = null; // TODO: Initialize to an appropriate value
-            bool expected = false; // TODO: Initialize to an appropriate value
-            bool actual;
-            actual = target.Equals(obj);
+            DateTime donationDate = new DateTime(2013, 1, 1);
+            Donation target = new Donation(1, "reason", 23.09, DateTime.Today, DateTime.Today, "comments");
+            Donation obj = new Donation(1, "reason", 23.09, donationDate, DateTime.Today, "comments");
+            bool expected = false;
+            bool actual = target.Equals(obj);
             Assert.AreEqual(expected, actual);
         }
 
@@ -185,11 +218,10 @@ namespace DataTypesTest
         [TestMethod()]
         public void DiffPaymentDateEqualsTest()
         {
-            Donation target = new Donation(); // TODO: Initialize to an appropriate value
-            object obj = null; // TODO: Initialize to an appropriate value
-            bool expected = false; // TODO: Initialize to an appropriate value
-            bool actual;
-            actual = target.Equals(obj);
+            Donation target = new Donation(1, "reason", 23.09, DateTime.Today, DateTime.Today, "comments");
+            Donation obj = new Donation(1, "reason", 23.09, DateTime.Today, "comments");
+            bool expected = false;
+            bool actual = target.Equals(obj);
             Assert.AreEqual(expected, actual);
         }
 
@@ -199,11 +231,11 @@ namespace DataTypesTest
         [TestMethod()]
         public void DiffDonationPaidEqualsTest()
         {
-            Donation target = new Donation(); // TODO: Initialize to an appropriate value
-            object obj = null; // TODO: Initialize to an appropriate value
-            bool expected = false; // TODO: Initialize to an appropriate value
-            bool actual;
-            actual = target.Equals(obj);
+            Donation_Accessor target = new Donation_Accessor(1, "reason", 23.09, DateTime.Today, DateTime.Today, "comments");
+            Donation_Accessor obj = new Donation_Accessor(1, "reason", 23.09, DateTime.Today, DateTime.Today, "comments");
+            obj.DonationPaid = false;
+            bool expected = false;
+            bool actual = target.Equals(obj);
             Assert.AreEqual(expected, actual);
         }
 
@@ -213,25 +245,10 @@ namespace DataTypesTest
         [TestMethod()]
         public void DiffCommentEqualsTest()
         {
-            Donation target = new Donation(); // TODO: Initialize to an appropriate value
-            object obj = null; // TODO: Initialize to an appropriate value
-            bool expected = false; // TODO: Initialize to an appropriate value
-            bool actual;
-            actual = target.Equals(obj);
-            Assert.AreEqual(expected, actual);
-        }
-
-        /// <summary>
-        ///A test for Equals
-        ///</summary>
-        [TestMethod()]
-        public void NullPaymentDateEqualsTest()
-        {
-            Donation target = new Donation(); // TODO: Initialize to an appropriate value
-            object obj = null; // TODO: Initialize to an appropriate value
-            bool expected = false; // TODO: Initialize to an appropriate value
-            bool actual;
-            actual = target.Equals(obj);
+            Donation target = new Donation(1, "reason", 23.09, DateTime.Today, DateTime.Today, "comments");
+            Donation obj = new Donation(1, "reason", 23.09, DateTime.Today, DateTime.Today, "comments:2");
+            bool expected = false;
+            bool actual = target.Equals(obj);
             Assert.AreEqual(expected, actual);
         }
 
@@ -241,11 +258,10 @@ namespace DataTypesTest
         [TestMethod()]
         public void SomeDiffEqualsTest()
         {
-            Donation target = new Donation(); // TODO: Initialize to an appropriate value
-            object obj = null; // TODO: Initialize to an appropriate value
-            bool expected = false; // TODO: Initialize to an appropriate value
-            bool actual;
-            actual = target.Equals(obj);
+            Donation target = new Donation(1, "reason", 23.09, DateTime.Today, DateTime.Today, "comments");
+            Donation obj = new Donation(1, "reason:2", 23.54, DateTime.Today, DateTime.Today, "comments:2");
+            bool expected = false;
+            bool actual = target.Equals(obj);
             Assert.AreEqual(expected, actual);
         }
 
@@ -255,94 +271,11 @@ namespace DataTypesTest
         [TestMethod()]
         public void AllDiffEqualsTest()
         {
-            Donation target = new Donation(); // TODO: Initialize to an appropriate value
-            object obj = null; // TODO: Initialize to an appropriate value
-            bool expected = false; // TODO: Initialize to an appropriate value
-            bool actual;
-            actual = target.Equals(obj);
+            Donation target = new Donation(1, "reason", 23.09, DateTime.Today, DateTime.Today, "comments");
+            Donation obj = new Donation(2, "reason:2", 23.87, DateTime.MinValue, DateTime.MaxValue, "comments:2");
+            bool expected = false;
+            bool actual = target.Equals(obj);
             Assert.AreEqual(expected, actual);
-        }
-
-        #endregion
-
-        #region DonationDate Test
-
-        /// <summary>
-        ///A test for DonationDate
-        ///</summary>
-        [TestMethod()]
-        public void GoodDateDonationDateTest()
-        {
-            Donation target = new Donation(); // TODO: Initialize to an appropriate value
-            DateTime expected = new DateTime(); // TODO: Initialize to an appropriate value
-            DateTime actual;
-            target.DonationDate = expected;
-            actual = target.DonationDate;
-            Assert.AreEqual(expected, actual);
-        }
-
-
-        /// <summary>
-        ///A test for DonationDate
-        ///</summary>
-        [TestMethod()]
-        public void NullDateDonationDateTest()
-        {
-            Donation target = new Donation(); // TODO: Initialize to an appropriate value
-            DateTime expected = new DateTime(); // TODO: Initialize to an appropriate value
-            DateTime actual;
-            target.DonationDate = expected;
-            actual = target.DonationDate;
-            Assert.AreEqual(expected, actual);
-        }
-        
-        #endregion
-
-        #region Ctor Test
-
-        /// <summary>
-        ///A test for Donation Constructor
-        ///</summary>
-        [TestMethod()]
-        public void UnpaidDonationConstructorTest()
-        {
-            int id = 0; // TODO: Initialize to an appropriate value
-            string reason = string.Empty; // TODO: Initialize to an appropriate value
-            double amount = 0F; // TODO: Initialize to an appropriate value
-            DateTime donationDate = new DateTime(); // TODO: Initialize to an appropriate value
-            DateTime paymentDate = new DateTime(); // TODO: Initialize to an appropriate value
-            string comments = string.Empty; // TODO: Initialize to an appropriate value
-            Donation target = new Donation(id, reason, amount, donationDate, paymentDate, comments);
-        }
-        
-        /// <summary>
-        ///A test for Donation Constructor
-        ///</summary>
-        [TestMethod()]
-        public void PaidDonationConstructorTest()
-        {
-            int id = 0; // TODO: Initialize to an appropriate value
-            string reason = string.Empty; // TODO: Initialize to an appropriate value
-            double amount = 0F; // TODO: Initialize to an appropriate value
-            DateTime donationDate = new DateTime(); // TODO: Initialize to an appropriate value
-            DateTime paymentDate = new DateTime(); // TODO: Initialize to an appropriate value
-            string comments = string.Empty; // TODO: Initialize to an appropriate value
-            Donation target = new Donation(id, reason, amount, donationDate, paymentDate, comments);
-        }
-
-        /// <summary>
-        ///A test for Donation Constructor
-        ///</summary>
-        [TestMethod()]
-        public void NoDonationDateConstructorTest()
-        {
-            int id = 0; // TODO: Initialize to an appropriate value
-            string reason = string.Empty; // TODO: Initialize to an appropriate value
-            double amount = 0F; // TODO: Initialize to an appropriate value
-            DateTime donationDate = new DateTime(); // TODO: Initialize to an appropriate value
-            DateTime paymentDate = new DateTime(); // TODO: Initialize to an appropriate value
-            string comments = string.Empty; // TODO: Initialize to an appropriate value
-            Donation target = new Donation(id, reason, amount, donationDate, paymentDate, comments);
         }
 
         #endregion
