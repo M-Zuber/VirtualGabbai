@@ -246,7 +246,7 @@ namespace DataTypesTest
         public void DiffCommentEqualsTest()
         {
             Donation target = new Donation(1, "reason", 23.09, DateTime.Today, DateTime.Today, "comments");
-            Donation obj = new Donation(1, "reason", 23.09, DateTime.Today, DateTime.Today, "comments:2");
+            Donation obj = new Donation(1, "reason", 23.09, DateTime.Today, DateTime.Today, "");
             bool expected = false;
             bool actual = target.Equals(obj);
             Assert.AreEqual(expected, actual);

@@ -74,7 +74,11 @@ namespace DataTypes
         public override bool Equals(object obj)
         {
             Donation donationToCompare = (Donation)obj;
-            
+
+            if (donationToCompare.Comments == null)
+            {
+                donationToCompare.Comments = "";
+            }
             return ((this._Id == donationToCompare._Id) &&
                     (this.Amount == donationToCompare.Amount) &&
                     (this.Comments == donationToCompare.Comments) &&
