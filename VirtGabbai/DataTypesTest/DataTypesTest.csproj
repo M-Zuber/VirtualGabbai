@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DonationTest.cs" />
+    <Compile Include="PaidDonationTest.cs" />
     <Compile Include="PhoneNumberTest.cs" />
     <Compile Include="PhoneTypeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -17,10 +17,6 @@ namespace DataTypes
 
         public DateTime DonationDate { get; set; }
 
-        public DateTime PaymentDate { get; set; }
-
-        public bool DonationPaid { get; private set; }
-
         public string Comments { get; set; }
 
         #endregion
@@ -29,24 +25,12 @@ namespace DataTypes
 
         public Donation(){}
 
-        public Donation(int id, string reason, double amount, DateTime donationDate, DateTime paymentDate, string comments)
-        {
-            this._Id = id;
-            this.Amount = amount;
-            this.Reason = reason;
-            this.DonationDate = donationDate;
-            this.PaymentDate = paymentDate;
-            this.DonationPaid = true;
-            this.Comments = comments;
-        }
-
         public Donation(int id, string reason, double amount, DateTime donationDate, string comments)
         {
             this._Id = id;
             this.Amount = amount;
             this.Reason = reason;
             this.DonationDate = donationDate;
-            this.DonationPaid = false;
             this.Comments = comments;
         }
 
@@ -64,10 +48,6 @@ namespace DataTypes
                 returnString += " Comments: \"" + this.Comments + "\"";
                 
             }
-            if (this.DonationPaid)
-            {
-                returnString += " Date paid: \"" + this.PaymentDate.ToString("dd/MM/yyyy") + "\"";
-            }
             return returnString;
         }
 
@@ -83,8 +63,6 @@ namespace DataTypes
                     (this.Amount == donationToCompare.Amount) &&
                     (this.Comments == donationToCompare.Comments) &&
                     (this.DonationDate == donationToCompare.DonationDate) &&
-                    (this.DonationPaid == donationToCompare.DonationPaid) &&
-                    (this.PaymentDate == donationToCompare.PaymentDate) &&
                     (this.Reason == donationToCompare.Reason));
         }
 
