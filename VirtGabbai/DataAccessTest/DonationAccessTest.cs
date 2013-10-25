@@ -776,8 +776,21 @@ namespace DataAccessTest
         [TestMethod()]
         public void UpdateMultipleDonationsTest()
         {
-            List<Donation> updatedDonationList = null; // TODO: Initialize to an appropriate value
-            DonationAccess.UpdateMultipleDonations(updatedDonationList);
+            int accountId = 1;
+            List<Donation> updatedDonationList = new List<Donation>()
+            {
+                new Donation(5, "updated reason:5", 12.5, DateTime.Today, ""),
+                new PaidDonation(6, "updated reason:6", 12.5, DateTime.Today, "", DateTime.Today)
+            };
+            DonationAccess.UpdateMultipleDonations(updatedDonationList, accountId);
+
+            List<Donation> actual = new List<Donation>()
+            {
+                DonationAccess.GetDonationById(5),
+                DonationAccess.GetDonationById(6)
+            };
+
+            CollectionAssert.AreEqual(updatedDonationList, actual);
         }
 
         /// <summary>
@@ -786,13 +799,32 @@ namespace DataAccessTest
         [TestMethod()]
         public void UpdateSingleDonationTest()
         {
-            Donation updatedDonation = null; // TODO: Initialize to an appropriate value
-            Enums.CRUDResults expected = new Enums.CRUDResults(); // TODO: Initialize to an appropriate value
+            int accountId = 1;
+            Donation updatedDonation = new Donation(3, "updated reason:3", 12.5, DateTime.Today, "comment");
+            Enums.CRUDResults expected = Enums.CRUDResults.UPDATE_SUCCESS;
             Enums.CRUDResults actual;
-            actual = DonationAccess.UpdateSingleDonation(updatedDonation);
+            actual = DonationAccess.UpdateSingleDonation(updatedDonation, accountId);
+            Donation actualDonation = DonationAccess.GetDonationById(3);
             Assert.AreEqual(expected, actual);
+            Assert.AreEqual(updatedDonation, actualDonation);
         }
 
+        /// <summary>
+        ///A test for UpdateSingleDonation
+        ///</summary>
+        [TestMethod()]
+        public void UpdateByTurningToPaidSingleDonationTest()
+        {
+            int accountId = 1;
+            Donation updatedDonation = new Donation(1, "reason:1", 12.5, DateTime.Today, "its now paid");
+            PaidDonation donationPaid = new PaidDonation(updatedDonation, DateTime.Today);
+            Enums.CRUDResults expected = Enums.CRUDResults.UPDATE_SUCCESS;
+            Enums.CRUDResults actual;
+            actual = DonationAccess.UpdateSingleDonation(donationPaid, accountId);
+            Donation actualDonation = DonationAccess.GetDonationById(1);
+            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(updatedDonation, actualDonation);
+        }
 
         /// <summary>
         ///A test for UpdateSingleDonation
@@ -800,10 +832,11 @@ namespace DataAccessTest
         [TestMethod()]
         public void UpdateSingleNonExistentDonationTest()
         {
-            Donation updatedDonation = null; // TODO: Initialize to an appropriate value
-            Enums.CRUDResults expected = new Enums.CRUDResults(); // TODO: Initialize to an appropriate value
+            int accountId = 1;
+            Donation updatedDonation = new Donation(50, "diff reason", 25, DateTime.MinValue, "");
+            Enums.CRUDResults expected = Enums.CRUDResults.UPDATE_FAIL;
             Enums.CRUDResults actual;
-            actual = DonationAccess.UpdateSingleDonation(updatedDonation);
+            actual = DonationAccess.UpdateSingleDonation(updatedDonation, accountId);
             Assert.AreEqual(expected, actual);
         }
         

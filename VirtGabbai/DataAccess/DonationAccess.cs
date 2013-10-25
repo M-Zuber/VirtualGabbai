@@ -180,10 +180,13 @@ namespace DataAccess
 
         #region Update
 
-        public static Enums.CRUDResults UpdateSingleDonation(Donation updatedDonation)
+        public static Enums.CRUDResults UpdateSingleDonation(Donation updatedDonation, int accountId)
         {
             try
             {
+                t_donations donationUpdating = LookupDonationById(updatedDonation._Id);
+                donationUpdating = ConvertSingleLocalDonationToDbType(updatedDonation, accountId);
+                Cache.CacheData.t_donations.ApplyCurrentValues(donationUpdating);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.UPDATE_SUCCESS;
             }
@@ -194,12 +197,12 @@ namespace DataAccess
             }
         }
 
-        public static void UpdateMultipleDonations(List<Donation> updatedDonationList)
+        public static void UpdateMultipleDonations(List<Donation> updatedDonationList, int accountId)
         {
             Enums.CRUDResults result;
             foreach (Donation updatedDonation in updatedDonationList)
             {
-                result = UpdateSingleDonation(updatedDonation);
+                result = UpdateSingleDonation(updatedDonation, accountId);
                 if (result == Enums.CRUDResults.UPDATE_FAIL)
                 {
                     //LOG
