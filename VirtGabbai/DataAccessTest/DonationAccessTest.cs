@@ -674,6 +674,7 @@ namespace DataAccessTest
             {
                 t_donations.Createt_donations(1,1,"reason:1", 12.5, DateTime.Today, false)
             };
+            expected[0].comments = "";
             List<t_donations> actual;
             actual = DonationAccess_Accessor.LookupByReason(reason);
             Assert.AreEqual(expected[0].account_id, actual[0].account_id);
@@ -711,8 +712,8 @@ namespace DataAccessTest
             t_donations actualUnpaid = DonationAccess_Accessor.LookupDonationById(idUnpaid);
             Assert.AreEqual(DonationAccess_Accessor.ConvertSingleDbDonationToLocalType(expectedUnpaid),
                             DonationAccess_Accessor.ConvertSingleDbDonationToLocalType(actualUnpaid));
-            int idPpaid = 6;
-            t_donations expectedPaid = t_donations.Createt_donations(6, 1, "reason:6", 12.5, DateTime.Today, true);
+            int idPpaid = 7;
+            t_donations expectedPaid = t_donations.Createt_donations(7, 1, "reason:7", 12.5, DateTime.Today, true);
             expectedPaid.date_paid = DateTime.Today;
             t_donations actualPaid = DonationAccess_Accessor.LookupDonationById(idPpaid);
             Assert.AreEqual(DonationAccess_Accessor.ConvertSingleDbDonationToLocalType(expectedPaid),
@@ -800,11 +801,11 @@ namespace DataAccessTest
         public void UpdateSingleDonationTest()
         {
             int accountId = 1;
-            Donation updatedDonation = new Donation(3, "updated reason:3", 12.5, DateTime.Today, "comment");
+            PaidDonation updatedDonation = new PaidDonation(8, "updated reason:8", 12.5, DateTime.Today, "comment", DateTime.Today);
             Enums.CRUDResults expected = Enums.CRUDResults.UPDATE_SUCCESS;
             Enums.CRUDResults actual;
             actual = DonationAccess.UpdateSingleDonation(updatedDonation, accountId);
-            Donation actualDonation = DonationAccess.GetDonationById(3);
+            Donation actualDonation = DonationAccess.GetDonationById(8);
             Assert.AreEqual(expected, actual);
             Assert.AreEqual(updatedDonation, actualDonation);
         }
@@ -816,12 +817,12 @@ namespace DataAccessTest
         public void UpdateByTurningToPaidSingleDonationTest()
         {
             int accountId = 1;
-            Donation updatedDonation = new Donation(1, "reason:1", 12.5, DateTime.Today, "its now paid");
+            Donation updatedDonation = new Donation(3, "reason:3", 12.5, DateTime.Today, "its now paid");
             PaidDonation donationPaid = new PaidDonation(updatedDonation, DateTime.Today);
             Enums.CRUDResults expected = Enums.CRUDResults.UPDATE_SUCCESS;
             Enums.CRUDResults actual;
             actual = DonationAccess.UpdateSingleDonation(donationPaid, accountId);
-            Donation actualDonation = DonationAccess.GetDonationById(1);
+            Donation actualDonation = DonationAccess.GetDonationById(3);
             Assert.AreEqual(expected, actual);
             Assert.AreEqual(updatedDonation, actualDonation);
         }
