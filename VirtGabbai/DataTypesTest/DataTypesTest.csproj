@@ -51,6 +51,8 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DonationTest.cs" />
+    <Compile Include="PaidDonationTest.cs" />
     <Compile Include="PhoneNumberTest.cs" />
     <Compile Include="PhoneTypeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -61,6 +63,9 @@
       <Project>{9B2ABB56-D031-4753-ADD5-B5DCEB597E3C}</Project>
       <Name>DataTypes</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Shadow Include="Test References\DataTypes.accessor" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

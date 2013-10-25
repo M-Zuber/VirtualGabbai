@@ -72,9 +72,9 @@ namespace DataAccess
         {
             try
             {
-                return (from CurrPhoneType in Cache.CacheData.t_phone_numbers
-                        where CurrPhoneType.person_id == personId
-                        select CurrPhoneType).ToList<t_phone_numbers>();
+                return (from CurrPerson in Cache.CacheData.t_people
+                        where CurrPerson.C_id == personId
+                        select CurrPerson).First().t_phone_numbers.ToList<t_phone_numbers>();
             }
             catch (Exception)
             {
