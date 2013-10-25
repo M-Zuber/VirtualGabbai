@@ -255,7 +255,7 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void ConvertSinglePaidLocalDonationToDbTypeTest()
         {
-            Donation localTypeDonation = new Donation(1, "reason:1", 12.5, DateTime.Today, "comment");
+            PaidDonation localTypeDonation = new PaidDonation(1, "reason:1", 12.5, DateTime.Today, "comment", DateTime.Today);
             t_donations expected = t_donations.Createt_donations(1, 1, "reason:1", 12.5, DateTime.Today, true);
             expected.date_paid = DateTime.Today;
             t_donations actual;
@@ -699,7 +699,7 @@ namespace DataAccessTest
         }
         
         #endregion
-
+        
         #region Update Tests
 
         /// <summary>

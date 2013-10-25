@@ -295,6 +295,10 @@ namespace DataAccess
                 //LOG
                 return null;
             }
+            if (dbTypeDonations.comments == null)
+            {
+                dbTypeDonations.comments = "";
+            }
             Donation convertedDonation;
             if (dbTypeDonations.paid)
             {

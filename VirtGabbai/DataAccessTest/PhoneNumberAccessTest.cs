@@ -328,7 +328,7 @@ namespace DataAccessTest
         {
             int personId = 50;
             List<PhoneNumber> actual = PhoneNumberAccess.GetAllPhoneNumbers(personId);
-            Assert.AreEqual(0, actual.Count);
+            Assert.IsNull(actual);
         }
 
         /// <summary>
@@ -459,7 +459,7 @@ namespace DataAccessTest
             int personId = 2;
             List<t_phone_numbers> actual;
             actual = PhoneNumberAccess_Accessor.LookupAllPhoneNumbers(personId);
-            Assert.AreEqual(0, actual.Count);
+            Assert.IsNull(actual);
         }
 
         /// <summary>
