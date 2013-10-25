@@ -15,32 +15,32 @@ namespace DataAccess
 
         private static Donation GetDonationById(int id)
         {
-            return null;
+            return ConvertSingleDbDonationToLocalType(LookupDonationById(id));
         }
 
         private static List<Donation> GetByReason(string reason)
         {
-            return null;
+            return ConvertMultipleDbDonationsToLocalType(LookupByReason(reason));
         }
 
         private static List<Donation> GetByDonationDate(DateTime donationDate)
         {
-            return null;
+            return ConvertMultipleDbDonationsToLocalType(LookupByDonationDate(donationDate));
         }
 
         private static List<Donation> GetByPaymentDate(DateTime paymentDate)
         {
-            return null;
+            return ConvertMultipleDbDonationsToLocalType(LookupByPaymentDate(paymentDate));
         }
 
         private static Donation GetSpecificDonation(string reason, double amount, DateTime donationDate)
         {
-            return null;
+            return ConvertSingleDbDonationToLocalType(LookupSpecificDonation(reason, amount, donationDate));
         }
 
         private static List<Donation> GetAllDonations(int accountId)
         {
-            return null;
+            return ConvertMultipleDbDonationsToLocalType(LookupAllDonations(accountId));
         }
 
         #endregion
