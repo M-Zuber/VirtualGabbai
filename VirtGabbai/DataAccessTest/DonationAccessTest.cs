@@ -114,8 +114,23 @@ namespace DataAccessTest
         [TestMethod()]
         public void AddMultipleNewDonationsTest()
         {
-            List<Donation> newDonationList = null; // TODO: Initialize to an appropriate value
-            DonationAccess.AddMultipleNewDonations(newDonationList);
+            int accountId = 1;
+            List<Donation> newDonationList = new List<Donation>();
+
+            for (int i = 11; i <= 20; i++)
+            {
+                Donation newDonation = new Donation(i, "reason:" + i.ToString(), 12.5, DateTime.Today, "comment");
+                newDonationList.Add(newDonation);
+            }
+            DonationAccess.AddMultipleNewDonations(newDonationList, accountId);
+
+            List<Donation> actual = new List<Donation>();
+            for (int i = 11; i <= 20; i++)
+            {
+                actual.Add(DonationAccess.GetDonationById(i));
+            }
+
+            CollectionAssert.AreEqual(newDonationList, actual);
         }
 
         /// <summary>
@@ -124,11 +139,30 @@ namespace DataAccessTest
         [TestMethod()]
         public void AddNewDonationTest()
         {
-            Donation newDonation = null; // TODO: Initialize to an appropriate value
-            Enums.CRUDResults expected = new Enums.CRUDResults(); // TODO: Initialize to an appropriate value
+            int accountId = 1;
+            Donation newDonation = new Donation(21,"reason:21", 12.5, DateTime.Today, "comment");
+            Enums.CRUDResults expected = Enums.CRUDResults.CREATE_SUCCESS;
             Enums.CRUDResults actual;
-            actual = DonationAccess.AddNewDonation(newDonation);
+            actual = DonationAccess.AddNewDonation(newDonation, accountId);
             Assert.AreEqual(expected, actual);
+            Donation addedDonation = DonationAccess.GetDonationById(21);
+            Assert.AreEqual(newDonation, addedDonation);
+        }
+
+        /// <summary>
+        ///A test for AddNewDonation
+        ///</summary>
+        [TestMethod()]
+        public void AddNewPaidDonationTest()
+        {
+            int accountId = 1;
+            PaidDonation newDonation = new PaidDonation(22, "reason:21", 12.5, DateTime.Today, "comment", DateTime.Today);
+            Enums.CRUDResults expected = Enums.CRUDResults.CREATE_SUCCESS;
+            Enums.CRUDResults actual;
+            actual = DonationAccess.AddNewDonation(newDonation, accountId);
+            Assert.AreEqual(expected, actual);
+            Donation addedDonation = DonationAccess.GetDonationById(22);
+            Assert.AreEqual(newDonation, addedDonation);
         }
         
         #endregion

@@ -13,32 +13,32 @@ namespace DataAccess
 
         #region Local type return
 
-        private static Donation GetDonationById(int id)
+        public static Donation GetDonationById(int id)
         {
             return ConvertSingleDbDonationToLocalType(LookupDonationById(id));
         }
 
-        private static List<Donation> GetByReason(string reason)
+        public static List<Donation> GetByReason(string reason)
         {
             return ConvertMultipleDbDonationsToLocalType(LookupByReason(reason));
         }
 
-        private static List<Donation> GetByDonationDate(DateTime donationDate)
+        public static List<Donation> GetByDonationDate(DateTime donationDate)
         {
             return ConvertMultipleDbDonationsToLocalType(LookupByDonationDate(donationDate));
         }
 
-        private static List<Donation> GetByPaymentDate(DateTime paymentDate)
+        public static List<Donation> GetByPaymentDate(DateTime paymentDate)
         {
             return ConvertMultipleDbDonationsToLocalType(LookupByPaymentDate(paymentDate));
         }
 
-        private static Donation GetSpecificDonation(string reason, double amount, DateTime donationDate)
+        public static Donation GetSpecificDonation(string reason, double amount, DateTime donationDate)
         {
             return ConvertSingleDbDonationToLocalType(LookupSpecificDonation(reason, amount, donationDate));
         }
 
-        private static List<Donation> GetAllDonations(int accountId)
+        public static List<Donation> GetAllDonations(int accountId)
         {
             return ConvertMultipleDbDonationsToLocalType(LookupAllDonations(accountId));
         }
@@ -147,10 +147,12 @@ namespace DataAccess
 
         #region Create
 
-        public static Enums.CRUDResults AddNewDonation(Donation newDonation)
+        public static Enums.CRUDResults AddNewDonation(Donation newDonation, int accountId)
         {
             try
             {
+                t_donations newDbDonation = ConvertSingleLocalDonationToDbType(newDonation, accountId);
+                Cache.CacheData.t_donations.AddObject(newDbDonation);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.CREATE_SUCCESS;
             }
@@ -161,12 +163,12 @@ namespace DataAccess
             }
         }
 
-        public static void AddMultipleNewDonations(List<Donation> newDonationList)
+        public static void AddMultipleNewDonations(List<Donation> newDonationList, int accountId)
         {
             Enums.CRUDResults result;
             foreach (Donation newDonation in newDonationList)
             {
-                result = AddNewDonation(newDonation);
+                result = AddNewDonation(newDonation, accountId);
                 if (result == Enums.CRUDResults.CREATE_FAIL)
                 {
                     //LOG
@@ -259,6 +261,7 @@ namespace DataAccess
             t_donations convertedDonation = t_donations.Createt_donations(
                 localTypeDonation._Id, accountNumber, localTypeDonation.Reason, localTypeDonation.Amount,
                 localTypeDonation.DonationDate, false);
+            convertedDonation.comments = localTypeDonation.Comments;
             if (localTypeDonation is PaidDonation)
             {
                 convertedDonation.paid = true;
