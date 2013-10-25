@@ -210,6 +210,8 @@ namespace DataAccessTest
                 t_donations.Createt_donations(1,1,"reason:1", 12.5, DateTime.Today, false),
                 t_donations.Createt_donations(2,1,"reason:2", 12.5, DateTime.Today, true)
             };
+            expected[0].comments = "";
+            expected[1].comments = "";
             expected[1].date_paid = DateTime.Today;
             List<t_donations> actual;
             actual = DonationAccess_Accessor.ConvertMultipleLocalDonationssToDbType(localTypeDonationList, 1);
@@ -270,6 +272,7 @@ namespace DataAccessTest
         {
             Donation localTypeDonation = new Donation(1, "reason:1", 12.5, DateTime.Today, "comment");
             t_donations expected = t_donations.Createt_donations(1,1, "reason:1", 12.5, DateTime.Today, false);
+            expected.comments = "comment";
             t_donations actual;
             actual = DonationAccess_Accessor.ConvertSingleLocalDonationToDbType(localTypeDonation, 1);
             Assert.AreEqual(expected.C_id, actual.C_id);
@@ -292,6 +295,7 @@ namespace DataAccessTest
             PaidDonation localTypeDonation = new PaidDonation(1, "reason:1", 12.5, DateTime.Today, "comment", DateTime.Today);
             t_donations expected = t_donations.Createt_donations(1, 1, "reason:1", 12.5, DateTime.Today, true);
             expected.date_paid = DateTime.Today;
+            expected.comments = "comment";
             t_donations actual;
             actual = DonationAccess_Accessor.ConvertSingleLocalDonationToDbType(localTypeDonation, 1);
             Assert.AreEqual(expected.C_id, actual.C_id);
@@ -314,8 +318,28 @@ namespace DataAccessTest
         [TestMethod()]
         public void DeleteMultipleDonationsTest()
         {
-            List<Donation> deletedDonationList = null; // TODO: Initialize to an appropriate value
-            DonationAccess.DeleteMultipleDonations(deletedDonationList);
+            int accountId = 1;
+            List<Donation> deletedDonationList = new List<Donation>()
+            {
+                new Donation(2,"reason:2", 12.5, DateTime.Today, ""),
+                new PaidDonation(10, "reason:10", 12.5, DateTime.Today, "", DateTime.Today)
+            };
+            DonationAccess.DeleteMultipleDonations(deletedDonationList, accountId);
+
+            List<Donation> allDonations = DonationAccess.GetAllDonations(accountId);
+
+            for (int i = 0; i < allDonations.Count; i++)
+            {
+                if (!(allDonations[i] is PaidDonation))
+                {
+                    Assert.AreNotEqual(allDonations[i], deletedDonationList[0]);
+                    Assert.AreNotEqual(allDonations[i], deletedDonationList[1]);
+                }
+                else
+                {
+                    Assert.AreNotEqual(allDonations[i], deletedDonationList[1]);
+                }
+            }
         }
 
         /// <summary>
@@ -324,11 +348,20 @@ namespace DataAccessTest
         [TestMethod()]
         public void DeleteSingleDonationTest()
         {
-            Donation deleteDonation = null; // TODO: Initialize to an appropriate value
-            Enums.CRUDResults expected = new Enums.CRUDResults(); // TODO: Initialize to an appropriate value
+            int accountId = 1;
+            Donation deleteDonation = new Donation(4,"reason:4", 12.5, DateTime.Today, "");
+            Enums.CRUDResults expected = Enums.CRUDResults.DELETE_SUCCESS;
             Enums.CRUDResults actual;
-            actual = DonationAccess.DeleteSingleDonation(deleteDonation);
+            actual = DonationAccess.DeleteSingleDonation(deleteDonation, accountId);
+            List<Donation> allDonations = DonationAccess.GetAllDonations(accountId);
             Assert.AreEqual(expected, actual);
+            for (int i = 0; i < allDonations.Count; i++)
+            {
+                if (!(allDonations[i] is PaidDonation))
+                {
+                    Assert.AreNotEqual(allDonations[i], deleteDonation);
+                } 
+            }
         }
 
         /// <summary>
@@ -337,10 +370,11 @@ namespace DataAccessTest
         [TestMethod()]
         public void DeleteSingleNonExistentDonationTest()
         {
-            Donation deleteDonation = null; // TODO: Initialize to an appropriate value
-            Enums.CRUDResults expected = new Enums.CRUDResults(); // TODO: Initialize to an appropriate value
+            int accountId = 1;
+            Donation deleteDonation = new Donation(50, "", 12, DateTime.Today, "");
+            Enums.CRUDResults expected = Enums.CRUDResults.DELETE_FAIL;
             Enums.CRUDResults actual;
-            actual = DonationAccess.DeleteSingleDonation(deleteDonation);
+            actual = DonationAccess.DeleteSingleDonation(deleteDonation, accountId);
             Assert.AreEqual(expected, actual);
         }
         

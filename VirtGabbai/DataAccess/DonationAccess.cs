@@ -211,10 +211,13 @@ namespace DataAccess
 
         #region Delete
 
-        public static Enums.CRUDResults DeleteSingleDonation(Donation deleteDonation)
+        public static Enums.CRUDResults DeleteSingleDonation(Donation deleteDonation, int accountId)
         {
             try
             {
+                t_donations donationDeleting =
+                    Cache.CacheData.t_donations.First(donation => donation.C_id == deleteDonation._Id);
+                Cache.CacheData.t_donations.DeleteObject(donationDeleting);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.DELETE_SUCCESS;
             }
@@ -225,12 +228,12 @@ namespace DataAccess
             }
         }
 
-        public static void DeleteMultipleDonations(List<Donation> deletedDonationList)
+        public static void DeleteMultipleDonations(List<Donation> deletedDonationList, int accountId)
         {
             Enums.CRUDResults result;
             foreach (Donation deletedDonation in deletedDonationList)
             {
-                result = DeleteSingleDonation(deletedDonation);
+                result = DeleteSingleDonation(deletedDonation, accountId);
                 if (result == Enums.CRUDResults.DELETE_FAIL)
                 {
                     //LOG
