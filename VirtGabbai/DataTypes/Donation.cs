@@ -55,9 +55,9 @@ namespace DataTypes
         {
             Donation donationToCompare = (Donation)obj;
 
-            if (donationToCompare.Comments == null)
+            if ((donationToCompare.Comments == null) && (this.Comments != null))
             {
-                donationToCompare.Comments = "";
+                return false;
             }
             return ((this._Id == donationToCompare._Id) &&
                     (this.Amount == donationToCompare.Amount) &&

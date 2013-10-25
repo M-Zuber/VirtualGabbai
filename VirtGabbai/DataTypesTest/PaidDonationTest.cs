@@ -124,7 +124,7 @@ namespace DataTypesTest
             Donation donationPaying = new Donation(1, "reason:1", 12.5, DateTime.Today, "a comment");
             DateTime paymentDate = DateTime.Today;
             PaidDonation target = new PaidDonation(donationPaying, paymentDate);
-            string expected = donationPaying.ToString() + " Paid on: \"" + paymentDate.ToString("dd/MM/yyyy");
+            string expected = donationPaying.ToString() + " Paid on: \"" + paymentDate.ToString("dd/MM/yyyy") + "\"";
             string actual;
             actual = target.ToString();
             Assert.AreEqual(expected, actual);
@@ -139,7 +139,7 @@ namespace DataTypesTest
             Donation donationPaying = new Donation(1, "reason:1", 12.5, DateTime.Today, "");
             DateTime paymentDate = DateTime.Today;
             PaidDonation target = new PaidDonation(donationPaying, paymentDate);
-            string expected = donationPaying.ToString() + " Paid on: \"" + paymentDate.ToString("dd/MM/yyyy");
+            string expected = donationPaying.ToString() + " Paid on: \"" + paymentDate.ToString("dd/MM/yyyy") + "\"";
             string actual;
             actual = target.ToString();
             Assert.AreEqual(expected, actual);

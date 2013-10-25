@@ -51,7 +51,9 @@ namespace DataAccess
         {
             try
             {
-                return null;
+                return (from CurrDonation in Cache.CacheData.t_donations
+                        where CurrDonation.C_id == id
+                        select CurrDonation).First();
             }
             catch (Exception)
             {
@@ -64,7 +66,9 @@ namespace DataAccess
         {
             try
             {
-                return null;
+                return (from CurrDonation in Cache.CacheData.t_donations
+                        where CurrDonation.reason == reason
+                        select CurrDonation).ToList<t_donations>();
             }
             catch (Exception)
             {
@@ -77,7 +81,9 @@ namespace DataAccess
         {
             try
             {
-                return null;
+                return (from CurrDonation in Cache.CacheData.t_donations
+                        where CurrDonation.date_donated == donationDate
+                        select CurrDonation).ToList<t_donations>();
             }
             catch (Exception)
             {
@@ -90,7 +96,9 @@ namespace DataAccess
         {
             try
             {
-                return null;
+                return (from CurrDonation in Cache.CacheData.t_donations
+                        where CurrDonation.date_paid == paymentDate
+                        select CurrDonation).ToList<t_donations>();
             }
             catch (Exception)
             {
@@ -103,7 +111,11 @@ namespace DataAccess
         {
             try
             {
-                return null;
+                return (from CurrDonation in Cache.CacheData.t_donations
+                        where CurrDonation.reason == reason &&
+                              CurrDonation.amount == amount &&
+                              CurrDonation.date_donated == donationDate
+                        select CurrDonation).First();
             }
             catch (Exception)
             {
@@ -116,7 +128,9 @@ namespace DataAccess
         {
             try
             {
-                return null;
+                return (from CurrAccount in Cache.CacheData.t_accounts
+                        where CurrAccount.C_id == accountId
+                        select CurrAccount).First().t_donations.ToList<t_donations>();
             }
             catch (Exception)
             {
@@ -242,13 +256,13 @@ namespace DataAccess
 
         private static t_donations ConvertSingleLocalDonationToDbType(Donation localTypeDonation, int accountNumber)
         {
-            bool wasPaid = localTypeDonation.DonationPaid;
             t_donations convertedDonation = t_donations.Createt_donations(
                 localTypeDonation._Id, accountNumber, localTypeDonation.Reason, localTypeDonation.Amount,
-                localTypeDonation.DonationDate, wasPaid);
-            if (wasPaid)
+                localTypeDonation.DonationDate, false);
+            if (localTypeDonation is PaidDonation)
             {
-                convertedDonation.date_paid = localTypeDonation.PaymentDate; 
+                convertedDonation.paid = true;
+                convertedDonation.date_paid = (localTypeDonation as PaidDonation).PaymentDate; 
             }
             else
             {
@@ -284,8 +298,13 @@ namespace DataAccess
             Donation convertedDonation;
             if (dbTypeDonations.paid)
             {
-                convertedDonation = new Donation(dbTypeDonations.C_id, dbTypeDonations.reason, dbTypeDonations.amount,
-                    dbTypeDonations.date_donated, dbTypeDonations.date_paid.Value, dbTypeDonations.comments);
+                DateTime paymentDate = DateTime.Today;
+                if (dbTypeDonations.date_paid.HasValue)
+                {
+                    paymentDate = dbTypeDonations.date_paid.Value;
+                }
+                convertedDonation = new PaidDonation(dbTypeDonations.C_id, dbTypeDonations.reason, dbTypeDonations.amount,
+                    dbTypeDonations.date_donated, dbTypeDonations.comments, paymentDate);
             }
             else
             {

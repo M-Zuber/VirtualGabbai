@@ -39,7 +39,7 @@ namespace DataTypes
 
         public override string ToString()
         {
-            return base.ToString() + " Paid on: \"" + PaymentDate.ToString("dd/MM/yyyy");
+            return base.ToString() + " Paid on: \"" + PaymentDate.ToString("dd/MM/yyyy") + "\"";
         }
 
         public override int GetHashCode()

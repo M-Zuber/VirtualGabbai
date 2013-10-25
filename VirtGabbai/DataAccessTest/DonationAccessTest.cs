@@ -54,10 +54,17 @@ namespace DataAccessTest
             {
                 Cache.CacheData.t_accounts.AddObject(t_accounts.Createt_accounts(1, 1));
             }
-            for (int newDonationIndex = 1; newDonationIndex <= 10; newDonationIndex++)
+            for (int newDonationIndex = 1; newDonationIndex <= 5; newDonationIndex++)
             {
                 var newDonation = t_donations.Createt_donations(
                     newDonationIndex, 1, "reason:" + newDonationIndex, 12.5, DateTime.Today, false);
+                Cache.CacheData.t_donations.AddObject(newDonation);
+            }
+            for (int newDonationIndex = 6; newDonationIndex <= 10; newDonationIndex++)
+            {
+                var newDonation = t_donations.Createt_donations(
+                    newDonationIndex, 1, "reason:" + newDonationIndex, 12.5, DateTime.Today, true);
+                newDonation.date_paid = DateTime.Today;
                 Cache.CacheData.t_donations.AddObject(newDonation);
             }
             Cache.CacheData.SaveChanges();
@@ -135,11 +142,21 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void ConvertMultipleDbDonationsToLocalTypeTest()
         {
-            List<t_donations> dbTypeDonationList = null; // TODO: Initialize to an appropriate value
-            List<Donation> expected = null; // TODO: Initialize to an appropriate value
+            List<t_donations> dbTypeDonationList = new List<t_donations>()
+            {
+                t_donations.Createt_donations(1,1,"reason:1", 12.5, DateTime.Today, false),
+                t_donations.Createt_donations(2,1,"reason:2", 12.5, DateTime.Today, true)
+            };
+            List<Donation> expected = new List<Donation>()
+            {
+                new Donation(1,"reason:1", 12.5, DateTime.Today, ""),
+                new PaidDonation(2, "reason:2", 12.5, DateTime.Today, "", DateTime.Today)
+            };
             List<Donation> actual;
             actual = DonationAccess_Accessor.ConvertMultipleDbDonationsToLocalType(dbTypeDonationList);
-            Assert.AreEqual(expected, actual);
+            CollectionAssert.AreEqual(expected, actual);
+            Assert.IsInstanceOfType(actual[0], typeof(Donation));
+            Assert.IsInstanceOfType(actual[1], typeof(PaidDonation));
         }
 
         /// <summary>
@@ -149,11 +166,36 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void ConvertMultipleLocalDonationssToDbTypeTest()
         {
-            List<Donation> localTypeDonationList = null; // TODO: Initialize to an appropriate value
-            List<t_donations> expected = null; // TODO: Initialize to an appropriate value
+            List<Donation> localTypeDonationList = new List<Donation>()
+            {
+                new Donation(1,"reason:1", 12.5, DateTime.Today, ""),
+                new PaidDonation(2, "reason:2", 12.5, DateTime.Today, "", DateTime.Today)
+            };
+            List<t_donations> expected = new List<t_donations>()
+            {
+                t_donations.Createt_donations(1,1,"reason:1", 12.5, DateTime.Today, false),
+                t_donations.Createt_donations(2,1,"reason:2", 12.5, DateTime.Today, true)
+            };
+            expected[1].date_paid = DateTime.Today;
             List<t_donations> actual;
             actual = DonationAccess_Accessor.ConvertMultipleLocalDonationssToDbType(localTypeDonationList, 1);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected[0].account_id, actual[0].account_id);
+            Assert.AreEqual(expected[0].amount, actual[0].amount);
+            Assert.AreEqual(expected[0].C_id, actual[0].C_id);
+            Assert.AreEqual(expected[0].comments, actual[0].comments);
+            Assert.AreEqual(expected[0].date_donated, actual[0].date_donated);
+            Assert.AreEqual(expected[0].date_paid, actual[0].date_paid);
+            Assert.AreEqual(expected[0].paid, actual[0].paid);
+            Assert.AreEqual(expected[0].reason, actual[0].reason);
+
+            Assert.AreEqual(expected[1].account_id, actual[1].account_id);
+            Assert.AreEqual(expected[1].amount, actual[1].amount);
+            Assert.AreEqual(expected[1].C_id, actual[1].C_id);
+            Assert.AreEqual(expected[1].comments, actual[1].comments);
+            Assert.AreEqual(expected[1].date_donated, actual[1].date_donated);
+            Assert.AreEqual(expected[1].date_paid, actual[1].date_paid);
+            Assert.AreEqual(expected[1].paid, actual[1].paid);
+            Assert.AreEqual(expected[1].reason, actual[1].reason);
         }
 
         /// <summary>
@@ -166,6 +208,7 @@ namespace DataAccessTest
             t_donations dbTypeDoantions = t_donations.Createt_donations(1,1,"reason:1", 12.5, DateTime.Today, false);
             Donation expected = new Donation(1, "reason:1", 12.5, DateTime.Today, "");
             Donation actual = DonationAccess_Accessor.ConvertSingleDbDonationToLocalType(dbTypeDoantions);
+            Assert.IsInstanceOfType(actual, typeof(Donation));
             Assert.AreEqual(expected, actual);
         }
 
@@ -176,11 +219,11 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void ConvertSinglePaidDbDonationToLocalTypeTest()
         {
-            t_donations dbTypeDoantions = t_donations.Createt_donations(1, 1, "reason:1", 12.5, DateTime.Today, false);
-            dbTypeDoantions.paid = true;
+            t_donations dbTypeDoantions = t_donations.Createt_donations(1, 1, "reason:1", 12.5, DateTime.Today, true);
             dbTypeDoantions.date_paid = DateTime.Today;
-            Donation expected = new Donation(1, "reason:1", 12.5, DateTime.Today, DateTime.Today, "");
+            PaidDonation expected = new PaidDonation(1, "reason:1", 12.5, DateTime.Today, "",DateTime.Today);
             Donation actual = DonationAccess_Accessor.ConvertSingleDbDonationToLocalType(dbTypeDoantions);
+            Assert.IsInstanceOfType(actual, typeof(PaidDonation));
             Assert.AreEqual(expected, actual);
         }
 
@@ -212,7 +255,7 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void ConvertSinglePaidLocalDonationToDbTypeTest()
         {
-            Donation localTypeDonation = new Donation(1, "reason:1", 12.5, DateTime.Today, DateTime.Today, "comment");
+            Donation localTypeDonation = new Donation(1, "reason:1", 12.5, DateTime.Today, "comment");
             t_donations expected = t_donations.Createt_donations(1, 1, "reason:1", 12.5, DateTime.Today, true);
             expected.date_paid = DateTime.Today;
             t_donations actual;
@@ -454,11 +497,16 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupAllDonationsTest()
         {
-            int accountId = 0; // TODO: Initialize to an appropriate value
-            List<t_donations> expected = null; // TODO: Initialize to an appropriate value
+            int accountId = 1;
+            List<t_donations> expected = 
+                (from CurrDonation in Cache.CacheData.t_donations select CurrDonation).ToList<t_donations>(); 
             List<t_donations> actual;
             actual = DonationAccess_Accessor.LookupAllDonations(accountId);
-            Assert.AreEqual(expected, actual);
+
+            for (int i = 0; i < actual.Count; i++)
+            {
+                Assert.IsTrue((expected[i].account_id == accountId) && (expected.Contains(actual[i])));
+            }
         }
 
         /// <summary>
@@ -468,8 +516,8 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupAllDonationsOfNonExistentAccountTest()
         {
-            int accountId = 0; // TODO: Initialize to an appropriate value
-            List<t_donations> expected = null; // TODO: Initialize to an appropriate value
+            int accountId = 0;
+            List<t_donations> expected = null;
             List<t_donations> actual;
             actual = DonationAccess_Accessor.LookupAllDonations(accountId);
             Assert.AreEqual(expected, actual);
@@ -482,11 +530,15 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupByDonationDateTest()
         {
-            DateTime donationDate = new DateTime(); // TODO: Initialize to an appropriate value
-            List<t_donations> expected = null; // TODO: Initialize to an appropriate value
+            DateTime donationDate = DateTime.Today;
+            List<t_donations> expected = 
+                (from CurrDonation in Cache.CacheData.t_donations select CurrDonation).ToList<t_donations>();
             List<t_donations> actual;
             actual = DonationAccess_Accessor.LookupByDonationDate(donationDate);
-            Assert.AreEqual(expected, actual);
+            for (int i = 0; i < actual.Count; i++)
+            {
+                Assert.IsTrue((expected[i].date_donated == donationDate) && (expected.Contains(actual[i])));
+            }
         }
 
         /// <summary>
@@ -496,11 +548,10 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupByNonExistentDonationDateTest()
         {
-            DateTime donationDate = new DateTime(); // TODO: Initialize to an appropriate value
-            List<t_donations> expected = null; // TODO: Initialize to an appropriate value
+            DateTime donationDate = DateTime.MinValue;
             List<t_donations> actual;
             actual = DonationAccess_Accessor.LookupByDonationDate(donationDate);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(0, actual.Count);
         }
 
         /// <summary>
@@ -510,11 +561,18 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupByPaymentDateTest()
         {
-            DateTime paymentDate = new DateTime(); // TODO: Initialize to an appropriate value
-            List<t_donations> expected = null; // TODO: Initialize to an appropriate value
+            DateTime paymentDate = DateTime.Today;
+            List<t_donations> expected = 
+                (from CurrDonation in Cache.CacheData.t_donations select CurrDonation).ToList<t_donations>();
             List<t_donations> actual;
             actual = DonationAccess_Accessor.LookupByPaymentDate(paymentDate);
-            Assert.AreEqual(expected, actual);
+            for (int i = 0; i < expected.Count; i++)
+            {
+                if (expected[i].date_paid == paymentDate)
+                {
+                    Assert.IsTrue(actual.Contains(expected[i])); 
+                }
+            }
         }
 
         /// <summary>
@@ -524,11 +582,10 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupByNonExistentPaymentDateTest()
         {
-            DateTime paymentDate = new DateTime(); // TODO: Initialize to an appropriate value
-            List<t_donations> expected = null; // TODO: Initialize to an appropriate value
+            DateTime paymentDate = DateTime.MinValue;
             List<t_donations> actual;
             actual = DonationAccess_Accessor.LookupByPaymentDate(paymentDate);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(0, actual.Count);
         }
 
         /// <summary>
@@ -538,11 +595,21 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupByReasonTest()
         {
-            string reason = string.Empty; // TODO: Initialize to an appropriate value
-            List<t_donations> expected = null; // TODO: Initialize to an appropriate value
+            string reason = "reason:1";
+            List<t_donations> expected = new List<t_donations>() 
+            {
+                t_donations.Createt_donations(1,1,"reason:1", 12.5, DateTime.Today, false)
+            };
             List<t_donations> actual;
             actual = DonationAccess_Accessor.LookupByReason(reason);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected[0].account_id, actual[0].account_id);
+            Assert.AreEqual(expected[0].amount, actual[0].amount);
+            Assert.AreEqual(expected[0].C_id, actual[0].C_id);
+            Assert.AreEqual(expected[0].comments, actual[0].comments);
+            Assert.AreEqual(expected[0].date_donated, actual[0].date_donated);
+            Assert.AreEqual(expected[0].date_paid, actual[0].date_paid);
+            Assert.AreEqual(expected[0].paid, actual[0].paid);
+            Assert.AreEqual(expected[0].reason, actual[0].reason);
         }
 
         /// <summary>
@@ -552,11 +619,10 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupByNonExistentReasonTest()
         {
-            string reason = string.Empty; // TODO: Initialize to an appropriate value
-            List<t_donations> expected = null; // TODO: Initialize to an appropriate value
+            string reason = "reason";
             List<t_donations> actual;
             actual = DonationAccess_Accessor.LookupByReason(reason);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(0, actual.Count);
         }
 
         /// <summary>
@@ -566,11 +632,17 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupDonationByIdTest()
         {
-            int id = 0; // TODO: Initialize to an appropriate value
-            t_donations expected = null; // TODO: Initialize to an appropriate value
-            t_donations actual;
-            actual = DonationAccess_Accessor.LookupDonationById(id);
-            Assert.AreEqual(expected, actual);
+            int idUnpaid = 1;
+            t_donations expectedUnpaid = t_donations.Createt_donations(1,1,"reason:1", 12.5, DateTime.Today, false);
+            t_donations actualUnpaid = DonationAccess_Accessor.LookupDonationById(idUnpaid);
+            Assert.AreEqual(DonationAccess_Accessor.ConvertSingleDbDonationToLocalType(expectedUnpaid),
+                            DonationAccess_Accessor.ConvertSingleDbDonationToLocalType(actualUnpaid));
+            int idPpaid = 6;
+            t_donations expectedPaid = t_donations.Createt_donations(6, 1, "reason:6", 12.5, DateTime.Today, true);
+            expectedPaid.date_paid = DateTime.Today;
+            t_donations actualPaid = DonationAccess_Accessor.LookupDonationById(idPpaid);
+            Assert.AreEqual(DonationAccess_Accessor.ConvertSingleDbDonationToLocalType(expectedPaid),
+                             DonationAccess_Accessor.ConvertSingleDbDonationToLocalType(actualPaid));
         }
 
         /// <summary>
@@ -580,8 +652,8 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupDonationByNonExistentIdTest()
         {
-            int id = 0; // TODO: Initialize to an appropriate value
-            t_donations expected = null; // TODO: Initialize to an appropriate value
+            int id = 0;
+            t_donations expected = null;
             t_donations actual;
             actual = DonationAccess_Accessor.LookupDonationById(id);
             Assert.AreEqual(expected, actual);
@@ -594,13 +666,14 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupSpecificDonationTest()
         {
-            string reason = string.Empty; // TODO: Initialize to an appropriate value
-            double amount = 0F; // TODO: Initialize to an appropriate value
-            DateTime donationDate = new DateTime(); // TODO: Initialize to an appropriate value
-            t_donations expected = null; // TODO: Initialize to an appropriate value
+            string reason = "reason:1";
+            double amount = 12.5;
+            DateTime donationDate = DateTime.Today;
+            t_donations expected = t_donations.Createt_donations(1,1,"reason:1", 12.5, DateTime.Today, false);
             t_donations actual;
             actual = DonationAccess_Accessor.LookupSpecificDonation(reason, amount, donationDate);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(DonationAccess_Accessor.ConvertSingleDbDonationToLocalType(expected),
+                           DonationAccess_Accessor.ConvertSingleDbDonationToLocalType(actual));
         }
 
         /// <summary>
@@ -610,10 +683,10 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupSpecificNonExistentDonationTest()
         {
-            string reason = string.Empty; // TODO: Initialize to an appropriate value
-            double amount = 0F; // TODO: Initialize to an appropriate value
-            DateTime donationDate = new DateTime(); // TODO: Initialize to an appropriate value
-            t_donations expected = null; // TODO: Initialize to an appropriate value
+            string reason = "reason:1";
+            double amount = 0F;
+            DateTime donationDate = DateTime.Today;
+            t_donations expected = null;
             t_donations actual;
             actual = DonationAccess_Accessor.LookupSpecificDonation(reason, amount, donationDate);
             Assert.AreEqual(expected, actual);
