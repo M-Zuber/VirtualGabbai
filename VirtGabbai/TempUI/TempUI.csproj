@@ -52,7 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IntegrationOne.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="IntegrationTester.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
