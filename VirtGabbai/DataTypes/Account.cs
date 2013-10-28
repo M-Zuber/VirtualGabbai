@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Framework;
 
 namespace DataTypes
 {
@@ -40,8 +41,8 @@ namespace DataTypes
         {
             Account accountToCompare = (Account)obj;
 
-            bool allDonationsEqual = ((this.UnpaidDonations.SequenceEqual(accountToCompare.UnpaidDonations)) &&
-                                      (this.PaidDonations.SequenceEqual(accountToCompare.PaidDonations)));
+            bool allDonationsEqual = ((this.UnpaidDonations.Contains(accountToCompare.UnpaidDonations)) &&
+                                      (this.PaidDonations.Contains(accountToCompare.PaidDonations)));
             return ((allDonationsEqual) &&
                     (this._Id == accountToCompare._Id) &&
                     (this.LastMonthlyPaymentDate == accountToCompare.LastMonthlyPaymentDate) &&
