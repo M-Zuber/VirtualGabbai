@@ -28,7 +28,7 @@ namespace DataAccess
             return null;
         }
 
-        public static List<Account> GetByMonthlyPaymentTotal(double monthlyTotal)
+        public static List<Account> GetByMonthlyPaymentTotal(int monthlyTotal)
         {
             return null;
         }
@@ -38,12 +38,12 @@ namespace DataAccess
             return null;
         }
 
-        public static List<Account> GetByDonation(int donationId)
+        public static Account GetByDonation(int donationId)
         {
             return null;
         }
 
-        public static List<Account> GetByDonation(Donation donationToLookBy)
+        public static Account GetByDonation(Donation donationToLookBy)
         {
             return null;
         }
@@ -56,7 +56,7 @@ namespace DataAccess
         {
             try
             {
-                return null;
+                return Cache.CacheData.t_accounts.First(WantedAccount => WantedAccount.C_id == accountId);
             }
             catch (Exception)
             {
@@ -69,7 +69,7 @@ namespace DataAccess
         {
             try
             {
-                return null;
+                return Cache.CacheData.t_accounts.First(WantedAccount => WantedAccount.C_id == personId);
             }
             catch (Exception)
             {
@@ -92,11 +92,13 @@ namespace DataAccess
             }
         }
 
-        private static List<t_accounts> LookupByMonthlyPaymentTotal(double monthlyTotal)
+        private static List<t_accounts> LookupByMonthlyPaymentTotal(int monthlyTotal)
         {
             try
             {
-                return null;
+                return (from CurrAccount in Cache.CacheData.t_accounts
+                        where CurrAccount.monthly_total == monthlyTotal
+                        select CurrAccount).ToList();
             }
             catch (Exception)
             {
@@ -109,7 +111,9 @@ namespace DataAccess
         {
             try
             {
-                return null;
+                return (from CurrAccount in Cache.CacheData.t_accounts
+                        where CurrAccount.last_month_paid == lastPayment
+                        select CurrAccount).ToList();
             }
             catch (Exception)
             {
@@ -118,11 +122,13 @@ namespace DataAccess
             }
         }
 
-        private static List<t_accounts> LookupByDonation(int donationId)
+        private static t_accounts LookupByDonation(int donationId)
         {
             try
             {
-                return null;
+                return (from WantedAccount in Cache.CacheData.t_accounts
+                        where WantedAccount.t_donations.Any(WantedDonation => WantedDonation.C_id == donationId)
+                        select WantedAccount).First();
             }
             catch (Exception)
             {
@@ -131,11 +137,11 @@ namespace DataAccess
             }
         }
 
-        private static List<t_accounts> LookupByDonation(Donation donationToLookBy)
+        private static t_accounts LookupByDonation(Donation donationToLookBy)
         {
             try
             {
-                return null;
+                return LookupByDonation(donationToLookBy._Id);
             }
             catch (Exception)
             {

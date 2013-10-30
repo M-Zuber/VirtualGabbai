@@ -303,8 +303,8 @@ namespace DataAccessTest
         public void GetByDonationTest()
         {
             Donation donationToLookBy = null; // TODO: Initialize to an appropriate value
-            List<Account> expected = null; // TODO: Initialize to an appropriate value
-            List<Account> actual;
+            Account expected = null; // TODO: Initialize to an appropriate value
+            Account actual;
             actual = AccountAccess.GetByDonation(donationToLookBy);
             Assert.AreEqual(expected, actual);
         }
@@ -316,8 +316,8 @@ namespace DataAccessTest
         public void GetByNonexsitentDonationTest()
         {
             Donation donationToLookBy = null; // TODO: Initialize to an appropriate value
-            List<Account> expected = null; // TODO: Initialize to an appropriate value
-            List<Account> actual;
+            Account expected = null; // TODO: Initialize to an appropriate value
+            Account actual;
             actual = AccountAccess.GetByDonation(donationToLookBy);
             Assert.AreEqual(expected, actual);
         }
@@ -329,8 +329,8 @@ namespace DataAccessTest
         public void GetByDonationIdTest()
         {
             int donationId = 0; // TODO: Initialize to an appropriate value
-            List<Account> expected = null; // TODO: Initialize to an appropriate value
-            List<Account> actual;
+            Account expected = null; // TODO: Initialize to an appropriate value
+            Account actual;
             actual = AccountAccess.GetByDonation(donationId);
             Assert.AreEqual(expected, actual);
         }
@@ -342,8 +342,8 @@ namespace DataAccessTest
         public void GetByNonExsistentDonationIdTest()
         {
             int donationId = 0; // TODO: Initialize to an appropriate value
-            List<Account> expected = null; // TODO: Initialize to an appropriate value
-            List<Account> actual;
+            Account expected = null; // TODO: Initialize to an appropriate value
+            Account actual;
             actual = AccountAccess.GetByDonation(donationId);
             Assert.AreEqual(expected, actual);
         }
@@ -367,7 +367,7 @@ namespace DataAccessTest
         [TestMethod()]
         public void GetByMonthlyPaymentTotalTest()
         {
-            double monthlyTotal = 0F; // TODO: Initialize to an appropriate value
+            int monthlyTotal = 0; // TODO: Initialize to an appropriate value
             List<Account> expected = null; // TODO: Initialize to an appropriate value
             List<Account> actual;
             actual = AccountAccess.GetByMonthlyPaymentTotal(monthlyTotal);
@@ -415,7 +415,7 @@ namespace DataAccessTest
                                          select acc).ToList<t_accounts>();
             List<t_accounts> actual;
             actual = AccountAccess_Accessor.LookupAllAccounts();
-            Assert.AreEqual(expected, actual);
+            CollectionAssert.AreEqual(expected, actual);
         }
 
         /// <summary>
@@ -425,8 +425,9 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupByAccountIdTest()
         {
-            int accountId = 0; // TODO: Initialize to an appropriate value
-            t_accounts expected = null; // TODO: Initialize to an appropriate value
+            int accountId = 2;
+            t_accounts expected = 
+                Cache.CacheData.t_accounts.First(wantedAccount => wantedAccount.C_id == accountId);
             t_accounts actual;
             actual = AccountAccess_Accessor.LookupByAccountId(accountId);
             Assert.AreEqual(expected, actual);
@@ -439,8 +440,8 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupByNonExsistentAccountIdTest()
         {
-            int accountId = 0; // TODO: Initialize to an appropriate value
-            t_accounts expected = null; // TODO: Initialize to an appropriate value
+            int accountId = 0;
+            t_accounts expected = null;
             t_accounts actual;
             actual = AccountAccess_Accessor.LookupByAccountId(accountId);
             Assert.AreEqual(expected, actual);
@@ -451,40 +452,12 @@ namespace DataAccessTest
         ///</summary>
         [TestMethod()]
         [DeploymentItem("DataAccess.dll")]
-        public void LookupByDonationTest()
-        {
-            int donationId = 0; // TODO: Initialize to an appropriate value
-            List<t_accounts> expected = null; // TODO: Initialize to an appropriate value
-            List<t_accounts> actual;
-            actual = AccountAccess_Accessor.LookupByDonation(donationId);
-            Assert.AreEqual(expected, actual);
-        }
-
-        /// <summary>
-        ///A test for LookupByDonation
-        ///</summary>
-        [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
-        public void LookupByNonExsistentDonationTest()
-        {
-            int donationId = 0; // TODO: Initialize to an appropriate value
-            List<t_accounts> expected = null; // TODO: Initialize to an appropriate value
-            List<t_accounts> actual;
-            actual = AccountAccess_Accessor.LookupByDonation(donationId);
-            Assert.AreEqual(expected, actual);
-        }
-
-        /// <summary>
-        ///A test for LookupByDonation
-        ///</summary>
-        [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
         public void LookupByDonationIdTest()
         {
-            Donation donationToLookBy = null; // TODO: Initialize to an appropriate value
-            List<t_accounts> expected = null; // TODO: Initialize to an appropriate value
-            List<t_accounts> actual;
-            actual = AccountAccess_Accessor.LookupByDonation(donationToLookBy);
+            int donationId = 105;
+            t_accounts expected = Cache.CacheData.t_accounts.First(wantedAc => wantedAc.C_id == 2);
+            t_accounts actual;
+            actual = AccountAccess_Accessor.LookupByDonation(donationId);
             Assert.AreEqual(expected, actual);
         }
 
@@ -495,9 +468,37 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupByNonExsistentDonationIdTest()
         {
-            Donation donationToLookBy = null; // TODO: Initialize to an appropriate value
-            List<t_accounts> expected = null; // TODO: Initialize to an appropriate value
-            List<t_accounts> actual;
+            int donationId = 0;
+            t_accounts expected = null;
+            t_accounts actual;
+            actual = AccountAccess_Accessor.LookupByDonation(donationId);
+            Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
+        ///A test for LookupByDonation
+        ///</summary>
+        [TestMethod()]
+        [DeploymentItem("DataAccess.dll")]
+        public void LookupByDonationTest()
+        {
+            Donation donationToLookBy = new Donation(102, "reason:102", 12.5, DateTime.Today, "");
+            t_accounts expected = Cache.CacheData.t_accounts.First(wAcc => wAcc.C_id == 2);
+            t_accounts actual;
+            actual = AccountAccess_Accessor.LookupByDonation(donationToLookBy);
+            Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
+        ///A test for LookupByDonation
+        ///</summary>
+        [TestMethod()]
+        [DeploymentItem("DataAccess.dll")]
+        public void LookupByNonExsistentDonationTest()
+        {
+            Donation donationToLookBy = new Donation(50, "reason:102", 12.5, DateTime.Today, ""); ;
+            t_accounts expected = null;
+            t_accounts actual;
             actual = AccountAccess_Accessor.LookupByDonation(donationToLookBy);
             Assert.AreEqual(expected, actual);
         }
@@ -509,11 +510,13 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupByLastMonthlyPaymentDateTest()
         {
-            DateTime lastPayment = new DateTime(); // TODO: Initialize to an appropriate value
-            List<t_accounts> expected = null; // TODO: Initialize to an appropriate value
+            DateTime lastPayment = DateTime.Today;
+            List<t_accounts> expected = (from currAcc in Cache.CacheData.t_accounts
+                                         where currAcc.last_month_paid == lastPayment
+                                         select currAcc).ToList();
             List<t_accounts> actual;
             actual = AccountAccess_Accessor.LookupByLastMonthlyPaymentDate(lastPayment);
-            Assert.AreEqual(expected, actual);
+            CollectionAssert.AreEqual(expected, actual);
         }
 
         /// <summary>
@@ -523,11 +526,13 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupByMonthlyPaymentTotalTest()
         {
-            double monthlyTotal = 0F; // TODO: Initialize to an appropriate value
-            List<t_accounts> expected = null; // TODO: Initialize to an appropriate value
+            int monthlyTotal = 0;
+            List<t_accounts> expected = (from CurrAccount in Cache.CacheData.t_accounts
+                                         where CurrAccount.monthly_total == monthlyTotal
+                                         select CurrAccount).ToList();
             List<t_accounts> actual;
             actual = AccountAccess_Accessor.LookupByMonthlyPaymentTotal(monthlyTotal);
-            Assert.AreEqual(expected, actual);
+            CollectionAssert.AreEqual(expected, actual);
         }
 
         /// <summary>
@@ -537,8 +542,8 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupByPersonIdTest()
         {
-            int personId = 0; // TODO: Initialize to an appropriate value
-            t_accounts expected = null; // TODO: Initialize to an appropriate value
+            int personId = 1;
+            t_accounts expected = Cache.CacheData.t_accounts.First(acc => acc.C_id == personId);
             t_accounts actual;
             actual = AccountAccess_Accessor.LookupByPersonId(personId);
             Assert.AreEqual(expected, actual);
@@ -551,8 +556,8 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupByNonExsistentPersonIdTest()
         {
-            int personId = 0; // TODO: Initialize to an appropriate value
-            t_accounts expected = null; // TODO: Initialize to an appropriate value
+            int personId = 0;
+            t_accounts expected = null;
             t_accounts actual;
             actual = AccountAccess_Accessor.LookupByPersonId(personId);
             Assert.AreEqual(expected, actual);
