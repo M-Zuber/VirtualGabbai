@@ -73,7 +73,7 @@ namespace DataTypesTest
         public void DiffrencesInDonationsEqualsTest()
         {
             int id = 1;
-            double monthlyPaymentTotal = 12.5;
+            int monthlyPaymentTotal = 12;
             DateTime lastMonthlyPaymentDate = DateTime.Today;
             List<Donation> allDonations = new List<Donation>() 
             {
@@ -107,7 +107,7 @@ namespace DataTypesTest
         public void DiffLastMonthlyPaymentDateEqualsTest()
         {
             int id = 1;
-            double monthlyPaymentTotal = 12.5;
+            int monthlyPaymentTotal = 12;
             DateTime lastMonthlyPaymentDate = DateTime.Today;
             List<Donation> allDonations = new List<Donation>() 
             {
@@ -132,7 +132,7 @@ namespace DataTypesTest
         public void DiffMonthlyPaymentTotalEqualsTest()
         {
             int id = 1;
-            double monthlyPaymentTotal = 12.5;
+            int monthlyPaymentTotal = 12;
             DateTime lastMonthlyPaymentDate = DateTime.Today;
             List<Donation> allDonations = new List<Donation>() 
             {
@@ -157,7 +157,7 @@ namespace DataTypesTest
         public void DiffIdEqualsTest()
         {
             int id = 1;
-            double monthlyPaymentTotal = 12.5;
+            int monthlyPaymentTotal = 12;
             DateTime lastMonthlyPaymentDate = DateTime.Today;
             List<Donation> allDonations = new List<Donation>() 
             {
@@ -182,7 +182,7 @@ namespace DataTypesTest
         public void AllSameEqualsTest()
         {
             int id = 1;
-            double monthlyPaymentTotal = 12.5;
+            int monthlyPaymentTotal = 12;
             DateTime lastMonthlyPaymentDate = DateTime.Today;
             List<Donation> allDonations = new List<Donation>() 
             {
@@ -207,7 +207,7 @@ namespace DataTypesTest
         public void AllDiffEqualsTest()
         {
             int id = 1;
-            double monthlyPaymentTotal = 12.5;
+            int monthlyPaymentTotal = 12;
             DateTime lastMonthlyPaymentDate = DateTime.Today;
             List<Donation> allDonations = new List<Donation>() 
             {
@@ -398,7 +398,7 @@ namespace DataTypesTest
         public void ToStringTest()
         {
             int id = 1;
-            double monthlyPaymentTotal = 254;
+            int monthlyPaymentTotal = 254;
             DateTime lastMonthlyPaymentDate = DateTime.Today;
             List<Donation> allDonations = new List<Donation>() 
             {

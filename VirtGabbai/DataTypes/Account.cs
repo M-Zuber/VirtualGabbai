@@ -12,7 +12,7 @@ namespace DataTypes
 
         public int _Id { get; set; }
 
-        public double MonthlyPaymentTotal { get; set; }
+        public int MonthlyPaymentTotal { get; set; }
 
         public DateTime LastMonthlyPaymentDate { get; set; }
 
@@ -24,7 +24,7 @@ namespace DataTypes
 
         #region C'tor
 
-        public Account(int id, double monthlyPaymentTotal, DateTime lastMonthlyPaymentDate, List<Donation> allDonations)
+        public Account(int id, int monthlyPaymentTotal, DateTime lastMonthlyPaymentDate, List<Donation> allDonations)
         {
             this._Id = id;
             this.MonthlyPaymentTotal = monthlyPaymentTotal;
