@@ -1,10 +1,11 @@
-﻿using DataAccess;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using DataTypes;
+﻿using System;
 using System.Collections.Generic;
-using Framework;
+using System.Linq;
+using DataAccess;
 using DataCache;
+using DataTypes;
+using Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DataAccessTest
 {
@@ -42,16 +43,65 @@ namespace DataAccessTest
         //You can use the following additional attributes as you write your tests:
         //
         //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
+        [ClassInitialize()]
+        public static void MyClassInitialize(TestContext testContext)
+        {
+            if (!Cache.CacheData.t_people.Any(person => person.C_id == 1))
+            {
+                Cache.CacheData.t_people.AddObject(t_people.Createt_people(1));
+            }
+            if (!Cache.CacheData.t_accounts.Any(account => account.C_id == 1))
+            {
+                Cache.CacheData.t_accounts.AddObject(t_accounts.Createt_accounts(1, 1));
+            }
+            for (int newAccountIndex = 2; newAccountIndex <= 10; newAccountIndex++)
+            {
+                Cache.CacheData.t_accounts.AddObject(t_accounts.Createt_accounts(newAccountIndex, 1));
+            }
+
+            for (int newDonationIndex = 101; newDonationIndex <= 105; newDonationIndex++)
+            {
+                if (!Cache.CacheData.t_donations.Any(donation => donation.C_id == newDonationIndex))
+                {
+                    var newDonation = t_donations.Createt_donations(
+                                newDonationIndex, 2, "reason:" + newDonationIndex, 12.5, DateTime.Today, false);
+                    Cache.CacheData.t_donations.AddObject(newDonation); 
+                }
+            }
+            for (int newDonationIndex = 106; newDonationIndex <= 110; newDonationIndex++)
+            {
+                if (!Cache.CacheData.t_donations.Any(donation => donation.C_id == newDonationIndex))
+                {
+                    var newDonation = t_donations.Createt_donations(
+                               newDonationIndex, 2, "reason:" + newDonationIndex, 12.5, DateTime.Today, true);
+                    newDonation.date_paid = DateTime.Today;
+                    Cache.CacheData.t_donations.AddObject(newDonation); 
+                }
+            }
+            Cache.CacheData.SaveChanges();
+        }
         //
         //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
+        [ClassCleanup()]
+        public static void MyClassCleanup()
+        {
+            var donations = (from donate in Cache.CacheData.t_donations select donate).ToList<t_donations>();
+            var accounts = (from account in Cache.CacheData.t_accounts select account).ToList<t_accounts>();
+            var peoples = (from person in Cache.CacheData.t_people select person).ToList<t_people>();
+            for (int i = 0; i < donations.Count; i++)
+            {
+                Cache.CacheData.t_donations.DeleteObject(donations[i]);
+            }
+            for (int i = 0; i < accounts.Count; i++)
+            {
+                Cache.CacheData.t_accounts.DeleteObject(accounts[i]);
+            }
+            for (int i = 0; i < peoples.Count; i++)
+            {
+                Cache.CacheData.t_people.DeleteObject(peoples[i]);
+            }
+            Cache.CacheData.SaveChanges();
+        }
         //
         //Use TestInitialize to run code before running each test
         //[TestInitialize()]
@@ -67,8 +117,8 @@ namespace DataAccessTest
         //
         #endregion
 
-
         #region Add Tests
+
         /// <summary>
         ///A test for AddMultipleNewAccounts
         ///</summary>
@@ -95,7 +145,9 @@ namespace DataAccessTest
         }
 
         #endregion
+        
         #region Conversion Tests
+
         /// <summary>
         ///A test for ConvertMultipleDbAccountsToLocalType
         ///</summary>
@@ -132,8 +184,22 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void ConvertSingleDbAccountToLocalTypeTest()
         {
-            t_accounts dbTypeAccount = null; // TODO: Initialize to an appropriate value
-            Account expected = null; // TODO: Initialize to an appropriate value
+            t_accounts dbTypeAccount = t_accounts.Createt_accounts(2,1);
+            Account expected = new Account(2,0, DateTime.Today, 
+                new List<Donation>()
+                {
+                    new Donation(101, "reason:101", 12.5, DateTime.Today, ""),
+                    new Donation(102, "reason:102", 12.5, DateTime.Today, ""),
+                    new Donation(103, "reason:103", 12.5, DateTime.Today, ""),
+                    new Donation(104, "reason:104", 12.5, DateTime.Today, ""),
+                    new Donation(105, "reason:105", 12.5, DateTime.Today, ""),
+                    new PaidDonation(106, "reason:106", 12.5, DateTime.Today, "", DateTime.Today),
+                    new PaidDonation(107, "reason:107", 12.5, DateTime.Today, "", DateTime.Today),
+                    new PaidDonation(108, "reason:108", 12.5, DateTime.Today, "", DateTime.Today),
+                    new PaidDonation(109, "reason:109", 12.5, DateTime.Today, "", DateTime.Today),
+                    new PaidDonation(110, "reason:110", 12.5, DateTime.Today, "", DateTime.Today)
+            });
+
             Account actual;
             actual = AccountAccess_Accessor.ConvertSingleDbAccountToLocalType(dbTypeAccount);
             Assert.AreEqual(expected, actual);
@@ -155,7 +221,9 @@ namespace DataAccessTest
         }
 
         #endregion
+        
         #region Delete Tests
+
         /// <summary>
         ///A test for DeleteMultipleAccounts
         ///</summary>
@@ -181,8 +249,24 @@ namespace DataAccessTest
             Assert.AreEqual(expected, actual);
         }
 
+        /// <summary>
+        ///A test for DeleteSingleAccount
+        ///</summary>
+        [TestMethod()]
+        public void DeleteSingleNonexstintAccountTest()
+        {
+            Account deletedAccount = null; // TODO: Initialize to an appropriate value
+            int personId = 0; // TODO: Initialize to an appropriate value
+            Enums.CRUDResults expected = new Enums.CRUDResults(); // TODO: Initialize to an appropriate value
+            Enums.CRUDResults actual;
+            actual = AccountAccess.DeleteSingleAccount(deletedAccount, personId);
+            Assert.AreEqual(expected, actual);
+        }
+
         #endregion
+        
         #region Get Tests
+
         /// <summary>
         ///A test for GetAllAccounts
         ///</summary>
@@ -209,6 +293,19 @@ namespace DataAccessTest
         }
 
         /// <summary>
+        ///A test for GetByNonExsitentAccountId
+        ///</summary>
+        [TestMethod()]
+        public void GetByNonExsistentAccountIdTest()
+        {
+            int accountId = 0; // TODO: Initialize to an appropriate value
+            Account expected = null; // TODO: Initialize to an appropriate value
+            Account actual;
+            actual = AccountAccess.GetByAccountId(accountId);
+            Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
         ///A test for GetByDonation
         ///</summary>
         [TestMethod()]
@@ -225,7 +322,33 @@ namespace DataAccessTest
         ///A test for GetByDonation
         ///</summary>
         [TestMethod()]
-        public void GetByDonationTest1()
+        public void GetByNonexsitentDonationTest()
+        {
+            Donation donationToLookBy = null; // TODO: Initialize to an appropriate value
+            List<Account> expected = null; // TODO: Initialize to an appropriate value
+            List<Account> actual;
+            actual = AccountAccess.GetByDonation(donationToLookBy);
+            Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
+        ///A test for GetByDonation
+        ///</summary>
+        [TestMethod()]
+        public void GetByDonationIdTest()
+        {
+            int donationId = 0; // TODO: Initialize to an appropriate value
+            List<Account> expected = null; // TODO: Initialize to an appropriate value
+            List<Account> actual;
+            actual = AccountAccess.GetByDonation(donationId);
+            Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
+        ///A test for GetByDonation
+        ///</summary>
+        [TestMethod()]
+        public void GetByNonExsistentDonationIdTest()
         {
             int donationId = 0; // TODO: Initialize to an appropriate value
             List<Account> expected = null; // TODO: Initialize to an appropriate value
@@ -273,8 +396,23 @@ namespace DataAccessTest
             Assert.AreEqual(expected, actual);
         }
 
+        /// <summary>
+        ///A test for GetByPersonId
+        ///</summary>
+        [TestMethod()]
+        public void GetByNonExsistentPersonIdTest()
+        {
+            int personId = 0; // TODO: Initialize to an appropriate value
+            Account expected = null; // TODO: Initialize to an appropriate value
+            Account actual;
+            actual = AccountAccess.GetByPersonId(personId);
+            Assert.AreEqual(expected, actual);
+        }
+
         #endregion
+        
         #region Lookup Tests
+
         /// <summary>
         ///A test for LookupAllAccounts
         ///</summary>
@@ -303,6 +441,20 @@ namespace DataAccessTest
         }
 
         /// <summary>
+        ///A test for LookupByAccountId
+        ///</summary>
+        [TestMethod()]
+        [DeploymentItem("DataAccess.dll")]
+        public void LookupByNonExsistentAccountIdTest()
+        {
+            int accountId = 0; // TODO: Initialize to an appropriate value
+            t_accounts expected = null; // TODO: Initialize to an appropriate value
+            t_accounts actual;
+            actual = AccountAccess_Accessor.LookupByAccountId(accountId);
+            Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
         ///A test for LookupByDonation
         ///</summary>
         [TestMethod()]
@@ -321,7 +473,35 @@ namespace DataAccessTest
         ///</summary>
         [TestMethod()]
         [DeploymentItem("DataAccess.dll")]
-        public void LookupByDonationTest1()
+        public void LookupByNonExsistentDonationTest()
+        {
+            int donationId = 0; // TODO: Initialize to an appropriate value
+            List<t_accounts> expected = null; // TODO: Initialize to an appropriate value
+            List<t_accounts> actual;
+            actual = AccountAccess_Accessor.LookupByDonation(donationId);
+            Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
+        ///A test for LookupByDonation
+        ///</summary>
+        [TestMethod()]
+        [DeploymentItem("DataAccess.dll")]
+        public void LookupByDonationIdTest()
+        {
+            Donation donationToLookBy = null; // TODO: Initialize to an appropriate value
+            List<t_accounts> expected = null; // TODO: Initialize to an appropriate value
+            List<t_accounts> actual;
+            actual = AccountAccess_Accessor.LookupByDonation(donationToLookBy);
+            Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
+        ///A test for LookupByDonation
+        ///</summary>
+        [TestMethod()]
+        [DeploymentItem("DataAccess.dll")]
+        public void LookupByNonExsistentDonationIdTest()
         {
             Donation donationToLookBy = null; // TODO: Initialize to an appropriate value
             List<t_accounts> expected = null; // TODO: Initialize to an appropriate value
@@ -372,8 +552,24 @@ namespace DataAccessTest
             Assert.AreEqual(expected, actual);
         }
 
+        /// <summary>
+        ///A test for LookupByPersonId
+        ///</summary>
+        [TestMethod()]
+        [DeploymentItem("DataAccess.dll")]
+        public void LookupByNonExsistentPersonIdTest()
+        {
+            int personId = 0; // TODO: Initialize to an appropriate value
+            t_accounts expected = null; // TODO: Initialize to an appropriate value
+            t_accounts actual;
+            actual = AccountAccess_Accessor.LookupByPersonId(personId);
+            Assert.AreEqual(expected, actual);
+        }
+
         #endregion
+        
         #region Update Tests
+        
         /// <summary>
         ///A test for UpdateMultipleAccounts
         ///</summary>
@@ -398,6 +594,21 @@ namespace DataAccessTest
             actual = AccountAccess.UpdateSingleAccount(updatedAccount, personId);
             Assert.AreEqual(expected, actual);
         }
+
+        /// <summary>
+        ///A test for UpdateSingleAccount
+        ///</summary>
+        [TestMethod()]
+        public void UpdateSingleNonExsistentAccountTest()
+        {
+            Account updatedAccount = null; // TODO: Initialize to an appropriate value
+            int personId = 0; // TODO: Initialize to an appropriate value
+            Enums.CRUDResults expected = new Enums.CRUDResults(); // TODO: Initialize to an appropriate value
+            Enums.CRUDResults actual;
+            actual = AccountAccess.UpdateSingleAccount(updatedAccount, personId);
+            Assert.AreEqual(expected, actual);
+        }
+
         #endregion
     }
 }

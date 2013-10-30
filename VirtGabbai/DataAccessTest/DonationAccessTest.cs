@@ -56,16 +56,22 @@ namespace DataAccessTest
             }
             for (int newDonationIndex = 1; newDonationIndex <= 5; newDonationIndex++)
             {
-                var newDonation = t_donations.Createt_donations(
-                    newDonationIndex, 1, "reason:" + newDonationIndex, 12.5, DateTime.Today, false);
-                Cache.CacheData.t_donations.AddObject(newDonation);
+                if (!Cache.CacheData.t_donations.Any(donation => donation.C_id == newDonationIndex))
+                {
+                    var newDonation = t_donations.Createt_donations(
+                                newDonationIndex, 1, "reason:" + newDonationIndex, 12.5, DateTime.Today, false);
+                    Cache.CacheData.t_donations.AddObject(newDonation); 
+                }
             }
             for (int newDonationIndex = 6; newDonationIndex <= 10; newDonationIndex++)
             {
-                var newDonation = t_donations.Createt_donations(
-                    newDonationIndex, 1, "reason:" + newDonationIndex, 12.5, DateTime.Today, true);
-                newDonation.date_paid = DateTime.Today;
-                Cache.CacheData.t_donations.AddObject(newDonation);
+                if (!Cache.CacheData.t_donations.Any(donation => donation.C_id == newDonationIndex))
+                {
+                    var newDonation = t_donations.Createt_donations(
+                                newDonationIndex, 1, "reason:" + newDonationIndex, 12.5, DateTime.Today, true);
+                    newDonation.date_paid = DateTime.Today;
+                    Cache.CacheData.t_donations.AddObject(newDonation); 
+                }
             }
             Cache.CacheData.SaveChanges();
         }
