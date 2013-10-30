@@ -82,7 +82,8 @@ namespace DataAccess
         {
             try
             {
-                return null;
+                return (from CurrAccount in Cache.CacheData.t_accounts
+                        select CurrAccount).ToList<t_accounts>();
             }
             catch (Exception)
             {
@@ -290,7 +291,7 @@ namespace DataAccess
                 //LOG
                 return null;
             }
-            //maybe change this to use the conversion method
+
             List<Donation> accountDonations = 
                 DonationAccess.ConvertMultipleDbDonationsToLocalType(dbTypeAccount.t_donations.ToList<t_donations>());
 

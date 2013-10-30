@@ -149,42 +149,14 @@ namespace DataAccessTest
         #region Conversion Tests
 
         /// <summary>
-        ///A test for ConvertMultipleDbAccountsToLocalType
-        ///</summary>
-        [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
-        public void ConvertMultipleDbAccountsToLocalTypeTest()
-        {
-            List<t_accounts> dbTypeAccountList = null; // TODO: Initialize to an appropriate value
-            List<Account> expected = null; // TODO: Initialize to an appropriate value
-            List<Account> actual;
-            actual = AccountAccess_Accessor.ConvertMultipleDbAccountsToLocalType(dbTypeAccountList);
-            Assert.AreEqual(expected, actual);
-        }
-
-        /// <summary>
-        ///A test for ConvertMultipleLocalAccountsToDbType
-        ///</summary>
-        [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
-        public void ConvertMultipleLocalAccountsToDbTypeTest()
-        {
-            List<Account> localTypeAccountList = null; // TODO: Initialize to an appropriate value
-            int personId = 0; // TODO: Initialize to an appropriate value
-            List<t_accounts> expected = null; // TODO: Initialize to an appropriate value
-            List<t_accounts> actual;
-            actual = AccountAccess_Accessor.ConvertMultipleLocalAccountsToDbType(localTypeAccountList, personId);
-            Assert.AreEqual(expected, actual);
-        }
-
-        /// <summary>
         ///A test for ConvertSingleDbAccountToLocalType
         ///</summary>
         [TestMethod()]
         [DeploymentItem("DataAccess.dll")]
         public void ConvertSingleDbAccountToLocalTypeTest()
         {
-            t_accounts dbTypeAccount = t_accounts.Createt_accounts(2,1);
+            t_accounts dbTypeAccount = Cache.CacheData.t_accounts.First(account => account.C_id == 2);
+            
             Account expected = new Account(2,0, DateTime.Today, 
                 new List<Donation>()
                 {
@@ -212,12 +184,31 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void ConvertSingleLocalAccountToDbTypeTest()
         {
-            Account localTypeAccount = null; // TODO: Initialize to an appropriate value
-            int personId = 0; // TODO: Initialize to an appropriate value
-            t_accounts expected = null; // TODO: Initialize to an appropriate value
+            Account localTypeAccount = new Account(2, 34, DateTime.Today,
+                new List<Donation>()
+                {
+                    new Donation(101, "reason:101", 12.5, DateTime.Today, ""),
+                    new Donation(102, "reason:102", 12.5, DateTime.Today, ""),
+                    new Donation(103, "reason:103", 12.5, DateTime.Today, ""),
+                    new Donation(104, "reason:104", 12.5, DateTime.Today, ""),
+                    new Donation(105, "reason:105", 12.5, DateTime.Today, ""),
+                    new PaidDonation(106, "reason:106", 12.5, DateTime.Today, "", DateTime.Today),
+                    new PaidDonation(107, "reason:107", 12.5, DateTime.Today, "", DateTime.Today),
+                    new PaidDonation(108, "reason:108", 12.5, DateTime.Today, "", DateTime.Today),
+                    new PaidDonation(109, "reason:109", 12.5, DateTime.Today, "", DateTime.Today),
+                    new PaidDonation(110, "reason:110", 12.5, DateTime.Today, "", DateTime.Today)
+            });
+            int personId = 1;
+            t_accounts expected = t_accounts.Createt_accounts(2,1);
+            expected.monthly_total = 34;
+            expected.last_month_paid = DateTime.Today;
+            
             t_accounts actual;
             actual = AccountAccess_Accessor.ConvertSingleLocalAccountToDbType(localTypeAccount, personId);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected.C_id, actual.C_id);
+            Assert.AreEqual(expected.person_id, actual.person_id);
+            Assert.AreEqual(expected.last_month_paid, actual.last_month_paid);
+            Assert.AreEqual(expected.monthly_total, actual.monthly_total);
         }
 
         #endregion
@@ -420,7 +411,8 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupAllAccountsTest()
         {
-            List<t_accounts> expected = null; // TODO: Initialize to an appropriate value
+            List<t_accounts> expected = (from acc in Cache.CacheData.t_accounts
+                                         select acc).ToList<t_accounts>();
             List<t_accounts> actual;
             actual = AccountAccess_Accessor.LookupAllAccounts();
             Assert.AreEqual(expected, actual);
