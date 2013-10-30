@@ -15,37 +15,37 @@ namespace DataAccess
 
         public static Account GetByAccountId(int accountId)
         {
-            return null;
+            return ConvertSingleDbAccountToLocalType(LookupByAccountId(accountId));
         }
 
         public static Account GetByPersonId(int personId)
         {
-            return null;
+            return ConvertSingleDbAccountToLocalType(LookupByPersonId(personId));
         }
 
         public static List<Account> GetAllAccounts()
         {
-            return null;
+            return ConvertMultipleDbAccountsToLocalType(LookupAllAccounts());
         }
 
         public static List<Account> GetByMonthlyPaymentTotal(int monthlyTotal)
         {
-            return null;
+            return ConvertMultipleDbAccountsToLocalType(LookupByMonthlyPaymentTotal(monthlyTotal));
         }
 
         public static List<Account> GetByLastMonthlyPaymentDate(DateTime lastPayment)
         {
-            return null;
+            return ConvertMultipleDbAccountsToLocalType(LookupByLastMonthlyPaymentDate(lastPayment));
         }
 
         public static Account GetByDonation(int donationId)
         {
-            return null;
+            return ConvertSingleDbAccountToLocalType(LookupByDonation(donationId));
         }
 
         public static Account GetByDonation(Donation donationToLookBy)
         {
-            return null;
+            return ConvertSingleDbAccountToLocalType(LookupByDonation(donationToLookBy));
         }
 
         #endregion
