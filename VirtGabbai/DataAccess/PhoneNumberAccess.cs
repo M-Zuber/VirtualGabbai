@@ -209,7 +209,7 @@ namespace DataAccess
 
         #region Private Methods
 
-        private static List<t_phone_numbers> ConvertMultipleLocalPhoneNumbersToDbType(List<PhoneNumber> localTypePhoneNumberList, int personId)
+        internal static List<t_phone_numbers> ConvertMultipleLocalPhoneNumbersToDbType(List<PhoneNumber> localTypePhoneNumberList, int personId)
         {
             List<t_phone_numbers> dbTypePhoneNumberList = new List<t_phone_numbers>();
 
@@ -221,7 +221,7 @@ namespace DataAccess
             return dbTypePhoneNumberList;
         }
 
-        private static t_phone_numbers ConvertSingleLocalPhoneNumberToDbType(PhoneNumber localTypePhoneNumber, int personId)
+        internal static t_phone_numbers ConvertSingleLocalPhoneNumberToDbType(PhoneNumber localTypePhoneNumber, int personId)
         {
             if (PhoneTypeAccess.GetPhoneTypeById(localTypePhoneNumber.NumberType._Id) == null)
             {
@@ -231,7 +231,7 @@ namespace DataAccess
                                             localTypePhoneNumber.NumberType._Id, localTypePhoneNumber._Id);
         }
 
-        private static List<PhoneNumber> ConvertMultipleDbPhoneNumbersToLocalType(List<t_phone_numbers> dbTypePhoneNumberList)
+        internal static List<PhoneNumber> ConvertMultipleDbPhoneNumbersToLocalType(List<t_phone_numbers> dbTypePhoneNumberList)
         {
             if (dbTypePhoneNumberList == null)
             {
@@ -248,7 +248,7 @@ namespace DataAccess
             return localTypePhoneTypeList;
         }
 
-        private static PhoneNumber ConvertSingleDbPhoneNumberToLocalType(t_phone_numbers dbTypePhoneNumber)
+        internal static PhoneNumber ConvertSingleDbPhoneNumberToLocalType(t_phone_numbers dbTypePhoneNumber)
         {
             if (dbTypePhoneNumber == null)
             {

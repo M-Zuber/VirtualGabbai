@@ -246,7 +246,7 @@ namespace DataAccess
         
         #region Private Methods
 
-        private static List<t_accounts> ConvertMultipleLocalAccountsToDbType(List<Account> localTypeAccountList, int personId)
+        internal static List<t_accounts> ConvertMultipleLocalAccountsToDbType(List<Account> localTypeAccountList, int personId)
         {
             List<t_accounts> dbTypeAccountList = new List<t_accounts>();
 
@@ -258,12 +258,15 @@ namespace DataAccess
             return dbTypeAccountList;
         }
 
-        private static t_accounts ConvertSingleLocalAccountToDbType(Account localTypeAccount, int personId)
+        internal static t_accounts ConvertSingleLocalAccountToDbType(Account localTypeAccount, int personId)
         {
-            return null;
+            t_accounts convertedAccount = t_accounts.Createt_accounts(localTypeAccount._Id, personId);
+            convertedAccount.last_month_paid = localTypeAccount.LastMonthlyPaymentDate;
+            convertedAccount.monthly_total = localTypeAccount.MonthlyPaymentTotal;
+            return convertedAccount;
         }
 
-        private static List<Account> ConvertMultipleDbAccountsToLocalType(List<t_accounts> dbTypeAccountList)
+        internal static List<Account> ConvertMultipleDbAccountsToLocalType(List<t_accounts> dbTypeAccountList)
         {
             if (dbTypeAccountList == null)
             {
@@ -280,15 +283,30 @@ namespace DataAccess
             return localTypePhoneTypeList;
         }
 
-        private static Account ConvertSingleDbAccountToLocalType(t_accounts dbTypeAccount)
+        internal static Account ConvertSingleDbAccountToLocalType(t_accounts dbTypeAccount)
         {
             if (dbTypeAccount == null)
             {
                 //LOG
                 return null;
             }
+            //maybe change this to use the conversion method
+            List<Donation> accountDonations = 
+                DonationAccess.ConvertMultipleDbDonationsToLocalType(dbTypeAccount.t_donations.ToList<t_donations>());
 
-            return null;
+            DateTime lastMonthlyPaymentDate = DateTime.Today;
+            if (dbTypeAccount.last_month_paid.HasValue)
+            {
+                lastMonthlyPaymentDate = dbTypeAccount.last_month_paid.Value;
+            }
+
+            int monthlyTotal = 0;
+            if (dbTypeAccount.monthly_total.HasValue)
+            {
+                monthlyTotal = dbTypeAccount.monthly_total.Value;
+            }
+
+            return new Account(dbTypeAccount.C_id, monthlyTotal, lastMonthlyPaymentDate, accountDonations);
         }
         
         #endregion

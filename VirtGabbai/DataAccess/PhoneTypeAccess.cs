@@ -191,7 +191,7 @@ namespace DataAccess
 
         #region Private Methods
 
-        private static List<t_phone_types> ConvertMultipleLocalPhoneTypesToDbType(List<PhoneType> localTypePhoneTypeList)
+        internal static List<t_phone_types> ConvertMultipleLocalPhoneTypesToDbType(List<PhoneType> localTypePhoneTypeList)
         {
             List<t_phone_types> dbTypePhoneTypeList = new List<t_phone_types>();
 
@@ -203,12 +203,12 @@ namespace DataAccess
             return dbTypePhoneTypeList;
         }
 
-        private static t_phone_types ConvertSingleLocalPhoneTypeToDbType(PhoneType localTypePhoneType)
+        internal static t_phone_types ConvertSingleLocalPhoneTypeToDbType(PhoneType localTypePhoneType)
         {
             return t_phone_types.Createt_phone_types(localTypePhoneType._Id, localTypePhoneType.PhoneTypeName);
         }
 
-        private static List<PhoneType> ConvertMultipleDbPhoneTypesToLocalType(List<t_phone_types> dbTypePhoneTypeList)
+        internal static List<PhoneType> ConvertMultipleDbPhoneTypesToLocalType(List<t_phone_types> dbTypePhoneTypeList)
         {
             if (dbTypePhoneTypeList == null)
             {
@@ -226,7 +226,7 @@ namespace DataAccess
             return localTypePhoneTypeList;
         }
 
-        private static PhoneType ConvertSingleDbPhoneTypeToLocalType(t_phone_types dbTypePhoneType)
+        internal static PhoneType ConvertSingleDbPhoneTypeToLocalType(t_phone_types dbTypePhoneType)
         {
             if (dbTypePhoneType == null) 
             { 
