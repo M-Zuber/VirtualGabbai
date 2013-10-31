@@ -128,9 +128,22 @@ namespace DataAccessTest
         [TestMethod()]
         public void AddMultipleNewAccountsTest()
         {
-            List<Account> newAccountList = null; // TODO: Initialize to an appropriate value
-            int personId = 0; // TODO: Initialize to an appropriate value
+            int donationIndex = 301;
+            List<Account> newAccountList = new List<Account>();
+            for (int i = 11; i <= 20; i++)
+            {
+                List<Donation> newDonations = new List<Donation>();
+                for (int j = donationIndex; j < (donationIndex + 5); j++)
+                {
+                    newDonations.Add(new Donation(j, "reason:" + j.ToString(), 45, DateTime.Today, ""));
+                }
+                donationIndex += 5;
+                newAccountList.Add(new Account(i, 120, DateTime.Today, newDonations));
+            }
+            int personId = 1;
             AccountAccess.AddMultipleNewAccounts(newAccountList, personId);
+            List<Account> result = AccountAccess.GetByMonthlyPaymentTotal(120);
+            CollectionAssert.AreEqual(newAccountList, result);
         }
 
         /// <summary>
@@ -139,12 +152,27 @@ namespace DataAccessTest
         [TestMethod()]
         public void AddNewAccountTest()
         {
-            Account newAccount = null; // TODO: Initialize to an appropriate value
-            int personId = 0; // TODO: Initialize to an appropriate value
-            Enums.CRUDResults expected = new Enums.CRUDResults(); // TODO: Initialize to an appropriate value
+            Account newAccount = new Account(21, 300, new DateTime(2013, 04, 01),
+                 new List<Donation>()
+                {
+                    new Donation(201, "reason:101", 12.5, DateTime.Today, ""),
+                    new Donation(202, "reason:102", 12.5, DateTime.Today, ""),
+                    new Donation(203, "reason:103", 12.5, DateTime.Today, ""),
+                    new Donation(204, "reason:104", 12.5, DateTime.Today, ""),
+                    new Donation(205, "reason:105", 12.5, DateTime.Today, ""),
+                    new PaidDonation(206, "reason:106", 12.5, DateTime.Today, "", DateTime.Today),
+                    new PaidDonation(207, "reason:107", 12.5, DateTime.Today, "", DateTime.Today),
+                    new PaidDonation(208, "reason:108", 12.5, DateTime.Today, "", DateTime.Today),
+                    new PaidDonation(209, "reason:109", 12.5, DateTime.Today, "", DateTime.Today),
+                    new PaidDonation(210, "reason:110", 12.5, DateTime.Today, "", DateTime.Today)
+            });
+            int personId = 1;
+            Enums.CRUDResults expected = Enums.CRUDResults.CREATE_SUCCESS;
             Enums.CRUDResults actual;
             actual = AccountAccess.AddNewAccount(newAccount, personId);
             Assert.AreEqual(expected, actual);
+            Account addedAccount = AccountAccess.GetByAccountId(21);
+            Assert.AreEqual(newAccount, addedAccount);
         }
 
         #endregion
@@ -661,6 +689,34 @@ namespace DataAccessTest
         ///</summary>
         [TestMethod()]
         public void UpdateSingleAccountTest()
+        {
+            Account updatedAccount = null; // TODO: Initialize to an appropriate value
+            int personId = 0; // TODO: Initialize to an appropriate value
+            Enums.CRUDResults expected = new Enums.CRUDResults(); // TODO: Initialize to an appropriate value
+            Enums.CRUDResults actual;
+            actual = AccountAccess.UpdateSingleAccount(updatedAccount, personId);
+            Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
+        ///A test for UpdateSingleAccount
+        ///</summary>
+        [TestMethod()]
+        public void UpdateSingleAccountAfterAddingNewDonationsTest()
+        {
+            Account updatedAccount = null; // TODO: Initialize to an appropriate value
+            int personId = 0; // TODO: Initialize to an appropriate value
+            Enums.CRUDResults expected = new Enums.CRUDResults(); // TODO: Initialize to an appropriate value
+            Enums.CRUDResults actual;
+            actual = AccountAccess.UpdateSingleAccount(updatedAccount, personId);
+            Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
+        ///A test for UpdateSingleAccount
+        ///</summary>
+        [TestMethod()]
+        public void UpdateSingleAccountAfterDeletingDonationsTest()
         {
             Account updatedAccount = null; // TODO: Initialize to an appropriate value
             int personId = 0; // TODO: Initialize to an appropriate value

@@ -162,6 +162,11 @@ namespace DataAccess
         {
             try
             {
+                t_accounts newDbAccount = ConvertSingleLocalAccountToDbType(newAccount, personId);
+                Cache.CacheData.t_accounts.AddObject(newDbAccount);
+                DonationAccess.AddMultipleNewDonations(newAccount.UnpaidDonations, newAccount._Id);
+                DonationAccess.AddMultipleNewDonations(
+                    new List<Donation>(newAccount.PaidDonations), newAccount._Id);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.CREATE_SUCCESS;
             }
