@@ -229,6 +229,9 @@ namespace DataAccess
         {
             try
             {
+                t_accounts accountDeleting =
+                    Cache.CacheData.t_accounts.First(account => account.C_id == deletedAccount._Id);
+                Cache.CacheData.t_accounts.DeleteObject(accountDeleting);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.DELETE_SUCCESS;
             }

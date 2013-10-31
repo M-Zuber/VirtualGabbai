@@ -120,7 +120,7 @@ namespace DataAccessTest
         //
         #endregion
 
-        #region Add Tests
+        #region Add Tests 11-20/21
 
         /// <summary>
         ///A test for AddMultipleNewAccounts
@@ -244,7 +244,7 @@ namespace DataAccessTest
 
         #endregion
         
-        #region Delete Tests
+        #region Delete Tests 3/4/5
 
         /// <summary>
         ///A test for DeleteMultipleAccounts
@@ -252,9 +252,16 @@ namespace DataAccessTest
         [TestMethod()]
         public void DeleteMultipleAccountsTest()
         {
-            List<Account> deletedAccountList = null; // TODO: Initialize to an appropriate value
-            int personId = 0; // TODO: Initialize to an appropriate value
+            List<Account> deletedAccountList = new List<Account>() 
+            {
+                new Account(4, 0, DateTime.Today, new List<Donation>()),
+                new Account(5, 0, DateTime.Today, new List<Donation>())
+            };
+            int personId = 1;
             AccountAccess.DeleteMultipleAccounts(deletedAccountList, personId);
+            List<Account> allCurrentAccounts = AccountAccess.GetAllAccounts();
+            Assert.IsFalse(allCurrentAccounts.Contains(deletedAccountList[0]));
+            Assert.IsFalse(allCurrentAccounts.Contains(deletedAccountList[1]));
         }
 
         /// <summary>
@@ -263,12 +270,14 @@ namespace DataAccessTest
         [TestMethod()]
         public void DeleteSingleAccountTest()
         {
-            Account deletedAccount = null; // TODO: Initialize to an appropriate value
-            int personId = 0; // TODO: Initialize to an appropriate value
-            Enums.CRUDResults expected = new Enums.CRUDResults(); // TODO: Initialize to an appropriate value
+            Account deletedAccount = new Account(3, 0, DateTime.Today, new List<Donation>());
+            int personId = 1;
+            Enums.CRUDResults expected = Enums.CRUDResults.DELETE_SUCCESS;
             Enums.CRUDResults actual;
             actual = AccountAccess.DeleteSingleAccount(deletedAccount, personId);
             Assert.AreEqual(expected, actual);
+            List<Account> allCurrentAccounts = AccountAccess.GetAllAccounts();
+            Assert.IsFalse(allCurrentAccounts.Contains(deletedAccount));
         }
 
         /// <summary>
@@ -277,9 +286,9 @@ namespace DataAccessTest
         [TestMethod()]
         public void DeleteSingleNonexstintAccountTest()
         {
-            Account deletedAccount = null; // TODO: Initialize to an appropriate value
-            int personId = 0; // TODO: Initialize to an appropriate value
-            Enums.CRUDResults expected = new Enums.CRUDResults(); // TODO: Initialize to an appropriate value
+            Account deletedAccount = new Account(50, 250, DateTime.Today, new List<Donation>());
+            int personId = 1;
+            Enums.CRUDResults expected = Enums.CRUDResults.DELETE_FAIL;
             Enums.CRUDResults actual;
             actual = AccountAccess.DeleteSingleAccount(deletedAccount, personId);
             Assert.AreEqual(expected, actual);
@@ -671,7 +680,7 @@ namespace DataAccessTest
 
         #endregion
         
-        #region Update Tests
+        #region Update Tests 6/7/8/9/10
         
         /// <summary>
         ///A test for UpdateMultipleAccounts
