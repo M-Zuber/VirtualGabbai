@@ -63,7 +63,10 @@ namespace DataTypes
                 donations += CurrPaidDonation.ToString();
                 donations += "\n";
             }
-            donations = donations.Remove(donations.Length - 1);
+            if (donations.Length > 1)
+            {
+                donations = donations.Remove(donations.Length - 1); 
+            }
             return "Total owed for the monthly payment: \"" + this.MonthlyPaymentTotal + "\"\n" +
                               "Last month the monthly payment was made: \"" + this.LastMonthlyPaymentDate.Month + "\"\n" +
                               "Donations:\n" + donations;

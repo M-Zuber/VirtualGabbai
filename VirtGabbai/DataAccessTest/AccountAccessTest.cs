@@ -52,7 +52,10 @@ namespace DataAccessTest
             }
             if (!Cache.CacheData.t_accounts.Any(account => account.C_id == 1))
             {
-                Cache.CacheData.t_accounts.AddObject(t_accounts.Createt_accounts(1, 1));
+                var newAccount = t_accounts.Createt_accounts(1, 1);
+                newAccount.monthly_total = 0;
+                newAccount.last_month_paid = DateTime.Today;
+                Cache.CacheData.t_accounts.AddObject(newAccount);
             }
             for (int newAccountIndex = 2; newAccountIndex <= 10; newAccountIndex++)
             {
@@ -317,8 +320,8 @@ namespace DataAccessTest
         [TestMethod()]
         public void GetByAccountIdTest()
         {
-            int accountId = 1; 
-            Account expected = new Account(1, 0, DateTime.Today, new List<Donation>());
+            int accountId = 10; 
+            Account expected = new Account(10, 0, DateTime.Today, new List<Donation>());
             Account actual;
             actual = AccountAccess.GetAccountById(accountId);
             Assert.AreEqual(expected, actual);
@@ -422,34 +425,16 @@ namespace DataAccessTest
         public void GetByLastMonthlyPaymentDateTest()
         {
             DateTime lastPayment = DateTime.Today;
-            List<Account> expected = new List<Account>()
-            {
-                new Account(2, 0, DateTime.Today,
-                    new List<Donation>()
-                    {
-                        new Donation(101, "reason:101", 12.5, DateTime.Today, ""),
-                        new Donation(102, "reason:102", 12.5, DateTime.Today, ""),
-                        new Donation(103, "reason:103", 12.5, DateTime.Today, ""),
-                        new Donation(104, "reason:104", 12.5, DateTime.Today, ""),
-                        new Donation(105, "reason:105", 12.5, DateTime.Today, ""),
-                        new PaidDonation(106, "reason:106", 12.5, DateTime.Today, "", DateTime.Today),
-                        new PaidDonation(107, "reason:107", 12.5, DateTime.Today, "", DateTime.Today),
-                        new PaidDonation(108, "reason:108", 12.5, DateTime.Today, "", DateTime.Today),
-                        new PaidDonation(109, "reason:109", 12.5, DateTime.Today, "", DateTime.Today),
-                        new PaidDonation(110, "reason:110", 12.5, DateTime.Today, "", DateTime.Today)
-                    }),
-                    new Account(3,0,DateTime.Today, new List<Donation>()),
-                    new Account(4,0,DateTime.Today, new List<Donation>()),
-                    new Account(5,0,DateTime.Today, new List<Donation>()),
-                    new Account(6,0,DateTime.Today, new List<Donation>()),
-                    new Account(7,0,DateTime.Today, new List<Donation>()),
-                    new Account(8,0,DateTime.Today, new List<Donation>()),
-                    new Account(9,0,DateTime.Today, new List<Donation>()),
-                    new Account(10,0,DateTime.Today, new List<Donation>())
-            };
+            List<Account> expected = AccountAccess.GetAllAccounts();
             List<Account> actual;
             actual = AccountAccess.GetByLastMonthlyPaymentDate(lastPayment);
-            CollectionAssert.AreEqual(expected, actual);
+            for (int i = 0; i < expected.Count; i++)
+            {
+                if (expected[i].LastMonthlyPaymentDate == lastPayment)
+                {
+                    Assert.IsTrue(actual.Contains(expected[i]));
+                }
+            }
         }
 
         /// <summary>
@@ -459,34 +444,17 @@ namespace DataAccessTest
         public void GetByMonthlyPaymentTotalTest()
         {
             int monthlyTotal = 0;
-            List<Account> expected = new List<Account>()
-            {
-                new Account(2, 0, DateTime.Today,
-                    new List<Donation>()
-                    {
-                        new Donation(101, "reason:101", 12.5, DateTime.Today, ""),
-                        new Donation(102, "reason:102", 12.5, DateTime.Today, ""),
-                        new Donation(103, "reason:103", 12.5, DateTime.Today, ""),
-                        new Donation(104, "reason:104", 12.5, DateTime.Today, ""),
-                        new Donation(105, "reason:105", 12.5, DateTime.Today, ""),
-                        new PaidDonation(106, "reason:106", 12.5, DateTime.Today, "", DateTime.Today),
-                        new PaidDonation(107, "reason:107", 12.5, DateTime.Today, "", DateTime.Today),
-                        new PaidDonation(108, "reason:108", 12.5, DateTime.Today, "", DateTime.Today),
-                        new PaidDonation(109, "reason:109", 12.5, DateTime.Today, "", DateTime.Today),
-                        new PaidDonation(110, "reason:110", 12.5, DateTime.Today, "", DateTime.Today)
-                    }),
-                    new Account(3,0,DateTime.Today, new List<Donation>()),
-                    new Account(4,0,DateTime.Today, new List<Donation>()),
-                    new Account(5,0,DateTime.Today, new List<Donation>()),
-                    new Account(6,0,DateTime.Today, new List<Donation>()),
-                    new Account(7,0,DateTime.Today, new List<Donation>()),
-                    new Account(8,0,DateTime.Today, new List<Donation>()),
-                    new Account(9,0,DateTime.Today, new List<Donation>()),
-                    new Account(10,0,DateTime.Today, new List<Donation>())
-            };
+            List<Account> expected = AccountAccess.GetAllAccounts();
             List<Account> actual;
             actual = AccountAccess.GetByMonthlyPaymentTotal(monthlyTotal);
-            CollectionAssert.AreEqual(expected, actual);
+
+            for (int i = 0; i < expected.Count; i++)
+            {
+                if (expected[i].MonthlyPaymentTotal == monthlyTotal)
+                {
+                    Assert.IsTrue(actual.Contains(expected[i]));
+                }
+            }
         }
 
         /// <summary>
@@ -496,7 +464,7 @@ namespace DataAccessTest
         public void GetByPersonIdTest()
         {
             int personId = 1;
-            Account expected = new Account(1, 0, DateTime.Today, new List<Donation>());
+            Account expected = new Account(1, 0, DateTime.Today, DonationAccess.GetAllDonations(1));
             Account actual;
             actual = AccountAccess.GetByPersonId(personId);
             Assert.AreEqual(expected, actual);
@@ -540,12 +508,16 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupByAccountIdTest()
         {
-            int accountId = 2;
-            t_accounts expected = 
-                Cache.CacheData.t_accounts.First(wantedAccount => wantedAccount.C_id == accountId);
+            int accountId = 10;
+            t_accounts expected = t_accounts.Createt_accounts(10, 1);
+            expected.monthly_total = 0;
+            expected.last_month_paid = DateTime.Today;
             t_accounts actual;
             actual = AccountAccess_Accessor.LookupByAccountId(accountId);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected.C_id, actual.C_id);
+            Assert.AreEqual(expected.last_month_paid, actual.last_month_paid);
+            Assert.AreEqual(expected.monthly_total, actual.monthly_total);
+            Assert.AreEqual(expected.person_id, actual.person_id);
         }
 
         /// <summary>
@@ -570,7 +542,7 @@ namespace DataAccessTest
         public void LookupByDonationIdTest()
         {
             int donationId = 105;
-            t_accounts expected = Cache.CacheData.t_accounts.First(wantedAc => wantedAc.C_id == 2);
+            t_accounts expected = AccountAccess_Accessor.LookupByAccountId(2);
             t_accounts actual;
             actual = AccountAccess_Accessor.LookupByDonation(donationId);
             Assert.AreEqual(expected, actual);
