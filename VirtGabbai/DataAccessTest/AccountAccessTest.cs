@@ -727,6 +727,8 @@ namespace DataAccessTest
             Enums.CRUDResults actual;
             actual = AccountAccess.UpdateSingleAccount(updatedAccount, personId);
             Assert.AreEqual(expected, actual);
+            Account afterUpdate = AccountAccess.GetAccountById(6);
+            Assert.AreEqual(updatedAccount, afterUpdate);
         }
 
         #endregion
