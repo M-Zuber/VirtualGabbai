@@ -704,14 +704,14 @@ namespace DataAccessTest
         [TestMethod()]
         public void UpdateSingleAccountAfterChangingDonationsTest()
         {
-            Account updatedAccount = AccountAccess.GetAccountById(2);
+            Account updatedAccount = AccountAccess.GetAccountById(8);
             updatedAccount.UnpaidDonations.Add(new Donation(900, "reason:900", 12.6, DateTime.Today, ""));
             int personId = 1;
             Enums.CRUDResults expected = Enums.CRUDResults.UPDATE_SUCCESS;
             Enums.CRUDResults actual;
             actual = AccountAccess.UpdateSingleAccount(updatedAccount, personId);
             Assert.AreEqual(expected, actual);
-            Account afterUpdate = AccountAccess.GetAccountById(2);
+            Account afterUpdate = AccountAccess.GetAccountById(8);
             Assert.AreEqual(updatedAccount, afterUpdate);
         }
 
@@ -727,8 +727,6 @@ namespace DataAccessTest
             Enums.CRUDResults actual;
             actual = AccountAccess.UpdateSingleAccount(updatedAccount, personId);
             Assert.AreEqual(expected, actual);
-            Account afterUpdate = AccountAccess.GetAccountById(6);
-            Assert.AreEqual(updatedAccount, afterUpdate);
         }
 
         #endregion
