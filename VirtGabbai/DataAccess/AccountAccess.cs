@@ -198,6 +198,12 @@ namespace DataAccess
         {
             try
             {
+                //TODO change to upsert
+                DonationAccess.UpdateMultipleDonations(updatedAccount.UnpaidDonations, updatedAccount._Id);
+                DonationAccess.UpdateMultipleDonations(new List<Donation>(updatedAccount.PaidDonations), updatedAccount._Id);
+                t_accounts accountUpdating = LookupByAccountId(updatedAccount._Id);
+                accountUpdating = ConvertSingleLocalAccountToDbType(updatedAccount, personId);
+                Cache.CacheData.t_accounts.ApplyCurrentValues(accountUpdating);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.UPDATE_SUCCESS;
             }
