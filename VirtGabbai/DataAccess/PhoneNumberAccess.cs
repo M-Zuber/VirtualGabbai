@@ -110,8 +110,9 @@ namespace DataAccess
         {
             try
             {
-                t_phone_numbers phonrNumberToAdd = ConvertSingleLocalPhoneNumberToDbType(newPhoneNumber, personId);
-                Cache.CacheData.t_phone_numbers.AddObject(phonrNumberToAdd);
+                PhoneTypeAccess.UpsertSinglePhoneType(newPhoneNumber.NumberType);
+                t_phone_numbers phoneNumberToAdd = ConvertSingleLocalPhoneNumberToDbType(newPhoneNumber, personId);
+                Cache.CacheData.t_phone_numbers.AddObject(phoneNumberToAdd);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.CREATE_SUCCESS;
             }
@@ -143,9 +144,10 @@ namespace DataAccess
         {
             try
             {
-                t_phone_numbers phoneTypeUpdating = LookupPhoneNumberById(updatedPhoneNumber._Id);
-                phoneTypeUpdating = ConvertSingleLocalPhoneNumberToDbType(updatedPhoneNumber, personId);
-                Cache.CacheData.t_phone_numbers.ApplyCurrentValues(phoneTypeUpdating);
+                PhoneTypeAccess.UpsertSinglePhoneType(updatedPhoneNumber.NumberType);
+                t_phone_numbers phoneNumberUpdating = LookupPhoneNumberById(updatedPhoneNumber._Id);
+                phoneNumberUpdating = ConvertSingleLocalPhoneNumberToDbType(updatedPhoneNumber, personId);
+                Cache.CacheData.t_phone_numbers.ApplyCurrentValues(phoneNumberUpdating);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.UPDATE_SUCCESS;
             }
@@ -205,6 +207,32 @@ namespace DataAccess
 
         #endregion
 
+        #region Upsert
+
+        public static Enums.CRUDResults UpsertSinglePhoneNumber(PhoneNumber upsertedPhoneNumber, int personId)
+        {
+            PhoneNumber currentPhoneNumber = GetPhoneNumberById(upsertedPhoneNumber._Id);
+
+            if (currentPhoneNumber == null)
+            {
+                return AddNewPhoneNumber(upsertedPhoneNumber, personId);
+            }
+            else
+            {
+                return UpdateSinglePhoneNumber(upsertedPhoneNumber, personId);
+            }
+        }
+
+        public static void UpsertMultiplePhoneNumbers(List<PhoneNumber> upsertedList, int personId)
+        {
+            foreach (PhoneNumber CurrPhoneNumber in upsertedList)
+            {
+                UpsertSinglePhoneNumber(CurrPhoneNumber, personId);
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Private Methods
@@ -223,10 +251,6 @@ namespace DataAccess
 
         internal static t_phone_numbers ConvertSingleLocalPhoneNumberToDbType(PhoneNumber localTypePhoneNumber, int personId)
         {
-            if (PhoneTypeAccess.GetPhoneTypeById(localTypePhoneNumber.NumberType._Id) == null)
-            {
-                PhoneTypeAccess.AddNewPhoneType(localTypePhoneNumber.NumberType);
-            }
             return t_phone_numbers.Createt_phone_numbers(personId, localTypePhoneNumber.Number, 
                                             localTypePhoneNumber.NumberType._Id, localTypePhoneNumber._Id);
         }

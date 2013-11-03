@@ -187,6 +187,32 @@ namespace DataAccess
 
         #endregion
 
+        #region Upsert
+
+        public static Enums.CRUDResults UpsertSinglePhoneType(PhoneType upsertedPhoneType) 
+        {
+            PhoneType currentPhoneType = GetPhoneTypeById(upsertedPhoneType._Id);
+
+            if (currentPhoneType == null)
+            {
+                return AddNewPhoneType(upsertedPhoneType);
+            }
+            else
+            {
+                return UpdateSinglePhoneType(upsertedPhoneType);
+            }
+        }
+
+        public static void UpsertMultiplePhoneTypes(List<PhoneType> upsertedList) 
+        {
+            foreach (PhoneType CurrPhoneType in upsertedList)
+            {
+                UpsertSinglePhoneType(CurrPhoneType);
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Private Methods

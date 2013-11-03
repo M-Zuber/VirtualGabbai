@@ -613,5 +613,41 @@ namespace DataAccessTest
         } 
 
         #endregion
+
+        #region Upsert Tests
+
+        /// <summary>
+        ///A test for UpsertSinglePhoneNumber
+        ///</summary>
+        [TestMethod()]
+        public void UpsertAddSinglePhoneNumberTest()
+        {
+            PhoneNumber upsertedPhoneNumber = new PhoneNumber(613, "613-613-613", new PhoneType(1, "phonetype:1"));
+            int personId = 1;
+            Enums.CRUDResults expected = Enums.CRUDResults.CREATE_SUCCESS;
+            Enums.CRUDResults actual;
+            actual = PhoneNumberAccess.UpsertSinglePhoneNumber(upsertedPhoneNumber, personId);
+            Assert.AreEqual(expected, actual);
+            List<PhoneNumber> afterUpsert = PhoneNumberAccess.GetAllPhoneNumbers(1);
+            Assert.IsTrue(afterUpsert.Contains(upsertedPhoneNumber));
+        }
+
+        /// <summary>
+        ///A test for UpsertSinglePhoneNumber
+        ///</summary>
+        [TestMethod()]
+        public void UpsertUpdateSinglePhoneNumberTest()
+        {
+            PhoneNumber upsertedPhoneNumber = new PhoneNumber(7, "can you guess", new PhoneType(1, "phonetype:1"));
+            int personId = 1;
+            Enums.CRUDResults expected = Enums.CRUDResults.UPDATE_SUCCESS;
+            Enums.CRUDResults actual;
+            actual = PhoneNumberAccess.UpsertSinglePhoneNumber(upsertedPhoneNumber, personId);
+            Assert.AreEqual(expected, actual);
+            PhoneNumber afterUpsert = PhoneNumberAccess.GetPhoneNumberById(7);
+            Assert.AreEqual(upsertedPhoneNumber, afterUpsert);
+        }
+        
+        #endregion
     }
 }

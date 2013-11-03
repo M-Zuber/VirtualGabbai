@@ -13,7 +13,7 @@ namespace DataAccess
         
         #region Local type return
 
-        public static Account GetByAccountId(int accountId)
+        public static Account GetAccountById(int accountId)
         {
             return ConvertSingleDbAccountToLocalType(LookupByAccountId(accountId));
         }
@@ -164,8 +164,8 @@ namespace DataAccess
             {
                 t_accounts newDbAccount = ConvertSingleLocalAccountToDbType(newAccount, personId);
                 Cache.CacheData.t_accounts.AddObject(newDbAccount);
-                DonationAccess.AddMultipleNewDonations(newAccount.UnpaidDonations, newAccount._Id);
-                DonationAccess.AddMultipleNewDonations(
+                DonationAccess.UpsertMultipleDonations(newAccount.UnpaidDonations, newAccount._Id);
+                DonationAccess.UpsertMultipleDonations(
                     new List<Donation>(newAccount.PaidDonations), newAccount._Id);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.CREATE_SUCCESS;
@@ -198,9 +198,8 @@ namespace DataAccess
         {
             try
             {
-                //TODO change to upsert
-                DonationAccess.UpdateMultipleDonations(updatedAccount.UnpaidDonations, updatedAccount._Id);
-                DonationAccess.UpdateMultipleDonations(new List<Donation>(updatedAccount.PaidDonations), updatedAccount._Id);
+                DonationAccess.UpsertMultipleDonations(updatedAccount.UnpaidDonations, updatedAccount._Id);
+                DonationAccess.UpsertMultipleDonations(new List<Donation>(updatedAccount.PaidDonations), updatedAccount._Id);
                 t_accounts accountUpdating = LookupByAccountId(updatedAccount._Id);
                 accountUpdating = ConvertSingleLocalAccountToDbType(updatedAccount, personId);
                 Cache.CacheData.t_accounts.ApplyCurrentValues(accountUpdating);
@@ -262,7 +261,33 @@ namespace DataAccess
         }
         
         #endregion
-        
+
+        #region Upsert
+
+        public static Enums.CRUDResults UpsertSingleAccount(Account upsertedAccount, int personId)
+        {
+            Account currentAccount = GetAccountById(upsertedAccount._Id);
+
+            if (currentAccount == null)
+            {
+                return AddNewAccount(upsertedAccount, personId);
+            }
+            else
+            {
+                return UpdateSingleAccount(upsertedAccount, personId);
+            }
+        }
+
+        public static void UpsertMultipleAccounts(List<Account> upsertedList, int personId)
+        {
+            foreach (Account CurrAccount in upsertedList)
+            {
+                UpsertSingleAccount(CurrAccount, personId);
+            }
+        }
+
+        #endregion
+
         #endregion
         
         #region Private Methods

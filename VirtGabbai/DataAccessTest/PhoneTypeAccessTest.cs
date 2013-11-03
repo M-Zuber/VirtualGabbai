@@ -466,5 +466,38 @@ namespace DataAccessTest
         }
 
         #endregion
+
+        #region Upsert Tests
+
+        /// <summary>
+        ///A test for UpsertSinglePhoneType
+        ///</summary>
+        [TestMethod()]
+        public void UpsertUpdateSinglePhoneTypeTest()
+        {
+            PhoneType upsertedPhoneType = new PhoneType(8, "can you guess??");
+            Enums.CRUDResults expected = Enums.CRUDResults.UPDATE_SUCCESS;
+            Enums.CRUDResults actual;
+            actual = PhoneTypeAccess.UpsertSinglePhoneType(upsertedPhoneType);
+            Assert.AreEqual(expected, actual);
+            PhoneType afterUpdate = PhoneTypeAccess.GetPhoneTypeById(8);
+        }
+
+        /// <summary>
+        ///A test for UpsertSinglePhoneType
+        ///</summary>
+        [TestMethod()]
+        public void UpsertAddSinglePhoneTypeTest()
+        {
+            PhoneType upsertedPhoneType = new PhoneType(613, "all the best in the world");
+            Enums.CRUDResults expected = Enums.CRUDResults.CREATE_SUCCESS;
+            Enums.CRUDResults actual;
+            actual = PhoneTypeAccess.UpsertSinglePhoneType(upsertedPhoneType);
+            Assert.AreEqual(expected, actual);
+            List<PhoneType> afterUpdate = PhoneTypeAccess.GetAllPhoneTypes();
+            Assert.IsTrue(afterUpdate.Contains(upsertedPhoneType));
+        }
+        
+        #endregion
     }
 }

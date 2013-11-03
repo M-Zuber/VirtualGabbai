@@ -206,6 +206,32 @@ namespace DataAccess
 
         #endregion
 
+        #region Upsert
+
+        public static Enums.CRUDResults UpsertSingleYahrtzieht(Yahrtzieht upsertedYahrtzieht, int personId)
+        {
+            Yahrtzieht currentYahrtzieht = GetYahrtziehtById(upsertedYahrtzieht._Id);
+
+            if (currentYahrtzieht == null)
+            {
+                return AddNewYahrtzieht(upsertedYahrtzieht, personId);
+            }
+            else
+            {
+                return UpdateSingleYahrtzieht(upsertedYahrtzieht, personId);
+            }
+        }
+
+        public static void UpsertMultipleCCCCCCs(List<Yahrtzieht> upsertedList, int personId)
+        {
+            foreach (Yahrtzieht CurrYahrtzieht in upsertedList)
+            {
+                UpsertSingleYahrtzieht(CurrYahrtzieht, personId);
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Private Methods
