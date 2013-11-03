@@ -110,8 +110,9 @@ namespace DataAccess
         {
             try
             {
-                t_phone_numbers phonrNumberToAdd = ConvertSingleLocalPhoneNumberToDbType(newPhoneNumber, personId);
-                Cache.CacheData.t_phone_numbers.AddObject(phonrNumberToAdd);
+                PhoneTypeAccess.UpsertSinglePhoneType(newPhoneNumber.NumberType);
+                t_phone_numbers phoneNumberToAdd = ConvertSingleLocalPhoneNumberToDbType(newPhoneNumber, personId);
+                Cache.CacheData.t_phone_numbers.AddObject(phoneNumberToAdd);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.CREATE_SUCCESS;
             }
@@ -143,6 +144,7 @@ namespace DataAccess
         {
             try
             {
+                PhoneTypeAccess.UpsertSinglePhoneType(updatedPhoneNumber.NumberType);
                 t_phone_numbers phoneNumberUpdating = LookupPhoneNumberById(updatedPhoneNumber._Id);
                 phoneNumberUpdating = ConvertSingleLocalPhoneNumberToDbType(updatedPhoneNumber, personId);
                 Cache.CacheData.t_phone_numbers.ApplyCurrentValues(phoneNumberUpdating);
@@ -249,10 +251,6 @@ namespace DataAccess
 
         internal static t_phone_numbers ConvertSingleLocalPhoneNumberToDbType(PhoneNumber localTypePhoneNumber, int personId)
         {
-            if (PhoneTypeAccess.GetPhoneTypeById(localTypePhoneNumber.NumberType._Id) == null)
-            {
-                PhoneTypeAccess.AddNewPhoneType(localTypePhoneNumber.NumberType);
-            }
             return t_phone_numbers.Createt_phone_numbers(personId, localTypePhoneNumber.Number, 
                                             localTypePhoneNumber.NumberType._Id, localTypePhoneNumber._Id);
         }
