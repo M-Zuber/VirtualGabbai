@@ -143,9 +143,9 @@ namespace DataAccess
         {
             try
             {
-                t_phone_numbers phoneTypeUpdating = LookupPhoneNumberById(updatedPhoneNumber._Id);
-                phoneTypeUpdating = ConvertSingleLocalPhoneNumberToDbType(updatedPhoneNumber, personId);
-                Cache.CacheData.t_phone_numbers.ApplyCurrentValues(phoneTypeUpdating);
+                t_phone_numbers phoneNumberUpdating = LookupPhoneNumberById(updatedPhoneNumber._Id);
+                phoneNumberUpdating = ConvertSingleLocalPhoneNumberToDbType(updatedPhoneNumber, personId);
+                Cache.CacheData.t_phone_numbers.ApplyCurrentValues(phoneNumberUpdating);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.UPDATE_SUCCESS;
             }
@@ -200,6 +200,32 @@ namespace DataAccess
                 {
                     //LOG
                 }
+            }
+        }
+
+        #endregion
+
+        #region Upsert
+
+        public static Enums.CRUDResults UpsertSinglePhoneNumber(PhoneNumber upsertedPhoneNumber, int personId)
+        {
+            PhoneNumber currentPhoneNumber = GetPhoneNumberById(upsertedPhoneNumber._Id);
+
+            if (currentPhoneNumber == null)
+            {
+                return AddNewPhoneNumber(upsertedPhoneNumber, personId);
+            }
+            else
+            {
+                return UpdateSinglePhoneNumber(upsertedPhoneNumber, personId);
+            }
+        }
+
+        public static void UpsertMultiplePhoneNumbers(List<PhoneNumber> upsertedList, int personId)
+        {
+            foreach (PhoneNumber CurrPhoneNumber in upsertedList)
+            {
+                UpsertSinglePhoneNumber(CurrPhoneNumber, personId);
             }
         }
 
