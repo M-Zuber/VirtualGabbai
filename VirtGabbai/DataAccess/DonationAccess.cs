@@ -246,6 +246,32 @@ namespace DataAccess
 
         #endregion
 
+        #region Upsert
+
+        public static Enums.CRUDResults UpsertSingleDonation(Donation upsertedDonation, int personId)
+        {
+            Donation currentDonation = GetDonationById(upsertedDonation._Id);
+
+            if (currentDonation == null)
+            {
+                return AddNewDonation(upsertedDonation, personId);
+            }
+            else
+            {
+                return UpdateSingleDonation(upsertedDonation, personId);
+            }
+        }
+
+        public static void UpsertMultipleDonations(List<Donation> upsertedList, int personId)
+        {
+            foreach (Donation CurrDonation in upsertedList)
+            {
+                UpsertSingleDonation(CurrDonation, personId);
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Private Methods
