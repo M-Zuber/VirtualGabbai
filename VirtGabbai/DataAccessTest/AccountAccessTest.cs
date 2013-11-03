@@ -171,7 +171,7 @@ namespace DataAccessTest
             Enums.CRUDResults actual;
             actual = AccountAccess.AddNewAccount(newAccount, personId);
             Assert.AreEqual(expected, actual);
-            Account addedAccount = AccountAccess.GetByAccountId(21);
+            Account addedAccount = AccountAccess.GetAccountById(21);
             Assert.AreEqual(newAccount, addedAccount);
         }
 
@@ -320,7 +320,7 @@ namespace DataAccessTest
             int accountId = 1; 
             Account expected = new Account(1, 0, DateTime.Today, new List<Donation>());
             Account actual;
-            actual = AccountAccess.GetByAccountId(accountId);
+            actual = AccountAccess.GetAccountById(accountId);
             Assert.AreEqual(expected, actual);
         }
 
@@ -333,7 +333,7 @@ namespace DataAccessTest
             int accountId = 0;
             Account expected = null;
             Account actual;
-            actual = AccountAccess.GetByAccountId(accountId);
+            actual = AccountAccess.GetAccountById(accountId);
             Assert.AreEqual(expected, actual);
         }
 
@@ -680,19 +680,8 @@ namespace DataAccessTest
 
         #endregion
         
-        #region Update Tests 6/7/8/9/10
+        #region Update Tests 6
         
-        /// <summary>
-        ///A test for UpdateMultipleAccounts
-        ///</summary>
-        [TestMethod()]
-        public void UpdateMultipleAccountsTest()
-        {
-            List<Account> updatedAccountList = null; // TODO: Initialize to an appropriate value
-            int personId = 0; // TODO: Initialize to an appropriate value
-            AccountAccess.UpdateMultipleAccounts(updatedAccountList, personId);
-        }
-
         /// <summary>
         ///A test for UpdateSingleAccount
         ///</summary>
@@ -705,7 +694,7 @@ namespace DataAccessTest
             Enums.CRUDResults actual;
             actual = AccountAccess.UpdateSingleAccount(updatedAccount, personId);
             Assert.AreEqual(expected, actual);
-            Account afterUpdate = AccountAccess.GetByAccountId(6);
+            Account afterUpdate = AccountAccess.GetAccountById(6);
             Assert.AreEqual(updatedAccount, afterUpdate);
         }
 
@@ -715,15 +704,14 @@ namespace DataAccessTest
         [TestMethod()]
         public void UpdateSingleAccountAfterChangingDonationsTest()
         {
-            Account updatedAccount = AccountAccess.GetByAccountId(2);
-            //updatedAccount.UnpaidDonations.Add(new Donation(900, "reason:900", 12.6, DateTime.Today, ""));
-            updatedAccount.UnpaidDonations[0].Amount *= 4;
+            Account updatedAccount = AccountAccess.GetAccountById(2);
+            updatedAccount.UnpaidDonations.Add(new Donation(900, "reason:900", 12.6, DateTime.Today, ""));
             int personId = 1;
             Enums.CRUDResults expected = Enums.CRUDResults.UPDATE_SUCCESS;
             Enums.CRUDResults actual;
             actual = AccountAccess.UpdateSingleAccount(updatedAccount, personId);
             Assert.AreEqual(expected, actual);
-            Account afterUpdate = AccountAccess.GetByAccountId(2);
+            Account afterUpdate = AccountAccess.GetAccountById(2);
             Assert.AreEqual(updatedAccount, afterUpdate);
         }
 
@@ -741,6 +729,42 @@ namespace DataAccessTest
             Assert.AreEqual(expected, actual);
         }
 
+        #endregion
+
+        #region Upsert Tests
+
+        /// <summary>
+        ///A test for UpsertSingleAccount
+        ///</summary>
+        [TestMethod()]
+        public void UpsertAddSingleAccountTest()
+        {
+            Account upsertedAccount = new Account(613, 9857, DateTime.Today, new List<Donation>());
+            int personId = 1;
+            Enums.CRUDResults expected = Enums.CRUDResults.CREATE_SUCCESS;
+            Enums.CRUDResults actual;
+            actual = AccountAccess.UpsertSingleAccount(upsertedAccount, personId);
+            Assert.AreEqual(expected, actual);
+            Account afterUpsert = AccountAccess.GetAccountById(613);
+            Assert.AreEqual(upsertedAccount, afterUpsert);
+        }
+
+        /// <summary>
+        ///A test for UpsertSingleAccount
+        ///</summary>
+        [TestMethod()]
+        public void UpsertUpdateSingleAccountTest()
+        {
+            Account upsertedAccount = new Account(7, 613, DateTime.MinValue, new List<Donation>());
+            int personId = 1;
+            Enums.CRUDResults expected = Enums.CRUDResults.UPDATE_SUCCESS;
+            Enums.CRUDResults actual;
+            actual = AccountAccess.UpsertSingleAccount(upsertedAccount, personId);
+            Assert.AreEqual(expected, actual);
+            Account afterUpsert = AccountAccess.GetAccountById(7);
+            Assert.AreEqual(upsertedAccount, afterUpsert);
+        }
+        
         #endregion
     }
 }

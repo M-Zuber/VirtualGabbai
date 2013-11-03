@@ -248,25 +248,25 @@ namespace DataAccess
 
         #region Upsert
 
-        public static Enums.CRUDResults UpsertSingleDonation(Donation upsertedDonation, int personId)
+        public static Enums.CRUDResults UpsertSingleDonation(Donation upsertedDonation, int accountId)
         {
             Donation currentDonation = GetDonationById(upsertedDonation._Id);
 
             if (currentDonation == null)
             {
-                return AddNewDonation(upsertedDonation, personId);
+                return AddNewDonation(upsertedDonation, accountId);
             }
             else
             {
-                return UpdateSingleDonation(upsertedDonation, personId);
+                return UpdateSingleDonation(upsertedDonation, accountId);
             }
         }
 
-        public static void UpsertMultipleDonations(List<Donation> upsertedList, int personId)
+        public static void UpsertMultipleDonations(List<Donation> upsertedList, int accountId)
         {
             foreach (Donation CurrDonation in upsertedList)
             {
-                UpsertSingleDonation(CurrDonation, personId);
+                UpsertSingleDonation(CurrDonation, accountId);
             }
         }
 
