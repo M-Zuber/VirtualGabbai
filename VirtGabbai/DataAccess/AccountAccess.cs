@@ -56,7 +56,7 @@ namespace DataAccess
         {
             try
             {
-                return Cache.CacheData.t_accounts.First(WantedAccount => WantedAccount.C_id == accountId);
+                return Cache.CacheData.t_accounts.First(currAccount => currAccount.C_id == accountId);
             }
             catch (Exception)
             {
@@ -98,7 +98,7 @@ namespace DataAccess
             {
                 return (from CurrAccount in Cache.CacheData.t_accounts
                         where CurrAccount.monthly_total == monthlyTotal
-                        select CurrAccount).ToList();
+                        select CurrAccount).ToList<t_accounts>();
             }
             catch (Exception)
             {
@@ -113,7 +113,7 @@ namespace DataAccess
             {
                 return (from CurrAccount in Cache.CacheData.t_accounts
                         where CurrAccount.last_month_paid == lastPayment
-                        select CurrAccount).ToList();
+                        select CurrAccount).ToList<t_accounts>();
             }
             catch (Exception)
             {

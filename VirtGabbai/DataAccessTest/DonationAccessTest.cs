@@ -52,7 +52,10 @@ namespace DataAccessTest
             }
             if (!Cache.CacheData.t_accounts.Any(account => account.C_id == 1))
             {
-                Cache.CacheData.t_accounts.AddObject(t_accounts.Createt_accounts(1, 1));
+                var newAccount = t_accounts.Createt_accounts(1, 1);
+                newAccount.monthly_total = 0;
+                newAccount.last_month_paid = DateTime.Today;
+                Cache.CacheData.t_accounts.AddObject(newAccount);
             }
             for (int newDonationIndex = 1; newDonationIndex <= 5; newDonationIndex++)
             {
