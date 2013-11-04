@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Net.Mail;
 
 namespace DataTypes
 {
@@ -11,7 +12,7 @@ namespace DataTypes
 
         public int _Id { get; set; }
 
-        public Email Email { get; set; }
+        public MailAddress Email { get; set; }
 
         public string FirstName { get; set; }
 
@@ -28,7 +29,21 @@ namespace DataTypes
         #endregion
 
         #region C'tor
-        
+
+        public Person(int id, string emailAddress, string firstName, string lastName,
+                      string streetAddress, Account personalAccount, List<PhoneNumber> phoneNumbers,
+                      List<Yahrtzieht> yahrtziehts)
+        {
+            this._Id = id;
+            this.Email = new MailAddress(emailAddress);
+            this.FirstName = firstName;
+            this.LastName = lastName;
+            this.Address = streetAddress;
+            this.PersonalAccount = personalAccount;
+            this.PhoneNumbers = phoneNumbers;
+            this.Yahrtziehts = yahrtziehts;
+        }
+
         #endregion
 
         #region Object Methods

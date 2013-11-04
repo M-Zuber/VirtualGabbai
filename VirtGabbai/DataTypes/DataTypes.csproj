@@ -42,7 +42,6 @@
   <ItemGroup>
     <Compile Include="Account.cs" />
     <Compile Include="Donation.cs" />
-    <Compile Include="Email.cs" />
     <Compile Include="PaidDonation.cs" />
     <Compile Include="Person.cs" />
     <Compile Include="PhoneNumber.cs" />
