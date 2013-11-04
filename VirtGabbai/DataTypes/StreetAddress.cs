@@ -18,6 +18,8 @@ namespace DataTypes
 
         public string City { get; set; }
 
+        public string State { get; set; }
+
         public string Country { get; set; }
 
         public string Zipcode { get; set; }
@@ -28,13 +30,15 @@ namespace DataTypes
 
         public StreetAddress(string address)
         {
-            string[] addressParts = address.Split(Globals.DELIMITER);
+            char[] delimiters = new char[] { Globals.DELIMITER };
+            string[] addressParts = address.Split(delimiters, StringSplitOptions.None);
             this.ApartmentNumber = addressParts[0];
             this.House = addressParts[1];
             this.Street = addressParts[2];
             this.City = addressParts[3];
-            this.Country = addressParts[4];
-            this.Zipcode = addressParts[5];
+            this.State = addressParts[4].ToUpper();
+            this.Country = addressParts[5].ToUpper();
+            this.Zipcode = addressParts[6];
         }
 
         #endregion
@@ -43,7 +47,14 @@ namespace DataTypes
 
         public override bool Equals(object obj)
         {
-            return base.Equals(obj);
+            StreetAddress comparingAddress = (StreetAddress)obj;
+            return ((this.ApartmentNumber == comparingAddress.ApartmentNumber) &&
+                    (this.House == comparingAddress.House) &&
+                    (this.Street == comparingAddress.Street) &&
+                    (this.City == comparingAddress.City) &&
+                    (this.State == comparingAddress.State) &&
+                    (this.Country == comparingAddress.Country) &&
+                    (this.Zipcode == comparingAddress.Zipcode));
         }
 
         public override int GetHashCode()
@@ -53,7 +64,19 @@ namespace DataTypes
 
         public override string ToString()
         {
-            return base.ToString();
+            string addressToString = this.House + " " + this.Street;
+            if (this.ApartmentNumber != "")
+            {
+                addressToString += "\tApartment #" + this.ApartmentNumber;
+            }
+            addressToString += "\n" + this.City + " ";
+            if (this.State != "")
+            {
+                addressToString += this.State + " ";
+            }
+            addressToString += this.Country + "\n" + this.Zipcode;
+
+            return addressToString;
         }
 
         #endregion
