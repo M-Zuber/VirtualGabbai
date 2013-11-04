@@ -604,5 +604,40 @@ namespace DataAccessTest
 
         #endregion
 
+        #region Upsert Tests
+
+        /// <summary>
+        ///A test for UpsertSingleYahrtzieht
+        ///</summary>
+        [TestMethod()]
+        public void UpsertAddSingleYahrtziehtTest()
+        {
+            Yahrtzieht upsertedYahrtzieht = new Yahrtzieht(613, DateTime.Today, "not my name", "i wont admit it");
+            int personId = 1;
+            Enums.CRUDResults expected = Enums.CRUDResults.CREATE_SUCCESS;
+            Enums.CRUDResults actual;
+            actual = YahrtziehtAccess.UpsertSingleYahrtzieht(upsertedYahrtzieht, personId);
+            Assert.AreEqual(expected, actual);
+            List<Yahrtzieht> afterUpsert = YahrtziehtAccess.GetAllYahrtziehts(1);
+            Assert.IsTrue(afterUpsert.Contains(upsertedYahrtzieht));
+        }
+
+        /// <summary>
+        ///A test for UpsertSingleYahrtzieht
+        ///</summary>
+        [TestMethod()]
+        public void UpsertUpdateSingleYahrtziehtTest()
+        {
+            Yahrtzieht upsertedYahrtzieht = new Yahrtzieht(8, DateTime.Today, "the other name", "is there really one?!!");
+            int personId = 1;
+            Enums.CRUDResults expected = Enums.CRUDResults.UPDATE_SUCCESS;
+            Enums.CRUDResults actual;
+            actual = YahrtziehtAccess.UpsertSingleYahrtzieht(upsertedYahrtzieht, personId);
+            Assert.AreEqual(expected, actual);
+            Yahrtzieht afterUpsert = YahrtziehtAccess.GetYahrtziehtById(8);
+            Assert.AreEqual(upsertedYahrtzieht, afterUpsert);
+        }
+        
+        #endregion
     }
 }

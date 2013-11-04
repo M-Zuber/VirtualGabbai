@@ -246,11 +246,37 @@ namespace DataAccess
 
         #endregion
 
+        #region Upsert
+
+        public static Enums.CRUDResults UpsertSingleDonation(Donation upsertedDonation, int accountId)
+        {
+            Donation currentDonation = GetDonationById(upsertedDonation._Id);
+
+            if (currentDonation == null)
+            {
+                return AddNewDonation(upsertedDonation, accountId);
+            }
+            else
+            {
+                return UpdateSingleDonation(upsertedDonation, accountId);
+            }
+        }
+
+        public static void UpsertMultipleDonations(List<Donation> upsertedList, int accountId)
+        {
+            foreach (Donation CurrDonation in upsertedList)
+            {
+                UpsertSingleDonation(CurrDonation, accountId);
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Private Methods
 
-        private static List<t_donations> ConvertMultipleLocalDonationssToDbType(List<Donation> localTypeDonationList, int accountNumber)
+        internal static List<t_donations> ConvertMultipleLocalDonationssToDbType(List<Donation> localTypeDonationList, int accountNumber)
         {
             List<t_donations> dbTypeDonationList = new List<t_donations>();
 
@@ -262,7 +288,7 @@ namespace DataAccess
             return dbTypeDonationList;
         }
 
-        private static t_donations ConvertSingleLocalDonationToDbType(Donation localTypeDonation, int accountNumber)
+        internal static t_donations ConvertSingleLocalDonationToDbType(Donation localTypeDonation, int accountNumber)
         {
             t_donations convertedDonation = t_donations.Createt_donations(
                 localTypeDonation._Id, accountNumber, localTypeDonation.Reason, localTypeDonation.Amount,
@@ -280,7 +306,7 @@ namespace DataAccess
             return convertedDonation;
         }
 
-        private static List<Donation> ConvertMultipleDbDonationsToLocalType(List<t_donations> dbTypeDonationList)
+        internal static List<Donation> ConvertMultipleDbDonationsToLocalType(List<t_donations> dbTypeDonationList)
         {
             if (dbTypeDonationList == null)
             {
@@ -297,7 +323,7 @@ namespace DataAccess
             return localTypeDonationList;
         }
 
-        private static Donation ConvertSingleDbDonationToLocalType(t_donations dbTypeDonations)
+        internal static Donation ConvertSingleDbDonationToLocalType(t_donations dbTypeDonations)
         {
             if (dbTypeDonations == null)
             {

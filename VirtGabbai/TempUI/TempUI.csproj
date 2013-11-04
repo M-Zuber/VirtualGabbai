@@ -44,6 +44,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -52,13 +53,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IntegrationOne.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="IntegrationTester.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataAccess\DataAccess.csproj">
       <Project>{E0E28C03-0AE2-4489-946B-41B8D04B3B37}</Project>
       <Name>DataAccess</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DataCache\DataCache.csproj">
+      <Project>{41C40F86-3FAF-415E-BB93-725FD4E4DF0F}</Project>
+      <Name>DataCache</Name>
     </ProjectReference>
     <ProjectReference Include="..\DataTypes\DataTypes.csproj">
       <Project>{9B2ABB56-D031-4753-ADD5-B5DCEB597E3C}</Project>

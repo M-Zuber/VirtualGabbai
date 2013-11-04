@@ -52,20 +52,38 @@ namespace DataAccessTest
             }
             if (!Cache.CacheData.t_accounts.Any(account => account.C_id == 1))
             {
-                Cache.CacheData.t_accounts.AddObject(t_accounts.Createt_accounts(1, 1));
+                var newAccount = t_accounts.Createt_accounts(1, 1);
+                newAccount.monthly_total = 0;
+                newAccount.last_month_paid = DateTime.Today;
+                Cache.CacheData.t_accounts.AddObject(newAccount);
             }
             for (int newDonationIndex = 1; newDonationIndex <= 5; newDonationIndex++)
             {
-                var newDonation = t_donations.Createt_donations(
-                    newDonationIndex, 1, "reason:" + newDonationIndex, 12.5, DateTime.Today, false);
-                Cache.CacheData.t_donations.AddObject(newDonation);
+                if (!Cache.CacheData.t_donations.Any(donation => donation.C_id == newDonationIndex))
+                {
+                    var newDonation = t_donations.Createt_donations(
+                                newDonationIndex, 1, "reason:" + newDonationIndex, 12.5, DateTime.Today, false);
+                    Cache.CacheData.t_donations.AddObject(newDonation); 
+                }
             }
             for (int newDonationIndex = 6; newDonationIndex <= 10; newDonationIndex++)
             {
-                var newDonation = t_donations.Createt_donations(
-                    newDonationIndex, 1, "reason:" + newDonationIndex, 12.5, DateTime.Today, true);
-                newDonation.date_paid = DateTime.Today;
-                Cache.CacheData.t_donations.AddObject(newDonation);
+                if (!Cache.CacheData.t_donations.Any(donation => donation.C_id == newDonationIndex))
+                {
+                    var newDonation = t_donations.Createt_donations(
+                                newDonationIndex, 1, "reason:" + newDonationIndex, 12.5, DateTime.Today, true);
+                    newDonation.date_paid = DateTime.Today;
+                    Cache.CacheData.t_donations.AddObject(newDonation); 
+                }
+            }
+            for (int moreDonations = 11; moreDonations < 15; moreDonations++)
+            {
+                if (!Cache.CacheData.t_donations.Any(donation => donation.C_id == moreDonations))
+                {
+                    var newDonation = t_donations.Createt_donations(
+                                moreDonations, 1, "reason:" + moreDonations, 12.5, DateTime.Today, false);
+                    Cache.CacheData.t_donations.AddObject(newDonation);
+                }
             }
             Cache.CacheData.SaveChanges();
         }
@@ -117,7 +135,7 @@ namespace DataAccessTest
             int accountId = 1;
             List<Donation> newDonationList = new List<Donation>();
 
-            for (int i = 11; i <= 20; i++)
+            for (int i = 15; i <= 20; i++)
             {
                 Donation newDonation = new Donation(i, "reason:" + i.ToString(), 12.5, DateTime.Today, "comment");
                 newDonationList.Add(newDonation);
@@ -125,7 +143,7 @@ namespace DataAccessTest
             DonationAccess.AddMultipleNewDonations(newDonationList, accountId);
 
             List<Donation> actual = new List<Donation>();
-            for (int i = 11; i <= 20; i++)
+            for (int i = 15; i <= 20; i++)
             {
                 actual.Add(DonationAccess.GetDonationById(i));
             }
@@ -839,6 +857,59 @@ namespace DataAccessTest
             Enums.CRUDResults actual;
             actual = DonationAccess.UpdateSingleDonation(updatedDonation, accountId);
             Assert.AreEqual(expected, actual);
+        }
+        
+        #endregion
+
+        #region Upsert Tests
+
+        /// <summary>
+        ///A test for UpsertSingleDonation
+        ///</summary>
+        [TestMethod()]
+        public void UpsertAddSingleDonationTest()
+        {
+            Donation upsertedDonation = new Donation(613, "reason:613", 87, DateTime.Today, "");
+            int personId = 1;
+            Enums.CRUDResults expected = Enums.CRUDResults.CREATE_SUCCESS;
+            Enums.CRUDResults actual;
+            actual = DonationAccess.UpsertSingleDonation(upsertedDonation, personId);
+            Assert.AreEqual(expected, actual);
+            Donation afterUpsert = DonationAccess.GetDonationById(613);
+            Assert.AreEqual(upsertedDonation, afterUpsert);
+        }
+
+        /// <summary>
+        ///A test for UpsertSingleDonation
+        ///</summary>
+        [TestMethod()]
+        public void UpsertUpdateSingleDonationTest()
+        {
+            Donation upsertedDonation = new Donation(11, "the other reason", 35, DateTime.Today, "");
+            int personId = 1;
+            Enums.CRUDResults expected = Enums.CRUDResults.UPDATE_SUCCESS;
+            Enums.CRUDResults actual;
+            actual = DonationAccess.UpsertSingleDonation(upsertedDonation, personId);
+            Assert.AreEqual(expected, actual);
+            Donation afterUpsert = DonationAccess.GetDonationById(11);
+            Assert.AreEqual(upsertedDonation, afterUpsert);
+        }
+
+        /// <summary>
+        ///A test for UpsertSingleDonation
+        ///</summary>
+        [TestMethod()]
+        public void UpsertUpdateToPaidSingleDonationTest()
+        {
+            PaidDonation upsertedDonation = new PaidDonation(DonationAccess.GetDonationById(12), DateTime.Today);
+            int personId = 1;
+            Enums.CRUDResults expected = Enums.CRUDResults.UPDATE_SUCCESS;
+            Enums.CRUDResults actual;
+            actual = DonationAccess.UpsertSingleDonation(upsertedDonation, personId);
+            Assert.AreEqual(expected, actual);
+            Donation afterUpsert = DonationAccess.GetDonationById(12);
+            Assert.IsTrue(afterUpsert is PaidDonation);
+            Assert.AreEqual(upsertedDonation, afterUpsert);
         }
         
         #endregion

@@ -206,11 +206,37 @@ namespace DataAccess
 
         #endregion
 
+        #region Upsert
+
+        public static Enums.CRUDResults UpsertSingleYahrtzieht(Yahrtzieht upsertedYahrtzieht, int personId)
+        {
+            Yahrtzieht currentYahrtzieht = GetYahrtziehtById(upsertedYahrtzieht._Id);
+
+            if (currentYahrtzieht == null)
+            {
+                return AddNewYahrtzieht(upsertedYahrtzieht, personId);
+            }
+            else
+            {
+                return UpdateSingleYahrtzieht(upsertedYahrtzieht, personId);
+            }
+        }
+
+        public static void UpsertMultipleCCCCCCs(List<Yahrtzieht> upsertedList, int personId)
+        {
+            foreach (Yahrtzieht CurrYahrtzieht in upsertedList)
+            {
+                UpsertSingleYahrtzieht(CurrYahrtzieht, personId);
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Private Methods
 
-        private static List<t_yahrtziehts> ConvertMultipleYahrtziehtsToDbType(List<Yahrtzieht> localTypeYahrList, int personId)
+        internal static List<t_yahrtziehts> ConvertMultipleYahrtziehtsToDbType(List<Yahrtzieht> localTypeYahrList, int personId)
         {
             List<t_yahrtziehts> dbTypeYahrList = new List<t_yahrtziehts>();
 
@@ -222,7 +248,7 @@ namespace DataAccess
             return dbTypeYahrList;
         }
 
-        private static t_yahrtziehts ConvertSingleYahrtziehtToDbType(Yahrtzieht localTypeYahr, int personId)
+        internal static t_yahrtziehts ConvertSingleYahrtziehtToDbType(Yahrtzieht localTypeYahr, int personId)
         {
             var dbTypeYahr = t_yahrtziehts.Createt_yahrtziehts(localTypeYahr._Id, personId,
                                                          localTypeYahr.Date, localTypeYahr.Name);
@@ -230,7 +256,7 @@ namespace DataAccess
             return dbTypeYahr;
         }
 
-        private static List<Yahrtzieht> ConvertMultipleYahrtziehtsToLocalType(List<t_yahrtziehts> dbTypeYahrList)
+        internal static List<Yahrtzieht> ConvertMultipleYahrtziehtsToLocalType(List<t_yahrtziehts> dbTypeYahrList)
         {
             if (dbTypeYahrList ==  null)
             {
@@ -247,7 +273,7 @@ namespace DataAccess
             return localTypeYahrList;
         }
 
-        private static Yahrtzieht ConvertSingleYahrtziehtToLocalType(t_yahrtziehts dbTypeYahr)
+        internal static Yahrtzieht ConvertSingleYahrtziehtToLocalType(t_yahrtziehts dbTypeYahr)
         {
             if (dbTypeYahr == null)
             {
