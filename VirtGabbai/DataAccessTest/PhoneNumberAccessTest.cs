@@ -1,7 +1,7 @@
 ﻿using DataAccess;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using DataTypes;
+using LocalTypes;
 using System.Collections.Generic;
 using DataCache;
 using System.Linq;

@@ -8,7 +8,7 @@
     <ProjectGuid>{9B2ABB56-D031-4753-ADD5-B5DCEB597E3C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DataTypes</RootNamespace>
+    <RootNamespace>LocalTypes</RootNamespace>
     <AssemblyName>DataTypes</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DataAccess;
 using DataCache;
-using DataTypes;
+using LocalTypes;
 using Framework;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

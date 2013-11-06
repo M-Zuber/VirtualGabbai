@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DataTypes
+namespace LocalTypes
 {
     public class Yahrtzieht
     {

@@ -16,11 +16,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		VirtGabbai.vsmdi = VirtGabbai.vsmdi
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataTypes", "DataTypes\DataTypes.csproj", "{9B2ABB56-D031-4753-ADD5-B5DCEB597E3C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocalTypes", "DataTypes\LocalTypes.csproj", "{9B2ABB56-D031-4753-ADD5-B5DCEB597E3C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Framework", "Framework\Framework.csproj", "{23F121B4-CA1D-4E7A-B72C-241A93886EAF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataTypesTest", "DataTypesTest\DataTypesTest.csproj", "{4E1C4A0B-71CB-439D-94E9-452DC5740CF1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocalTypesTest", "DataTypesTest\LocalTypesTest.csproj", "{4E1C4A0B-71CB-439D-94E9-452DC5740CF1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataCache", "DataCache\DataCache.csproj", "{41C40F86-3FAF-415E-BB93-725FD4E4DF0F}"
 EndProject

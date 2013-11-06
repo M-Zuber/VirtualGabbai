@@ -1,4 +1,4 @@
-﻿using DataTypes;
+﻿using LocalTypes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
