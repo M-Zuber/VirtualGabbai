@@ -7,6 +7,14 @@ namespace Framework
 {
     public static class Extensions
     {
+        /// <summary>
+        /// Checks that the items in the source and the value are the same byVal,
+        /// the lists must match exactly
+        /// </summary>
+        /// <typeparam name="TSource">Type of items in the list</typeparam>
+        /// <param name="source">The list being compared against</param>
+        /// <param name="value">The list checking for</param>
+        /// <returns>True on a full 1:1 match, otherwise false</returns>
         public static bool Contains<TSource>(this IEnumerable<TSource> source, IEnumerable<TSource> value)
         {
             if (source.Count() != value.Count())

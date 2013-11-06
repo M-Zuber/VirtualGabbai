@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Net.Mail;
+using Framework;
 
 namespace LocalTypes
 {
@@ -18,7 +19,7 @@ namespace LocalTypes
 
         public string LastName { get; set; }
 
-        public string Address { get; set; }
+        public StreetAddress Address { get; set; }
 
         public Account PersonalAccount { get; set; }
 
@@ -38,7 +39,7 @@ namespace LocalTypes
             this.Email = new MailAddress(emailAddress);
             this.FirstName = firstName;
             this.LastName = lastName;
-            this.Address = streetAddress;
+            this.Address = new StreetAddress(streetAddress);
             this.PersonalAccount = personalAccount;
             this.PhoneNumbers = phoneNumbers;
             this.Yahrtziehts = yahrtziehts;
@@ -50,12 +51,44 @@ namespace LocalTypes
 
         public override bool Equals(object obj)
         {
-            return base.Equals(obj);
+            Person comparedPerson = (Person)obj;
+
+            return ((this._Id == comparedPerson._Id) &&
+                    (this.Email.Equals(comparedPerson.Email)) &&
+                    (this.FirstName == comparedPerson.FirstName) &&
+                    (this.LastName == comparedPerson.LastName) &&
+                    (this.Address.Equals(comparedPerson.Address)) &&
+                    (this.PersonalAccount.Equals(comparedPerson.PersonalAccount)) &&
+                    (this.PhoneNumbers.Contains(comparedPerson.PhoneNumbers)) &&
+                    (this.Yahrtziehts.Contains(comparedPerson.Yahrtziehts)));
         }
 
         public override string ToString()
         {
-            return base.ToString();
+            string phoneNumbersString = "";
+            if (this.PhoneNumbers.Count > 0)
+            {
+                phoneNumbersString += this.PhoneNumbers[0].ToString();
+                for (int phoneNumberIndex = 1; phoneNumberIndex < this.PhoneNumbers.Count; phoneNumberIndex++)
+                {
+                    phoneNumbersString += "\n" + this.PhoneNumbers[1].ToString();
+                }
+            }
+
+            string yahrtziehtsString = "";
+            if (this.Yahrtziehts.Count > 0)
+            {
+                yahrtziehtsString += this.Yahrtziehts[0].ToString();
+                for (int yahrtziehtIndex = 1; yahrtziehtIndex < this.Yahrtziehts.Count; yahrtziehtIndex++)
+                {
+                    yahrtziehtsString += "\n" + this.Yahrtziehts[yahrtziehtIndex].ToString();
+                }
+            }
+
+            return this.FirstName + " " + this.LastName + "\n" + this.Email.Address + "\n" +
+                   "Lives at:\n" + this.Address.ToString() + "\nAccount information:\n" +
+                   this.PersonalAccount.ToString() + "\nPhone Numbers:\n\t" + phoneNumbersString +
+                   "\nYahrtziehts:\n\t" + yahrtziehtsString;
         }
 
         public override int GetHashCode()
