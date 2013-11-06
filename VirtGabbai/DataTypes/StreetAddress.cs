@@ -80,5 +80,20 @@ namespace DataTypes
         }
 
         #endregion
+
+        #region Other Methods
+
+        public string ToDbString() 
+        {
+            return (this.ApartmentNumber + Globals.DELIMITER +
+                    this.House + Globals.DELIMITER +
+                    this.Street + Globals.DELIMITER +
+                    this.City + Globals.DELIMITER +
+                    this.State + Globals.DELIMITER +
+                    this.Country + Globals.DELIMITER +
+                    this.Zipcode);
+        }
+        
+        #endregion
     }
 }

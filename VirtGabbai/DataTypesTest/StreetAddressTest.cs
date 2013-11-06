@@ -296,5 +296,61 @@ namespace DataTypesTest
         }
 
         #endregion
+        
+        #region ToDbString Tests
+
+        /// <summary>
+        ///A test for ToDbString
+        ///</summary>
+        [TestMethod()]
+        public void AptAndStateToDbStringTest()
+        {
+            string address = "1;1894;beacon st;brookline;ma;usa;02445";
+            StreetAddress target = new StreetAddress(address);
+            string actual;
+            actual = target.ToDbString();
+            Assert.AreEqual(address, actual, true);
+        }
+
+        /// <summary>
+        ///A test for ToDbString
+        ///</summary>
+        [TestMethod()]
+        public void NoAptYesStateToDbStringTest()
+        {
+            string address = ";1894;beacon st;brookline;ma;usa;02445";
+            StreetAddress target = new StreetAddress(address);
+            string actual;
+            actual = target.ToDbString();
+            Assert.AreEqual(address, actual, true);
+        }
+
+        /// <summary>
+        ///A test for ToDbString
+        ///</summary>
+        [TestMethod()]
+        public void NoStateYesAptToDbStringTest()
+        {
+            string address = "1;1894;beacon st;brookline;;usa;02445";
+            StreetAddress target = new StreetAddress(address);
+            string actual;
+            actual = target.ToDbString();
+            Assert.AreEqual(address, actual, true);
+        }
+
+        /// <summary>
+        ///A test for ToDbString
+        ///</summary>
+        [TestMethod()]
+        public void NoStateNoAptToDbStringTest()
+        {
+            string address = ";1894;beacon st;brookline;;usa;02445";
+            StreetAddress target = new StreetAddress(address);
+            string actual;
+            actual = target.ToDbString();
+            Assert.AreEqual(address, actual, true);
+        }
+        
+        #endregion
     }
 }
