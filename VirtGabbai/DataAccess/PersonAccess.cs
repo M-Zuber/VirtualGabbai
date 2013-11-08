@@ -34,7 +34,7 @@ namespace DataAccess
             return null;
         }
 
-        public static List<Person> GetByName(string fullName)
+        public static List<Person> GetByName(string firstName, string LastName)
         {
             return null;
         }
@@ -62,7 +62,8 @@ namespace DataAccess
         {
             try
             {
-                return null;
+                return (from person in Cache.CacheData.t_people
+                        select person).ToList();
             }
             catch (Exception)
             {
@@ -75,7 +76,10 @@ namespace DataAccess
         {
             try
             {
-                return null;
+                return (from currYahrtzieht in Cache.CacheData.t_yahrtziehts
+                        where currYahrtzieht.deceaseds_name == nameOfDeceased &&
+                              currYahrtzieht.relation == relationToDeceased
+                        select currYahrtzieht.t_people).ToList();
             }
             catch (Exception)
             {
@@ -88,7 +92,9 @@ namespace DataAccess
         {
             try
             {
-                return null;
+                return (from currPerson in Cache.CacheData.t_people
+                        where currPerson.C_id == id
+                        select currPerson).First();
             }
             catch (Exception)
             {
@@ -101,7 +107,9 @@ namespace DataAccess
         {
             try
             {
-                return null;
+                return (from currPerson in Cache.CacheData.t_people
+                        where currPerson.email == email
+                        select currPerson).First();
             }
             catch (Exception)
             {
@@ -110,11 +118,14 @@ namespace DataAccess
             }
         }
 
-        private static List<t_people> LookupByName(string fullName)
+        private static List<t_people> LookupByName(string firstName, string lastName)
         {
             try
             {
-                return null;
+                return (from currPerson in Cache.CacheData.t_people
+                        where currPerson.given_name == firstName &&
+                              currPerson.family_name == lastName
+                        select currPerson).ToList();
             }
             catch (Exception)
             {
@@ -127,7 +138,9 @@ namespace DataAccess
         {
             try
             {
-                return null;
+                return (from currPerson in Cache.CacheData.t_people
+                        where currPerson.address == address
+                        select currPerson).ToList();
             }
             catch (Exception)
             {
@@ -140,7 +153,9 @@ namespace DataAccess
         {
             try
             {
-                return null;
+                return (from currAccount in Cache.CacheData.t_accounts
+                        where currAccount.C_id == accountId
+                        select currAccount.t_people).First();
             }
             catch (Exception)
             {
@@ -153,7 +168,9 @@ namespace DataAccess
         {
             try
             {
-                return null;
+                return (from currNumber in Cache.CacheData.t_phone_numbers
+                        where currNumber.number == numberSearchedBy
+                        select currNumber.t_people).First();
             }
             catch (Exception)
             {

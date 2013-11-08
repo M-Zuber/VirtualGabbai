@@ -61,7 +61,7 @@ namespace DataAccessTest
             
             #region Account info
             int accountOwner = 2;
-            for (int newAccountIndex = 200; newAccountIndex <= 210; newAccountIndex++)
+            for (int newAccountIndex = 200; newAccountIndex <= 213; newAccountIndex++)
             {
                 if (!Cache.CacheData.t_accounts.Any(acc => acc.C_id == newAccountIndex))
                 {
@@ -110,13 +110,15 @@ namespace DataAccessTest
             #endregion
             
             #region Yahrtzieht info
-            for (int i = 200; i < 211; i++)
+            int yahrPersonId = 2;
+            for (int i = 200; i < 214; i++)
             {
                 if (!Cache.CacheData.t_yahrtziehts.Any(yahr => yahr.C_id == i))
                 {
-                    var newYahrtzieht = t_yahrtziehts.Createt_yahrtziehts(i, 2, DateTime.Today, "ploni ben almoni");
+                    var newYahrtzieht = t_yahrtziehts.Createt_yahrtziehts(i, yahrPersonId, DateTime.Today, "ploni ben almoni");
                     newYahrtzieht.relation = "they where not";
-                    Cache.CacheData.t_yahrtziehts.AddObject(newYahrtzieht); 
+                    Cache.CacheData.t_yahrtziehts.AddObject(newYahrtzieht);
+                    yahrPersonId++;
                 }
             }
             #endregion
@@ -416,7 +418,7 @@ namespace DataAccessTest
             string fullName = string.Empty; // TODO: Initialize to an appropriate value
             List<Person> expected = null; // TODO: Initialize to an appropriate value
             List<Person> actual;
-            actual = PersonAccess.GetByName(fullName);
+            actual = PersonAccess.GetByName(fullName, fullName);
             Assert.AreEqual(expected, actual);
         }
 
@@ -429,7 +431,7 @@ namespace DataAccessTest
             string fullName = string.Empty; // TODO: Initialize to an appropriate value
             List<Person> expected = null; // TODO: Initialize to an appropriate value
             List<Person> actual;
-            actual = PersonAccess.GetByName(fullName);
+            actual = PersonAccess.GetByName(fullName, fullName);
             Assert.AreEqual(expected, actual);
         }
 
@@ -496,10 +498,11 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupAllPeopleTest()
         {
-            List<t_people> expected = null; // TODO: Initialize to an appropriate value
+            List<t_people> expected = (from person in Cache.CacheData.t_people
+                                       select person).ToList();
             List<t_people> actual;
             actual = PersonAccess_Accessor.LookupAllPeople();
-            Assert.AreEqual(expected, actual);
+            CollectionAssert.AreEqual(expected, actual);
         }
 
         /// <summary>
@@ -509,11 +512,11 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupByAccountTest()
         {
-            int accountId = 0; // TODO: Initialize to an appropriate value
-            t_people expected = null; // TODO: Initialize to an appropriate value
+            int accountId = 201;
+            t_people expected = t_people.Createt_people(3);
             t_people actual;
             actual = PersonAccess_Accessor.LookupByAccount(accountId);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected.C_id, actual.C_id);
         }
 
         /// <summary>
@@ -523,8 +526,8 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupByNonExsistentAccountTest()
         {
-            int accountId = 0; // TODO: Initialize to an appropriate value
-            t_people expected = null; // TODO: Initialize to an appropriate value
+            int accountId = 1578;
+            t_people expected = null;
             t_people actual;
             actual = PersonAccess_Accessor.LookupByAccount(accountId);
             Assert.AreEqual(expected, actual);
@@ -537,11 +540,14 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupByAddressTest()
         {
-            string address = string.Empty; // TODO: Initialize to an appropriate value
-            List<t_people> expected = null; // TODO: Initialize to an appropriate value
+            string address = "12;33;main st;anywhere;anystate;usa;12345";
+            List<t_people> expected = new List<t_people>() 
+            {
+                t_people.Createt_people(3)
+            };
             List<t_people> actual;
             actual = PersonAccess_Accessor.LookupByAddress(address);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected[0].C_id, actual[0].C_id);
         }
 
         /// <summary>
@@ -551,11 +557,10 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupByNonExsistentAddressTest()
         {
-            string address = string.Empty; // TODO: Initialize to an appropriate value
-            List<t_people> expected = null; // TODO: Initialize to an appropriate value
+            string address = string.Empty;
             List<t_people> actual;
             actual = PersonAccess_Accessor.LookupByAddress(address);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(0, actual.Count);
         }
 
         /// <summary>
@@ -565,11 +570,11 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupByEmailTest()
         {
-            string email = string.Empty; // TODO: Initialize to an appropriate value
-            t_people expected = null; // TODO: Initialize to an appropriate value
+            string email = "3@something.somewhere";
+            t_people expected = t_people.Createt_people(3);
             t_people actual;
             actual = PersonAccess_Accessor.LookupByEmail(email);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected.C_id, actual.C_id);
         }
 
         /// <summary>
@@ -579,8 +584,8 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupByNonExsistentEmailTest()
         {
-            string email = string.Empty; // TODO: Initialize to an appropriate value
-            t_people expected = null; // TODO: Initialize to an appropriate value
+            string email = string.Empty;
+            t_people expected = null;
             t_people actual;
             actual = PersonAccess_Accessor.LookupByEmail(email);
             Assert.AreEqual(expected, actual);
@@ -593,11 +598,11 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupByIdTest()
         {
-            int id = 0; // TODO: Initialize to an appropriate value
-            t_people expected = null; // TODO: Initialize to an appropriate value
+            int id = 3;
+            t_people expected = t_people.Createt_people(3);
             t_people actual;
             actual = PersonAccess_Accessor.LookupById(id);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected.C_id, actual.C_id);
         }
 
         /// <summary>
@@ -607,8 +612,8 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupByNonExsistentIdTest()
         {
-            int id = 0; // TODO: Initialize to an appropriate value
-            t_people expected = null; // TODO: Initialize to an appropriate value
+            int id = 0;
+            t_people expected = null;
             t_people actual;
             actual = PersonAccess_Accessor.LookupById(id);
             Assert.AreEqual(expected, actual);
@@ -621,11 +626,15 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupByNameTest()
         {
-            string fullName = string.Empty; // TODO: Initialize to an appropriate value
-            List<t_people> expected = null; // TODO: Initialize to an appropriate value
+            string firstName = "Jack/Jane";
+            string lastName = "Doe";
+            List<t_people> expected = (from currPerson in Cache.CacheData.t_people
+                                       where currPerson.C_id != 1
+                                       select currPerson).ToList();
+
             List<t_people> actual;
-            actual = PersonAccess_Accessor.LookupByName(fullName);
-            Assert.AreEqual(expected, actual);
+            actual = PersonAccess_Accessor.LookupByName(firstName, lastName);
+            CollectionAssert.AreEqual(expected, actual);
         }
 
         /// <summary>
@@ -635,11 +644,10 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupByNonExsistentNameTest()
         {
-            string fullName = string.Empty; // TODO: Initialize to an appropriate value
-            List<t_people> expected = null; // TODO: Initialize to an appropriate value
+            string fullName = "blah";
             List<t_people> actual;
-            actual = PersonAccess_Accessor.LookupByName(fullName);
-            Assert.AreEqual(expected, actual);
+            actual = PersonAccess_Accessor.LookupByName(fullName, fullName);
+            Assert.AreEqual(0, actual.Count);
         }
 
         /// <summary>
@@ -649,11 +657,11 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupByPhoneNumberTest()
         {
-            string numberSearchedBy = string.Empty; // TODO: Initialize to an appropriate value
-            t_people expected = null; // TODO: Initialize to an appropriate value
+            string numberSearchedBy = "phone number:100";
+            t_people expected = t_people.Createt_people(2);
             t_people actual;
             actual = PersonAccess_Accessor.LookupByPhoneNumber(numberSearchedBy);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected.C_id, actual.C_id);
         }
 
         /// <summary>
@@ -663,8 +671,8 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupByNonExsistentPhoneNumberTest()
         {
-            string numberSearchedBy = string.Empty; // TODO: Initialize to an appropriate value
-            t_people expected = null; // TODO: Initialize to an appropriate value
+            string numberSearchedBy = "blah";
+            t_people expected = null;
             t_people actual;
             actual = PersonAccess_Accessor.LookupByPhoneNumber(numberSearchedBy);
             Assert.AreEqual(expected, actual);
@@ -677,12 +685,14 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupByYahrtziehtTest()
         {
-            string nameOfDeceased = string.Empty; // TODO: Initialize to an appropriate value
-            string relationToDeceased = string.Empty; // TODO: Initialize to an appropriate value
-            List<t_people> expected = null; // TODO: Initialize to an appropriate value
+            string nameOfDeceased = "ploni ben almoni";
+            string relationToDeceased = "they where not";
+            List<t_people> expected = (from currPerson in Cache.CacheData.t_people
+                                       where currPerson.C_id != 1
+                                       select currPerson).ToList();
             List<t_people> actual;
             actual = PersonAccess_Accessor.LookupByYahrtzieht(nameOfDeceased, relationToDeceased);
-            Assert.AreEqual(expected, actual);
+            CollectionAssert.AreEqual(expected, actual);
         }
 
         /// <summary>
@@ -692,12 +702,11 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupByNonExsistentYahrtziehtTest()
         {
-            string nameOfDeceased = string.Empty; // TODO: Initialize to an appropriate value
-            string relationToDeceased = string.Empty; // TODO: Initialize to an appropriate value
-            List<t_people> expected = null; // TODO: Initialize to an appropriate value
+            string nameOfDeceased = string.Empty;
+            string relationToDeceased = string.Empty;
             List<t_people> actual;
             actual = PersonAccess_Accessor.LookupByYahrtzieht(nameOfDeceased, relationToDeceased);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(0, actual.Count);
         }
 
         #endregion
