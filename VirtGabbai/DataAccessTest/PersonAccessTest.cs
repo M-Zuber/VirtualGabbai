@@ -60,11 +60,11 @@ namespace DataAccessTest
             }
             
             #region Account info
+            int accountOwner = 2;
             for (int newAccountIndex = 200; newAccountIndex <= 210; newAccountIndex++)
             {
                 if (!Cache.CacheData.t_accounts.Any(acc => acc.C_id == newAccountIndex))
                 {
-                    int accountOwner = 2;
                     var newAccount = t_accounts.Createt_accounts(newAccountIndex, accountOwner);
                     newAccount.last_month_paid = DateTime.Today;
                     newAccount.monthly_total = 0;
@@ -205,39 +205,18 @@ namespace DataAccessTest
         #region Convert Tests
 
         /// <summary>
-        ///A test for ConvertMultipleDbPersonsToLocalType
-        ///</summary>
-        [TestMethod()]
-        public void ConvertMultipleDbPersonsToLocalTypeTest()
-        {
-            List<t_people> dbTypePersonList = null; // TODO: Initialize to an appropriate value
-            List<Person> expected = null; // TODO: Initialize to an appropriate value
-            List<Person> actual;
-            actual = PersonAccess.ConvertMultipleDbPersonsToLocalType(dbTypePersonList);
-            Assert.AreEqual(expected, actual);
-        }
-
-        /// <summary>
-        ///A test for ConvertMultipleLocalPersonsToDbType
-        ///</summary>
-        [TestMethod()]
-        public void ConvertMultipleLocalPersonsToDbTypeTest()
-        {
-            List<Person> localTypePersonList = null; // TODO: Initialize to an appropriate value
-            List<t_people> expected = null; // TODO: Initialize to an appropriate value
-            List<t_people> actual;
-            actual = PersonAccess.ConvertMultipleLocalPersonsToDbType(localTypePersonList);
-            Assert.AreEqual(expected, actual);
-        }
-
-        /// <summary>
         ///A test for ConvertSingleDbPersonToLocalType
         ///</summary>
         [TestMethod()]
         public void ConvertSingleDbPersonToLocalTypeTest()
         {
-            t_people dbTypePerson = null; // TODO: Initialize to an appropriate value
-            Person expected = null; // TODO: Initialize to an appropriate value
+            t_people dbTypePerson = (from person in Cache.CacheData.t_people
+                                     where person.C_id == 3
+                                     select person).First();
+            Person expected = new Person(3, "3@something.somewhere",
+                            "Jack/Jane", "Doe", "12;33;main st;anywhere;anystate;usa;12345",
+                            new Account(201, 0, DateTime.Today, new List<Donation>()),
+                            new List<PhoneNumber>(), new List<Yahrtzieht>());
             Person actual;
             actual = PersonAccess.ConvertSingleDbPersonToLocalType(dbTypePerson);
             Assert.AreEqual(expected, actual);
@@ -249,11 +228,23 @@ namespace DataAccessTest
         [TestMethod()]
         public void ConvertSingleLocalPersonToDbTypeTest()
         {
-            Person localTypePerson = null; // TODO: Initialize to an appropriate value
-            t_people expected = null; // TODO: Initialize to an appropriate value
+            Person localTypePerson = new Person(3, "3@something.somewhere",
+                            "Jack/Jane", "Doe", "12;33;main st;anywhere;anystate;usa;12345",
+                            new Account(201, 0, DateTime.Today, new List<Donation>()),
+                            new List<PhoneNumber>(), new List<Yahrtzieht>());
+            t_people expected = t_people.Createt_people(3);
+            expected.address = "12;33;main st;anywhere;anystate;usa;12345";
+            expected.email = "3@something.somewhere";
+            expected.family_name = "Doe";
+            expected.given_name = "Jack/Jane";
+
             t_people actual;
             actual = PersonAccess.ConvertSingleLocalPersonToDbType(localTypePerson);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected.address, actual.address, true);
+            Assert.AreEqual(expected.C_id, actual.C_id);
+            Assert.AreEqual(expected.email, actual.email);
+            Assert.AreEqual(expected.family_name, actual.family_name);
+            Assert.AreEqual(expected.given_name, actual.given_name);
         }
 
         #endregion

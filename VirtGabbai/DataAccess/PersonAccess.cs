@@ -305,7 +305,12 @@ namespace DataAccess
 
         internal static t_people ConvertSingleLocalPersonToDbType(Person localTypePerson)
         {
-        	return null;
+            t_people convertedPerson = t_people.Createt_people(localTypePerson._Id);
+            convertedPerson.address = localTypePerson.Address.ToDbString();
+            convertedPerson.email = localTypePerson.Email.ToString();
+            convertedPerson.family_name = localTypePerson.LastName;
+            convertedPerson.given_name = localTypePerson.FirstName;
+        	return convertedPerson;
         }
 
         internal static List<Person> ConvertMultipleDbPersonsToLocalType(List<t_people> dbTypePersonList)
@@ -332,8 +337,22 @@ namespace DataAccess
         		//LOG
         		return null;
         	}
+            Account personalAccount = null;
 
-            return null;
+            try
+            {
+                personalAccount = AccountAccess.ConvertSingleDbAccountToLocalType(dbTypePerson.t_accounts.First());
+            }
+            catch {/*LOG*/ }
+            List<Yahrtzieht> personalYahrtziehts =
+                YahrtziehtAccess.ConvertMultipleYahrtziehtsToLocalType(
+                                                        dbTypePerson.t_yahrtziehts.ToList());
+            List<PhoneNumber> personalNumbers =
+                PhoneNumberAccess.ConvertMultipleDbPhoneNumbersToLocalType(
+                                                        dbTypePerson.t_phone_numbers.ToList());
+            return new Person(dbTypePerson.C_id, dbTypePerson.email, dbTypePerson.given_name,
+                              dbTypePerson.family_name, dbTypePerson.address,
+                              personalAccount, personalNumbers, personalYahrtziehts);
         }
         
         #endregion
