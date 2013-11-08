@@ -57,9 +57,12 @@ namespace DataAccessTest
             }
             for (int newPhoneNumberIndex = 1; newPhoneNumberIndex <= 10; newPhoneNumberIndex++)
             {
-                var newPhoneNumber = t_phone_numbers.Createt_phone_numbers(
-                    1,"phone number:" + newPhoneNumberIndex.ToString(), 1, newPhoneNumberIndex);
-                Cache.CacheData.t_phone_numbers.AddObject(newPhoneNumber);
+                if (!Cache.CacheData.t_phone_numbers.Any(number => number.C_id == newPhoneNumberIndex))
+                {
+                    var newPhoneNumber = t_phone_numbers.Createt_phone_numbers(
+                                        1, "phone number:" + newPhoneNumberIndex.ToString(), 1, newPhoneNumberIndex);
+                    Cache.CacheData.t_phone_numbers.AddObject(newPhoneNumber);
+                }
             }
             Cache.CacheData.SaveChanges();
         }
