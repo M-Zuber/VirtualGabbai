@@ -1,10 +1,11 @@
-﻿using DataAccess;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using LocalTypes;
+﻿using System;
 using System.Collections.Generic;
-using Framework;
+using System.Linq;
+using DataAccess;
 using DataCache;
+using LocalTypes;
+using Framework;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Net.Mail;
 
 namespace DataAccessTest
@@ -18,7 +19,6 @@ namespace DataAccessTest
     [TestClass()]
     public class PersonAccessTest
     {
-
 
         private TestContext testContextInstance;
 
@@ -43,16 +43,82 @@ namespace DataAccessTest
         //You can use the following additional attributes as you write your tests:
         //
         //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
+        [ClassInitialize()]
+        public static void MyClassInitialize(TestContext testContext)
+        {
+            //TODO this needs to be updated
+            if (!Cache.CacheData.t_people.Any(person => person.C_id == 1))
+            {
+                Cache.CacheData.t_people.AddObject(t_people.Createt_people(1));
+            }
+            if (!Cache.CacheData.t_accounts.Any(account => account.C_id == 1))
+            {
+                var newAccount = t_accounts.Createt_accounts(1, 1);
+                newAccount.monthly_total = 0;
+                newAccount.last_month_paid = DateTime.Today;
+                Cache.CacheData.t_accounts.AddObject(newAccount);
+            }
+            for (int newAccountIndex = 2; newAccountIndex <= 10; newAccountIndex++)
+            {
+                var newAccount = t_accounts.Createt_accounts(newAccountIndex, 1);
+                newAccount.last_month_paid = DateTime.Today;
+                newAccount.monthly_total = 0;
+                Cache.CacheData.t_accounts.AddObject(newAccount);
+            }
+
+            for (int newDonationIndex = 101; newDonationIndex <= 105; newDonationIndex++)
+            {
+                if (!Cache.CacheData.t_donations.Any(donation => donation.C_id == newDonationIndex))
+                {
+                    var newDonation = t_donations.Createt_donations(
+                                newDonationIndex, 2, "reason:" + newDonationIndex, 12.5, DateTime.Today, false);
+                    Cache.CacheData.t_donations.AddObject(newDonation);
+                }
+            }
+            for (int newDonationIndex = 106; newDonationIndex <= 110; newDonationIndex++)
+            {
+                if (!Cache.CacheData.t_donations.Any(donation => donation.C_id == newDonationIndex))
+                {
+                    var newDonation = t_donations.Createt_donations(
+                               newDonationIndex, 2, "reason:" + newDonationIndex, 12.5, DateTime.Today, true);
+                    newDonation.date_paid = DateTime.Today;
+                    Cache.CacheData.t_donations.AddObject(newDonation);
+                }
+            }
+            Cache.CacheData.SaveChanges();
+        }
         //
         //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
+        [ClassCleanup()]
+        public static void MyClassCleanup()
+        {
+            var donations = (from donate in Cache.CacheData.t_donations select donate).ToList<t_donations>();
+            var accounts = (from account in Cache.CacheData.t_accounts select account).ToList<t_accounts>();
+            var phoneNumbers = (from number in Cache.CacheData.t_phone_numbers select number).ToList<t_phone_numbers>();
+            var phoneTypes = (from type in Cache.CacheData.t_phone_types select type).ToList<t_phone_types>();
+            var peoples = (from person in Cache.CacheData.t_people select person).ToList<t_people>();
+            for (int i = 0; i < donations.Count; i++)
+            {
+                Cache.CacheData.t_donations.DeleteObject(donations[i]);
+            }
+            for (int i = 0; i < accounts.Count; i++)
+            {
+                Cache.CacheData.t_accounts.DeleteObject(accounts[i]);
+            }
+            for (int i = 0; i < phoneNumbers.Count; i++)
+            {
+                Cache.CacheData.t_phone_numbers.DeleteObject(phoneNumbers[i]);
+            }
+            for (int i = 0; i < phoneTypes.Count; i++)
+            {
+                Cache.CacheData.t_phone_types.DeleteObject(phoneTypes[i]);
+            }
+            for (int i = 0; i < peoples.Count; i++)
+            {
+                Cache.CacheData.t_people.DeleteObject(peoples[i]);
+            }
+            Cache.CacheData.SaveChanges();
+        }
         //
         //Use TestInitialize to run code before running each test
         //[TestInitialize()]
