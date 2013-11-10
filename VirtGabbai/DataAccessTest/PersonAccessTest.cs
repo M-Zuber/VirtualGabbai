@@ -176,6 +176,15 @@ namespace DataAccessTest
         //}
         //
         #endregion
+        
+        /*
+         * In other tests used #1
+         * In Lookup and Get tests used #2 & 3
+         * In Delete tests used #4, 5, 6
+         * In Update tests used #7, 8, 9
+         * In Upsert tests used #10, 11
+         * In Add tests added #16, 17, 18, 19
+         */
 
         #region Add Tests
 
@@ -259,8 +268,15 @@ namespace DataAccessTest
         [TestMethod()]
         public void DeleteMultiplePersonsTest()
         {
-            List<Person> deletedPersonList = null; // TODO: Initialize to an appropriate value
+            List<Person> deletedPersonList = new List<Person>()
+            {
+                PersonAccess.GetById(4),
+                PersonAccess.GetById(5)
+            };
             PersonAccess.DeleteMultiplePersons(deletedPersonList);
+            List<Person> afterDelete = PersonAccess.GetAllPeople();
+            Assert.IsFalse(afterDelete.Contains(deletedPersonList[0]));
+            Assert.IsFalse(afterDelete.Contains(deletedPersonList[1]));
         }
 
         /// <summary>
@@ -269,11 +285,13 @@ namespace DataAccessTest
         [TestMethod()]
         public void DeleteSinglePersonTest()
         {
-            Person deletedPerson = null; // TODO: Initialize to an appropriate value
-            Enums.CRUDResults expected = new Enums.CRUDResults(); // TODO: Initialize to an appropriate value
+            Person deletedPerson = PersonAccess.GetById(6);
+            Enums.CRUDResults expected = Enums.CRUDResults.DELETE_SUCCESS;
             Enums.CRUDResults actual;
             actual = PersonAccess.DeleteSinglePerson(deletedPerson);
             Assert.AreEqual(expected, actual);
+            List<Person> afterDelete = PersonAccess.GetAllPeople();
+            Assert.IsFalse(afterDelete.Contains(deletedPerson));
         }
 
         /// <summary>
@@ -282,8 +300,10 @@ namespace DataAccessTest
         [TestMethod()]
         public void DeleteSingleNonExistintPersonTest()
         {
-            Person deletedPerson = null; // TODO: Initialize to an appropriate value
-            Enums.CRUDResults expected = new Enums.CRUDResults(); // TODO: Initialize to an appropriate value
+            Person deletedPerson = new Person(32543, "blah@blah.com", "", "", ";;;;;;",
+                new Account(1, 0, DateTime.Today, new List<Donation>()),
+                new List<PhoneNumber>(), new List<Yahrtzieht>());
+            Enums.CRUDResults expected = Enums.CRUDResults.DELETE_FAIL;
             Enums.CRUDResults actual;
             actual = PersonAccess.DeleteSinglePerson(deletedPerson);
             Assert.AreEqual(expected, actual);

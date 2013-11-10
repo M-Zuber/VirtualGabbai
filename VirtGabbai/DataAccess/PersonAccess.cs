@@ -254,6 +254,9 @@ namespace DataAccess
         {
         	try
         	{
+                t_people personDeleting =
+                    Cache.CacheData.t_people.First(person => person.C_id == deletedPerson._Id);
+                Cache.CacheData.t_people.DeleteObject(personDeleting);
         		Cache.CacheData.SaveChanges();
         		return Enums.CRUDResults.DELETE_SUCCESS;
         	}
