@@ -16,42 +16,43 @@ namespace DataAccess
 
         public static List<Person> GetAllPeople()
         {
-            return null;
+            return ConvertMultipleDbPersonsToLocalType(LookupAllPeople());
         }
 
         public static List<Person> GetByYahrtzieht(Yahrtzieht yahrtziehtSearchedBy)
         {
-            return null;
+            return ConvertMultipleDbPersonsToLocalType(
+                        LookupByYahrtzieht(yahrtziehtSearchedBy.Name, yahrtziehtSearchedBy.Relation));
         }
 
         public static Person GetById(int id)
         {
-            return null;
+            return ConvertSingleDbPersonToLocalType(LookupById(id));
         }
 
         public static Person GetByEmail(MailAddress email)
         {
-            return null;
+            return ConvertSingleDbPersonToLocalType(LookupByEmail(email.Address));
         }
 
-        public static List<Person> GetByName(string firstName, string LastName)
+        public static List<Person> GetByName(string firstName, string lastName)
         {
-            return null;
+            return ConvertMultipleDbPersonsToLocalType(LookupByName(firstName, lastName));
         }
 
         public static List<Person> GetByAddress(StreetAddress addressSearchedBy)
         {
-            return null;
+            return ConvertMultipleDbPersonsToLocalType(LookupByAddress(addressSearchedBy.ToDbString()));
         }
 
         public static Person GetByAccount(Account accountSearchedBy)
         {
-            return null;
+            return ConvertSingleDbPersonToLocalType(LookupByAccount(accountSearchedBy._Id));
         }
 
         public static Person GetByPhoneNumber(PhoneNumber numberSearchedBy)
         {
-            return null;
+            return ConvertSingleDbPersonToLocalType(LookupByPhoneNumber(numberSearchedBy.Number));
         }
 
         #endregion
@@ -324,7 +325,7 @@ namespace DataAccess
         {
             t_people convertedPerson = t_people.Createt_people(localTypePerson._Id);
             convertedPerson.address = localTypePerson.Address.ToDbString();
-            convertedPerson.email = localTypePerson.Email.ToString();
+            convertedPerson.email = localTypePerson.Email.Address;
             convertedPerson.family_name = localTypePerson.LastName;
             convertedPerson.given_name = localTypePerson.FirstName;
         	return convertedPerson;

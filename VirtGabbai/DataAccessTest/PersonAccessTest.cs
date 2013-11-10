@@ -299,10 +299,12 @@ namespace DataAccessTest
         [TestMethod()]
         public void GetAllPeopleTest()
         {
-            List<Person> expected = null; // TODO: Initialize to an appropriate value
+            List<Person> expected = 
+                PersonAccess.ConvertMultipleDbPersonsToLocalType(
+                                        PersonAccess_Accessor.LookupAllPeople());
             List<Person> actual;
             actual = PersonAccess.GetAllPeople();
-            Assert.AreEqual(expected, actual);
+            CollectionAssert.AreEqual(expected, actual);
         }
 
         /// <summary>
@@ -311,8 +313,11 @@ namespace DataAccessTest
         [TestMethod()]
         public void GetByAccountTest()
         {
-            Account accountSearchedBy = null; // TODO: Initialize to an appropriate value
-            Person expected = null; // TODO: Initialize to an appropriate value
+            Account accountSearchedBy = new Account(201, 0, DateTime.Today, new List<Donation>());
+            Person expected = new Person(3, "3@something.somewhere", "Jack/Jane", "Doe",
+                "12;33;main st;anywhere;anystate;usa;12345", new Account(201, 0, DateTime.Today, new List<Donation>()),
+                new List<PhoneNumber>(),
+                new List<Yahrtzieht>() {new Yahrtzieht(201, DateTime.Today, "ploni ben almoni", "they where not") });
             Person actual;
             actual = PersonAccess.GetByAccount(accountSearchedBy);
             Assert.AreEqual(expected, actual);
@@ -324,8 +329,8 @@ namespace DataAccessTest
         [TestMethod()]
         public void GetByNonExsitentAccountTest()
         {
-            Account accountSearchedBy = null; // TODO: Initialize to an appropriate value
-            Person expected = null; // TODO: Initialize to an appropriate value
+            Account accountSearchedBy = new Account(879654, 1234, DateTime.Today, new List<Donation>());
+            Person expected = null;
             Person actual;
             actual = PersonAccess.GetByAccount(accountSearchedBy);
             Assert.AreEqual(expected, actual);
@@ -337,11 +342,21 @@ namespace DataAccessTest
         [TestMethod()]
         public void GetByAddressTest()
         {
-            StreetAddress addressSearchedBy = null; // TODO: Initialize to an appropriate value
-            List<Person> expected = null; // TODO: Initialize to an appropriate value
+            StreetAddress addressSearchedBy = new StreetAddress("12;33;main st;anywhere;anystate;usa;12345");
+            List<Person> expected = new List<Person>()
+            {
+                new Person(3, "3@something.somewhere", "Jack/Jane", "Doe",
+                "12;33;main st;anywhere;anystate;usa;12345",
+                new Account(201, 0, DateTime.Today, new List<Donation>()),
+                new List<PhoneNumber>(),
+                new List<Yahrtzieht>() 
+                {
+                    new Yahrtzieht(201, DateTime.Today, "ploni ben almoni", "they where not") 
+                })
+            }; 
             List<Person> actual;
             actual = PersonAccess.GetByAddress(addressSearchedBy);
-            Assert.AreEqual(expected, actual);
+            CollectionAssert.AreEqual(expected, actual);
         }
 
         /// <summary>
@@ -350,11 +365,11 @@ namespace DataAccessTest
         [TestMethod()]
         public void GetByNonExsitentAddressTest()
         {
-            StreetAddress addressSearchedBy = null; // TODO: Initialize to an appropriate value
-            List<Person> expected = null; // TODO: Initialize to an appropriate value
+            StreetAddress addressSearchedBy = new StreetAddress(";;;;;;");
+            List<Person> expected = new List<Person>();
             List<Person> actual;
             actual = PersonAccess.GetByAddress(addressSearchedBy);
-            Assert.AreEqual(expected, actual);
+            CollectionAssert.AreEqual(expected, actual);
         }
 
         /// <summary>
@@ -363,8 +378,13 @@ namespace DataAccessTest
         [TestMethod()]
         public void GetByEmailTest()
         {
-            MailAddress email = null; // TODO: Initialize to an appropriate value
-            Person expected = null; // TODO: Initialize to an appropriate value
+            MailAddress email = new MailAddress("3@something.somewhere");
+            Person expected = new Person(3, "3@something.somewhere", "Jack/Jane", "Doe",
+                "12;33;main st;anywhere;anystate;usa;12345",
+                new Account(201, 0, DateTime.Today, new List<Donation>()),
+                new List<PhoneNumber>(),
+                new List<Yahrtzieht>() 
+                { new Yahrtzieht(201, DateTime.Today, "ploni ben almoni", "they where not") });
             Person actual;
             actual = PersonAccess.GetByEmail(email);
             Assert.AreEqual(expected, actual);
@@ -376,8 +396,8 @@ namespace DataAccessTest
         [TestMethod()]
         public void GetByNonExsistentEmailTest()
         {
-            MailAddress email = null; // TODO: Initialize to an appropriate value
-            Person expected = null; // TODO: Initialize to an appropriate value
+            MailAddress email = new MailAddress("blah@co.il");
+            Person expected = null;
             Person actual;
             actual = PersonAccess.GetByEmail(email);
             Assert.AreEqual(expected, actual);
@@ -389,8 +409,12 @@ namespace DataAccessTest
         [TestMethod()]
         public void GetByIdTest()
         {
-            int id = 0; // TODO: Initialize to an appropriate value
-            Person expected = null; // TODO: Initialize to an appropriate value
+            int id = 3;
+            Person expected = new Person(3, "3@something.somewhere", "Jack/Jane", "Doe",
+                "12;33;main st;anywhere;anystate;usa;12345",
+                new Account(201, 0, DateTime.Today, new List<Donation>()),
+                new List<PhoneNumber>(),
+                new List<Yahrtzieht>() { new Yahrtzieht(201, DateTime.Today, "ploni ben almoni", "they where not") });
             Person actual;
             actual = PersonAccess.GetById(id);
             Assert.AreEqual(expected, actual);
@@ -402,8 +426,8 @@ namespace DataAccessTest
         [TestMethod()]
         public void GetByNonExsitentIdTest()
         {
-            int id = 0; // TODO: Initialize to an appropriate value
-            Person expected = null; // TODO: Initialize to an appropriate value
+            int id = 0;
+            Person expected = null;
             Person actual;
             actual = PersonAccess.GetById(id);
             Assert.AreEqual(expected, actual);
@@ -415,11 +439,13 @@ namespace DataAccessTest
         [TestMethod()]
         public void GetByNameTest()
         {
-            string fullName = string.Empty; // TODO: Initialize to an appropriate value
-            List<Person> expected = null; // TODO: Initialize to an appropriate value
+            string firstName = "Jack/Jane";
+            string lastName = "Doe";
+            List<Person> expected = PersonAccess.ConvertMultipleDbPersonsToLocalType(
+                PersonAccess_Accessor.LookupByName(firstName, lastName));
             List<Person> actual;
-            actual = PersonAccess.GetByName(fullName, fullName);
-            Assert.AreEqual(expected, actual);
+            actual = PersonAccess.GetByName(firstName, lastName);
+            CollectionAssert.AreEqual(expected, actual);
         }
 
         /// <summary>
@@ -428,11 +454,11 @@ namespace DataAccessTest
         [TestMethod()]
         public void GetByNonExsistentNameTest()
         {
-            string fullName = string.Empty; // TODO: Initialize to an appropriate value
-            List<Person> expected = null; // TODO: Initialize to an appropriate value
+            string fullName = string.Empty;
+            List<Person> expected = new List<Person>();
             List<Person> actual;
             actual = PersonAccess.GetByName(fullName, fullName);
-            Assert.AreEqual(expected, actual);
+            CollectionAssert.AreEqual(expected, actual);
         }
 
         /// <summary>
@@ -441,8 +467,8 @@ namespace DataAccessTest
         [TestMethod()]
         public void GetByPhoneNumberTest()
         {
-            PhoneNumber numberSearchedBy = null; // TODO: Initialize to an appropriate value
-            Person expected = null; // TODO: Initialize to an appropriate value
+            PhoneNumber numberSearchedBy = new PhoneNumber(100, "phone number:100", new PhoneType(1, "phonetype:1"));
+            Person expected = PersonAccess.GetById(2);
             Person actual;
             actual = PersonAccess.GetByPhoneNumber(numberSearchedBy);
             Assert.AreEqual(expected, actual);
@@ -454,8 +480,8 @@ namespace DataAccessTest
         [TestMethod()]
         public void GetByNonExsistentPhoneNumberTest()
         {
-            PhoneNumber numberSearchedBy = null; // TODO: Initialize to an appropriate value
-            Person expected = null; // TODO: Initialize to an appropriate value
+            PhoneNumber numberSearchedBy = new PhoneNumber(76829730, "doesnt exsist", new PhoneType(234325, "blahblah"));
+            Person expected = null;
             Person actual;
             actual = PersonAccess.GetByPhoneNumber(numberSearchedBy);
             Assert.AreEqual(expected, actual);
@@ -467,11 +493,13 @@ namespace DataAccessTest
         [TestMethod()]
         public void GetByYahrtziehtTest()
         {
-            Yahrtzieht yahrtziehtSearchedBy = null; // TODO: Initialize to an appropriate value
-            List<Person> expected = null; // TODO: Initialize to an appropriate value
+            Yahrtzieht yahrtziehtSearchedBy = new Yahrtzieht(201, DateTime.Today, "ploni ben almoni", "they where not");
+            List<Person> expected = PersonAccess.ConvertMultipleDbPersonsToLocalType(
+                PersonAccess_Accessor.LookupByYahrtzieht(
+                                    yahrtziehtSearchedBy.Name, yahrtziehtSearchedBy.Relation));
             List<Person> actual;
             actual = PersonAccess.GetByYahrtzieht(yahrtziehtSearchedBy);
-            Assert.AreEqual(expected, actual);
+            CollectionAssert.AreEqual(expected, actual);
         }
 
         /// <summary>
@@ -480,11 +508,11 @@ namespace DataAccessTest
         [TestMethod()]
         public void GetByNonExsistentYahrtziehtTest()
         {
-            Yahrtzieht yahrtziehtSearchedBy = null; // TODO: Initialize to an appropriate value
-            List<Person> expected = null; // TODO: Initialize to an appropriate value
+            Yahrtzieht yahrtziehtSearchedBy = new Yahrtzieht(23124, DateTime.Today, "35235", "35325");
+            List<Person> expected = new List<Person>();
             List<Person> actual;
             actual = PersonAccess.GetByYahrtzieht(yahrtziehtSearchedBy);
-            Assert.AreEqual(expected, actual);
+            CollectionAssert.AreEqual(expected, actual);
         }
 
         #endregion
