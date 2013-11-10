@@ -767,8 +767,17 @@ namespace DataAccessTest
         [TestMethod()]
         public void UpdateMultiplePersonsTest()
         {
-            List<Person> updatedPersonList = null; // TODO: Initialize to an appropriate value
+            List<Person> updatedPersonList = new List<Person>()
+            {
+                PersonAccess.GetById(7),
+                PersonAccess.GetById(8)
+            };
+            updatedPersonList[0].Email = new MailAddress("blah@balh.com");
+            updatedPersonList[1].FirstName = "jacob jinglehiemer";
             PersonAccess.UpdateMultiplePersons(updatedPersonList);
+            List<Person> afterUpdate = PersonAccess.GetAllPeople();
+            Assert.IsTrue(afterUpdate.Contains(updatedPersonList[0]));
+            Assert.IsTrue(afterUpdate.Contains(updatedPersonList[1]));
         }
 
         /// <summary>
@@ -777,11 +786,15 @@ namespace DataAccessTest
         [TestMethod()]
         public void UpdateSinglePersonTest()
         {
-            Person updatedPerson = null; // TODO: Initialize to an appropriate value
-            Enums.CRUDResults expected = new Enums.CRUDResults(); // TODO: Initialize to an appropriate value
+            Person updatedPerson = PersonAccess.GetById(9);
+            updatedPerson.Address = 
+                new StreetAddress(";1234;main st;blah town;blah city;;blah country;87452");
+            Enums.CRUDResults expected = Enums.CRUDResults.UPDATE_SUCCESS;
             Enums.CRUDResults actual;
             actual = PersonAccess.UpdateSinglePerson(updatedPerson);
             Assert.AreEqual(expected, actual);
+            Person afterUpdate = PersonAccess.GetById(9);
+            Assert.AreEqual(updatedPerson, afterUpdate);
         }
 
         /// <summary>
@@ -790,8 +803,10 @@ namespace DataAccessTest
         [TestMethod()]
         public void UpdateSingleNoNExsistentPersonTest()
         {
-            Person updatedPerson = null; // TODO: Initialize to an appropriate value
-            Enums.CRUDResults expected = new Enums.CRUDResults(); // TODO: Initialize to an appropriate value
+            Person updatedPerson = new Person(32543, "blah@blah.com", "", "", ";;;;;;",
+                new Account(1, 0, DateTime.Today, new List<Donation>()),
+                new List<PhoneNumber>(), new List<Yahrtzieht>());
+            Enums.CRUDResults expected = Enums.CRUDResults.UPDATE_FAIL;
             Enums.CRUDResults actual;
             actual = PersonAccess.UpdateSinglePerson(updatedPerson);
             Assert.AreEqual(expected, actual);

@@ -222,7 +222,7 @@ namespace DataAccess
             }
         }
 
-        public static void UpsertMultipleCCCCCCs(List<Yahrtzieht> upsertedList, int personId)
+        public static void UpsertMultipleYahrtziehts(List<Yahrtzieht> upsertedList, int personId)
         {
             foreach (Yahrtzieht CurrYahrtzieht in upsertedList)
             {

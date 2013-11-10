@@ -223,7 +223,13 @@ namespace DataAccess
         {
         	try
         	{
-        		Cache.CacheData.SaveChanges();
+                YahrtziehtAccess.UpsertMultipleYahrtziehts(updatedPerson.Yahrtziehts, updatedPerson._Id);
+                AccountAccess.UpsertSingleAccount(updatedPerson.PersonalAccount, updatedPerson._Id);
+                PhoneNumberAccess.UpsertMultiplePhoneNumbers(updatedPerson.PhoneNumbers, updatedPerson._Id);
+                t_people personUpdating = LookupById(updatedPerson._Id);
+                personUpdating = ConvertSingleLocalPersonToDbType(updatedPerson);
+                Cache.CacheData.t_people.ApplyCurrentValues(personUpdating);
+                Cache.CacheData.SaveChanges();
         		return Enums.CRUDResults.UPDATE_SUCCESS;
         	}
         	catch (Exception)
