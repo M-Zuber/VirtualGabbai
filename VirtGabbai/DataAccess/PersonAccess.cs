@@ -192,6 +192,11 @@ namespace DataAccess
         {
         	try
         	{
+                t_people newDbPerson = ConvertSingleLocalPersonToDbType(newPerson);
+                Cache.CacheData.t_people.AddObject(newDbPerson);
+                YahrtziehtAccess.UpsertMultipleYahrtziehts(newPerson.Yahrtziehts, newPerson._Id);
+                AccountAccess.UpsertSingleAccount(newPerson.PersonalAccount, newPerson._Id);
+                PhoneNumberAccess.UpsertMultiplePhoneNumbers(newPerson.PhoneNumbers, newPerson._Id);
         		Cache.CacheData.SaveChanges();
         		return Enums.CRUDResults.CREATE_SUCCESS;
         	}

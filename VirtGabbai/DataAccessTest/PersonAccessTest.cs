@@ -194,8 +194,26 @@ namespace DataAccessTest
         [TestMethod()]
         public void AddMultipleNewPersonsTest()
         {
-            List<Person> newPersonList = null; // TODO: Initialize to an appropriate value
+            List<Person> newPersonList = new List<Person>()
+            {
+                new Person(17, "blah@blah.com", "jack", "doe", ";;;;;;", 
+                    new Account(546, 0, DateTime.Today, new List<Donation>()),
+                    new List<PhoneNumber>(), new List<Yahrtzieht>()),
+                new Person(18, "blah@blah.com", "jack", "doe", ";;;;;;", 
+                    new Account(5461, 0, DateTime.Today, new List<Donation>()),
+                    new List<PhoneNumber>(), new List<Yahrtzieht>()),
+                new Person(19, "blah@blah.com", "jack", "doe", ";;;;;;", 
+                    new Account(5462, 0, DateTime.Today, new List<Donation>()),
+                    new List<PhoneNumber>(), new List<Yahrtzieht>())
+            };
             PersonAccess.AddMultipleNewPersons(newPersonList);
+            List<Person> afterAdding = new List<Person>() 
+            {
+                PersonAccess.GetById(17),
+                PersonAccess.GetById(18),
+                PersonAccess.GetById(19)
+            };
+            CollectionAssert.AreEqual(newPersonList, afterAdding);
         }
 
         /// <summary>
@@ -204,11 +222,14 @@ namespace DataAccessTest
         [TestMethod()]
         public void AddNewPersonTest()
         {
-            Person newPerson = null; // TODO: Initialize to an appropriate value
-            Enums.CRUDResults expected = new Enums.CRUDResults(); // TODO: Initialize to an appropriate value
+            Person newPerson = new Person(16, "3245@235.com", "good", "luck", ";;;;;;",
+                new Account(32523, 0, DateTime.Today, new List<Donation>()),
+                new List<PhoneNumber>(), new List<Yahrtzieht>());
+            Enums.CRUDResults expected = Enums.CRUDResults.CREATE_SUCCESS;
             Enums.CRUDResults actual;
             actual = PersonAccess.AddNewPerson(newPerson);
             Assert.AreEqual(expected, actual);
+            Assert.AreEqual(newPerson, PersonAccess.GetById(16));
         }
 
         #endregion
