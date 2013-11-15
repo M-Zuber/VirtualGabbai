@@ -194,11 +194,12 @@ namespace DataAccess
         	{
                 t_people newDbPerson = ConvertSingleLocalPersonToDbType(newPerson);
                 Cache.CacheData.t_people.AddObject(newDbPerson);
+                Cache.CacheData.SaveChanges();
                 YahrtziehtAccess.UpsertMultipleYahrtziehts(newPerson.Yahrtziehts, newPerson._Id);
                 AccountAccess.UpsertSingleAccount(newPerson.PersonalAccount, newPerson._Id);
                 PhoneNumberAccess.UpsertMultiplePhoneNumbers(newPerson.PhoneNumbers, newPerson._Id);
-        		Cache.CacheData.SaveChanges();
-        		return Enums.CRUDResults.CREATE_SUCCESS;
+                Cache.CacheData.SaveChanges();        		
+                return Enums.CRUDResults.CREATE_SUCCESS;
         	}
         	catch (Exception)
         	{
@@ -228,12 +229,12 @@ namespace DataAccess
         {
         	try
         	{
-                YahrtziehtAccess.UpsertMultipleYahrtziehts(updatedPerson.Yahrtziehts, updatedPerson._Id);
-                AccountAccess.UpsertSingleAccount(updatedPerson.PersonalAccount, updatedPerson._Id);
-                PhoneNumberAccess.UpsertMultiplePhoneNumbers(updatedPerson.PhoneNumbers, updatedPerson._Id);
                 t_people personUpdating = LookupById(updatedPerson._Id);
                 personUpdating = ConvertSingleLocalPersonToDbType(updatedPerson);
                 Cache.CacheData.t_people.ApplyCurrentValues(personUpdating);
+                YahrtziehtAccess.UpsertMultipleYahrtziehts(updatedPerson.Yahrtziehts, updatedPerson._Id);
+                AccountAccess.UpsertSingleAccount(updatedPerson.PersonalAccount, updatedPerson._Id);
+                PhoneNumberAccess.UpsertMultiplePhoneNumbers(updatedPerson.PhoneNumbers, updatedPerson._Id);
                 Cache.CacheData.SaveChanges();
         		return Enums.CRUDResults.UPDATE_SUCCESS;
         	}

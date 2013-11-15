@@ -182,7 +182,7 @@ namespace DataAccessTest
          * In Lookup and Get tests used #2 & 3
          * In Delete tests used #4, 5, 6
          * In Update tests used #7, 8, 9
-         * In Upsert tests used #10, 11
+         * In Upsert tests used #10, 20
          * In Add tests added #16, 17, 18, 19
          */
 
@@ -196,14 +196,14 @@ namespace DataAccessTest
         {
             List<Person> newPersonList = new List<Person>()
             {
-                new Person(17, "blah@blah.com", "jack", "doe", ";;;;;;", 
-                    new Account(546, 0, DateTime.Today, new List<Donation>()),
+                new Person(17, "blah@blah.com", "jack", "doe", "12;12;blank;blank;blank;blank;123456", 
+                    new Account(54, 0, DateTime.Today, new List<Donation>()),
                     new List<PhoneNumber>(), new List<Yahrtzieht>()),
-                new Person(18, "blah@blah.com", "jack", "doe", ";;;;;;", 
-                    new Account(5461, 0, DateTime.Today, new List<Donation>()),
+                new Person(18, "blah@blah.com", "jack", "doe", "12;12;blank;blank;blank;blank;123456", 
+                    new Account(55, 0, DateTime.Today, new List<Donation>()),
                     new List<PhoneNumber>(), new List<Yahrtzieht>()),
-                new Person(19, "blah@blah.com", "jack", "doe", ";;;;;;", 
-                    new Account(5462, 0, DateTime.Today, new List<Donation>()),
+                new Person(19, "blah@blah.com", "jack", "doe", "12;12;blank;blank;blank;blank;123456", 
+                    new Account(56, 0, DateTime.Today, new List<Donation>()),
                     new List<PhoneNumber>(), new List<Yahrtzieht>())
             };
             PersonAccess.AddMultipleNewPersons(newPersonList);
@@ -222,8 +222,8 @@ namespace DataAccessTest
         [TestMethod()]
         public void AddNewPersonTest()
         {
-            Person newPerson = new Person(16, "3245@235.com", "good", "luck", ";;;;;;",
-                new Account(32523, 0, DateTime.Today, new List<Donation>()),
+            Person newPerson = new Person(16, "3245@235.com", "good", "luck", "12;12;blank;blank;blank;blank;123456",
+                new Account(57, 0, DateTime.Today, new List<Donation>()),
                 new List<PhoneNumber>(), new List<Yahrtzieht>());
             Enums.CRUDResults expected = Enums.CRUDResults.CREATE_SUCCESS;
             Enums.CRUDResults actual;
@@ -248,7 +248,8 @@ namespace DataAccessTest
             Person expected = new Person(3, "3@something.somewhere",
                             "Jack/Jane", "Doe", "12;33;main st;anywhere;anystate;usa;12345",
                             new Account(201, 0, DateTime.Today, new List<Donation>()),
-                            new List<PhoneNumber>(), new List<Yahrtzieht>());
+                            new List<PhoneNumber>(), new List<Yahrtzieht>() {
+                                new Yahrtzieht(201, DateTime.Today, "ploni ben almoni", "they where not")});
             Person actual;
             actual = PersonAccess.ConvertSingleDbPersonToLocalType(dbTypePerson);
             Assert.AreEqual(expected, actual);
@@ -698,7 +699,8 @@ namespace DataAccessTest
             string firstName = "Jack/Jane";
             string lastName = "Doe";
             List<t_people> expected = (from currPerson in Cache.CacheData.t_people
-                                       where currPerson.C_id != 1
+                                       where currPerson.given_name == firstName &&
+                                             currPerson.family_name == lastName
                                        select currPerson).ToList();
 
             List<t_people> actual;
@@ -756,9 +758,10 @@ namespace DataAccessTest
         {
             string nameOfDeceased = "ploni ben almoni";
             string relationToDeceased = "they where not";
-            List<t_people> expected = (from currPerson in Cache.CacheData.t_people
-                                       where currPerson.C_id != 1
-                                       select currPerson).ToList();
+            List<t_people> expected = (from currYahrtzieht in Cache.CacheData.t_yahrtziehts
+                                        where currYahrtzieht.deceaseds_name == nameOfDeceased &&
+                                              currYahrtzieht.relation == relationToDeceased
+                                        select currYahrtzieht.t_people).ToList();
             List<t_people> actual;
             actual = PersonAccess_Accessor.LookupByYahrtzieht(nameOfDeceased, relationToDeceased);
             CollectionAssert.AreEqual(expected, actual);
@@ -843,11 +846,14 @@ namespace DataAccessTest
         [TestMethod()]
         public void UpsertAddSinglePersonTest()
         {
-            Person upsertedPerson = null; // TODO: Initialize to an appropriate value
-            Enums.CRUDResults expected = new Enums.CRUDResults(); // TODO: Initialize to an appropriate value
+            Person upsertedPerson = new Person(20, "blah@blah.com", "jane", "jack", "12;12;blank;blank;blank;blank;123456",
+                new Account(58, 0, DateTime.Today, new List<Donation>()),
+                new List<PhoneNumber>(), new List<Yahrtzieht>());
+            Enums.CRUDResults expected = Enums.CRUDResults.CREATE_SUCCESS;
             Enums.CRUDResults actual;
             actual = PersonAccess.UpsertSinglePerson(upsertedPerson);
             Assert.AreEqual(expected, actual);
+            Assert.AreEqual(upsertedPerson, PersonAccess.GetById(20));
         }
 
         /// <summary>
@@ -856,11 +862,13 @@ namespace DataAccessTest
         [TestMethod()]
         public void UpsertUpdateSinglePersonTest()
         {
-            Person upsertedPerson = null; // TODO: Initialize to an appropriate value
-            Enums.CRUDResults expected = new Enums.CRUDResults(); // TODO: Initialize to an appropriate value
+            Person upsertedPerson = PersonAccess.GetById(10);
+            upsertedPerson.PersonalAccount.PaidDonations.Add(new PaidDonation(456, "", 213, DateTime.Today,"", DateTime.Today));
+            Enums.CRUDResults expected = Enums.CRUDResults.UPDATE_SUCCESS;
             Enums.CRUDResults actual;
             actual = PersonAccess.UpsertSinglePerson(upsertedPerson);
             Assert.AreEqual(expected, actual);
+            Assert.AreEqual(upsertedPerson, PersonAccess.GetById(10));
         }
 
         #endregion

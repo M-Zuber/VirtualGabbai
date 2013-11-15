@@ -245,7 +245,7 @@ namespace DataAccessTest
         [TestMethod()]
         public void GetAllYarthziehtsOfNonExistintPersonTest()
         {
-            int personId = 2;
+            int personId = 450;
             List<Yahrtzieht> actual;
             actual = YahrtziehtAccess.GetAllYahrtziehts(personId);
             Assert.IsNull(actual);
@@ -331,6 +331,7 @@ namespace DataAccessTest
             Assert.IsTrue(actual.Count > 0);
 
             List<t_yahrtziehts> expected = (from yahr in Cache.CacheData.t_yahrtziehts
+                                            where yahr.t_people.C_id == personId
                                             select yahr).ToList<t_yahrtziehts>();
 
             for (int i = 0; i < expected.Count; i++)
@@ -345,7 +346,7 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupAllYarthziehtsOfNonExistintPersonTest()
         {
-            int personId = 2;
+            int personId = 450;
 
             List<t_yahrtziehts> actual;
             actual = YahrtziehtAccess_Accessor.LookupAllYahrtziehts(personId);

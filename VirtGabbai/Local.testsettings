@@ -17,10 +17,10 @@
           <Configuration>
             <CodeCoverage xmlns="">
               <Regular>
-                <CodeCoverageItem binaryFile="BusinessLayer\bin\Debug\BusinessLayer.dll" pdbFile="BusinessLayer\bin\Debug\BusinessLayer.pdb" instrumentInPlace="true" />
                 <CodeCoverageItem binaryFile="DataAccess\bin\Debug\DataAccess.dll" pdbFile="DataAccess\bin\Debug\DataAccess.pdb" instrumentInPlace="true" />
                 <CodeCoverageItem binaryFile="DataTypes\bin\Debug\DataTypes.dll" pdbFile="DataTypes\bin\Debug\DataTypes.pdb" instrumentInPlace="true" />
                 <CodeCoverageItem binaryFile="Framework\bin\Debug\Framework.dll" pdbFile="Framework\bin\Debug\Framework.pdb" instrumentInPlace="true" />
+                <CodeCoverageItem binaryFile="BusinessLayer\bin\Debug\BusinessLayer.dll" pdbFile="BusinessLayer\bin\Debug\BusinessLayer.pdb" instrumentInPlace="true" />
               </Regular>
             </CodeCoverage>
           </Configuration>

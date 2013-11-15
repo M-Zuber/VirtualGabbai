@@ -459,7 +459,7 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupAllPhoneNumbersOfNonExistintPersonTest()
         {
-            int personId = 2;
+            int personId = 450;
             List<t_phone_numbers> actual;
             actual = PhoneNumberAccess_Accessor.LookupAllPhoneNumbers(personId);
             Assert.IsNull(actual);
