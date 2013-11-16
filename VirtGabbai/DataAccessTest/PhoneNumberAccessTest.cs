@@ -1,7 +1,7 @@
 ﻿using DataAccess;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using DataTypes;
+using LocalTypes;
 using System.Collections.Generic;
 using DataCache;
 using System.Linq;
@@ -48,7 +48,12 @@ namespace DataAccessTest
         {
             if (!Cache.CacheData.t_people.Any(person => person.C_id == 1))
             {
-                Cache.CacheData.t_people.AddObject(t_people.Createt_people(1));
+                var newPerson = t_people.Createt_people(1);
+                newPerson.address = "12;" + 1 + 1 + ";main st;anywhere;anystate;usa;12345";
+                newPerson.email = 1 + "@something.somewhere";
+                newPerson.family_name = "Doe";
+                newPerson.given_name = "Jack/Jane";
+                Cache.CacheData.t_people.AddObject(newPerson);
             }
 
             if (!Cache.CacheData.t_phone_types.Any(numberType => numberType.C_id == 1))
@@ -57,9 +62,12 @@ namespace DataAccessTest
             }
             for (int newPhoneNumberIndex = 1; newPhoneNumberIndex <= 10; newPhoneNumberIndex++)
             {
-                var newPhoneNumber = t_phone_numbers.Createt_phone_numbers(
-                    1,"phone number:" + newPhoneNumberIndex.ToString(), 1, newPhoneNumberIndex);
-                Cache.CacheData.t_phone_numbers.AddObject(newPhoneNumber);
+                if (!Cache.CacheData.t_phone_numbers.Any(number => number.C_id == newPhoneNumberIndex))
+                {
+                    var newPhoneNumber = t_phone_numbers.Createt_phone_numbers(
+                                        1, "phone number:" + newPhoneNumberIndex.ToString(), 1, newPhoneNumberIndex);
+                    Cache.CacheData.t_phone_numbers.AddObject(newPhoneNumber);
+                }
             }
             Cache.CacheData.SaveChanges();
         }
@@ -456,7 +464,7 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupAllPhoneNumbersOfNonExistintPersonTest()
         {
-            int personId = 2;
+            int personId = 450;
             List<t_phone_numbers> actual;
             actual = PhoneNumberAccess_Accessor.LookupAllPhoneNumbers(personId);
             Assert.IsNull(actual);

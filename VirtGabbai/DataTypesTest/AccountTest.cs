@@ -1,9 +1,9 @@
-﻿using DataTypes;
+﻿using LocalTypes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 
-namespace DataTypesTest
+namespace LocalTypesTest
 {
     
     

@@ -2,14 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using DataAccess;
-using LocalTypes;
-using Framework;
 
-namespace TempUI
+namespace Framework
 {
-    public class IntegrationOne
+    public static class Globals
     {
-
+        public const char DELIMITER = ';';
     }
 }

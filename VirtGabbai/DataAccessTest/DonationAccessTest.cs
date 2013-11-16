@@ -1,7 +1,7 @@
 ﻿using DataAccess;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using DataTypes;
+using LocalTypes;
 using System.Collections.Generic;
 using Framework;
 using DataCache;
@@ -48,7 +48,12 @@ namespace DataAccessTest
         {
             if (!Cache.CacheData.t_people.Any(person => person.C_id == 1))
             {
-                Cache.CacheData.t_people.AddObject(t_people.Createt_people(1));
+                var newPerson = t_people.Createt_people(1);
+                newPerson.address = "12;" + 1 + 1 + ";main st;anywhere;anystate;usa;12345";
+                newPerson.email = 1 + "@something.somewhere";
+                newPerson.family_name = "Doe";
+                newPerson.given_name = "Jack/Jane";
+                Cache.CacheData.t_people.AddObject(newPerson);
             }
             if (!Cache.CacheData.t_accounts.Any(account => account.C_id == 1))
             {

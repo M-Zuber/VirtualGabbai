@@ -1,7 +1,7 @@
 ﻿using DataAccess;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using DataTypes;
+using LocalTypes;
 using System.Collections.Generic;
 using DataCache;
 using System.Data.Objects;
@@ -49,7 +49,12 @@ namespace DataAccessTest
         {
             if (!Cache.CacheData.t_people.Any(person => person.C_id == 1))
             {
-                Cache.CacheData.t_people.AddObject(t_people.Createt_people(1));
+                var newPerson = t_people.Createt_people(1);
+                newPerson.address = "12;" + 1 + 1 + ";main st;anywhere;anystate;usa;12345";
+                newPerson.email = 1 + "@something.somewhere";
+                newPerson.family_name = "Doe";
+                newPerson.given_name = "Jack/Jane";
+                Cache.CacheData.t_people.AddObject(newPerson);
             }
 
             for (int newYahrIndex = 1; newYahrIndex <= 10; newYahrIndex++)
@@ -245,7 +250,7 @@ namespace DataAccessTest
         [TestMethod()]
         public void GetAllYarthziehtsOfNonExistintPersonTest()
         {
-            int personId = 2;
+            int personId = 450;
             List<Yahrtzieht> actual;
             actual = YahrtziehtAccess.GetAllYahrtziehts(personId);
             Assert.IsNull(actual);
@@ -331,6 +336,7 @@ namespace DataAccessTest
             Assert.IsTrue(actual.Count > 0);
 
             List<t_yahrtziehts> expected = (from yahr in Cache.CacheData.t_yahrtziehts
+                                            where yahr.t_people.C_id == personId
                                             select yahr).ToList<t_yahrtziehts>();
 
             for (int i = 0; i < expected.Count; i++)
@@ -345,7 +351,7 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupAllYarthziehtsOfNonExistintPersonTest()
         {
-            int personId = 2;
+            int personId = 450;
 
             List<t_yahrtziehts> actual;
             actual = YahrtziehtAccess_Accessor.LookupAllYahrtziehts(personId);

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Framework;
 
-namespace DataTypes
+namespace LocalTypes
 {
     public class Account
     {

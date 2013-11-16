@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using DataCache;
-using DataTypes;
+using LocalTypes;
 using Framework;
 
 namespace DataAccess
