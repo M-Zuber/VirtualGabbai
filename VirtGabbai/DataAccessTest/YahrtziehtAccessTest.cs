@@ -49,7 +49,12 @@ namespace DataAccessTest
         {
             if (!Cache.CacheData.t_people.Any(person => person.C_id == 1))
             {
-                Cache.CacheData.t_people.AddObject(t_people.Createt_people(1));
+                var newPerson = t_people.Createt_people(1);
+                newPerson.address = "12;" + 1 + 1 + ";main st;anywhere;anystate;usa;12345";
+                newPerson.email = 1 + "@something.somewhere";
+                newPerson.family_name = "Doe";
+                newPerson.given_name = "Jack/Jane";
+                Cache.CacheData.t_people.AddObject(newPerson);
             }
 
             for (int newYahrIndex = 1; newYahrIndex <= 10; newYahrIndex++)

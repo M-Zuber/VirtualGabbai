@@ -341,9 +341,7 @@ namespace DataAccessTest
         [TestMethod()]
         public void GetAllPeopleTest()
         {
-            List<Person> expected = 
-                PersonAccess.ConvertMultipleDbPersonsToLocalType(
-                                        PersonAccess_Accessor.LookupAllPeople());
+            List<Person> expected = PersonAccess.GetAllPeople();
             List<Person> actual;
             actual = PersonAccess.GetAllPeople();
             CollectionAssert.AreEqual(expected, actual);
@@ -799,7 +797,7 @@ namespace DataAccessTest
             updatedPersonList[0].Email = new MailAddress("blah@balh.com");
             updatedPersonList[1].FirstName = "jacob jinglehiemer";
             PersonAccess.UpdateMultiplePersons(updatedPersonList);
-            List<Person> afterUpdate = PersonAccess.GetAllPeople();
+            List<Person> afterUpdate = PersonAccess.GetAllPeople(); ;
             Assert.IsTrue(afterUpdate.Contains(updatedPersonList[0]));
             Assert.IsTrue(afterUpdate.Contains(updatedPersonList[1]));
         }
