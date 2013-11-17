@@ -130,37 +130,7 @@ namespace DataAccessTest
         [ClassCleanup()]
         public static void MyClassCleanup()
         {
-            var donations = (from donate in Cache.CacheData.t_donations select donate).ToList<t_donations>();
-            var accounts = (from account in Cache.CacheData.t_accounts select account).ToList<t_accounts>();
-            var phoneNumbers = (from number in Cache.CacheData.t_phone_numbers select number).ToList<t_phone_numbers>();
-            var phoneTypes = (from type in Cache.CacheData.t_phone_types select type).ToList<t_phone_types>();
-            var yahrtziehts = (from yahr in Cache.CacheData.t_yahrtziehts select yahr).ToList<t_yahrtziehts>();
-            var peoples = (from person in Cache.CacheData.t_people select person).ToList<t_people>();
-            for (int i = 0; i < donations.Count; i++)
-            {
-                Cache.CacheData.t_donations.DeleteObject(donations[i]);
-            }
-            for (int i = 0; i < accounts.Count; i++)
-            {
-                Cache.CacheData.t_accounts.DeleteObject(accounts[i]);
-            }
-            for (int i = 0; i < phoneNumbers.Count; i++)
-            {
-                Cache.CacheData.t_phone_numbers.DeleteObject(phoneNumbers[i]);
-            }
-            for (int i = 0; i < phoneTypes.Count; i++)
-            {
-                Cache.CacheData.t_phone_types.DeleteObject(phoneTypes[i]);
-            }
-            for (int i = 0; i < yahrtziehts.Count; i++)
-            {
-                Cache.CacheData.t_yahrtziehts.DeleteObject(yahrtziehts[i]);
-            }
-            for (int i = 0; i < peoples.Count; i++)
-            {
-                Cache.CacheData.t_people.DeleteObject(peoples[i]);
-            }
-            Cache.CacheData.SaveChanges();
+            Cache.CacheData.clear_database();
         }
         //
         //Use TestInitialize to run code before running each test

@@ -63,13 +63,7 @@ namespace DataAccessTest
         [ClassCleanup()]
         public static void MyClassCleanup()
         {
-            var test = (from ptype in Cache.CacheData.t_phone_types select ptype).ToList<t_phone_types>();
-
-            for (int i = 0; i < test.Count; i++)
-            {
-                Cache.CacheData.t_phone_types.DeleteObject(test[i]);
-            }
-            Cache.CacheData.SaveChanges();
+            Cache.CacheData.clear_database();
         }
         //
         //Use TestInitialize to run code before running each test
