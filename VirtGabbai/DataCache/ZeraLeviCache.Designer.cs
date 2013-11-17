@@ -295,6 +295,17 @@ namespace DataCache
         }
 
         #endregion
+        #region Function Imports
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public int clear_database()
+        {
+            return base.ExecuteFunction("clear_database");
+        }
+
+        #endregion
     }
     
 

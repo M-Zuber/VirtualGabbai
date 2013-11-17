@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="zera_leviModel.Store" Alias="Self" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.6" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+    <Schema Namespace="zera_leviModel.Store" Alias="Self" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.6" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
         <EntityContainer Name="zera_leviModelStoreContainer">
           <EntitySet Name="t_accounts" EntityType="zera_leviModel.Store.t_accounts" store:Type="Tables" Schema="zera_levi" />
           <EntitySet Name="t_donations" EntityType="zera_leviModel.Store.t_donations" store:Type="Tables" Schema="zera_levi" />
@@ -206,8 +206,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
-    </edmx:StorageModels>
+        <Function Name="clear_database" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="zera_levi" />
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="zera_leviModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
@@ -245,6 +245,7 @@
             <End Role="t_privilege_groups" EntitySet="t_privilege_groups" />
             <End Role="t_users" EntitySet="t_users" />
           </AssociationSet>
+          <FunctionImport Name="clear_database" />
         </EntityContainer>
         <EntityType Name="t_accounts">
           <Key>
@@ -485,6 +486,7 @@
             <ScalarProperty Name="date" ColumnName="date" />
             <ScalarProperty Name="deceaseds_name" ColumnName="deceaseds_name" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="clear_database" FunctionName="zera_leviModel.Store.clear_database" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -506,7 +508,7 @@
     </Options>
     <!-- Diagram content (shape and connector positions) -->
     <Diagrams>
-      <Diagram Name="ZeraLeviCache">
+      <Diagram Name="ZeraLeviCache" ZoomLevel="108">
         <EntityTypeShape EntityType="zera_leviModel.t_accounts" Width="1.5" PointX="3" PointY="3" Height="2.1725878906249996" IsExpanded="true" />
         <EntityTypeShape EntityType="zera_leviModel.t_donations" Width="1.5" PointX="5.25" PointY="2.75" Height="2.7494921874999996" IsExpanded="true" />
         <EntityTypeShape EntityType="zera_leviModel.t_people" Width="1.5" PointX="0.75" PointY="4.25" Height="2.5571907552083335" IsExpanded="true" />

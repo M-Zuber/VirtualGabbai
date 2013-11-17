@@ -76,25 +76,7 @@ namespace DataAccessTest
         [ClassCleanup()]
         public static void MyClassCleanup()
         {
-            var allCurrentPeople = (from currP in Cache.CacheData.t_people select currP).ToList<t_people>();
-            for (int i = 0; i < allCurrentPeople.Count; i++)
-            {
-                Cache.CacheData.DeleteObject(allCurrentPeople[i]);
-            }
-
-            var allCurrentPhoneTypes = (from currPT in Cache.CacheData.t_phone_types select currPT).ToList<t_phone_types>();
-            for (int i = 0; i < allCurrentPhoneTypes.Count; i++)
-            {
-                Cache.CacheData.DeleteObject(allCurrentPhoneTypes[i]);
-            }
-            
-            var allCurrentPhoneNumbers = (from currPN in Cache.CacheData.t_phone_numbers select currPN).ToList<t_phone_numbers>();
-            for (int i = 0; i < allCurrentPhoneNumbers.Count; i++)
-            {
-                Cache.CacheData.DeleteObject(allCurrentPhoneNumbers[i]);
-            }
-            
-            Cache.CacheData.SaveChanges();
+            Cache.CacheData.clear_database();
         }
         //
         //Use TestInitialize to run code before running each test
