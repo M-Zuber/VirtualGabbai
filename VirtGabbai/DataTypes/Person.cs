@@ -71,7 +71,7 @@ namespace LocalTypes
                 phoneNumbersString += this.PhoneNumbers[0].ToString();
                 for (int phoneNumberIndex = 1; phoneNumberIndex < this.PhoneNumbers.Count; phoneNumberIndex++)
                 {
-                    phoneNumbersString += "\n" + this.PhoneNumbers[1].ToString();
+                    phoneNumbersString += "\n" + this.PhoneNumbers[phoneNumberIndex].ToString();
                 }
             }
 
