@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS `zera_levi`.`t_people` (
   `given_name` VARCHAR(45) NULL,
   `family_name` VARCHAR(45) NULL,
   `address` VARCHAR(300) NULL,
+  `member` TINYINT(1) DEFAULT NULL,
   PRIMARY KEY (`_id`))
 ENGINE = InnoDB;
 
@@ -169,6 +170,29 @@ CREATE TABLE IF NOT EXISTS `zera_levi`.`t_privileges` (
 ENGINE = InnoDB;
 
 
+
+-- -----------------------------------------------------
+-- Stored procedure `zera_levi`.`clear_database`
+-- -----------------------------------------------------
+DROP procedure IF EXISTS `clear_database`;
+
+DELIMITER $$
+CREATE PROCEDURE `clear_database` ()
+BEGIN
+SET FOREIGN_KEY_CHECKS=0;
+TRUNCATE TABLE t_yahrtziehts;
+TRUNCATE TABLE t_donations;
+TRUNCATE TABLE t_accounts;
+TRUNCATE TABLE t_phone_numbers;
+TRUNCATE TABLE t_phone_types;
+TRUNCATE TABLE t_people;
+TRUNCATE TABLE t_privilege_groups;
+TRUNCATE TABLE t_privileges;
+TRUNCATE TABLE t_users;
+SET FOREIGN_KEY_CHECKS=1;
+END$$
+
+DELIMITER ;
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

@@ -53,6 +53,7 @@ namespace DataAccessTest
                 newPerson.email = 1 + "@something.somewhere";
                 newPerson.family_name = "Doe";
                 newPerson.given_name = "Jack/Jane";
+                newPerson.member = true;
                 Cache.CacheData.t_people.AddObject(newPerson);
             }
             if (!Cache.CacheData.t_accounts.Any(account => account.C_id == 1))
@@ -76,7 +77,7 @@ namespace DataAccessTest
                 {
                     var newDonation = t_donations.Createt_donations(
                                 newDonationIndex, 2, "reason:" + newDonationIndex, 12.5, DateTime.Today, false);
-                    Cache.CacheData.t_donations.AddObject(newDonation); 
+                    Cache.CacheData.t_donations.AddObject(newDonation);
                 }
             }
             for (int newDonationIndex = 106; newDonationIndex <= 110; newDonationIndex++)
@@ -86,7 +87,7 @@ namespace DataAccessTest
                     var newDonation = t_donations.Createt_donations(
                                newDonationIndex, 2, "reason:" + newDonationIndex, 12.5, DateTime.Today, true);
                     newDonation.date_paid = DateTime.Today;
-                    Cache.CacheData.t_donations.AddObject(newDonation); 
+                    Cache.CacheData.t_donations.AddObject(newDonation);
                 }
             }
             Cache.CacheData.SaveChanges();
@@ -94,38 +95,19 @@ namespace DataAccessTest
         //
         //Use ClassCleanup to run code after all tests in a class have run
         [ClassCleanup()]
-        public static void MyClassCleanup()
+        public static void MyClassCleanup() 
         {
-            var donations = (from donate in Cache.CacheData.t_donations select donate).ToList<t_donations>();
-            var accounts = (from account in Cache.CacheData.t_accounts select account).ToList<t_accounts>();
-            var peoples = (from person in Cache.CacheData.t_people select person).ToList<t_people>();
-            for (int i = 0; i < donations.Count; i++)
-            {
-                Cache.CacheData.t_donations.DeleteObject(donations[i]);
-            }
-            for (int i = 0; i < accounts.Count; i++)
-            {
-                Cache.CacheData.t_accounts.DeleteObject(accounts[i]);
-            }
-            for (int i = 0; i < peoples.Count; i++)
-            {
-                Cache.CacheData.t_people.DeleteObject(peoples[i]);
-            }
-            Cache.CacheData.SaveChanges();
+            Cache.CacheData.clear_database();
         }
         //
         //Use TestInitialize to run code before running each test
         //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
+        //public void MyTestInitialize() { }
         //
         //Use TestCleanup to run code after each test has run
         //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
+        //public void MyTestCleanup() { }
+        
         #endregion
 
         #region Add Tests 11-20/21

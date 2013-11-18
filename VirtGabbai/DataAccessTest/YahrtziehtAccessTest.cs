@@ -54,6 +54,7 @@ namespace DataAccessTest
                 newPerson.email = 1 + "@something.somewhere";
                 newPerson.family_name = "Doe";
                 newPerson.given_name = "Jack/Jane";
+                newPerson.member = true;
                 Cache.CacheData.t_people.AddObject(newPerson);
             }
 
@@ -71,17 +72,7 @@ namespace DataAccessTest
         [ClassCleanup()]
         public static void MyClassCleanup()
         {
-            var test = (from ptype in Cache.CacheData.t_yahrtziehts select ptype).ToList<t_yahrtziehts>();
-            var otherTest = (from peType in Cache.CacheData.t_people select peType).ToList<t_people>();
-            for (int j = 0; j < otherTest.Count; j++)
-            {
-                Cache.CacheData.t_people.DeleteObject(otherTest[j]);                
-            }
-            for (int i = 0; i < test.Count; i++)
-            {
-                Cache.CacheData.t_yahrtziehts.DeleteObject(test[i]);
-            }
-            Cache.CacheData.SaveChanges();
+            Cache.CacheData.clear_database();
         }
         //
         //Use TestInitialize to run code before running each test
