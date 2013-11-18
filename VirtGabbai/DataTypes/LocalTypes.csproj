@@ -46,6 +46,7 @@
     <Compile Include="Person.cs" />
     <Compile Include="PhoneNumber.cs" />
     <Compile Include="PhoneType.cs" />
+    <Compile Include="Privilege.cs" />
     <Compile Include="StreetAddress.cs" />
     <Compile Include="Yahrtzieht.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
