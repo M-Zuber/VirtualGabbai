@@ -19,6 +19,11 @@ namespace DataAccess
             return ConvertMultipleDbPersonsToLocalType(LookupAllPeople());
         }
 
+        public static List<Person> GetPeopleByMembership(bool membershipStatus)
+        {
+            return ConvertMultipleDbPersonsToLocalType(LookupByMembership(membershipStatus));
+        }
+
         public static List<Person> GetByYahrtzieht(Yahrtzieht yahrtziehtSearchedBy)
         {
             return ConvertMultipleDbPersonsToLocalType(
@@ -69,6 +74,21 @@ namespace DataAccess
             catch (Exception)
             {
             	//LOG
+                return null;
+            }
+        }
+
+        private static List<t_people> LookupByMembership(bool membershipStatus)
+        {
+            try
+            {
+                return (from person in Cache.CacheData.t_people
+                        where person.member == membershipStatus
+                        select person).ToList();
+            }
+            catch (Exception)
+            {
+                //LOG
                 return null;
             }
         }

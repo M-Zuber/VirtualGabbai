@@ -320,6 +320,34 @@ namespace DataAccessTest
         }
 
         /// <summary>
+        ///A test for GetMembers
+        ///</summary>
+        [TestMethod()]
+        public void GetMembersTest()
+        {
+            bool membershipStatus = true;
+            List<Person> expected = PersonAccess.ConvertMultipleDbPersonsToLocalType(
+                PersonAccess_Accessor.LookupByMembership(membershipStatus));
+            List<Person> actual;
+            actual = PersonAccess.GetPeopleByMembership(membershipStatus);
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
+        ///A test for GetNonMembers
+        ///</summary>
+        [TestMethod()]
+        public void GetNonMembersTest()
+        {
+            bool membershipStatus = false;
+            List<Person> expected = PersonAccess.ConvertMultipleDbPersonsToLocalType(
+                PersonAccess_Accessor.LookupByMembership(membershipStatus));
+            List<Person> actual;
+            actual = PersonAccess.GetPeopleByMembership(membershipStatus);
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
         ///A test for GetByAccount
         ///</summary>
         [TestMethod()]
@@ -557,6 +585,36 @@ namespace DataAccessTest
             t_people actual;
             actual = PersonAccess_Accessor.LookupByAccount(accountId);
             Assert.AreEqual(expected.C_id, actual.C_id);
+        }
+
+        /// <summary>
+        ///A test for LookupByAccount
+        ///</summary>
+        [TestMethod()]
+        [DeploymentItem("DataAccess.dll")]
+        public void LookupByMembersTest()
+        {
+            bool membershipStatus = true;
+            List<t_people> expected = (from person in Cache.CacheData.t_people
+                                       where person.member == membershipStatus
+                                       select person).ToList();
+            List<t_people> actual = PersonAccess_Accessor.LookupByMembership(membershipStatus);
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
+        ///A test for LookupByAccount
+        ///</summary>
+        [TestMethod()]
+        [DeploymentItem("DataAccess.dll")]
+        public void LookupByNonMembersTest()
+        {
+            bool membershipStatus = false;
+            List<t_people> expected = (from person in Cache.CacheData.t_people
+                                       where person.member == membershipStatus
+                                       select person).ToList();
+            List<t_people> actual = PersonAccess_Accessor.LookupByMembership(membershipStatus);
+            CollectionAssert.AreEqual(expected, actual);
         }
 
         /// <summary>
