@@ -71,6 +71,7 @@
           <Property Name="given_name" Type="varchar" MaxLength="45" />
           <Property Name="family_name" Type="varchar" MaxLength="45" />
           <Property Name="address" Type="varchar" MaxLength="300" />
+          <Property Name="member" Type="bool" />
         </EntityType>
         <EntityType Name="t_phone_numbers">
           <Key>
@@ -284,6 +285,7 @@
           <NavigationProperty Name="t_accounts" Relationship="zera_leviModel.fk_accounts_people1" FromRole="t_people" ToRole="t_accounts" />
           <NavigationProperty Name="t_phone_numbers" Relationship="zera_leviModel.fk_phone_numbers_people1" FromRole="t_people" ToRole="t_phone_numbers" />
           <NavigationProperty Name="t_yahrtziehts" Relationship="zera_leviModel.fk_yahrtziehts_people1" FromRole="t_people" ToRole="t_yahrtziehts" />
+          <Property Type="Boolean" Name="member" />
         </EntityType>
         <EntityType Name="t_phone_numbers">
           <Key>
@@ -448,7 +450,8 @@
             <ScalarProperty Name="comments" ColumnName="comments" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
           <EntitySetMapping Name="t_people"><EntityTypeMapping TypeName="zera_leviModel.t_people"><MappingFragment StoreEntitySet="t_people">
-            <ScalarProperty Name="C_id" ColumnName="_id" />
+            <ScalarProperty Name="member" ColumnName="member" />
+                <ScalarProperty Name="C_id" ColumnName="_id" />
             <ScalarProperty Name="email" ColumnName="email" />
             <ScalarProperty Name="given_name" ColumnName="given_name" />
             <ScalarProperty Name="family_name" ColumnName="family_name" />

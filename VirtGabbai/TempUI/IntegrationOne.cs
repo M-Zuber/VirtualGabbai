@@ -32,7 +32,7 @@ namespace TempUI
             new PaidDonation(donationId++, "in honor of his birthday", 1250, new DateTime(2013, 7, 1), "", new DateTime(2013,7,1))
         };
         public static Account jackAccount = new Account(1, 500, DateTime.MinValue, jackDonations);
-        public Person Jack = new Person(1, "jacko'neill@sg1.sgc", "Jack", "O'niell",
+        public Person Jack = new Person(1, "jacko'neill@sg1.sgc", "Jack", "O'niell", true,
             "12;76;Cheyeene mountain;Denver;CO;usa;524398", jackAccount,
             jackNumbers, jackYahrtzieht);
     }

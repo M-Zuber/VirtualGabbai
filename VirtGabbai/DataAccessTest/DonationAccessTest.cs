@@ -53,6 +53,7 @@ namespace DataAccessTest
                 newPerson.email = 1 + "@something.somewhere";
                 newPerson.family_name = "Doe";
                 newPerson.given_name = "Jack/Jane";
+                newPerson.member = true;
                 Cache.CacheData.t_people.AddObject(newPerson);
             }
             if (!Cache.CacheData.t_accounts.Any(account => account.C_id == 1))

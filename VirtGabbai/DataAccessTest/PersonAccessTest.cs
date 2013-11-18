@@ -55,6 +55,7 @@ namespace DataAccessTest
                     newPerson.email = i + "@something.somewhere";
                     newPerson.family_name = "Doe";
                     newPerson.given_name = "Jack/Jane";
+                    newPerson.member = true;
                     Cache.CacheData.t_people.AddObject(newPerson);
                 } 
             }
@@ -166,13 +167,13 @@ namespace DataAccessTest
         {
             List<Person> newPersonList = new List<Person>()
             {
-                new Person(17, "blah@blah.com", "jack", "doe", "12;12;blank;blank;blank;blank;123456", 
+                new Person(17, "blah@blah.com", "jack", "doe", true,"12;12;blank;blank;blank;blank;123456", 
                     new Account(54, 0, DateTime.Today, new List<Donation>()),
                     new List<PhoneNumber>(), new List<Yahrtzieht>()),
-                new Person(18, "blah@blah.com", "jack", "doe", "12;12;blank;blank;blank;blank;123456", 
+                new Person(18, "blah@blah.com", "jack", "doe", true, "12;12;blank;blank;blank;blank;123456", 
                     new Account(55, 0, DateTime.Today, new List<Donation>()),
                     new List<PhoneNumber>(), new List<Yahrtzieht>()),
-                new Person(19, "blah@blah.com", "jack", "doe", "12;12;blank;blank;blank;blank;123456", 
+                new Person(19, "blah@blah.com", "jack", "doe", true,"12;12;blank;blank;blank;blank;123456", 
                     new Account(56, 0, DateTime.Today, new List<Donation>()),
                     new List<PhoneNumber>(), new List<Yahrtzieht>())
             };
@@ -192,7 +193,7 @@ namespace DataAccessTest
         [TestMethod()]
         public void AddNewPersonTest()
         {
-            Person newPerson = new Person(16, "3245@235.com", "good", "luck", "12;12;blank;blank;blank;blank;123456",
+            Person newPerson = new Person(16, "3245@235.com", "good", "luck", true, "12;12;blank;blank;blank;blank;123456",
                 new Account(57, 0, DateTime.Today, new List<Donation>()),
                 new List<PhoneNumber>(), new List<Yahrtzieht>());
             Enums.CRUDResults expected = Enums.CRUDResults.CREATE_SUCCESS;
@@ -216,7 +217,7 @@ namespace DataAccessTest
                                      where person.C_id == 3
                                      select person).First();
             Person expected = new Person(3, "3@something.somewhere",
-                            "Jack/Jane", "Doe", "12;33;main st;anywhere;anystate;usa;12345",
+                            "Jack/Jane", "Doe", true, "12;33;main st;anywhere;anystate;usa;12345",
                             new Account(201, 0, DateTime.Today, new List<Donation>()),
                             new List<PhoneNumber>(), new List<Yahrtzieht>() {
                                 new Yahrtzieht(201, DateTime.Today, "ploni ben almoni", "they where not")});
@@ -232,7 +233,7 @@ namespace DataAccessTest
         public void ConvertSingleLocalPersonToDbTypeTest()
         {
             Person localTypePerson = new Person(3, "3@something.somewhere",
-                            "Jack/Jane", "Doe", "12;33;main st;anywhere;anystate;usa;12345",
+                            "Jack/Jane", "Doe", true, "12;33;main st;anywhere;anystate;usa;12345",
                             new Account(201, 0, DateTime.Today, new List<Donation>()),
                             new List<PhoneNumber>(), new List<Yahrtzieht>());
             t_people expected = t_people.Createt_people(3);
@@ -240,7 +241,7 @@ namespace DataAccessTest
             expected.email = "3@something.somewhere";
             expected.family_name = "Doe";
             expected.given_name = "Jack/Jane";
-
+            expected.member = true;
             t_people actual;
             actual = PersonAccess.ConvertSingleLocalPersonToDbType(localTypePerson);
             Assert.AreEqual(expected.address, actual.address, true);
@@ -248,6 +249,7 @@ namespace DataAccessTest
             Assert.AreEqual(expected.email, actual.email);
             Assert.AreEqual(expected.family_name, actual.family_name);
             Assert.AreEqual(expected.given_name, actual.given_name);
+            Assert.AreEqual(expected.member, actual.member);
         }
 
         #endregion
@@ -292,7 +294,7 @@ namespace DataAccessTest
         [TestMethod()]
         public void DeleteSingleNonExistintPersonTest()
         {
-            Person deletedPerson = new Person(32543, "blah@blah.com", "", "", ";;;;;;",
+            Person deletedPerson = new Person(32543, "blah@blah.com", "", "", true, ";;;;;;",
                 new Account(1, 0, DateTime.Today, new List<Donation>()),
                 new List<PhoneNumber>(), new List<Yahrtzieht>());
             Enums.CRUDResults expected = Enums.CRUDResults.DELETE_FAIL;
@@ -324,7 +326,7 @@ namespace DataAccessTest
         public void GetByAccountTest()
         {
             Account accountSearchedBy = new Account(201, 0, DateTime.Today, new List<Donation>());
-            Person expected = new Person(3, "3@something.somewhere", "Jack/Jane", "Doe",
+            Person expected = new Person(3, "3@something.somewhere", "Jack/Jane", "Doe", true,
                 "12;33;main st;anywhere;anystate;usa;12345", new Account(201, 0, DateTime.Today, new List<Donation>()),
                 new List<PhoneNumber>(),
                 new List<Yahrtzieht>() {new Yahrtzieht(201, DateTime.Today, "ploni ben almoni", "they where not") });
@@ -355,7 +357,7 @@ namespace DataAccessTest
             StreetAddress addressSearchedBy = new StreetAddress("12;33;main st;anywhere;anystate;usa;12345");
             List<Person> expected = new List<Person>()
             {
-                new Person(3, "3@something.somewhere", "Jack/Jane", "Doe",
+                new Person(3, "3@something.somewhere", "Jack/Jane", "Doe",true,
                 "12;33;main st;anywhere;anystate;usa;12345",
                 new Account(201, 0, DateTime.Today, new List<Donation>()),
                 new List<PhoneNumber>(),
@@ -389,7 +391,7 @@ namespace DataAccessTest
         public void GetByEmailTest()
         {
             MailAddress email = new MailAddress("3@something.somewhere");
-            Person expected = new Person(3, "3@something.somewhere", "Jack/Jane", "Doe",
+            Person expected = new Person(3, "3@something.somewhere", "Jack/Jane", "Doe", true,
                 "12;33;main st;anywhere;anystate;usa;12345",
                 new Account(201, 0, DateTime.Today, new List<Donation>()),
                 new List<PhoneNumber>(),
@@ -420,7 +422,7 @@ namespace DataAccessTest
         public void GetByIdTest()
         {
             int id = 3;
-            Person expected = new Person(3, "3@something.somewhere", "Jack/Jane", "Doe",
+            Person expected = new Person(3, "3@something.somewhere", "Jack/Jane", "Doe", true,
                 "12;33;main st;anywhere;anystate;usa;12345",
                 new Account(201, 0, DateTime.Today, new List<Donation>()),
                 new List<PhoneNumber>(),
@@ -795,7 +797,7 @@ namespace DataAccessTest
         [TestMethod()]
         public void UpdateSingleNoNExsistentPersonTest()
         {
-            Person updatedPerson = new Person(32543, "blah@blah.com", "", "", ";;;;;;",
+            Person updatedPerson = new Person(32543, "blah@blah.com", "", "", true, ";;;;;;",
                 new Account(1, 0, DateTime.Today, new List<Donation>()),
                 new List<PhoneNumber>(), new List<Yahrtzieht>());
             Enums.CRUDResults expected = Enums.CRUDResults.UPDATE_FAIL;
@@ -814,7 +816,7 @@ namespace DataAccessTest
         [TestMethod()]
         public void UpsertAddSinglePersonTest()
         {
-            Person upsertedPerson = new Person(20, "blah@blah.com", "jane", "jack", "12;12;blank;blank;blank;blank;123456",
+            Person upsertedPerson = new Person(20, "blah@blah.com", "jane", "jack", true, "12;12;blank;blank;blank;blank;123456",
                 new Account(58, 0, DateTime.Today, new List<Donation>()),
                 new List<PhoneNumber>(), new List<Yahrtzieht>());
             Enums.CRUDResults expected = Enums.CRUDResults.CREATE_SUCCESS;

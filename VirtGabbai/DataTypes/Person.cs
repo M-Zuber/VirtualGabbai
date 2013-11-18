@@ -19,6 +19,8 @@ namespace LocalTypes
 
         public string LastName { get; set; }
 
+        public bool MembershipStatus { get; set; }
+
         public StreetAddress Address { get; set; }
 
         public Account PersonalAccount { get; set; }
@@ -31,7 +33,7 @@ namespace LocalTypes
 
         #region C'tor
 
-        public Person(int id, string emailAddress, string firstName, string lastName,
+        public Person(int id, string emailAddress, string firstName, string lastName, bool membership,
                       string streetAddress, Account personalAccount, List<PhoneNumber> phoneNumbers,
                       List<Yahrtzieht> yahrtziehts)
         {
@@ -39,6 +41,7 @@ namespace LocalTypes
             this.Email = new MailAddress(emailAddress);
             this.FirstName = firstName;
             this.LastName = lastName;
+            this.MembershipStatus = membership;
             this.Address = new StreetAddress(streetAddress);
             this.PersonalAccount = personalAccount;
             this.PhoneNumbers = phoneNumbers;
@@ -57,6 +60,7 @@ namespace LocalTypes
                     (this.Email.Equals(comparedPerson.Email)) &&
                     (this.FirstName == comparedPerson.FirstName) &&
                     (this.LastName == comparedPerson.LastName) &&
+                    (this.MembershipStatus == comparedPerson.MembershipStatus) &&
                     (this.Address.Equals(comparedPerson.Address)) &&
                     (this.PersonalAccount.Equals(comparedPerson.PersonalAccount)) &&
                     (this.PhoneNumbers.Contains(comparedPerson.PhoneNumbers)) &&
@@ -85,8 +89,14 @@ namespace LocalTypes
                 }
             }
 
+            string membership = "";
+            if (this.MembershipStatus)
+            {
+                membership = "\nHas membership";
+            }
+
             return this.FirstName + " " + this.LastName + "\n" + this.Email.Address + "\n" +
-                   "Lives at:\n" + this.Address.ToString() + "\nAccount information:\n" +
+                   "Lives at:\n" + this.Address.ToString() + membership +"\nAccount information:\n" +
                    this.PersonalAccount.ToString() + "\nPhone Numbers:\n\t" + phoneNumbersString +
                    "\nYahrtziehts:\n\t" + yahrtziehtsString;
         }

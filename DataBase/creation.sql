@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS `zera_levi`.`t_people` (
   `given_name` VARCHAR(45) NULL,
   `family_name` VARCHAR(45) NULL,
   `address` VARCHAR(300) NULL,
+  `member` TINYINT(1) DEFAULT NULL,
   PRIMARY KEY (`_id`))
 ENGINE = InnoDB;
 

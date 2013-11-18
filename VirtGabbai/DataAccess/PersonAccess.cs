@@ -343,6 +343,7 @@ namespace DataAccess
             convertedPerson.email = localTypePerson.Email.Address;
             convertedPerson.family_name = localTypePerson.LastName;
             convertedPerson.given_name = localTypePerson.FirstName;
+            convertedPerson.member = localTypePerson.MembershipStatus;
         	return convertedPerson;
         }
 
@@ -384,7 +385,7 @@ namespace DataAccess
                 PhoneNumberAccess.ConvertMultipleDbPhoneNumbersToLocalType(
                                                         dbTypePerson.t_phone_numbers.ToList());
             return new Person(dbTypePerson.C_id, dbTypePerson.email, dbTypePerson.given_name,
-                              dbTypePerson.family_name, dbTypePerson.address,
+                              dbTypePerson.family_name, dbTypePerson.member.Value, dbTypePerson.address,
                               personalAccount, personalNumbers, personalYahrtziehts);
         }
         

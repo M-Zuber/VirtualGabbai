@@ -925,6 +925,30 @@ namespace DataCache
         private global::System.String _address;
         partial void OnaddressChanging(global::System.String value);
         partial void OnaddressChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Boolean> member
+        {
+            get
+            {
+                return _member;
+            }
+            set
+            {
+                OnmemberChanging(value);
+                ReportPropertyChanging("member");
+                _member = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("member");
+                OnmemberChanged();
+            }
+        }
+        private Nullable<global::System.Boolean> _member;
+        partial void OnmemberChanging(Nullable<global::System.Boolean> value);
+        partial void OnmemberChanged();
 
         #endregion
     
