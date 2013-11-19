@@ -16,17 +16,17 @@ namespace DataAccess
 
         public static List<Privilege> GetAllPrivileges()
         {
-            return null;
+            return ConvertMultipleDbPrivilegesToLocalType(LookupAllPrivileges());
         }
 
         public static Privilege GetPrivilegeById(int id)
         {
-            return null;
+            return ConvertSingleDbPrivilegeToLocalType(LookupPrivilegeById(id));
         }
 
         public static Privilege GetPrivilegeByName(string privilegeName)
         {
-            return null;
+            return ConvertSingleDbPrivilegeToLocalType(LookupPrivilegeByName(privilegeName));
         }
 
         #endregion
@@ -37,7 +37,8 @@ namespace DataAccess
         {
             try
             {
-                return null;
+                return (from privilege in Cache.CacheData.t_privileges
+                        select privilege).ToList();
             }
             catch (Exception)
             {
@@ -50,7 +51,9 @@ namespace DataAccess
         {
             try
             {
-                return null;
+                return (from privilege in Cache.CacheData.t_privileges
+                        where privilege.C_id == id
+                        select privilege).First();
             }
             catch (Exception)
             {
@@ -63,7 +66,9 @@ namespace DataAccess
         {
             try
             {
-                return null;
+                return (from privilege in Cache.CacheData.t_privileges
+                        where privilege.privilege_name == privilegeName
+                        select privilege).First();
             }
             catch (Exception)
             {
@@ -215,7 +220,9 @@ namespace DataAccess
 
         internal static t_privileges ConvertSingleLocalPrivilegeToDbType(Privilege localTypePrivilege)
         {
-            return null;
+            t_privileges convertedPrivilege = t_privileges.Createt_privileges(localTypePrivilege._Id);
+            convertedPrivilege.privilege_name = localTypePrivilege.PrivilegeName;
+            return convertedPrivilege;
         }
 
         internal static List<Privilege> ConvertMultipleDbPrivilegesToLocalType(List<t_privileges> dbTypePrivilegeList)
@@ -243,7 +250,7 @@ namespace DataAccess
                 return null;
             }
 
-            return null;
+            return new Privilege(dbTypePrivilege.C_id, dbTypePrivilege.privilege_name);
         }
 
         #endregion

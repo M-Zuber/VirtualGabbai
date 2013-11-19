@@ -46,7 +46,7 @@ namespace DataAccessTest
         [ClassInitialize()]
         public static void MyClassInitialize(TestContext testContext)
         {
-            for (int i = 1; i < 6; i++)
+            for (int i = 1; i < 11; i++)
             {
                 if (!Cache.CacheData.t_privileges.Any(privilege => privilege.C_id == i))
                 {
@@ -175,10 +175,11 @@ namespace DataAccessTest
         [TestMethod()]
         public void GetAllPrivilegesTest()
         {
-            List<Privilege> expected = null; // TODO: Initialize to an appropriate value
+            List<Privilege> expected = PrivilegeAccess.ConvertMultipleDbPrivilegesToLocalType(
+                PrivilegeAccess_Accessor.LookupAllPrivileges());
             List<Privilege> actual;
             actual = PrivilegeAccess.GetAllPrivileges();
-            Assert.AreEqual(expected, actual);
+            CollectionAssert.AreEqual(expected, actual);
         }
 
         /// <summary>
@@ -187,8 +188,8 @@ namespace DataAccessTest
         [TestMethod()]
         public void GetPrivilegeByIdTest()
         {
-            int id = 0; // TODO: Initialize to an appropriate value
-            Privilege expected = null; // TODO: Initialize to an appropriate value
+            int id = 1;
+            Privilege expected = new Privilege(1, "privilege:1");
             Privilege actual;
             actual = PrivilegeAccess.GetPrivilegeById(id);
             Assert.AreEqual(expected, actual);
@@ -200,8 +201,8 @@ namespace DataAccessTest
         [TestMethod()]
         public void GetPrivilegeByNameTest()
         {
-            string privilegeName = string.Empty; // TODO: Initialize to an appropriate value
-            Privilege expected = null; // TODO: Initialize to an appropriate value
+            string privilegeName = "privilege:1";
+            Privilege expected = new Privilege(1, "privilege:1");
             Privilege actual;
             actual = PrivilegeAccess.GetPrivilegeByName(privilegeName);
             Assert.AreEqual(expected, actual);
@@ -218,10 +219,11 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupAllPrivilegesTest()
         {
-            List<t_privileges> expected = null; // TODO: Initialize to an appropriate value
+            List<t_privileges> expected = (from privilege in Cache.CacheData.t_privileges
+                                           select privilege).ToList();
             List<t_privileges> actual;
             actual = PrivilegeAccess_Accessor.LookupAllPrivileges();
-            Assert.AreEqual(expected, actual);
+            CollectionAssert.AreEqual(expected, actual);
         }
 
         /// <summary>
@@ -231,11 +233,13 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupPrivilegeByIdTest()
         {
-            int id = 0; // TODO: Initialize to an appropriate value
-            t_privileges expected = null; // TODO: Initialize to an appropriate value
+            int id = 1;
+            t_privileges expected = t_privileges.Createt_privileges(1);
+            expected.privilege_name = "privilege:1";
             t_privileges actual;
             actual = PrivilegeAccess_Accessor.LookupPrivilegeById(id);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected.C_id, actual.C_id);
+            Assert.AreEqual(expected.privilege_name, actual.privilege_name);
         }
 
         /// <summary>
@@ -245,11 +249,13 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupPrivilegeByNameTest()
         {
-            string privilegeName = string.Empty; // TODO: Initialize to an appropriate value
-            t_privileges expected = null; // TODO: Initialize to an appropriate value
+            string privilegeName = "privilege:1";
+            t_privileges expected = t_privileges.Createt_privileges(1);
+            expected.privilege_name = "privilege:1";
             t_privileges actual;
             actual = PrivilegeAccess_Accessor.LookupPrivilegeByName(privilegeName);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected.C_id, actual.C_id);
+            Assert.AreEqual(expected.privilege_name, actual.privilege_name);
         }
         
         #endregion
