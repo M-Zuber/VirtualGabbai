@@ -63,6 +63,7 @@
     <Compile Include="PersonAccessTest.cs" />
     <Compile Include="PhoneNumberAccessTest.cs" />
     <Compile Include="PhoneTypeAccessTest.cs" />
+    <Compile Include="PrivilegeAccessTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="YahrtziehtAccessTest.cs" />
   </ItemGroup>

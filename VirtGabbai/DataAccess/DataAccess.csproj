@@ -50,6 +50,7 @@
     <Compile Include="PersonAccess.cs" />
     <Compile Include="PhoneNumberAccess.cs" />
     <Compile Include="PhoneTypeAccess.cs" />
+    <Compile Include="PrivilegeAccess.cs" />
     <Compile Include="YahrtziehtAccess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
