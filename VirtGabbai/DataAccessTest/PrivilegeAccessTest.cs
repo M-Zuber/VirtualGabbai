@@ -156,8 +156,14 @@ namespace DataAccessTest
         [TestMethod()]
         public void DeleteMultiplePrivilegesTest()
         {
-            List<Privilege> deletedPrivilegeList = null; // TODO: Initialize to an appropriate value
+            List<Privilege> deletedPrivilegeList = new List<Privilege>()
+            {
+                new Privilege(3, "privilege:3"),
+                new Privilege(4, "privilege:4")
+            };
             PrivilegeAccess.DeleteMultiplePrivileges(deletedPrivilegeList);
+            List<Privilege> afterDelete = PrivilegeAccess.GetAllPrivileges();
+            Assert.IsFalse(afterDelete.Contains(deletedPrivilegeList));
         }
 
         /// <summary>
@@ -166,11 +172,13 @@ namespace DataAccessTest
         [TestMethod()]
         public void DeleteSinglePrivilegeTest()
         {
-            Privilege deletedPrivilege = null; // TODO: Initialize to an appropriate value
-            Enums.CRUDResults expected = new Enums.CRUDResults(); // TODO: Initialize to an appropriate value
+            Privilege deletedPrivilege = new Privilege(2, "privilege:2");
+            Enums.CRUDResults expected = Enums.CRUDResults.DELETE_SUCCESS;
             Enums.CRUDResults actual;
             actual = PrivilegeAccess.DeleteSinglePrivilege(deletedPrivilege);
             Assert.AreEqual(expected, actual);
+            List<Privilege> afterDelete = PrivilegeAccess.GetAllPrivileges();
+            Assert.IsFalse(afterDelete.Contains(deletedPrivilege));
         }
 
         /// <summary>
@@ -179,8 +187,8 @@ namespace DataAccessTest
         [TestMethod()]
         public void DeleteSingleNonExistentPrivilegeTest()
         {
-            Privilege deletedPrivilege = null; // TODO: Initialize to an appropriate value
-            Enums.CRUDResults expected = new Enums.CRUDResults(); // TODO: Initialize to an appropriate value
+            Privilege deletedPrivilege = new Privilege(2040, "privilege:2040");
+            Enums.CRUDResults expected = Enums.CRUDResults.DELETE_FAIL;
             Enums.CRUDResults actual;
             actual = PrivilegeAccess.DeleteSinglePrivilege(deletedPrivilege);
             Assert.AreEqual(expected, actual);

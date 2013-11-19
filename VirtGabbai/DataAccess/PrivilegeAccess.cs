@@ -153,6 +153,9 @@ namespace DataAccess
         {
             try
             {
+                t_privileges deletedDbPrivilege = Cache.CacheData.t_privileges.First(
+                    privilege => privilege.C_id == deletedPrivilege._Id);
+                Cache.CacheData.t_privileges.DeleteObject(deletedDbPrivilege);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.DELETE_SUCCESS;
             }
