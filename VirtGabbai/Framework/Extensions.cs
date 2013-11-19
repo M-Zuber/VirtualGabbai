@@ -15,7 +15,7 @@ namespace Framework
         /// <param name="source">The list being compared against</param>
         /// <param name="value">The list checking for</param>
         /// <returns>True on a full 1:1 match, otherwise false</returns>
-        public static bool Contains<TSource>(this IEnumerable<TSource> source, IEnumerable<TSource> value)
+        public static bool SameAs<TSource>(this IEnumerable<TSource> source, IEnumerable<TSource> value)
         {
             if (source.Count() != value.Count())
             {
@@ -29,6 +29,20 @@ namespace Framework
                     {
                         return false;
                     }
+                }
+            }
+
+            return true;
+        }
+
+        public static bool Contains<TSource>(this IEnumerable<TSource> source, IEnumerable<TSource> value)
+        {
+            for (int i = 0; i < value.Count(); i++)
+            {
+                //TODO is it enough to check only this direction?
+                if ((!source.Contains(value.ElementAt(i))))
+                {
+                    return false;
                 }
             }
 
