@@ -9,8 +9,8 @@ using DataCache;
 
 namespace DataAccessTest
 {
-    
-    
+
+
     /// <summary>
     ///This is a test class for PrivilegeAccessTest and is intended
     ///to contain all PrivilegeAccessTest Unit Tests
@@ -88,8 +88,14 @@ namespace DataAccessTest
         [TestMethod()]
         public void AddMultipleNewPrivilegesTest()
         {
-            List<Privilege> newPrivilegeList = null; // TODO: Initialize to an appropriate value
+            List<Privilege> newPrivilegeList = new List<Privilege>()
+            {
+                new Privilege(11, "privilege:11"),
+                new Privilege(12, "privilege:12")
+            };
             PrivilegeAccess.AddMultipleNewPrivileges(newPrivilegeList);
+            List<Privilege> afterAdd = PrivilegeAccess.GetAllPrivileges();
+            Assert.IsTrue(afterAdd.Contains(newPrivilegeList));
         }
 
         /// <summary>
@@ -98,13 +104,15 @@ namespace DataAccessTest
         [TestMethod()]
         public void AddNewPrivilegeTest()
         {
-            Privilege newPrivilege = null; // TODO: Initialize to an appropriate value
-            Enums.CRUDResults expected = new Enums.CRUDResults(); // TODO: Initialize to an appropriate value
+            Privilege newPrivilege = new Privilege(13, "privilege:13");
+            Enums.CRUDResults expected = Enums.CRUDResults.CREATE_SUCCESS;
             Enums.CRUDResults actual;
             actual = PrivilegeAccess.AddNewPrivilege(newPrivilege);
             Assert.AreEqual(expected, actual);
+            List<Privilege> afterAdd = PrivilegeAccess.GetAllPrivileges();
+            Assert.IsTrue(afterAdd.Contains(newPrivilege));
         }
-        
+
         #endregion
 
         #region Conversion Tests
@@ -137,7 +145,7 @@ namespace DataAccessTest
             Assert.AreEqual(expected.C_id, actual.C_id);
             Assert.AreEqual(expected.privilege_name, actual.privilege_name);
         }
-        
+
         #endregion
 
         #region Delete Tests
@@ -164,7 +172,20 @@ namespace DataAccessTest
             actual = PrivilegeAccess.DeleteSinglePrivilege(deletedPrivilege);
             Assert.AreEqual(expected, actual);
         }
-        
+
+        /// <summary>
+        ///A test for DeleteSinglePrivilege
+        ///</summary>
+        [TestMethod()]
+        public void DeleteSingleNonExistentPrivilegeTest()
+        {
+            Privilege deletedPrivilege = null; // TODO: Initialize to an appropriate value
+            Enums.CRUDResults expected = new Enums.CRUDResults(); // TODO: Initialize to an appropriate value
+            Enums.CRUDResults actual;
+            actual = PrivilegeAccess.DeleteSinglePrivilege(deletedPrivilege);
+            Assert.AreEqual(expected, actual);
+        }
+
         #endregion
 
         #region Get Tests
@@ -207,7 +228,7 @@ namespace DataAccessTest
             actual = PrivilegeAccess.GetPrivilegeByName(privilegeName);
             Assert.AreEqual(expected, actual);
         }
-        
+
         #endregion
 
         #region Lookup Tests
@@ -257,7 +278,7 @@ namespace DataAccessTest
             Assert.AreEqual(expected.C_id, actual.C_id);
             Assert.AreEqual(expected.privilege_name, actual.privilege_name);
         }
-        
+
         #endregion
 
         #region Update Tests
@@ -284,26 +305,29 @@ namespace DataAccessTest
             actual = PrivilegeAccess.UpdateSinglePrivilege(updatedPrivilege);
             Assert.AreEqual(expected, actual);
         }
-        
+
+        /// <summary>
+        ///A test for UpdateSinglePrivilege
+        ///</summary>
+        [TestMethod()]
+        public void UpdateSingleNonExsistentPrivilegeTest()
+        {
+            Privilege updatedPrivilege = null; // TODO: Initialize to an appropriate value
+            Enums.CRUDResults expected = new Enums.CRUDResults(); // TODO: Initialize to an appropriate value
+            Enums.CRUDResults actual;
+            actual = PrivilegeAccess.UpdateSinglePrivilege(updatedPrivilege);
+            Assert.AreEqual(expected, actual);
+        }
+
         #endregion
 
         #region Upsert Tests
 
         /// <summary>
-        ///A test for UpsertMultiplePrivileges
-        ///</summary>
-        [TestMethod()]
-        public void UpsertMultiplePrivilegesTest()
-        {
-            List<Privilege> upsertedList = null; // TODO: Initialize to an appropriate value
-            PrivilegeAccess.UpsertMultiplePrivileges(upsertedList);
-        }
-
-        /// <summary>
         ///A test for UpsertSinglePrivilege
         ///</summary>
         [TestMethod()]
-        public void UpsertSinglePrivilegeTest()
+        public void UpsertSingleAddPrivilegeTest()
         {
             Privilege upsertedPrivilege = null; // TODO: Initialize to an appropriate value
             Enums.CRUDResults expected = new Enums.CRUDResults(); // TODO: Initialize to an appropriate value
@@ -311,7 +335,20 @@ namespace DataAccessTest
             actual = PrivilegeAccess.UpsertSinglePrivilege(upsertedPrivilege);
             Assert.AreEqual(expected, actual);
         }
-        
+
+        /// <summary>
+        ///A test for UpsertSinglePrivilege
+        ///</summary>
+        [TestMethod()]
+        public void UpsertSingleUpdatePrivilegeTest()
+        {
+            Privilege upsertedPrivilege = null; // TODO: Initialize to an appropriate value
+            Enums.CRUDResults expected = new Enums.CRUDResults(); // TODO: Initialize to an appropriate value
+            Enums.CRUDResults actual;
+            actual = PrivilegeAccess.UpsertSinglePrivilege(upsertedPrivilege);
+            Assert.AreEqual(expected, actual);
+        }
+
         #endregion
     }
 }

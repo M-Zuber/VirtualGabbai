@@ -89,6 +89,8 @@ namespace DataAccess
         {
             try
             {
+                t_privileges newDbPrivilege = ConvertSingleLocalPrivilegeToDbType(newPrivilege);
+                Cache.CacheData.t_privileges.AddObject(newDbPrivilege);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.CREATE_SUCCESS;
             }
