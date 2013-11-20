@@ -122,6 +122,9 @@ namespace DataAccess
         {
             try
             {
+                t_privileges privilegeUpdating = LookupPrivilegeById(updatedPrivilege._Id);
+                privilegeUpdating = ConvertSingleLocalPrivilegeToDbType(updatedPrivilege);
+                Cache.CacheData.t_privileges.ApplyCurrentValues(privilegeUpdating);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.UPDATE_SUCCESS;
             }

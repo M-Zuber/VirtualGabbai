@@ -297,8 +297,20 @@ namespace DataAccessTest
         [TestMethod()]
         public void UpdateMultiplePrivilegesTest()
         {
-            List<Privilege> updatedPrivilegeList = null; // TODO: Initialize to an appropriate value
+            List<Privilege> updatedPrivilegeList = new List<Privilege>()
+            {
+                PrivilegeAccess.GetPrivilegeById(5),
+                PrivilegeAccess.GetPrivilegeById(6)
+            };
+            updatedPrivilegeList[0].PrivilegeName = "update:mult1";
+            updatedPrivilegeList[1].PrivilegeName = "update:mult2";
             PrivilegeAccess.UpdateMultiplePrivileges(updatedPrivilegeList);
+            List<Privilege> afterUpdate = new List<Privilege>()
+            {
+                PrivilegeAccess.GetPrivilegeById(5),
+                PrivilegeAccess.GetPrivilegeById(6)
+            };
+            CollectionAssert.AreEqual(updatedPrivilegeList, afterUpdate);
         }
 
         /// <summary>
@@ -307,11 +319,14 @@ namespace DataAccessTest
         [TestMethod()]
         public void UpdateSinglePrivilegeTest()
         {
-            Privilege updatedPrivilege = null; // TODO: Initialize to an appropriate value
-            Enums.CRUDResults expected = new Enums.CRUDResults(); // TODO: Initialize to an appropriate value
+            Privilege updatedPrivilege = PrivilegeAccess.GetPrivilegeById(7);
+            updatedPrivilege.PrivilegeName = "update:single";
+            Enums.CRUDResults expected = Enums.CRUDResults.UPDATE_SUCCESS;
             Enums.CRUDResults actual;
             actual = PrivilegeAccess.UpdateSinglePrivilege(updatedPrivilege);
             Assert.AreEqual(expected, actual);
+            Privilege afterUpdate = PrivilegeAccess.GetPrivilegeById(7);
+            Assert.AreEqual(updatedPrivilege, afterUpdate);
         }
 
         /// <summary>
@@ -320,8 +335,8 @@ namespace DataAccessTest
         [TestMethod()]
         public void UpdateSingleNonExsistentPrivilegeTest()
         {
-            Privilege updatedPrivilege = null; // TODO: Initialize to an appropriate value
-            Enums.CRUDResults expected = new Enums.CRUDResults(); // TODO: Initialize to an appropriate value
+            Privilege updatedPrivilege = new Privilege(2040, "boo-yah");
+            Enums.CRUDResults expected = Enums.CRUDResults.UPDATE_FAIL;
             Enums.CRUDResults actual;
             actual = PrivilegeAccess.UpdateSinglePrivilege(updatedPrivilege);
             Assert.AreEqual(expected, actual);
