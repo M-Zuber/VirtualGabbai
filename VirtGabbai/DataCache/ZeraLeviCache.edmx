@@ -95,6 +95,7 @@
           </Key>
           <Property Name="_id" Type="int" Nullable="false" />
           <Property Name="privileges" Type="varchar" MaxLength="300" />
+          <Property Name="group_name" Type="varchar" MaxLength="45" />
         </EntityType>
         <EntityType Name="t_privileges">
           <Key>
@@ -313,6 +314,7 @@
           <Property Name="C_id" Type="Int32" Nullable="false" />
           <Property Name="privileges" Type="String" MaxLength="300" Unicode="false" FixedLength="false" />
           <NavigationProperty Name="t_users" Relationship="zera_leviModel.fk_users_privilege_groups1" FromRole="t_privilege_groups" ToRole="t_users" />
+          <Property Type="String" Name="group_name" MaxLength="45" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="t_privileges">
           <Key>
@@ -468,7 +470,8 @@
             <ScalarProperty Name="type_name" ColumnName="type_name" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
           <EntitySetMapping Name="t_privilege_groups"><EntityTypeMapping TypeName="zera_leviModel.t_privilege_groups"><MappingFragment StoreEntitySet="t_privilege_groups">
-            <ScalarProperty Name="C_id" ColumnName="_id" />
+            <ScalarProperty Name="group_name" ColumnName="group_name" />
+                <ScalarProperty Name="C_id" ColumnName="_id" />
             <ScalarProperty Name="privileges" ColumnName="privileges" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
           <EntitySetMapping Name="t_privileges"><EntityTypeMapping TypeName="zera_leviModel.t_privileges"><MappingFragment StoreEntitySet="t_privileges">

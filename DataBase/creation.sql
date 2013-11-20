@@ -132,6 +132,7 @@ DROP TABLE IF EXISTS `zera_levi`.`t_privilege_groups` ;
 
 CREATE TABLE IF NOT EXISTS `zera_levi`.`t_privilege_groups` (
   `_id` INT NOT NULL,
+  `group_name` VARCHAR(45) DEFAULT NULL,
   `privileges` VARCHAR(300) NULL,
   PRIMARY KEY (`_id`))
 ENGINE = InnoDB;

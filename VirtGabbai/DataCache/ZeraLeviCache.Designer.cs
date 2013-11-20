@@ -1415,6 +1415,30 @@ namespace DataCache
         private global::System.String _privileges;
         partial void OnprivilegesChanging(global::System.String value);
         partial void OnprivilegesChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String group_name
+        {
+            get
+            {
+                return _group_name;
+            }
+            set
+            {
+                Ongroup_nameChanging(value);
+                ReportPropertyChanging("group_name");
+                _group_name = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("group_name");
+                Ongroup_nameChanged();
+            }
+        }
+        private global::System.String _group_name;
+        partial void Ongroup_nameChanging(global::System.String value);
+        partial void Ongroup_nameChanged();
 
         #endregion
     
