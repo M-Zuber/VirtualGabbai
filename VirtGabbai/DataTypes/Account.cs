@@ -41,8 +41,8 @@ namespace LocalTypes
         {
             Account accountToCompare = (Account)obj;
 
-            bool allDonationsEqual = ((this.UnpaidDonations.Contains(accountToCompare.UnpaidDonations)) &&
-                                      (this.PaidDonations.Contains(accountToCompare.PaidDonations)));
+            bool allDonationsEqual = ((this.UnpaidDonations.SameAs(accountToCompare.UnpaidDonations)) &&
+                                      (this.PaidDonations.SameAs(accountToCompare.PaidDonations)));
             return ((allDonationsEqual) &&
                     (this._Id == accountToCompare._Id) &&
                     (this.LastMonthlyPaymentDate == accountToCompare.LastMonthlyPaymentDate) &&

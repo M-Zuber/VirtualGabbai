@@ -63,8 +63,8 @@ namespace LocalTypes
                     (this.MembershipStatus == comparedPerson.MembershipStatus) &&
                     (this.Address.Equals(comparedPerson.Address)) &&
                     (this.PersonalAccount.Equals(comparedPerson.PersonalAccount)) &&
-                    (this.PhoneNumbers.Contains(comparedPerson.PhoneNumbers)) &&
-                    (this.Yahrtziehts.Contains(comparedPerson.Yahrtziehts)));
+                    (this.PhoneNumbers.SameAs(comparedPerson.PhoneNumbers)) &&
+                    (this.Yahrtziehts.SameAs(comparedPerson.Yahrtziehts)));
         }
 
         public override string ToString()

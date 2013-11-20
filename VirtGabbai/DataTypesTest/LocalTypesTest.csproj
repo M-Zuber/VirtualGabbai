@@ -57,6 +57,7 @@
     <Compile Include="PersonTest.cs" />
     <Compile Include="PhoneNumberTest.cs" />
     <Compile Include="PhoneTypeTest.cs" />
+    <Compile Include="PrivilegeTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StreetAddressTest.cs" />
     <Compile Include="YahrtziehtTest.cs" />
