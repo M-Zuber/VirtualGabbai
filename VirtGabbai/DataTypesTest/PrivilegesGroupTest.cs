@@ -72,11 +72,16 @@ namespace LocalTypesTest
         [TestMethod()]
         public void AllSameEqualsTest()
         {
-            int id = 0; // TODO: Initialize to an appropriate value
-            List<Privilege> privileges = null; // TODO: Initialize to an appropriate value
-            PrivilegesGroup target = new PrivilegesGroup(id, privileges); // TODO: Initialize to an appropriate value
-            object obj = null; // TODO: Initialize to an appropriate value
-            bool expected = true; // TODO: Initialize to an appropriate value
+            int id = 1;
+            List<Privilege> privileges = new List<Privilege>()
+            {
+                new Privilege(1, "privilege:1"),
+                new Privilege(2, "privilege:2")
+            };
+            string groupName = "firstGroup";
+            PrivilegesGroup target = new PrivilegesGroup(id, groupName, privileges);
+            object obj = new PrivilegesGroup(id, groupName, privileges);
+            bool expected = true;
             bool actual;
             actual = target.Equals(obj);
             Assert.AreEqual(expected, actual);
@@ -88,11 +93,38 @@ namespace LocalTypesTest
         [TestMethod()]
         public void AllDiffEqualsTest()
         {
-            int id = 0; // TODO: Initialize to an appropriate value
-            List<Privilege> privileges = null; // TODO: Initialize to an appropriate value
-            PrivilegesGroup target = new PrivilegesGroup(id, privileges); // TODO: Initialize to an appropriate value
-            object obj = null; // TODO: Initialize to an appropriate value
-            bool expected = false; // TODO: Initialize to an appropriate value
+            int id = 1;
+            List<Privilege> privileges = new List<Privilege>()
+            {
+                new Privilege(1, "privilege:1"),
+                new Privilege(2, "privilege:2")
+            };
+            string groupName = "firstGroup";
+            PrivilegesGroup target = new PrivilegesGroup(id, groupName, privileges);
+            object obj = new PrivilegesGroup(2, "OtherGroup" ,new List<Privilege>() { 
+                                new Privilege(4, "privilege:4")});
+            bool expected = false;
+            bool actual;
+            actual = target.Equals(obj);
+            Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
+        ///A test for Equals
+        ///</summary>
+        [TestMethod()]
+        public void DiffGroupNameEqualsTest()
+        {
+            int id = 1;
+            List<Privilege> privileges = new List<Privilege>()
+            {
+                new Privilege(1, "privilege:1"),
+                new Privilege(2, "privilege:2")
+            };
+            string groupName = "firstGroup";
+            PrivilegesGroup target = new PrivilegesGroup(id, groupName, privileges);
+            object obj = new PrivilegesGroup(id, "OtherGroup", privileges);
+            bool expected = false;
             bool actual;
             actual = target.Equals(obj);
             Assert.AreEqual(expected, actual);
@@ -104,11 +136,16 @@ namespace LocalTypesTest
         [TestMethod()]
         public void DiffIdEqualsTest()
         {
-            int id = 0; // TODO: Initialize to an appropriate value
-            List<Privilege> privileges = null; // TODO: Initialize to an appropriate value
-            PrivilegesGroup target = new PrivilegesGroup(id, privileges); // TODO: Initialize to an appropriate value
-            object obj = null; // TODO: Initialize to an appropriate value
-            bool expected = false; // TODO: Initialize to an appropriate value
+            int id = 1;
+            List<Privilege> privileges = new List<Privilege>()
+            {
+                new Privilege(1, "privilege:1"),
+                new Privilege(2, "privilege:2")
+            };
+            string groupName = "firstGroup";
+            PrivilegesGroup target = new PrivilegesGroup(id, groupName, privileges);
+            object obj = new PrivilegesGroup(2, groupName, privileges);
+            bool expected = false;
             bool actual;
             actual = target.Equals(obj);
             Assert.AreEqual(expected, actual);
@@ -121,11 +158,17 @@ namespace LocalTypesTest
         [TestMethod()]
         public void DiffPrivilegesEqualsTest()
         {
-            int id = 0; // TODO: Initialize to an appropriate value
-            List<Privilege> privileges = null; // TODO: Initialize to an appropriate value
-            PrivilegesGroup target = new PrivilegesGroup(id, privileges); // TODO: Initialize to an appropriate value
-            object obj = null; // TODO: Initialize to an appropriate value
-            bool expected = false; // TODO: Initialize to an appropriate value
+            int id = 1;
+            List<Privilege> privileges = new List<Privilege>()
+            {
+                new Privilege(1, "privilege:1"),
+                new Privilege(2, "privilege:2")
+            };
+            string groupName = "firstGroup";
+            PrivilegesGroup target = new PrivilegesGroup(id, groupName, privileges);
+            object obj = new PrivilegesGroup(id, groupName, new List<Privilege>() { 
+                                new Privilege(4, "privilege:4")});
+            bool expected = false;
             bool actual;
             actual = target.Equals(obj);
             Assert.AreEqual(expected, actual);
@@ -141,10 +184,15 @@ namespace LocalTypesTest
         [TestMethod()]
         public void GroupsPrivilegesToDbStringTest()
         {
-            int id = 0; // TODO: Initialize to an appropriate value
-            List<Privilege> privileges = null; // TODO: Initialize to an appropriate value
-            PrivilegesGroup target = new PrivilegesGroup(id, privileges); // TODO: Initialize to an appropriate value
-            string expected = string.Empty; // TODO: Initialize to an appropriate value
+            int id = 1;
+            List<Privilege> privileges = new List<Privilege>()
+            {
+                new Privilege(1, "privilege:1"),
+                new Privilege(2, "privilege:2")
+            };
+            string groupName = "firstGroup";
+            PrivilegesGroup target = new PrivilegesGroup(id,groupName, privileges);
+            string expected = "1;2";
             string actual;
             actual = target.GroupsPrivilegesToDbString();
             Assert.AreEqual(expected, actual);
@@ -160,10 +208,21 @@ namespace LocalTypesTest
         [TestMethod()]
         public void ToStringTest()
         {
-            int id = 0; // TODO: Initialize to an appropriate value
-            List<Privilege> privileges = null; // TODO: Initialize to an appropriate value
-            PrivilegesGroup target = new PrivilegesGroup(id, privileges); // TODO: Initialize to an appropriate value
-            string expected = string.Empty; // TODO: Initialize to an appropriate value
+            int id = 1;
+            List<Privilege> privileges = new List<Privilege>()
+            {
+                new Privilege(1, "privilege:1"),
+                new Privilege(2, "privilege:2")
+            };
+            string groupName = "firstGroup";
+            PrivilegesGroup target = new PrivilegesGroup(id, groupName, privileges);
+            string expected = target.GroupName;
+
+            foreach (Privilege item in target.Privileges)
+            {
+                expected += "\n" + item.ToString();
+            }
+
             string actual;
             actual = target.ToString();
             Assert.AreEqual(expected, actual);

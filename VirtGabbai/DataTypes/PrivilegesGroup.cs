@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Framework;
 
 namespace LocalTypes
 {
@@ -11,15 +12,18 @@ namespace LocalTypes
 
         public int _Id { get; set; }
 
+        public string GroupName { get; set; }
+        
         public List<Privilege> Privileges{ get; set; }
 
         #endregion
 
         #region C'tor
 
-        public PrivilegesGroup(int id, List<Privilege> privileges)
+        public PrivilegesGroup(int id, string groupName ,List<Privilege> privileges)
         {
             this._Id = id;
+            this.GroupName = groupName;
             this.Privileges = privileges;
         }
 
@@ -29,7 +33,10 @@ namespace LocalTypes
 
         public override bool Equals(object obj)
         {
-            return base.Equals(obj);
+            PrivilegesGroup groupComparing = (PrivilegesGroup)obj;
+            return ((this._Id == groupComparing._Id) &&
+                    (this.GroupName == groupComparing.GroupName) &&
+                    (this.Privileges.SameAs(groupComparing.Privileges)));
         }
 
         public override int GetHashCode()
@@ -39,7 +46,14 @@ namespace LocalTypes
 
         public override string ToString()
         {
-            return base.ToString();
+            string privilegeGroupString = this.GroupName;
+
+            foreach (Privilege CurrPrivilege in this.Privileges)
+            {
+                privilegeGroupString += "\n" + CurrPrivilege.ToString();
+            }
+            
+            return privilegeGroupString;
         }
 
         #endregion
@@ -48,7 +62,20 @@ namespace LocalTypes
 
         public string GroupsPrivilegesToDbString()
         {
-            return "";
+            string privilegesToDbString = "";
+
+            if (this.Privileges.Count == 0)
+            {
+                return privilegesToDbString;
+            }
+
+            privilegesToDbString = this.Privileges[0]._Id.ToString();
+
+            for (int privilegeIndex = 1; privilegeIndex < this.Privileges.Count; privilegeIndex++)
+            {
+                privilegesToDbString += ";" + this.Privileges[privilegeIndex]._Id;
+            }
+            return privilegesToDbString;
         }
 
         #endregion
