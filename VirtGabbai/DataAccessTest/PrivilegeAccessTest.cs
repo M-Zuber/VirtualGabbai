@@ -158,8 +158,8 @@ namespace DataAccessTest
         {
             List<Privilege> deletedPrivilegeList = new List<Privilege>()
             {
-                new Privilege(3, "privilege:3"),
-                new Privilege(4, "privilege:4")
+                new Privilege(2, "privilege:2"),
+                new Privilege(3, "privilege:3")
             };
             PrivilegeAccess.DeleteMultiplePrivileges(deletedPrivilegeList);
             List<Privilege> afterDelete = PrivilegeAccess.GetAllPrivileges();
@@ -172,7 +172,7 @@ namespace DataAccessTest
         [TestMethod()]
         public void DeleteSinglePrivilegeTest()
         {
-            Privilege deletedPrivilege = new Privilege(2, "privilege:2");
+            Privilege deletedPrivilege = new Privilege(4, "privilege:4");
             Enums.CRUDResults expected = Enums.CRUDResults.DELETE_SUCCESS;
             Enums.CRUDResults actual;
             actual = PrivilegeAccess.DeleteSinglePrivilege(deletedPrivilege);
@@ -352,11 +352,13 @@ namespace DataAccessTest
         [TestMethod()]
         public void UpsertSingleAddPrivilegeTest()
         {
-            Privilege upsertedPrivilege = null; // TODO: Initialize to an appropriate value
-            Enums.CRUDResults expected = new Enums.CRUDResults(); // TODO: Initialize to an appropriate value
+            Privilege upsertedPrivilege = new Privilege(14, "privilege:14");
+            Enums.CRUDResults expected = Enums.CRUDResults.CREATE_SUCCESS;
             Enums.CRUDResults actual;
             actual = PrivilegeAccess.UpsertSinglePrivilege(upsertedPrivilege);
             Assert.AreEqual(expected, actual);
+            List<Privilege> afterUpsert = PrivilegeAccess.GetAllPrivileges();
+            Assert.IsTrue(afterUpsert.Contains(upsertedPrivilege));
         }
 
         /// <summary>
@@ -365,11 +367,14 @@ namespace DataAccessTest
         [TestMethod()]
         public void UpsertSingleUpdatePrivilegeTest()
         {
-            Privilege upsertedPrivilege = null; // TODO: Initialize to an appropriate value
-            Enums.CRUDResults expected = new Enums.CRUDResults(); // TODO: Initialize to an appropriate value
+            Privilege upsertedPrivilege = PrivilegeAccess.GetPrivilegeById(8);
+            upsertedPrivilege.PrivilegeName = "upsert:single";
+            Enums.CRUDResults expected = Enums.CRUDResults.UPDATE_SUCCESS;
             Enums.CRUDResults actual;
             actual = PrivilegeAccess.UpsertSinglePrivilege(upsertedPrivilege);
             Assert.AreEqual(expected, actual);
+            Privilege afterUpsert = PrivilegeAccess.GetPrivilegeById(8);
+            Assert.AreEqual(upsertedPrivilege, afterUpsert);
         }
 
         #endregion
