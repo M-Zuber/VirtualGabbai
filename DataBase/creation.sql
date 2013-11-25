@@ -196,6 +196,7 @@ CREATE TABLE IF NOT EXISTS `zera_levi`.`t_privileges_per_group` (
   `privilege_id` INT NOT NULL,
   INDEX `group_connection_idx` (`group_id` ASC),
   INDEX `privilege_connection_idx` (`privilege_id` ASC),
+  PRIMARY KEY (`group_id`, `privilege_id`),
   CONSTRAINT `group_connection`
     FOREIGN KEY (`group_id`)
     REFERENCES `zera_levi`.`t_privilege_groups` (`_id`)
