@@ -64,6 +64,11 @@ namespace DataAccessTest
                     newGroup.group_name = "group:" + groupIndex;
 
                     List<t_privileges> allPrivileges = (from privilege in Cache.CacheData.t_privileges
+                                                        where privilege.C_id == 201 ||
+                                                              privilege.C_id == 202 ||
+                                                              privilege.C_id == 203 ||
+                                                              privilege.C_id == 204 ||
+                                                              privilege.C_id == 205
                                                         select privilege).ToList();
                     foreach (t_privileges CurrPrivilege in allPrivileges)
                     {
@@ -235,7 +240,8 @@ namespace DataAccessTest
         [TestMethod()]
         public void GetAllPrivilegesGroupsTest()
         {
-            List<PrivilegesGroup> expected = null; // TODO: Initialize to an appropriate value
+            List<PrivilegesGroup> expected = PrivilegeGroupAccess(
+                PrivilegeAccess_Accessor.LookupAllPrivileges());
             List<PrivilegesGroup> actual;
             actual = PrivilegeGroupAccess.GetAllPrivilegesGroups();
             Assert.AreEqual(expected, actual);
@@ -246,6 +252,19 @@ namespace DataAccessTest
         ///</summary>
         [TestMethod()]
         public void GetPrivilegesGroupByGroupNameTest()
+        {
+            string groupName = string.Empty; // TODO: Initialize to an appropriate value
+            PrivilegesGroup expected = null; // TODO: Initialize to an appropriate value
+            PrivilegesGroup actual;
+            actual = PrivilegeGroupAccess.GetPrivilegesGroupByGroupName(groupName);
+            Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
+        ///A test for GetPrivilegesGroupByGroupName
+        ///</summary>
+        [TestMethod()]
+        public void GetPrivilegesGroupByNonExsistintGroupNameTest()
         {
             string groupName = string.Empty; // TODO: Initialize to an appropriate value
             PrivilegesGroup expected = null; // TODO: Initialize to an appropriate value
@@ -266,6 +285,19 @@ namespace DataAccessTest
             actual = PrivilegeGroupAccess.GetPrivilegesGroupById(id);
             Assert.AreEqual(expected, actual);
         }
+
+        /// <summary>
+        ///A test for GetPrivilegesGroupById
+        ///</summary>
+        [TestMethod()]
+        public void GetPrivilegesGroupByNonExsistintIdTest()
+        {
+            int id = 0; // TODO: Initialize to an appropriate value
+            PrivilegesGroup expected = null; // TODO: Initialize to an appropriate value
+            PrivilegesGroup actual;
+            actual = PrivilegeGroupAccess.GetPrivilegesGroupById(id);
+            Assert.AreEqual(expected, actual);
+        }
         
         #endregion
 
@@ -278,10 +310,11 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupAllPrivilegesGroupsTest()
         {
-            List<t_privilege_groups> expected = null; // TODO: Initialize to an appropriate value
+            List<t_privilege_groups> expected = (from privilegeGroup in Cache.CacheData.t_privilege_groups
+                                                 select privilegeGroup).ToList();
             List<t_privilege_groups> actual;
             actual = PrivilegeGroupAccess_Accessor.LookupAllPrivilegesGroups();
-            Assert.AreEqual(expected, actual);
+            CollectionAssert.AreEqual(expected, actual);
         }
 
         /// <summary>
@@ -291,8 +324,24 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupPrivilegesGroupByGroupNameTest()
         {
-            string groupName = string.Empty; // TODO: Initialize to an appropriate value
-            t_privilege_groups expected = null; // TODO: Initialize to an appropriate value
+            string groupName = "group:1";
+            t_privilege_groups expected = (from privilegeGroup in Cache.CacheData.t_privilege_groups
+                                           where privilegeGroup.group_name == groupName
+                                           select privilegeGroup).First();
+            t_privilege_groups actual;
+            actual = PrivilegeGroupAccess_Accessor.LookupPrivilegesGroupByGroupName(groupName);
+            Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
+        ///A test for LookupPrivilegesGroupByGroupName
+        ///</summary>
+        [TestMethod()]
+        [DeploymentItem("DataAccess.dll")]
+        public void LookupPrivilegesGroupByNonExistentGroupNameTest()
+        {
+            string groupName = "blah";
+            t_privilege_groups expected = null;
             t_privilege_groups actual;
             actual = PrivilegeGroupAccess_Accessor.LookupPrivilegesGroupByGroupName(groupName);
             Assert.AreEqual(expected, actual);
@@ -305,8 +354,24 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupPrivilegesGroupByIdTest()
         {
-            int id = 0; // TODO: Initialize to an appropriate value
-            t_privilege_groups expected = null; // TODO: Initialize to an appropriate value
+            int id = 1;
+            t_privilege_groups expected = (from privilegeGroup in Cache.CacheData.t_privilege_groups
+                                           where privilegeGroup.C_id == id
+                                           select privilegeGroup).First();
+            t_privilege_groups actual;
+            actual = PrivilegeGroupAccess_Accessor.LookupPrivilegesGroupById(id);
+            Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
+        ///A test for LookupPrivilegesGroupById
+        ///</summary>
+        [TestMethod()]
+        [DeploymentItem("DataAccess.dll")]
+        public void LookupPrivilegesGroupByNonExsistentIdTest()
+        {
+            int id = 0;
+            t_privilege_groups expected = null;
             t_privilege_groups actual;
             actual = PrivilegeGroupAccess_Accessor.LookupPrivilegesGroupById(id);
             Assert.AreEqual(expected, actual);

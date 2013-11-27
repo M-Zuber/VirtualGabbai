@@ -12,6 +12,8 @@ namespace DataAccess
     {
         #region Read Methods
 
+        #region Local type return
+        
         public static List<PrivilegesGroup> GetAllPrivilegesGroups()
         {
             return null;
@@ -27,8 +29,6 @@ namespace DataAccess
             return null;
         }
 
-        #region Local type return
-
         #endregion
 
         #region Db type return
@@ -37,7 +37,8 @@ namespace DataAccess
         {
             try
             {
-                return null;
+                return (from privilegeGroup in Cache.CacheData.t_privilege_groups
+                        select privilegeGroup).ToList();
             }
             catch (Exception)
             {
@@ -50,7 +51,9 @@ namespace DataAccess
         {
             try
             {
-                return null;
+                return (from privilegeGroup in Cache.CacheData.t_privilege_groups
+                        where privilegeGroup.C_id == id
+                        select privilegeGroup).First();
             }
             catch (Exception)
             {
@@ -63,7 +66,9 @@ namespace DataAccess
         {
             try
             {
-                return null;
+                return (from privilegeGroup in Cache.CacheData.t_privilege_groups
+                        where privilegeGroup.group_name == groupName
+                        select privilegeGroup).First();
             }
             catch (Exception)
             {
@@ -201,7 +206,7 @@ namespace DataAccess
 
         #region Private Methods
 
-        private static List<t_privilege_groups> ConvertMultipleLocalPrivilegesGroupsToDbType(List<PrivilegesGroup> localTypePrivilegesGroupList)
+        internal static List<t_privilege_groups> ConvertMultipleLocalPrivilegesGroupsToDbType(List<PrivilegesGroup> localTypePrivilegesGroupList)
         {
             List<t_privilege_groups> dbTypePrivilegesGroupList = new List<t_privilege_groups>();
             
@@ -213,7 +218,7 @@ namespace DataAccess
             return dbTypePrivilegesGroupList;
         }
 
-        private static t_privilege_groups ConvertSingleLocalPrivilegesGroupToDbType(PrivilegesGroup localTypePrivilegesGroup)
+        internal static t_privilege_groups ConvertSingleLocalPrivilegesGroupToDbType(PrivilegesGroup localTypePrivilegesGroup)
         {
             t_privilege_groups convertedPrivilegesGroup = t_privilege_groups.Createt_privilege_groups(localTypePrivilegesGroup._Id);
             convertedPrivilegesGroup.group_name = localTypePrivilegesGroup.GroupName;
@@ -226,7 +231,7 @@ namespace DataAccess
             return convertedPrivilegesGroup;
         }
 
-        private static List<PrivilegesGroup> ConvertMultipleDbPrivilegesGroupsToLocalType(List<t_privilege_groups> dbTypePrivilegesGroupList)
+        internal static List<PrivilegesGroup> ConvertMultipleDbPrivilegesGroupsToLocalType(List<t_privilege_groups> dbTypePrivilegesGroupList)
         {
             if (dbTypePrivilegesGroupList == null)
             {
@@ -243,7 +248,7 @@ namespace DataAccess
             return localTypePhoneTypeList;
         }
 
-        private static PrivilegesGroup ConvertSingleDbPrivilegesGroupToLocalType(t_privilege_groups dbTypePrivilegesGroup)
+        internal static PrivilegesGroup ConvertSingleDbPrivilegesGroupToLocalType(t_privilege_groups dbTypePrivilegesGroup)
         {
             if (dbTypePrivilegesGroup == null)
             {
