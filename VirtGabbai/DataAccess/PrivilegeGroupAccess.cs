@@ -215,7 +215,15 @@ namespace DataAccess
 
         private static t_privilege_groups ConvertSingleLocalPrivilegesGroupToDbType(PrivilegesGroup localTypePrivilegesGroup)
         {
-            return null;
+            t_privilege_groups convertedPrivilegesGroup = t_privilege_groups.Createt_privilege_groups(localTypePrivilegesGroup._Id);
+            convertedPrivilegesGroup.group_name = localTypePrivilegesGroup.GroupName;
+
+            foreach (Privilege CurrPrivilege in localTypePrivilegesGroup.Privileges)
+            {
+                convertedPrivilegesGroup.t_privileges.Add(PrivilegeAccess.ConvertSingleLocalPrivilegeToDbType(CurrPrivilege));
+            }
+
+            return convertedPrivilegesGroup;
         }
 
         private static List<PrivilegesGroup> ConvertMultipleDbPrivilegesGroupsToLocalType(List<t_privilege_groups> dbTypePrivilegesGroupList)
@@ -242,8 +250,13 @@ namespace DataAccess
                 //LOG
                 return null;
             }
-
-            return null;
+            List<Privilege> convertedPrivilegesOfGroup = 
+                PrivilegeAccess.ConvertMultipleDbPrivilegesToLocalType(
+                                                    dbTypePrivilegesGroup.t_privileges.ToList());
+            PrivilegesGroup convertedPrivilegeGroup = 
+                new PrivilegesGroup(dbTypePrivilegesGroup.C_id, dbTypePrivilegesGroup.group_name,
+                                            convertedPrivilegesOfGroup);
+            return convertedPrivilegeGroup;
         }
 
         #endregion

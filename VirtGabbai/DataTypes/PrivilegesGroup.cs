@@ -57,27 +57,5 @@ namespace LocalTypes
         }
 
         #endregion
-
-        #region Other Methods
-
-        public string GroupsPrivilegesToDbString()
-        {
-            string privilegesToDbString = "";
-
-            if (this.Privileges.Count == 0)
-            {
-                return privilegesToDbString;
-            }
-
-            privilegesToDbString = this.Privileges[0]._Id.ToString();
-
-            for (int privilegeIndex = 1; privilegeIndex < this.Privileges.Count; privilegeIndex++)
-            {
-                privilegesToDbString += ";" + this.Privileges[privilegeIndex]._Id;
-            }
-            return privilegesToDbString;
-        }
-
-        #endregion
     }
 }

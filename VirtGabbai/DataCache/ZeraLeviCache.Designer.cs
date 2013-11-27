@@ -24,6 +24,7 @@ using System.Runtime.Serialization;
 [assembly: EdmRelationshipAttribute("zera_leviModel", "fk_yahrtziehts_people1", "t_people", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(DataCache.t_people), "t_yahrtziehts", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(DataCache.t_yahrtziehts), true)]
 [assembly: EdmRelationshipAttribute("zera_leviModel", "fk_phone_numbers_phone_types1", "t_phone_types", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(DataCache.t_phone_types), "t_phone_numbers", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(DataCache.t_phone_numbers), true)]
 [assembly: EdmRelationshipAttribute("zera_leviModel", "fk_users_privilege_groups1", "t_privilege_groups", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(DataCache.t_privilege_groups), "t_users", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(DataCache.t_users), true)]
+[assembly: EdmRelationshipAttribute("zera_leviModel", "t_privileges_per_group", "t_privilege_groups", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(DataCache.t_privilege_groups), "t_privileges", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(DataCache.t_privileges))]
 
 #endregion
 
@@ -218,6 +219,22 @@ namespace DataCache
             }
         }
         private ObjectSet<t_yahrtziehts> _t_yahrtziehts;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<t_yarthziehts> t_yarthziehts
+        {
+            get
+            {
+                if ((_t_yarthziehts == null))
+                {
+                    _t_yarthziehts = base.CreateObjectSet<t_yarthziehts>("t_yarthziehts");
+                }
+                return _t_yarthziehts;
+            }
+        }
+        private ObjectSet<t_yarthziehts> _t_yarthziehts;
 
         #endregion
         #region AddTo Methods
@@ -292,6 +309,14 @@ namespace DataCache
         public void AddTot_yahrtziehts(t_yahrtziehts t_yahrtziehts)
         {
             base.AddObject("t_yahrtziehts", t_yahrtziehts);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the t_yarthziehts EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddTot_yarthziehts(t_yarthziehts t_yarthziehts)
+        {
+            base.AddObject("t_yarthziehts", t_yarthziehts);
         }
 
         #endregion
@@ -1397,30 +1422,6 @@ namespace DataCache
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public global::System.String privileges
-        {
-            get
-            {
-                return _privileges;
-            }
-            set
-            {
-                OnprivilegesChanging(value);
-                ReportPropertyChanging("privileges");
-                _privileges = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("privileges");
-                OnprivilegesChanged();
-            }
-        }
-        private global::System.String _privileges;
-        partial void OnprivilegesChanging(global::System.String value);
-        partial void OnprivilegesChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
         public global::System.String group_name
         {
             get
@@ -1462,6 +1463,28 @@ namespace DataCache
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<t_users>("zera_leviModel.fk_users_privilege_groups1", "t_users", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("zera_leviModel", "t_privileges_per_group", "t_privileges")]
+        public EntityCollection<t_privileges> t_privileges
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<t_privileges>("zera_leviModel.t_privileges_per_group", "t_privileges");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<t_privileges>("zera_leviModel.t_privileges_per_group", "t_privileges", value);
                 }
             }
         }
@@ -1546,6 +1569,31 @@ namespace DataCache
 
         #endregion
     
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("zera_leviModel", "t_privileges_per_group", "t_privilege_groups")]
+        public EntityCollection<t_privilege_groups> t_privilege_groups
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<t_privilege_groups>("zera_leviModel.t_privileges_per_group", "t_privilege_groups");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<t_privilege_groups>("zera_leviModel.t_privileges_per_group", "t_privilege_groups", value);
+                }
+            }
+        }
+
+        #endregion
     }
     
     /// <summary>
@@ -1944,6 +1992,163 @@ namespace DataCache
         }
 
         #endregion
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="zera_leviModel", Name="t_yarthziehts")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class t_yarthziehts : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new t_yarthziehts object.
+        /// </summary>
+        /// <param name="c_id">Initial value of the C_id property.</param>
+        /// <param name="person_id">Initial value of the person_id property.</param>
+        /// <param name="date">Initial value of the date property.</param>
+        /// <param name="deceaseds_name">Initial value of the deceaseds_name property.</param>
+        public static t_yarthziehts Createt_yarthziehts(global::System.Int32 c_id, global::System.Int32 person_id, global::System.DateTime date, global::System.String deceaseds_name)
+        {
+            t_yarthziehts t_yarthziehts = new t_yarthziehts();
+            t_yarthziehts.C_id = c_id;
+            t_yarthziehts.person_id = person_id;
+            t_yarthziehts.date = date;
+            t_yarthziehts.deceaseds_name = deceaseds_name;
+            return t_yarthziehts;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 C_id
+        {
+            get
+            {
+                return _C_id;
+            }
+            set
+            {
+                if (_C_id != value)
+                {
+                    OnC_idChanging(value);
+                    ReportPropertyChanging("C_id");
+                    _C_id = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("C_id");
+                    OnC_idChanged();
+                }
+            }
+        }
+        private global::System.Int32 _C_id;
+        partial void OnC_idChanging(global::System.Int32 value);
+        partial void OnC_idChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 person_id
+        {
+            get
+            {
+                return _person_id;
+            }
+            set
+            {
+                Onperson_idChanging(value);
+                ReportPropertyChanging("person_id");
+                _person_id = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("person_id");
+                Onperson_idChanged();
+            }
+        }
+        private global::System.Int32 _person_id;
+        partial void Onperson_idChanging(global::System.Int32 value);
+        partial void Onperson_idChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String relation
+        {
+            get
+            {
+                return _relation;
+            }
+            set
+            {
+                OnrelationChanging(value);
+                ReportPropertyChanging("relation");
+                _relation = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("relation");
+                OnrelationChanged();
+            }
+        }
+        private global::System.String _relation;
+        partial void OnrelationChanging(global::System.String value);
+        partial void OnrelationChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.DateTime date
+        {
+            get
+            {
+                return _date;
+            }
+            set
+            {
+                OndateChanging(value);
+                ReportPropertyChanging("date");
+                _date = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("date");
+                OndateChanged();
+            }
+        }
+        private global::System.DateTime _date;
+        partial void OndateChanging(global::System.DateTime value);
+        partial void OndateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String deceaseds_name
+        {
+            get
+            {
+                return _deceaseds_name;
+            }
+            set
+            {
+                Ondeceaseds_nameChanging(value);
+                ReportPropertyChanging("deceaseds_name");
+                _deceaseds_name = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("deceaseds_name");
+                Ondeceaseds_nameChanged();
+            }
+        }
+        private global::System.String _deceaseds_name;
+        partial void Ondeceaseds_nameChanging(global::System.String value);
+        partial void Ondeceaseds_nameChanged();
+
+        #endregion
+    
     }
 
     #endregion

@@ -176,30 +176,6 @@ namespace LocalTypesTest
         
         #endregion
 
-        #region GroupsPrivilegesToDbString Tests
-
-        /// <summary>
-        ///A test for GroupsPrivilegesToDbString
-        ///</summary>
-        [TestMethod()]
-        public void GroupsPrivilegesToDbStringTest()
-        {
-            int id = 1;
-            List<Privilege> privileges = new List<Privilege>()
-            {
-                new Privilege(1, "privilege:1"),
-                new Privilege(2, "privilege:2")
-            };
-            string groupName = "firstGroup";
-            PrivilegesGroup target = new PrivilegesGroup(id,groupName, privileges);
-            string expected = "1;2";
-            string actual;
-            actual = target.GroupsPrivilegesToDbString();
-            Assert.AreEqual(expected, actual);
-        }
-        
-        #endregion
-
         #region ToString Tests
 
         /// <summary>
