@@ -109,8 +109,14 @@ namespace DataAccessTest
         [TestMethod()]
         public void AddMultipleNewPrivilegesGroupsTest()
         {
-            List<PrivilegesGroup> newPrivilegesGroupList = null; // TODO: Initialize to an appropriate value
+            List<PrivilegesGroup> newPrivilegesGroupList = new List<PrivilegesGroup>()
+            {
+                new PrivilegesGroup(11, "group:11", new List<Privilege>(){new Privilege(1894, "privilege:1894")}),
+                new PrivilegesGroup(12, "group:12", new List<Privilege>(){new Privilege(1894, "privilege:1894")})
+            };
             PrivilegeGroupAccess.AddMultipleNewPrivilegesGroups(newPrivilegesGroupList);
+            List<PrivilegesGroup> afterAddition = PrivilegeGroupAccess.GetAllPrivilegesGroups();
+            Assert.IsTrue(afterAddition.Contains(newPrivilegesGroupList));
         }
 
         /// <summary>
@@ -119,11 +125,18 @@ namespace DataAccessTest
         [TestMethod()]
         public void AddNewPrivilegesGroupTest()
         {
-            PrivilegesGroup newPrivilegesGroup = null; // TODO: Initialize to an appropriate value
-            Enums.CRUDResults expected = new Enums.CRUDResults(); // TODO: Initialize to an appropriate value
+            PrivilegesGroup newPrivilegesGroup = new PrivilegesGroup(13, "group:13",
+                new List<Privilege>()
+                {
+                    new Privilege(1710, "privilege:1710"),
+                    new Privilege(1894, "privilege:1894")
+                });
+            Enums.CRUDResults expected = Enums.CRUDResults.CREATE_SUCCESS;
             Enums.CRUDResults actual;
             actual = PrivilegeGroupAccess.AddNewPrivilegesGroup(newPrivilegesGroup);
             Assert.AreEqual(expected, actual);
+            List<PrivilegesGroup> afterAdd = PrivilegeGroupAccess.GetAllPrivilegesGroups();
+            Assert.IsTrue(afterAdd.Contains(newPrivilegesGroup));
         }
         
         #endregion
@@ -240,11 +253,11 @@ namespace DataAccessTest
         [TestMethod()]
         public void GetAllPrivilegesGroupsTest()
         {
-            List<PrivilegesGroup> expected = PrivilegeGroupAccess(
-                PrivilegeAccess_Accessor.LookupAllPrivileges());
+            List<PrivilegesGroup> expected = PrivilegeGroupAccess.ConvertMultipleDbPrivilegesGroupsToLocalType(
+                PrivilegeGroupAccess_Accessor.LookupAllPrivilegesGroups());
             List<PrivilegesGroup> actual;
             actual = PrivilegeGroupAccess.GetAllPrivilegesGroups();
-            Assert.AreEqual(expected, actual);
+            CollectionAssert.AreEqual(expected, actual);
         }
 
         /// <summary>
@@ -253,8 +266,9 @@ namespace DataAccessTest
         [TestMethod()]
         public void GetPrivilegesGroupByGroupNameTest()
         {
-            string groupName = string.Empty; // TODO: Initialize to an appropriate value
-            PrivilegesGroup expected = null; // TODO: Initialize to an appropriate value
+            string groupName = "group:1";
+            PrivilegesGroup expected = PrivilegeGroupAccess.ConvertSingleDbPrivilegesGroupToLocalType(
+                PrivilegeGroupAccess_Accessor.LookupPrivilegesGroupByGroupName(groupName));
             PrivilegesGroup actual;
             actual = PrivilegeGroupAccess.GetPrivilegesGroupByGroupName(groupName);
             Assert.AreEqual(expected, actual);
@@ -266,8 +280,8 @@ namespace DataAccessTest
         [TestMethod()]
         public void GetPrivilegesGroupByNonExsistintGroupNameTest()
         {
-            string groupName = string.Empty; // TODO: Initialize to an appropriate value
-            PrivilegesGroup expected = null; // TODO: Initialize to an appropriate value
+            string groupName = "blah";
+            PrivilegesGroup expected = null;
             PrivilegesGroup actual;
             actual = PrivilegeGroupAccess.GetPrivilegesGroupByGroupName(groupName);
             Assert.AreEqual(expected, actual);
@@ -279,8 +293,9 @@ namespace DataAccessTest
         [TestMethod()]
         public void GetPrivilegesGroupByIdTest()
         {
-            int id = 0; // TODO: Initialize to an appropriate value
-            PrivilegesGroup expected = null; // TODO: Initialize to an appropriate value
+            int id = 1;
+            PrivilegesGroup expected = PrivilegeGroupAccess.ConvertSingleDbPrivilegesGroupToLocalType(
+                PrivilegeGroupAccess_Accessor.LookupPrivilegesGroupById(id));
             PrivilegesGroup actual;
             actual = PrivilegeGroupAccess.GetPrivilegesGroupById(id);
             Assert.AreEqual(expected, actual);
@@ -292,8 +307,8 @@ namespace DataAccessTest
         [TestMethod()]
         public void GetPrivilegesGroupByNonExsistintIdTest()
         {
-            int id = 0; // TODO: Initialize to an appropriate value
-            PrivilegesGroup expected = null; // TODO: Initialize to an appropriate value
+            int id = 0;
+            PrivilegesGroup expected = null;
             PrivilegesGroup actual;
             actual = PrivilegeGroupAccess.GetPrivilegesGroupById(id);
             Assert.AreEqual(expected, actual);

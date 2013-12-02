@@ -16,17 +16,17 @@ namespace DataAccess
         
         public static List<PrivilegesGroup> GetAllPrivilegesGroups()
         {
-            return null;
+            return ConvertMultipleDbPrivilegesGroupsToLocalType(LookupAllPrivilegesGroups());
         }
 
         public static PrivilegesGroup GetPrivilegesGroupById(int id)
         {
-            return null;
+            return ConvertSingleDbPrivilegesGroupToLocalType(LookupPrivilegesGroupById(id));
         }
 
         public static PrivilegesGroup GetPrivilegesGroupByGroupName(string groupName)
         {
-            return null;
+            return ConvertSingleDbPrivilegesGroupToLocalType(LookupPrivilegesGroupByGroupName(groupName));
         }
 
         #endregion
@@ -89,6 +89,9 @@ namespace DataAccess
         {
             try
             {
+                //PrivilegeAccess.UpsertMultiplePrivileges(newPrivilegesGroup.Privileges);
+                t_privilege_groups newDbPrivilegeGroup = ConvertSingleLocalPrivilegesGroupToDbType(newPrivilegesGroup);
+                Cache.CacheData.t_privilege_groups.AddObject(newDbPrivilegeGroup);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.CREATE_SUCCESS;
             }
