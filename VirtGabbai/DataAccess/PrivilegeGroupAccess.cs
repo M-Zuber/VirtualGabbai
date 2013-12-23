@@ -5,6 +5,7 @@ using System.Text;
 using LocalTypes;
 using Framework;
 using DataCache;
+using System.Data;
 
 namespace DataAccess
 {
@@ -89,9 +90,24 @@ namespace DataAccess
         {
             try
             {
-                //PrivilegeAccess.UpsertMultiplePrivileges(newPrivilegesGroup.Privileges);
-                t_privilege_groups newDbPrivilegeGroup = ConvertSingleLocalPrivilegesGroupToDbType(newPrivilegesGroup);
+                t_privilege_groups newDbPrivilegeGroup = t_privilege_groups.Createt_privilege_groups(newPrivilegesGroup._Id);
+                newDbPrivilegeGroup.group_name = newPrivilegesGroup.GroupName;
+
+                foreach (Privilege CurrPrivilege in newPrivilegesGroup.Privileges)
+                {
+                    t_privileges privilegeInDatabase = PrivilegeAccess.LookupPrivilegeById(CurrPrivilege._Id);
+
+                    if (privilegeInDatabase != null)
+                    {
+                        newDbPrivilegeGroup.t_privileges.Add(privilegeInDatabase);
+                    }
+                    else
+                    {
+                        newDbPrivilegeGroup.t_privileges.Add(PrivilegeAccess.ConvertSingleLocalPrivilegeToDbType(CurrPrivilege));
+                    }
+                }
                 Cache.CacheData.t_privilege_groups.AddObject(newDbPrivilegeGroup);
+                
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.CREATE_SUCCESS;
             }

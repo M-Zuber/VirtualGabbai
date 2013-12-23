@@ -55,6 +55,7 @@ namespace DataAccessTest
                     Cache.CacheData.t_privileges.AddObject(newPrivilege);
                 }
             }
+            Cache.CacheData.SaveChanges();
 
             for (int groupIndex = 1; groupIndex < 11; groupIndex++)
             {

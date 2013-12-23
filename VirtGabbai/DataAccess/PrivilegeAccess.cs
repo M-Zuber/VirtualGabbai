@@ -47,7 +47,7 @@ namespace DataAccess
             }
         }
 
-        private static t_privileges LookupPrivilegeById(int id)
+        internal static t_privileges LookupPrivilegeById(int id)
         {
             try
             {
