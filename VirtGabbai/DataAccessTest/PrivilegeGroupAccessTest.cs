@@ -149,7 +149,7 @@ namespace DataAccessTest
             PrivilegeAccess.AddNewPrivilege(new Privilege(1895, "privilege:1895"));
             Privilege changeBeforeAddGroup = PrivilegeAccess.GetPrivilegeById(1895);
             changeBeforeAddGroup.PrivilegeName += " ***";
-            PrivilegesGroup newPrivilegesGroup = new PrivilegesGroup(13, "group:13",
+            PrivilegesGroup newPrivilegesGroup = new PrivilegesGroup(15, "group:15",
                 new List<Privilege>()
                 {
                     new Privilege(201, "privilege:201"),
@@ -499,11 +499,11 @@ namespace DataAccessTest
         [TestMethod()]
         public void UpsertAddSinglePrivilegesGroupTest()
         {
-            PrivilegesGroup upsertedPrivilegesGroup = new PrivilegesGroup(13, "privilegegroup:13", PrivilegeAccess.GetAllPrivileges());
+            PrivilegesGroup upsertedPrivilegesGroup = new PrivilegesGroup(14, "privilegegroup:14", PrivilegeAccess.GetAllPrivileges());
             Enums.CRUDResults expected = Enums.CRUDResults.CREATE_SUCCESS;
             Enums.CRUDResults actual = PrivilegeGroupAccess.UpsertSinglePrivilegesGroup(upsertedPrivilegesGroup);
 
-            PrivilegesGroup afterUpsert = PrivilegeGroupAccess.GetPrivilegesGroupById(13);
+            PrivilegesGroup afterUpsert = PrivilegeGroupAccess.GetPrivilegesGroupById(14);
             Assert.AreEqual(expected, actual);
             Assert.AreEqual(upsertedPrivilegesGroup, afterUpsert);
         }
