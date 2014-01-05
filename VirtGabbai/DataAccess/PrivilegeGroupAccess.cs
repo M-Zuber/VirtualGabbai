@@ -170,6 +170,8 @@ namespace DataAccess
         {
             try
             {
+                t_privilege_groups privilegeGroupDeleting = LookupPrivilegesGroupById(deletedPrivilegesGroup._Id);
+                Cache.CacheData.t_privilege_groups.DeleteObject(privilegeGroupDeleting);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.DELETE_SUCCESS;
             }

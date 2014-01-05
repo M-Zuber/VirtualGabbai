@@ -51,7 +51,7 @@ namespace DataAccessTest
                 if (!Cache.CacheData.t_privileges.Any(privilege => privilege.C_id == privilegeIndex))
                 {
                     t_privileges newPrivilege = t_privileges.Createt_privileges(privilegeIndex);
-                    newPrivilege.privilege_name = privilegeIndex + ":privilege";
+                    newPrivilege.privilege_name = "privilege:" + privilegeIndex;
                     Cache.CacheData.t_privileges.AddObject(newPrivilege);
                 }
             }
@@ -129,7 +129,7 @@ namespace DataAccessTest
             PrivilegesGroup newPrivilegesGroup = new PrivilegesGroup(13, "group:13",
                 new List<Privilege>()
                 {
-                    new Privilege(1710, "privilege:1710"),
+                    new Privilege(201, "privilege:201"),
                     new Privilege(1894, "privilege:1894")
                 });
             Enums.CRUDResults expected = Enums.CRUDResults.CREATE_SUCCESS;
@@ -214,8 +214,14 @@ namespace DataAccessTest
         [TestMethod()]
         public void DeleteMultiplePrivilegesGroupsTest()
         {
-            List<PrivilegesGroup> deletedPrivilegesGroupList = null; // TODO: Initialize to an appropriate value
+            List<PrivilegesGroup> deletedPrivilegesGroupList = new List<PrivilegesGroup>()
+            {
+                PrivilegeGroupAccess.GetPrivilegesGroupById(3),
+                PrivilegeGroupAccess.GetPrivilegesGroupById(4)
+            };
             PrivilegeGroupAccess.DeleteMultiplePrivilegesGroups(deletedPrivilegesGroupList);
+            List<PrivilegesGroup> afterDelete = PrivilegeGroupAccess.GetAllPrivilegesGroups();
+            Assert.IsFalse(afterDelete.Contains(deletedPrivilegesGroupList));
         }
 
         /// <summary>
@@ -224,11 +230,17 @@ namespace DataAccessTest
         [TestMethod()]
         public void DeleteSinglePrivilegesGroupTest()
         {
-            PrivilegesGroup deletedPrivilegesGroup = null; // TODO: Initialize to an appropriate value
-            Enums.CRUDResults expected = new Enums.CRUDResults(); // TODO: Initialize to an appropriate value
+            PrivilegesGroup deletedPrivilegesGroup = PrivilegeGroupAccess.GetPrivilegesGroupById(2);
+            Enums.CRUDResults expected = Enums.CRUDResults.DELETE_SUCCESS;
             Enums.CRUDResults actual;
             actual = PrivilegeGroupAccess.DeleteSinglePrivilegesGroup(deletedPrivilegesGroup);
             Assert.AreEqual(expected, actual);
+            List<PrivilegesGroup> afterDelete = PrivilegeGroupAccess.GetAllPrivilegesGroups();
+            Assert.IsFalse(afterDelete.Contains(deletedPrivilegesGroup));
+
+            // Makes sure that EF doesnt delete all the privileges attached
+            Privilege notDeleted = PrivilegeAccess.GetPrivilegeById(201);
+            Assert.IsNotNull(notDeleted);
         }
 
         /// <summary>
@@ -237,8 +249,8 @@ namespace DataAccessTest
         [TestMethod()]
         public void DeleteSingleNonExsistentPrivilegesGroupTest()
         {
-            PrivilegesGroup deletedPrivilegesGroup = null; // TODO: Initialize to an appropriate value
-            Enums.CRUDResults expected = new Enums.CRUDResults(); // TODO: Initialize to an appropriate value
+            PrivilegesGroup deletedPrivilegesGroup = null;
+            Enums.CRUDResults expected = Enums.CRUDResults.DELETE_FAIL;
             Enums.CRUDResults actual;
             actual = PrivilegeGroupAccess.DeleteSinglePrivilegesGroup(deletedPrivilegesGroup);
             Assert.AreEqual(expected, actual);
