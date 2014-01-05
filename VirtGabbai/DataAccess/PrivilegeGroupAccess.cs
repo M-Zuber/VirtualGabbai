@@ -90,22 +90,15 @@ namespace DataAccess
         {
             try
             {
+                PrivilegeAccess.UpsertMultiplePrivileges(newPrivilegesGroup.Privileges);
                 t_privilege_groups newDbPrivilegeGroup = t_privilege_groups.Createt_privilege_groups(newPrivilegesGroup._Id);
                 newDbPrivilegeGroup.group_name = newPrivilegesGroup.GroupName;
 
                 foreach (Privilege CurrPrivilege in newPrivilegesGroup.Privileges)
                 {
-                    t_privileges privilegeInDatabase = PrivilegeAccess.LookupPrivilegeById(CurrPrivilege._Id);
-
-                    if (privilegeInDatabase != null)
-                    {
-                        newDbPrivilegeGroup.t_privileges.Add(privilegeInDatabase);
-                    }
-                    else
-                    {
-                        newDbPrivilegeGroup.t_privileges.Add(PrivilegeAccess.ConvertSingleLocalPrivilegeToDbType(CurrPrivilege));
-                    }
+                    newDbPrivilegeGroup.t_privileges.Add(PrivilegeAccess.LookupPrivilegeById(CurrPrivilege._Id));
                 }
+
                 Cache.CacheData.t_privilege_groups.AddObject(newDbPrivilegeGroup);
                 
                 Cache.CacheData.SaveChanges();
@@ -139,6 +132,19 @@ namespace DataAccess
         {
             try
             {
+                PrivilegeAccess.UpsertMultiplePrivileges(updatedPrivilegesGroup.Privileges);
+                
+                t_privilege_groups privilegeGroupUpdating = LookupPrivilegesGroupById(updatedPrivilegesGroup._Id);
+                privilegeGroupUpdating.C_id = updatedPrivilegesGroup._Id;
+                privilegeGroupUpdating.group_name = updatedPrivilegesGroup.GroupName;
+                privilegeGroupUpdating.t_privileges.Clear();
+
+                foreach (Privilege CurrPrivilege in updatedPrivilegesGroup.Privileges)
+                {
+                    privilegeGroupUpdating.t_privileges.Add(PrivilegeAccess.LookupPrivilegeById(CurrPrivilege._Id));
+                }
+
+                Cache.CacheData.t_privilege_groups.ApplyCurrentValues(privilegeGroupUpdating);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.UPDATE_SUCCESS;
             }

@@ -139,6 +139,29 @@ namespace DataAccessTest
             List<PrivilegesGroup> afterAdd = PrivilegeGroupAccess.GetAllPrivilegesGroups();
             Assert.IsTrue(afterAdd.Contains(newPrivilegesGroup));
         }
+
+        /// <summary>
+        ///A test for AddNewPrivilegesGroup
+        ///</summary>
+        [TestMethod()]
+        public void AddNewPrivilegesGroupWithPrivilegeChangeBeforeGroupAddTest()
+        {
+            PrivilegeAccess.AddNewPrivilege(new Privilege(1895, "privilege:1895"));
+            Privilege changeBeforeAddGroup = PrivilegeAccess.GetPrivilegeById(1895);
+            changeBeforeAddGroup.PrivilegeName += " ***";
+            PrivilegesGroup newPrivilegesGroup = new PrivilegesGroup(13, "group:13",
+                new List<Privilege>()
+                {
+                    new Privilege(201, "privilege:201"),
+                    changeBeforeAddGroup
+                });
+            Enums.CRUDResults expected = Enums.CRUDResults.CREATE_SUCCESS;
+            Enums.CRUDResults actual;
+            actual = PrivilegeGroupAccess.AddNewPrivilegesGroup(newPrivilegesGroup);
+            Assert.AreEqual(expected, actual);
+            List<PrivilegesGroup> afterAdd = PrivilegeGroupAccess.GetAllPrivilegesGroups();
+            Assert.IsTrue(afterAdd.Contains(newPrivilegesGroup));
+        }
         
         #endregion
 
@@ -415,8 +438,20 @@ namespace DataAccessTest
         [TestMethod()]
         public void UpdateMultiplePrivilegesGroupsTest()
         {
-            List<PrivilegesGroup> updatedPrivilegesGroupList = null; // TODO: Initialize to an appropriate value
+            List<PrivilegesGroup> updatedPrivilegesGroupList = new List<PrivilegesGroup>()
+            {
+                PrivilegeGroupAccess.GetPrivilegesGroupById(6),
+                PrivilegeGroupAccess.GetPrivilegesGroupById(7)
+            };
+            updatedPrivilegesGroupList[0].GroupName += "***";
+            updatedPrivilegesGroupList[1].GroupName += "^^^";
             PrivilegeGroupAccess.UpdateMultiplePrivilegesGroups(updatedPrivilegesGroupList);
+            List<PrivilegesGroup> afterUpdate = new List<PrivilegesGroup>()
+            {
+                PrivilegeGroupAccess.GetPrivilegesGroupById(6),
+                PrivilegeGroupAccess.GetPrivilegesGroupById(7)
+            };
+            CollectionAssert.AreEqual(updatedPrivilegesGroupList, afterUpdate);
         }
 
         /// <summary>
@@ -425,11 +460,20 @@ namespace DataAccessTest
         [TestMethod()]
         public void UpdateSinglePrivilegesGroupTest()
         {
-            PrivilegesGroup updatedPrivilegesGroup = null; // TODO: Initialize to an appropriate value
-            Enums.CRUDResults expected = new Enums.CRUDResults(); // TODO: Initialize to an appropriate value
-            Enums.CRUDResults actual;
-            actual = PrivilegeGroupAccess.UpdateSinglePrivilegesGroup(updatedPrivilegesGroup);
+            PrivilegeAccess.AddNewPrivilege(new Privilege(1021, "privilege:1021"));
+
+            PrivilegesGroup updatedPrivilegesGroup = PrivilegeGroupAccess.GetPrivilegesGroupById(5);
+            updatedPrivilegesGroup.GroupName += "xyz";
+            updatedPrivilegesGroup.Privileges.Add(new Privilege(1020, "privilege:1020"));
+            updatedPrivilegesGroup.Privileges.Add(PrivilegeAccess.GetPrivilegeById(1021));
+            
+            Enums.CRUDResults expected = Enums.CRUDResults.UPDATE_SUCCESS;
+            
+            Enums.CRUDResults actual = PrivilegeGroupAccess.UpdateSinglePrivilegesGroup(updatedPrivilegesGroup);
+            PrivilegesGroup afterUpdate = PrivilegeGroupAccess.GetPrivilegesGroupById(5);
+            
             Assert.AreEqual(expected, actual);
+            Assert.AreEqual(updatedPrivilegesGroup, afterUpdate);
         }
 
         /// <summary>
@@ -438,8 +482,8 @@ namespace DataAccessTest
         [TestMethod()]
         public void UpdateSingleNonExsistentPrivilegesGroupTest()
         {
-            PrivilegesGroup updatedPrivilegesGroup = null; // TODO: Initialize to an appropriate value
-            Enums.CRUDResults expected = new Enums.CRUDResults(); // TODO: Initialize to an appropriate value
+            PrivilegesGroup updatedPrivilegesGroup = new PrivilegesGroup(57, "", new List<Privilege>());
+            Enums.CRUDResults expected = Enums.CRUDResults.UPDATE_FAIL;
             Enums.CRUDResults actual;
             actual = PrivilegeGroupAccess.UpdateSinglePrivilegesGroup(updatedPrivilegesGroup);
             Assert.AreEqual(expected, actual);
@@ -455,11 +499,13 @@ namespace DataAccessTest
         [TestMethod()]
         public void UpsertAddSinglePrivilegesGroupTest()
         {
-            PrivilegesGroup upsertedPrivilegesGroup = null; // TODO: Initialize to an appropriate value
-            Enums.CRUDResults expected = new Enums.CRUDResults(); // TODO: Initialize to an appropriate value
-            Enums.CRUDResults actual;
-            actual = PrivilegeGroupAccess.UpsertSinglePrivilegesGroup(upsertedPrivilegesGroup);
+            PrivilegesGroup upsertedPrivilegesGroup = new PrivilegesGroup(13, "privilegegroup:13", PrivilegeAccess.GetAllPrivileges());
+            Enums.CRUDResults expected = Enums.CRUDResults.CREATE_SUCCESS;
+            Enums.CRUDResults actual = PrivilegeGroupAccess.UpsertSinglePrivilegesGroup(upsertedPrivilegesGroup);
+
+            PrivilegesGroup afterUpsert = PrivilegeGroupAccess.GetPrivilegesGroupById(13);
             Assert.AreEqual(expected, actual);
+            Assert.AreEqual(upsertedPrivilegesGroup, afterUpsert);
         }
         
         /// <summary>
@@ -468,11 +514,16 @@ namespace DataAccessTest
         [TestMethod()]
         public void UpsertUpdateSinglePrivilegesGroupTest()
         {
-            PrivilegesGroup upsertedPrivilegesGroup = null; // TODO: Initialize to an appropriate value
-            Enums.CRUDResults expected = new Enums.CRUDResults(); // TODO: Initialize to an appropriate value
-            Enums.CRUDResults actual;
-            actual = PrivilegeGroupAccess.UpsertSinglePrivilegesGroup(upsertedPrivilegesGroup);
+            PrivilegesGroup upsertedPrivilegesGroup = PrivilegeGroupAccess.GetPrivilegesGroupById(8);
+            upsertedPrivilegesGroup.Privileges.Clear();
+            upsertedPrivilegesGroup.Privileges = PrivilegeAccess.GetAllPrivileges();
+
+            Enums.CRUDResults expected = Enums.CRUDResults.UPDATE_SUCCESS;
+            Enums.CRUDResults actual = PrivilegeGroupAccess.UpsertSinglePrivilegesGroup(upsertedPrivilegesGroup);
+
+            PrivilegesGroup afterUpsert = PrivilegeGroupAccess.GetPrivilegesGroupById(8);
             Assert.AreEqual(expected, actual);
+            Assert.AreEqual(upsertedPrivilegesGroup, afterUpsert);
         }
         
         #endregion
