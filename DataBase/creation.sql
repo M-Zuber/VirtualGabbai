@@ -2,8 +2,25 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
+DROP SCHEMA IF EXISTS `zera_levi` ;
 CREATE SCHEMA IF NOT EXISTS `zera_levi` DEFAULT CHARACTER SET utf8 ;
 USE `zera_levi` ;
+
+-- -----------------------------------------------------
+-- Table `zera_levi`.`t_yarthziehts`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `zera_levi`.`t_yarthziehts` ;
+
+CREATE TABLE IF NOT EXISTS `zera_levi`.`t_yarthziehts` (
+  `_id` INT NOT NULL,
+  `person_id` INT NOT NULL,
+  `relation` VARCHAR(45) NULL,
+  `date` DATETIME NOT NULL,
+  `deceaseds_name` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`_id`),
+  INDEX `fk_yarthziehts_people1_idx` (`person_id` ASC))
+ENGINE = InnoDB;
+
 
 -- -----------------------------------------------------
 -- Table `zera_levi`.`t_people`
@@ -12,24 +29,24 @@ DROP TABLE IF EXISTS `zera_levi`.`t_people` ;
 
 CREATE TABLE IF NOT EXISTS `zera_levi`.`t_people` (
   `_id` INT NOT NULL,
-  `email` VARCHAR(45) NULL,
-  `given_name` VARCHAR(45) NULL,
-  `family_name` VARCHAR(45) NULL,
-  `address` VARCHAR(300) NULL,
-  `member` TINYINT(1) DEFAULT NULL,
+  `email` VARCHAR(45) NULL DEFAULT NULL,
+  `given_name` VARCHAR(45) NULL DEFAULT NULL,
+  `family_name` VARCHAR(45) NULL DEFAULT NULL,
+  `address` VARCHAR(300) NULL DEFAULT NULL,
+  `member` TINYINT(1) NULL DEFAULT NULL,
   PRIMARY KEY (`_id`))
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `zera_levi`.`t_yarthziehts`
+-- Table `zera_levi`.`t_yahrtziehts`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `zera_levi`.`t_yahrtziehts` ;
 
 CREATE TABLE IF NOT EXISTS `zera_levi`.`t_yahrtziehts` (
   `_id` INT NOT NULL,
   `person_id` INT NOT NULL,
-  `relation` VARCHAR(45) NULL,
+  `relation` VARCHAR(45) NULL DEFAULT NULL,
   `date` DATETIME NOT NULL,
   `deceaseds_name` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`_id`),
@@ -50,8 +67,8 @@ DROP TABLE IF EXISTS `zera_levi`.`t_accounts` ;
 CREATE TABLE IF NOT EXISTS `zera_levi`.`t_accounts` (
   `_id` INT NOT NULL,
   `person_id` INT NOT NULL,
-  `monthly_total` INT NULL,
-  `last_month_paid` DATETIME NULL,
+  `monthly_total` INT NULL DEFAULT NULL,
+  `last_month_paid` DATETIME NULL DEFAULT NULL,
   PRIMARY KEY (`_id`),
   INDEX `fk_accounts_people1_idx` (`person_id` ASC),
   CONSTRAINT `fk_accounts_people1`
@@ -73,9 +90,9 @@ CREATE TABLE IF NOT EXISTS `zera_levi`.`t_donations` (
   `reason` VARCHAR(100) NOT NULL,
   `amount` DOUBLE NOT NULL,
   `date_donated` DATETIME NOT NULL,
-  `date_paid` DATETIME NULL,
+  `date_paid` DATETIME NULL DEFAULT NULL,
   `paid` TINYINT(1) NOT NULL,
-  `comments` VARCHAR(300) NULL,
+  `comments` VARCHAR(300) NULL DEFAULT NULL,
   PRIMARY KEY (`_id`),
   INDEX `fk_donations_accounts_idx` (`account_id` ASC),
   CONSTRAINT `fk_donations_accounts`
@@ -83,8 +100,7 @@ CREATE TABLE IF NOT EXISTS `zera_levi`.`t_donations` (
     REFERENCES `zera_levi`.`t_accounts` (`_id`)
     ON DELETE CASCADE
     ON UPDATE CASCADE)
-ENGINE = InnoDB
-COMMENT = '	';
+ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -132,7 +148,7 @@ DROP TABLE IF EXISTS `zera_levi`.`t_privilege_groups` ;
 
 CREATE TABLE IF NOT EXISTS `zera_levi`.`t_privilege_groups` (
   `_id` INT NOT NULL,
-  `privileges` VARCHAR(300) NULL,
+  `group_name` VARCHAR(45) NULL DEFAULT NULL,
   PRIMARY KEY (`_id`))
 ENGINE = InnoDB;
 
@@ -164,19 +180,46 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `zera_levi`.`t_privileges` ;
 
 CREATE TABLE IF NOT EXISTS `zera_levi`.`t_privileges` (
-  `_id` INT NOT NULL,
-  `privilege_name` VARCHAR(45) NULL,
+  `_id` INT(11) NOT NULL,
+  `privilege_name` VARCHAR(45) NULL DEFAULT NULL,
   PRIMARY KEY (`_id`))
 ENGINE = InnoDB;
 
 
+-- -----------------------------------------------------
+-- Table `zera_levi`.`t_privileges_per_group`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `zera_levi`.`t_privileges_per_group` ;
+
+CREATE TABLE IF NOT EXISTS `zera_levi`.`t_privileges_per_group` (
+  `group_id` INT NOT NULL,
+  `privilege_id` INT NOT NULL,
+  INDEX `group_connection_idx` (`group_id` ASC),
+  INDEX `privilege_connection_idx` (`privilege_id` ASC),
+  PRIMARY KEY (`group_id`, `privilege_id`),
+  CONSTRAINT `group_connection`
+    FOREIGN KEY (`group_id`)
+    REFERENCES `zera_levi`.`t_privilege_groups` (`_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+  CONSTRAINT `privilege_connection`
+    FOREIGN KEY (`privilege_id`)
+    REFERENCES `zera_levi`.`t_privileges` (`_id`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE)
+ENGINE = InnoDB;
+
+USE `zera_levi` ;
 
 -- -----------------------------------------------------
--- Stored procedure `zera_levi`.`clear_database`
+-- procedure clear_database
 -- -----------------------------------------------------
-DROP procedure IF EXISTS `clear_database`;
+
+USE `zera_levi`;
+DROP procedure IF EXISTS `zera_levi`.`clear_database`;
 
 DELIMITER $$
+USE `zera_levi`$$
 CREATE PROCEDURE `clear_database` ()
 BEGIN
 SET FOREIGN_KEY_CHECKS=0;
@@ -186,6 +229,7 @@ TRUNCATE TABLE t_accounts;
 TRUNCATE TABLE t_phone_numbers;
 TRUNCATE TABLE t_phone_types;
 TRUNCATE TABLE t_people;
+TRUNCATE TABLE t_privileges_per_group;
 TRUNCATE TABLE t_privilege_groups;
 TRUNCATE TABLE t_privileges;
 TRUNCATE TABLE t_users;
@@ -193,6 +237,7 @@ SET FOREIGN_KEY_CHECKS=1;
 END$$
 
 DELIMITER ;
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;

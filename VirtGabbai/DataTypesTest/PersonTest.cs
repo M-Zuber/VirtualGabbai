@@ -71,7 +71,7 @@ namespace LocalTypesTest
         static string firstName = "Justin";
         static string lastName = "Fune";
         static string streetAddress = ";12;somwhere road;city;state;country;325";
-        static Account personalAccount = new Account(1, 50, new DateTime(DateTime.Today.Year, DateTime.Today.Month - 1, DateTime.Today.Day),
+        static Account personalAccount = new Account(1, 50, new DateTime(DateTime.Today.Year, 1, DateTime.Today.Day),
             new List<Donation>() {new Donation(1, "cuz i wanna", 45.90, DateTime.Today, "i dont know that we will ever see the money"),
                                       new PaidDonation(2, "it was a glorious day", 4010, DateTime.Today, "it was good that this money came in", DateTime.Today)});
         static List<PhoneNumber> phoneNumbers = new List<PhoneNumber>()
@@ -115,7 +115,7 @@ namespace LocalTypesTest
             string secondFirstName = "Jack";
             string secondLastName = "O'niell";
             string secondStreetAddress = "12;45;cheyenne mountain;summer springs;colorado;usa;87254";
-            Account secondPersonalAccount = new Account(18, 500, new DateTime(DateTime.Today.Year, DateTime.Today.Month - 1, DateTime.Today.Day),
+            Account secondPersonalAccount = new Account(18, 500, new DateTime(DateTime.Today.Year, 2, DateTime.Today.Day),
                 new List<Donation>() {new Donation(1, "cuz i wanna", 45.90, DateTime.Today, "i dont know that we will ever see the money"),
                                       new PaidDonation(2, "it was a glorious day", 4010, DateTime.Today, "it was good that this money came in", DateTime.Today)});
             List<PhoneNumber> secondPhoneNumbers = new List<PhoneNumber>()
@@ -216,7 +216,7 @@ namespace LocalTypesTest
         [TestMethod()]
         public void DiffAccountEqualsTest()
         {
-            Account secondPersonalAccount = new Account(18, 500, new DateTime(DateTime.Today.Year, DateTime.Today.Month - 1, DateTime.Today.Day),
+            Account secondPersonalAccount = new Account(18, 500, new DateTime(DateTime.Today.Year, 2, DateTime.Today.Day),
                 new List<Donation>() {new Donation(1, "cuz i wanna", 45.90, DateTime.Today, "i dont know that we will ever see the money"),
                                       new PaidDonation(2, "it was a glorious day", 4010, DateTime.Today, "it was good that this money came in", DateTime.Today)});
             object obj = new Person(target._Id, target.Email.ToString(), target.FirstName,

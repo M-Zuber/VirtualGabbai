@@ -37,6 +37,7 @@ namespace Framework
 
         public static bool Contains<TSource>(this IEnumerable<TSource> source, IEnumerable<TSource> value)
         {
+            //TODO try and catch -in catch throw exception (new or otherwise) size exceeeded if size is different
             for (int i = 0; i < value.Count(); i++)
             {
                 //TODO is it enough to check only this direction?
