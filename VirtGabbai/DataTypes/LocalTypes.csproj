@@ -49,6 +49,7 @@
     <Compile Include="Privilege.cs" />
     <Compile Include="PrivilegesGroup.cs" />
     <Compile Include="StreetAddress.cs" />
+    <Compile Include="User.cs" />
     <Compile Include="Yahrtzieht.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
