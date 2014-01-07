@@ -7,22 +7,6 @@ CREATE SCHEMA IF NOT EXISTS `zera_levi` DEFAULT CHARACTER SET utf8 ;
 USE `zera_levi` ;
 
 -- -----------------------------------------------------
--- Table `zera_levi`.`t_yarthziehts`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `zera_levi`.`t_yarthziehts` ;
-
-CREATE TABLE IF NOT EXISTS `zera_levi`.`t_yarthziehts` (
-  `_id` INT NOT NULL,
-  `person_id` INT NOT NULL,
-  `relation` VARCHAR(45) NULL,
-  `date` DATETIME NOT NULL,
-  `deceaseds_name` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`_id`),
-  INDEX `fk_yarthziehts_people1_idx` (`person_id` ASC))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `zera_levi`.`t_people`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `zera_levi`.`t_people` ;
