@@ -39,7 +39,13 @@ namespace LocalTypes
 
         public override bool Equals(object obj)
         {
-            return base.Equals(obj);
+            User comparedUser = (User)obj;
+
+            return ((this._Id == comparedUser._Id) &&
+                    (this.UserName == comparedUser.UserName) &&
+                    (this.Password == comparedUser.Password) &&
+                    (this.Email.Equals(comparedUser.Email)) &&
+                    (this.UserGroup.Equals(comparedUser.UserGroup)));
         }
 
         public override int GetHashCode()
@@ -49,7 +55,8 @@ namespace LocalTypes
 
         public override string ToString()
         {
-            return base.ToString();
+            return "User name: " + this.UserName + "\nEmail: " + this.Email.Address +
+                    "\n" + this.UserGroup.ToString();
         }
 
         #endregion

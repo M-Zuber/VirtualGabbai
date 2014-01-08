@@ -90,14 +90,8 @@ namespace LocalTypesTest
         [TestMethod()]
         public void AllSameEqualsTest()
         {
-            int _id = 0;
-            string userName = string.Empty;
-            string password = string.Empty;
-            string email = string.Empty;
-            PrivilegesGroup userGroup = null;
-            User target = new User(_id, userName, password, email, userGroup);
-            object obj = null;
-            bool expected = false;
+            object obj = new User(id, userName, password, email, userGroup);
+            bool expected = true;
             bool actual;
             actual = target.Equals(obj);
             Assert.AreEqual(expected, actual);
@@ -109,13 +103,15 @@ namespace LocalTypesTest
         [TestMethod()]
         public void AllDiffEqualsTest()
         {
-            int _id = 0;
-            string userName = string.Empty;
-            string password = string.Empty;
-            string email = string.Empty;
-            PrivilegesGroup userGroup = null;
-            User target = new User(_id, userName, password, email, userGroup);
-            object obj = null;
+            int diff_id = 0;
+            string diiUserName = "different";
+            string diffPassword = "different";
+            string diffEmail = "blah@maz.blah";
+            PrivilegesGroup diffUserGroup = new PrivilegesGroup(325, "DSATGE", new List<Privilege>()
+                {
+                    new Privilege(456, "3254235")
+                });
+            object obj = new User(diff_id, diiUserName, diffPassword, diffEmail, diffUserGroup);;
             bool expected = false;
             bool actual;
             actual = target.Equals(obj);
@@ -129,12 +125,7 @@ namespace LocalTypesTest
         public void DiffIdEqualsTest()
         {
             int _id = 0;
-            string userName = string.Empty;
-            string password = string.Empty;
-            string email = string.Empty;
-            PrivilegesGroup userGroup = null;
-            User target = new User(_id, userName, password, email, userGroup);
-            object obj = null;
+            object obj = new User(_id, userName, password, email, userGroup);
             bool expected = false;
             bool actual;
             actual = target.Equals(obj);
@@ -147,13 +138,8 @@ namespace LocalTypesTest
         [TestMethod()]
         public void DiffUserNameEqualsTest()
         {
-            int _id = 0;
-            string userName = string.Empty;
-            string password = string.Empty;
-            string email = string.Empty;
-            PrivilegesGroup userGroup = null;
-            User target = new User(_id, userName, password, email, userGroup);
-            object obj = null;
+            string diffUserName = "blah";
+            object obj = new User(id, diffUserName, password, email, userGroup);
             bool expected = false;
             bool actual;
             actual = target.Equals(obj);
@@ -166,13 +152,8 @@ namespace LocalTypesTest
         [TestMethod()]
         public void DiffPasswordEqualsTest()
         {
-            int _id = 0;
-            string userName = string.Empty;
-            string password = string.Empty;
-            string email = string.Empty;
-            PrivilegesGroup userGroup = null;
-            User target = new User(_id, userName, password, email, userGroup);
-            object obj = null;
+            string diffPassword = "123432";
+            object obj = new User(id, userName, diffPassword, email, userGroup);
             bool expected = false;
             bool actual;
             actual = target.Equals(obj);
@@ -185,13 +166,8 @@ namespace LocalTypesTest
         [TestMethod()]
         public void DiffEmailEqualsTest()
         {
-            int _id = 0;
-            string userName = string.Empty;
-            string password = string.Empty;
-            string email = string.Empty;
-            PrivilegesGroup userGroup = null;
-            User target = new User(_id, userName, password, email, userGroup);
-            object obj = null;
+            string diffEmail = "blah@blah.iter";
+            object obj = new User(id, userName, password, diffEmail, userGroup);
             bool expected = false;
             bool actual;
             actual = target.Equals(obj);
@@ -204,13 +180,11 @@ namespace LocalTypesTest
         [TestMethod()]
         public void DiffUserGroupEqualsTest()
         {
-            int _id = 0;
-            string userName = string.Empty;
-            string password = string.Empty;
-            string email = string.Empty;
-            PrivilegesGroup userGroup = null;
-            User target = new User(_id, userName, password, email, userGroup);
-            object obj = null;
+            PrivilegesGroup diffUserGroup = new PrivilegesGroup(325, "DSATGE", new List<Privilege>()
+                {
+                    new Privilege(456, "3254235")
+                });
+            object obj = new User(id, userName, password, email, diffUserGroup);
             bool expected = false;
             bool actual;
             actual = target.Equals(obj);
@@ -226,15 +200,10 @@ namespace LocalTypesTest
         [TestMethod()]
         public void ToStringTest()
         {
-            int _id = 0; // TODO: Initialize to an appropriate value
-            string userName = string.Empty; // TODO: Initialize to an appropriate value
-            string password = string.Empty; // TODO: Initialize to an appropriate value
-            string email = string.Empty; // TODO: Initialize to an appropriate value
-            PrivilegesGroup userGroup = null; // TODO: Initialize to an appropriate value
-            User target = new User(_id, userName, password, email, userGroup); // TODO: Initialize to an appropriate value
-            string expected = string.Empty; // TODO: Initialize to an appropriate value
-            string actual;
-            actual = target.ToString();
+            string expected = "User name: mez613\nEmail: jack@jingle.high\n";
+            expected += userGroup.ToString();
+
+            string actual = target.ToString();
             Assert.AreEqual(expected, actual);
         }
         
