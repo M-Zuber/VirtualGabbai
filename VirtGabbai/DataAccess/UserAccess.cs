@@ -287,7 +287,8 @@ namespace DataAccess
 
         internal static t_users ConvertSingleLocalUserToDbType(User localTypeUser)
         {
-            return null;
+            return t_users.Createt_users(localTypeUser._Id, localTypeUser.UserName,
+                        localTypeUser.Password, localTypeUser.Email.Address, localTypeUser.UserGroup._Id);
         }
 
         internal static List<User> ConvertMultipleDbUsersToLocalType(List<t_users> dbTypeUserList)
@@ -314,8 +315,17 @@ namespace DataAccess
                 //LOG
                 return null;
             }
+            
+            PrivilegesGroup userGroup = null;
 
-            return null;
+            try
+            {
+                userGroup = PrivilegeGroupAccess.ConvertSingleDbPrivilegesGroupToLocalType(dbTypeUser.t_privilege_groups);
+            }
+            catch{/*LOG*/}
+
+            return new User(dbTypeUser.C_id, dbTypeUser.name, dbTypeUser.password,
+                                                    dbTypeUser.email, userGroup);
         }
 
         #endregion

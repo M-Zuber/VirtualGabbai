@@ -121,11 +121,15 @@ namespace DataAccessTest
         [TestMethod()]
         public void ConvertSingleLocalUserToDbTypeTest()
         {
-            User localTypeUser = null; // TODO: Initialize to an appropriate value
-            t_users expected = null; // TODO: Initialize to an appropriate value
+            User localTypeUser = new User(1,"user:1","pass:1^^^1","1blah@doit.nike", new PrivilegesGroup(1, "admin", new List<Privilege>()));
+            t_users expected = t_users.Createt_users(1,"user:1","pass:1^^^1","1blah@doit.nike",1);
             t_users actual;
             actual = UserAccess.ConvertSingleLocalUserToDbType(localTypeUser);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected.C_id, actual.C_id);
+            Assert.AreEqual(expected.email, actual.email);
+            Assert.AreEqual(expected.name, actual.name);
+            Assert.AreEqual(expected.password, actual.password);
+            Assert.AreEqual(expected.privileges_group, actual.privileges_group);
         }
 
         /// <summary>
@@ -134,8 +138,11 @@ namespace DataAccessTest
         [TestMethod()]
         public void ConvertSingleDbUserToLocalTypeTest()
         {
-            t_users dbTypeUser = null; // TODO: Initialize to an appropriate value
-            User expected = null; // TODO: Initialize to an appropriate value
+            t_users dbTypeUser = t_users.Createt_users(1, "user:1", "pass:1^^^1", "1blah@doit.nike", 201);
+            dbTypeUser.t_privilege_groups = 
+                PrivilegeGroupAccess.ConvertSingleLocalPrivilegesGroupToDbType(
+                                                        PrivilegeGroupAccess.GetPrivilegesGroupById(201));
+            User expected = new User(1,"user:1","pass:1^^^1","1blah@doit.nike",PrivilegeGroupAccess.GetPrivilegesGroupById(201));
             User actual;
             actual = UserAccess.ConvertSingleDbUserToLocalType(dbTypeUser);
             Assert.AreEqual(expected, actual);
