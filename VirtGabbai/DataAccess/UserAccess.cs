@@ -19,22 +19,12 @@ namespace DataAccess
             return null;
         }
 
-        public static List<User> GetByPrivilegesGroup(string privilegeGroupName)
+        public static List<User> GetByPrivilegesGroup(PrivilegesGroup privilegeGroup)
         {
             return null;
         }
 
-        public static List<User> GetByPrivilegesGroup(int privilegeGroupId)
-        {
-            return null;
-        }
-
-        public static List<User> GetByPrivilege(int privilegeId)
-        {
-            return null;
-        }
-
-        public static List<User> GetByPrivilege(string privilegeName)
+        public static List<User> GetByPrivilege(Privilege privilege)
         {
             return null;
         }
@@ -49,6 +39,11 @@ namespace DataAccess
             return null;
         }
 
+        public static User GetByUserId(int id)
+        {
+            return null;
+        }
+
         #endregion
 
         #region Db type return
@@ -57,7 +52,8 @@ namespace DataAccess
         {
             try
             {
-                return null;
+                return (from user in Cache.CacheData.t_users
+                        select user).ToList();
             }
             catch (Exception)
             {
@@ -66,11 +62,13 @@ namespace DataAccess
             }
         }
 
-        private static List<t_users> LookupByPrivilegesGroup(string privilegeGroupName)
+        private static List<t_users> LookupByPrivilegesGroup(t_privilege_groups privilegeGroup)
         {
             try
             {
-                return null;
+                return (from user in Cache.CacheData.t_users
+                        where user.privileges_group == privilegeGroup.C_id
+                        select user).ToList();
             }
             catch (Exception)
             {
@@ -79,37 +77,13 @@ namespace DataAccess
             }
         }
 
-        private static List<t_users> LookupByPrivilegesGroup(int privilegeGroupId)
+        private static List<t_users> LookupByPrivilege(t_privileges privilege)
         {
             try
             {
-                return null;
-            }
-            catch (Exception)
-            {
-                //LOG
-                return null;
-            }
-        }
-
-        private static List<t_users> LookupByPrivilege(int privilegeId)
-        {
-            try
-            {
-                return null;
-            }
-            catch (Exception)
-            {
-                //LOG
-                return null;
-            }
-        }
-
-        private static List<t_users> LookupByPrivilege(string privilegeName)
-        {
-            try
-            {
-                return null;
+                return (from user in Cache.CacheData.t_users
+                        where user.t_privilege_groups.t_privileges.Any(lPrivilege => lPrivilege.C_id == privilege.C_id)
+                        select user).ToList();
             }
             catch (Exception)
             {
@@ -122,7 +96,9 @@ namespace DataAccess
         {
             try
             {
-                return null;
+                return (from user in Cache.CacheData.t_users
+                        where user.name == userName
+                        select user).First();
             }
             catch (Exception)
             {
@@ -135,7 +111,24 @@ namespace DataAccess
         {
             try
             {
+                return (from user in Cache.CacheData.t_users
+                        where user.email == email
+                        select user).First();
+            }
+            catch (Exception)
+            {
+                //LOG
                 return null;
+            }
+        }
+
+        private static t_users LookupByUserId(int id)
+        {
+            try
+            {
+                return (from user in Cache.CacheData.t_users
+                        where user.C_id == id
+                        select user).First();
             }
             catch (Exception)
             {

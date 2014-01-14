@@ -232,6 +232,33 @@ namespace DataAccessTest
         }
 
         /// <summary>
+        ///A test for GetByUserId
+        ///</summary>
+        [TestMethod()]
+        public void GetByUserIdTest()
+        {
+            int id = 0; // TODO: Initialize to an appropriate value
+            User expected = null; // TODO: Initialize to an appropriate value
+            User actual;
+            actual = UserAccess.GetByUserId(id);
+            Assert.AreEqual(expected, actual);
+        }
+
+
+        /// <summary>
+        ///A test for GetByUserId
+        ///</summary>
+        [TestMethod()]
+        public void GetByNonExsistentUserIdTest()
+        {
+            int id = 0; // TODO: Initialize to an appropriate value
+            User expected = null; // TODO: Initialize to an appropriate value
+            User actual;
+            actual = UserAccess.GetByUserId(id);
+            Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
         ///A test for GetByEmail
         ///</summary>
         [TestMethod()]
@@ -261,9 +288,9 @@ namespace DataAccessTest
         ///A test for GetByPrivilege
         ///</summary>
         [TestMethod()]
-        public void GetByPrivilegeIdTest()
+        public void GetByPrivilegeTest()
         {
-            int privilegeId = 0; // TODO: Initialize to an appropriate value
+            Privilege privilegeId = null; // TODO: Initialize to an appropriate value
             List<User> expected = null; // TODO: Initialize to an appropriate value
             List<User> actual;
             actual = UserAccess.GetByPrivilege(privilegeId);
@@ -274,9 +301,9 @@ namespace DataAccessTest
         ///A test for GetByPrivilege
         ///</summary>
         [TestMethod()]
-        public void GetByNonExsistentPrivilegeIdTest()
+        public void GetByNonExsistentPrivilegeTest()
         {
-            int privilegeId = 0; // TODO: Initialize to an appropriate value
+            Privilege privilegeId = null; // TODO: Initialize to an appropriate value
             List<User> expected = null; // TODO: Initialize to an appropriate value
             List<User> actual;
             actual = UserAccess.GetByPrivilege(privilegeId);
@@ -284,38 +311,12 @@ namespace DataAccessTest
         }
 
         /// <summary>
-        ///A test for GetByPrivilege
-        ///</summary>
-        [TestMethod()]
-        public void GetByPrivilegeNameTest()
-        {
-            string privilegeName = string.Empty; // TODO: Initialize to an appropriate value
-            List<User> expected = null; // TODO: Initialize to an appropriate value
-            List<User> actual;
-            actual = UserAccess.GetByPrivilege(privilegeName);
-            Assert.AreEqual(expected, actual);
-        }
-
-        /// <summary>
-        ///A test for GetByPrivilege
-        ///</summary>
-        [TestMethod()]
-        public void GetByNonExsistentPrivilegeNameTest()
-        {
-            string privilegeName = string.Empty; // TODO: Initialize to an appropriate value
-            List<User> expected = null; // TODO: Initialize to an appropriate value
-            List<User> actual;
-            actual = UserAccess.GetByPrivilege(privilegeName);
-            Assert.AreEqual(expected, actual);
-        }
-
-        /// <summary>
         ///A test for GetByPrivilegesGroup
         ///</summary>
         [TestMethod()]
-        public void GetByPrivilegesGroupNameTest()
+        public void GetByPrivilegesGroupTest()
         {
-            string privilegeGroupName = string.Empty; // TODO: Initialize to an appropriate value
+            PrivilegesGroup privilegeGroupName = null; // TODO: Initialize to an appropriate value
             List<User> expected = null; // TODO: Initialize to an appropriate value
             List<User> actual;
             actual = UserAccess.GetByPrivilegesGroup(privilegeGroupName);
@@ -326,38 +327,12 @@ namespace DataAccessTest
         ///A test for GetByPrivilegesGroup
         ///</summary>
         [TestMethod()]
-        public void GetByNonExsistentPrivilegesGroupNameTest()
+        public void GetByNonExsistentPrivilegesGroupTest()
         {
-            string privilegeGroupName = string.Empty; // TODO: Initialize to an appropriate value
+            PrivilegesGroup privilegeGroupName = null; // TODO: Initialize to an appropriate value
             List<User> expected = null; // TODO: Initialize to an appropriate value
             List<User> actual;
             actual = UserAccess.GetByPrivilegesGroup(privilegeGroupName);
-            Assert.AreEqual(expected, actual);
-        }
-
-        /// <summary>
-        ///A test for GetByPrivilegesGroup
-        ///</summary>
-        [TestMethod()]
-        public void GetByPrivilegesGroupIdTest()
-        {
-            int privilegeGroupId = 0; // TODO: Initialize to an appropriate value
-            List<User> expected = null; // TODO: Initialize to an appropriate value
-            List<User> actual;
-            actual = UserAccess.GetByPrivilegesGroup(privilegeGroupId);
-            Assert.AreEqual(expected, actual);
-        }
-
-        /// <summary>
-        ///A test for GetByPrivilegesGroup
-        ///</summary>
-        [TestMethod()]
-        public void GetByNonExsistentPrivilegesGroupIdTest()
-        {
-            int privilegeGroupId = 0; // TODO: Initialize to an appropriate value
-            List<User> expected = null; // TODO: Initialize to an appropriate value
-            List<User> actual;
-            actual = UserAccess.GetByPrivilegesGroup(privilegeGroupId);
             Assert.AreEqual(expected, actual);
         }
 
@@ -398,10 +373,11 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupAllUsersTest()
         {
-            List<t_users> expected = null; // TODO: Initialize to an appropriate value
+            List<t_users> expected = (from user in Cache.CacheData.t_users
+                                      select user).ToList();
             List<t_users> actual;
             actual = UserAccess_Accessor.LookupAllUsers();
-            Assert.AreEqual(expected, actual);
+            CollectionAssert.AreEqual(expected, actual);
         }
 
         /// <summary>
@@ -411,11 +387,15 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupByEmailTest()
         {
-            string email = string.Empty; // TODO: Initialize to an appropriate value
-            t_users expected = null; // TODO: Initialize to an appropriate value
+            string email = "1blah@doit.nike";
+            t_users expected = t_users.Createt_users(1,"name:1","pass:1^^^1","1blah@doit.nike",201);
             t_users actual;
             actual = UserAccess_Accessor.LookupByEmail(email);
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected.C_id, actual.C_id);
+            Assert.AreEqual(expected.email, actual.email);
+            Assert.AreEqual(expected.name, actual.name);
+            Assert.AreEqual(expected.password, actual.password);
+            Assert.AreEqual(expected.privileges_group, actual.privileges_group);
         }
 
         /// <summary>
@@ -425,8 +405,8 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupByNonExsistentEmailTest()
         {
-            string email = string.Empty; // TODO: Initialize to an appropriate value
-            t_users expected = null; // TODO: Initialize to an appropriate value
+            string email = "bad@mail.com";
+            t_users expected = null;
             t_users actual;
             actual = UserAccess_Accessor.LookupByEmail(email);
             Assert.AreEqual(expected, actual);
@@ -437,13 +417,16 @@ namespace DataAccessTest
         ///</summary>
         [TestMethod()]
         [DeploymentItem("DataAccess.dll")]
-        public void LookupByPrivilegeNameTest()
+        public void LookupByPrivilegeTest()
         {
-            string privilegeName = string.Empty; // TODO: Initialize to an appropriate value
-            List<t_users> expected = null; // TODO: Initialize to an appropriate value
+            t_privileges privilege = PrivilegeAccess.LookupPrivilegeById(301);
+
+            List<t_users> expected = (from user in Cache.CacheData.t_users
+                                      where user.t_privilege_groups.t_privileges.Any(lPrivilege => lPrivilege.C_id == privilege.C_id)
+                                      select user).ToList();
             List<t_users> actual;
-            actual = UserAccess_Accessor.LookupByPrivilege(privilegeName);
-            Assert.AreEqual(expected, actual);
+            actual = UserAccess_Accessor.LookupByPrivilege(privilege);
+            CollectionAssert.AreEqual(expected, actual);
         }
 
         /// <summary>
@@ -451,41 +434,13 @@ namespace DataAccessTest
         ///</summary>
         [TestMethod()]
         [DeploymentItem("DataAccess.dll")]
-        public void LookupByNonExsistentPrivilegeNameTest()
+        public void LookupByNonExsistentPrivilegeTest()
         {
-            string privilegeName = string.Empty; // TODO: Initialize to an appropriate value
-            List<t_users> expected = null; // TODO: Initialize to an appropriate value
+            t_privileges privilege = t_privileges.Createt_privileges(9999);
+            List<t_users> expected = new List<t_users>();
             List<t_users> actual;
-            actual = UserAccess_Accessor.LookupByPrivilege(privilegeName);
-            Assert.AreEqual(expected, actual);
-        }
-
-        /// <summary>
-        ///A test for LookupByPrivilege
-        ///</summary>
-        [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
-        public void LookupByPrivilegeTestId()
-        {
-            int privilegeId = 0; // TODO: Initialize to an appropriate value
-            List<t_users> expected = null; // TODO: Initialize to an appropriate value
-            List<t_users> actual;
-            actual = UserAccess_Accessor.LookupByPrivilege(privilegeId);
-            Assert.AreEqual(expected, actual);
-        }
-
-        /// <summary>
-        ///A test for LookupByPrivilege
-        ///</summary>
-        [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
-        public void LookupByNonExsistentPrivilegeTestId()
-        {
-            int privilegeId = 0; // TODO: Initialize to an appropriate value
-            List<t_users> expected = null; // TODO: Initialize to an appropriate value
-            List<t_users> actual;
-            actual = UserAccess_Accessor.LookupByPrivilege(privilegeId);
-            Assert.AreEqual(expected, actual);
+            actual = UserAccess_Accessor.LookupByPrivilege(privilege);
+            CollectionAssert.AreEqual(expected, actual);
         }
 
         /// <summary>
@@ -493,55 +448,31 @@ namespace DataAccessTest
         ///</summary>
         [TestMethod()]
         [DeploymentItem("DataAccess.dll")]
-        public void LookupByPrivilegesGroupIdTest()
+        public void LookupByPrivilegesGroupTest()
         {
-            int privilegeGroupId = 0; // TODO: Initialize to an appropriate value
-            List<t_users> expected = null; // TODO: Initialize to an appropriate value
+            t_privilege_groups privilegeGroup = 
+                PrivilegeGroupAccess.ConvertSingleLocalPrivilegesGroupToDbType(
+                                            PrivilegeGroupAccess.GetPrivilegesGroupById(201));
+            List<t_users> expected = (from user in Cache.CacheData.t_users
+                                      where user.privileges_group == privilegeGroup.C_id
+                                      select user).ToList();
+            List<t_users> actual;
+            actual = UserAccess_Accessor.LookupByPrivilegesGroup(privilegeGroup);
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
+        ///A test for LookupByPrivilegesGroup
+        ///</summary>
+        [TestMethod()]
+        [DeploymentItem("DataAccess.dll")]
+        public void LookupByNonExsistentPrivilegesGroupTest()
+        {
+            t_privilege_groups privilegeGroupId = t_privilege_groups.Createt_privilege_groups(9999); 
+            List<t_users> expected = new List<t_users>(); 
             List<t_users> actual;
             actual = UserAccess_Accessor.LookupByPrivilegesGroup(privilegeGroupId);
-            Assert.AreEqual(expected, actual);
-        }
-
-        /// <summary>
-        ///A test for LookupByPrivilegesGroup
-        ///</summary>
-        [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
-        public void LookupBNonExsistentyPrivilegesGroupIdTest()
-        {
-            int privilegeGroupId = 0; // TODO: Initialize to an appropriate value
-            List<t_users> expected = null; // TODO: Initialize to an appropriate value
-            List<t_users> actual;
-            actual = UserAccess_Accessor.LookupByPrivilegesGroup(privilegeGroupId);
-            Assert.AreEqual(expected, actual);
-        }
-
-        /// <summary>
-        ///A test for LookupByPrivilegesGroup
-        ///</summary>
-        [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
-        public void LookupByPrivilegesGroupNameTest()
-        {
-            string privilegeGroupName = string.Empty; // TODO: Initialize to an appropriate value
-            List<t_users> expected = null; // TODO: Initialize to an appropriate value
-            List<t_users> actual;
-            actual = UserAccess_Accessor.LookupByPrivilegesGroup(privilegeGroupName);
-            Assert.AreEqual(expected, actual);
-        }
-
-        /// <summary>
-        ///A test for LookupByPrivilegesGroup
-        ///</summary>
-        [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
-        public void LookupByNonExsistentPrivilegesGroupNameTest()
-        {
-            string privilegeGroupName = string.Empty; // TODO: Initialize to an appropriate value
-            List<t_users> expected = null; // TODO: Initialize to an appropriate value
-            List<t_users> actual;
-            actual = UserAccess_Accessor.LookupByPrivilegesGroup(privilegeGroupName);
-            Assert.AreEqual(expected, actual);
+            CollectionAssert.AreEqual(expected, actual);
         }
 
         /// <summary>
@@ -551,8 +482,10 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupByUserNameTest()
         {
-            string userName = string.Empty; // TODO: Initialize to an appropriate value
-            t_users expected = null; // TODO: Initialize to an appropriate value
+            string userName = "name:1";
+            t_users expected = (from user in Cache.CacheData.t_users
+                                where user.name == userName
+                                select user).First();
             t_users actual;
             actual = UserAccess_Accessor.LookupByUserName(userName);
             Assert.AreEqual(expected, actual);
@@ -565,13 +498,43 @@ namespace DataAccessTest
         [DeploymentItem("DataAccess.dll")]
         public void LookupByNonExsistentUserNameTest()
         {
-            string userName = string.Empty; // TODO: Initialize to an appropriate value
-            t_users expected = null; // TODO: Initialize to an appropriate value
+            string userName = "blah";
+            t_users expected = null;
             t_users actual;
             actual = UserAccess_Accessor.LookupByUserName(userName);
             Assert.AreEqual(expected, actual);
         }
-        
+
+        /// <summary>
+        ///A test for LookupByUserId
+        ///</summary>
+        [TestMethod()]
+        [DeploymentItem("DataAccess.dll")]
+        public void LookupByUserIdTest()
+        {
+            int id = 1;
+            t_users expected = (from user in Cache.CacheData.t_users
+                                where user.C_id == id
+                                select user).First();
+            t_users actual;
+            actual = UserAccess_Accessor.LookupByUserId(id);
+            Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
+        ///A test for LookupByUserId
+        ///</summary>
+        [TestMethod()]
+        [DeploymentItem("DataAccess.dll")]
+        public void LookupByNonExsistentUserIdTest()
+        {
+            int id = 0; 
+            t_users expected = null;
+            t_users actual;
+            actual = UserAccess_Accessor.LookupByUserId(id);
+            Assert.AreEqual(expected, actual);
+        }
+
         #endregion
 
         #region Update Tests
@@ -630,5 +593,6 @@ namespace DataAccessTest
         }
         
         #endregion
+
     }
 }
