@@ -16,32 +16,34 @@ namespace DataAccess
 
         public static List<User> GetAllUsers()
         {
-            return null;
+            return ConvertMultipleDbUsersToLocalType(LookupAllUsers());
         }
 
         public static List<User> GetByPrivilegesGroup(PrivilegesGroup privilegeGroup)
         {
-            return null;
+            return ConvertMultipleDbUsersToLocalType(LookupByPrivilegesGroup(
+                        PrivilegeGroupAccess.ConvertSingleLocalPrivilegesGroupToDbType(privilegeGroup)));
         }
 
         public static List<User> GetByPrivilege(Privilege privilege)
         {
-            return null;
+            return ConvertMultipleDbUsersToLocalType(LookupByPrivilege(
+                                    PrivilegeAccess.ConvertSingleLocalPrivilegeToDbType(privilege)));
         }
 
         public static User GetByUserName(string userName)
         {
-            return null;
+            return ConvertSingleDbUserToLocalType(LookupByUserName(userName));
         }
 
         public static User GetByEmail(MailAddress email)
         {
-            return null;
+            return ConvertSingleDbUserToLocalType(LookupByEmail(email.Address));
         }
 
         public static User GetByUserId(int id)
         {
-            return null;
+            return ConvertSingleDbUserToLocalType(LookupByUserId(id));
         }
 
         #endregion

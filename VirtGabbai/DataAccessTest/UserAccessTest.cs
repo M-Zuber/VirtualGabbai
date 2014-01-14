@@ -225,10 +225,11 @@ namespace DataAccessTest
         [TestMethod()]
         public void GetAllUsersTest()
         {
-            List<User> expected = null; // TODO: Initialize to an appropriate value
+            List<User> expected = 
+                UserAccess.ConvertMultipleDbUsersToLocalType(UserAccess_Accessor.LookupAllUsers());
             List<User> actual;
             actual = UserAccess.GetAllUsers();
-            Assert.AreEqual(expected, actual);
+            CollectionAssert.AreEqual(expected, actual);
         }
 
         /// <summary>
@@ -237,8 +238,9 @@ namespace DataAccessTest
         [TestMethod()]
         public void GetByUserIdTest()
         {
-            int id = 0; // TODO: Initialize to an appropriate value
-            User expected = null; // TODO: Initialize to an appropriate value
+            int id = 1;
+            User expected = 
+                UserAccess.ConvertSingleDbUserToLocalType(UserAccess_Accessor.LookupByUserId(id));
             User actual;
             actual = UserAccess.GetByUserId(id);
             Assert.AreEqual(expected, actual);
@@ -251,8 +253,8 @@ namespace DataAccessTest
         [TestMethod()]
         public void GetByNonExsistentUserIdTest()
         {
-            int id = 0; // TODO: Initialize to an appropriate value
-            User expected = null; // TODO: Initialize to an appropriate value
+            int id = 0;
+            User expected = null;
             User actual;
             actual = UserAccess.GetByUserId(id);
             Assert.AreEqual(expected, actual);
@@ -264,8 +266,8 @@ namespace DataAccessTest
         [TestMethod()]
         public void GetByEmailTest()
         {
-            MailAddress email = null; // TODO: Initialize to an appropriate value
-            User expected = null; // TODO: Initialize to an appropriate value
+            MailAddress email = new MailAddress("1blah@doit.nike");
+            User expected = UserAccess.GetByUserId(1);
             User actual;
             actual = UserAccess.GetByEmail(email);
             Assert.AreEqual(expected, actual);
@@ -277,8 +279,8 @@ namespace DataAccessTest
         [TestMethod()]
         public void GetByNonExsitentEmailTest()
         {
-            MailAddress email = null; // TODO: Initialize to an appropriate value
-            User expected = null; // TODO: Initialize to an appropriate value
+            MailAddress email = new MailAddress("blah@blah.blah");
+            User expected = null;
             User actual;
             actual = UserAccess.GetByEmail(email);
             Assert.AreEqual(expected, actual);
@@ -290,11 +292,14 @@ namespace DataAccessTest
         [TestMethod()]
         public void GetByPrivilegeTest()
         {
-            Privilege privilegeId = null; // TODO: Initialize to an appropriate value
-            List<User> expected = null; // TODO: Initialize to an appropriate value
+            Privilege privilege = PrivilegeAccess.GetPrivilegeById(301);
+            List<User> expected = 
+                UserAccess.ConvertMultipleDbUsersToLocalType(
+                            UserAccess_Accessor.LookupByPrivilege(
+                                    PrivilegeAccess.ConvertSingleLocalPrivilegeToDbType(privilege)));
             List<User> actual;
-            actual = UserAccess.GetByPrivilege(privilegeId);
-            Assert.AreEqual(expected, actual);
+            actual = UserAccess.GetByPrivilege(privilege);
+            CollectionAssert.AreEqual(expected, actual);
         }
 
         /// <summary>
@@ -303,11 +308,11 @@ namespace DataAccessTest
         [TestMethod()]
         public void GetByNonExsistentPrivilegeTest()
         {
-            Privilege privilegeId = null; // TODO: Initialize to an appropriate value
-            List<User> expected = null; // TODO: Initialize to an appropriate value
+            Privilege privilegeId = new Privilege(9999, "fooBar");
+            List<User> expected = new List<User>();
             List<User> actual;
             actual = UserAccess.GetByPrivilege(privilegeId);
-            Assert.AreEqual(expected, actual);
+            CollectionAssert.AreEqual(expected, actual);
         }
 
         /// <summary>
@@ -316,11 +321,14 @@ namespace DataAccessTest
         [TestMethod()]
         public void GetByPrivilegesGroupTest()
         {
-            PrivilegesGroup privilegeGroupName = null; // TODO: Initialize to an appropriate value
-            List<User> expected = null; // TODO: Initialize to an appropriate value
+            PrivilegesGroup privilegeGroup = PrivilegeGroupAccess.GetPrivilegesGroupById(201);
+            List<User> expected = 
+                UserAccess.ConvertMultipleDbUsersToLocalType(
+                        UserAccess_Accessor.LookupByPrivilegesGroup(
+                        PrivilegeGroupAccess.ConvertSingleLocalPrivilegesGroupToDbType(privilegeGroup)));
             List<User> actual;
-            actual = UserAccess.GetByPrivilegesGroup(privilegeGroupName);
-            Assert.AreEqual(expected, actual);
+            actual = UserAccess.GetByPrivilegesGroup(privilegeGroup);
+            CollectionAssert.AreEqual(expected, actual);
         }
 
         /// <summary>
@@ -329,11 +337,11 @@ namespace DataAccessTest
         [TestMethod()]
         public void GetByNonExsistentPrivilegesGroupTest()
         {
-            PrivilegesGroup privilegeGroupName = null; // TODO: Initialize to an appropriate value
-            List<User> expected = null; // TODO: Initialize to an appropriate value
+            PrivilegesGroup privilegeGroupName = new PrivilegesGroup(9999, "blah", new List<Privilege>());
+            List<User> expected = new List<User>();
             List<User> actual;
             actual = UserAccess.GetByPrivilegesGroup(privilegeGroupName);
-            Assert.AreEqual(expected, actual);
+            CollectionAssert.AreEqual(expected, actual);
         }
 
         /// <summary>
@@ -342,8 +350,8 @@ namespace DataAccessTest
         [TestMethod()]
         public void GetByUserNameTest()
         {
-            string userName = string.Empty; // TODO: Initialize to an appropriate value
-            User expected = null; // TODO: Initialize to an appropriate value
+            string userName = "name:1";
+            User expected = UserAccess.GetByUserId(1);
             User actual;
             actual = UserAccess.GetByUserName(userName);
             Assert.AreEqual(expected, actual);
@@ -355,8 +363,8 @@ namespace DataAccessTest
         [TestMethod()]
         public void GetByNonExsistentUserNameTest()
         {
-            string userName = string.Empty; // TODO: Initialize to an appropriate value
-            User expected = null; // TODO: Initialize to an appropriate value
+            string userName = "blah";
+            User expected = null;
             User actual;
             actual = UserAccess.GetByUserName(userName);
             Assert.AreEqual(expected, actual);
