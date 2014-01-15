@@ -193,8 +193,14 @@ namespace DataAccessTest
         [TestMethod()]
         public void DeleteMultipleUsersTest()
         {
-            List<User> deletedUserList = null; // TODO: Initialize to an appropriate value
+            List<User> deletedUserList = new List<User>()
+            {
+                UserAccess.GetByUserId(3),
+                UserAccess.GetByUserId(4)
+            };
             UserAccess.DeleteMultipleUsers(deletedUserList);
+            List<User> afterDelete = UserAccess.GetAllUsers();
+            Assert.IsFalse(afterDelete.Contains(deletedUserList));
         }
 
         /// <summary>
@@ -203,11 +209,13 @@ namespace DataAccessTest
         [TestMethod()]
         public void DeleteSingleUserTest()
         {
-            User deletedUser = null; // TODO: Initialize to an appropriate value
-            Enums.CRUDResults expected = new Enums.CRUDResults(); // TODO: Initialize to an appropriate value
+            User deletedUser = UserAccess.GetByUserId(2);
+            Enums.CRUDResults expected = Enums.CRUDResults.DELETE_SUCCESS;
             Enums.CRUDResults actual;
             actual = UserAccess.DeleteSingleUser(deletedUser);
             Assert.AreEqual(expected, actual);
+            List<User> afterDelete = UserAccess.GetAllUsers();
+            Assert.IsFalse(afterDelete.Contains(deletedUser));
         }
 
         /// <summary>
@@ -216,8 +224,8 @@ namespace DataAccessTest
         [TestMethod()]
         public void DeleteSingleNonExsistentUserTest()
         {
-            User deletedUser = null; // TODO: Initialize to an appropriate value
-            Enums.CRUDResults expected = new Enums.CRUDResults(); // TODO: Initialize to an appropriate value
+            User deletedUser = new User(613, "name:11", "11^^^11", "11blah@doit.nike", PrivilegeGroupAccess.GetPrivilegesGroupById(201));
+            Enums.CRUDResults expected = Enums.CRUDResults.DELETE_FAIL;
             Enums.CRUDResults actual;
             actual = UserAccess.DeleteSingleUser(deletedUser);
             Assert.AreEqual(expected, actual);

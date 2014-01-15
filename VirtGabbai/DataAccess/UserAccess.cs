@@ -218,6 +218,9 @@ namespace DataAccess
         {
             try
             {
+                t_users userDeleting =
+                    Cache.CacheData.t_users.First(user => user.C_id == deletedUser._Id);
+                Cache.CacheData.t_users.DeleteObject(userDeleting);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.DELETE_SUCCESS;
             }
