@@ -620,11 +620,15 @@ namespace DataAccessTest
         [TestMethod()]
         public void UpsertAddSingleUserTest()
         {
-            User upsertedUser = null; // TODO: Initialize to an appropriate value
-            Enums.CRUDResults expected = new Enums.CRUDResults(); // TODO: Initialize to an appropriate value
+            User upsertedUser = 
+                new User(14, "name:14", "14^^^14", "14blah@doit.nike",
+                                    PrivilegeGroupAccess.GetPrivilegesGroupById(201));
+            Enums.CRUDResults expected = Enums.CRUDResults.CREATE_SUCCESS;
             Enums.CRUDResults actual;
             actual = UserAccess.UpsertSingleUser(upsertedUser);
             Assert.AreEqual(expected, actual);
+            List<User> afterUpsert = UserAccess.GetAllUsers();
+            Assert.IsTrue(afterUpsert.Contains(upsertedUser));
         }
 
         /// <summary>
@@ -633,11 +637,14 @@ namespace DataAccessTest
         [TestMethod()]
         public void UpsertMultipleSingleUserTest()
         {
-            User upsertedUser = null; // TODO: Initialize to an appropriate value
-            Enums.CRUDResults expected = new Enums.CRUDResults(); // TODO: Initialize to an appropriate value
+            User upsertedUser = UserAccess.GetByUserId(8);
+            upsertedUser.UserName += "maximillian";
+            Enums.CRUDResults expected = Enums.CRUDResults.UPDATE_SUCCESS;
             Enums.CRUDResults actual;
             actual = UserAccess.UpsertSingleUser(upsertedUser);
             Assert.AreEqual(expected, actual);
+            User afterUpsert = UserAccess.GetByUserId(8);
+            Assert.AreEqual(upsertedUser, afterUpsert);
         }
         
         #endregion

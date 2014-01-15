@@ -254,7 +254,7 @@ namespace DataAccess
 
         public static Enums.CRUDResults UpsertSingleUser(User upsertedUser)
         {
-            User currentUser = null;//GetUserById(upsertedUser._Id);
+            User currentUser = GetByUserId(upsertedUser._Id);
 
             if (currentUser == null)
             {
