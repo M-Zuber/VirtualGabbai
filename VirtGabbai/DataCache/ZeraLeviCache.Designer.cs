@@ -8,12 +8,13 @@
 //------------------------------------------------------------------------------
 
 using System;
+using System.ComponentModel;
+using System.Data.EntityClient;
 using System.Data.Objects;
 using System.Data.Objects.DataClasses;
-using System.Data.EntityClient;
-using System.ComponentModel;
-using System.Xml.Serialization;
+using System.Linq;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 [assembly: EdmSchemaAttribute()]
 #region EDM Relationship Metadata
@@ -219,24 +220,9 @@ namespace DataCache
             }
         }
         private ObjectSet<t_yahrtziehts> _t_yahrtziehts;
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        public ObjectSet<t_yarthziehts> t_yarthziehts
-        {
-            get
-            {
-                if ((_t_yarthziehts == null))
-                {
-                    _t_yarthziehts = base.CreateObjectSet<t_yarthziehts>("t_yarthziehts");
-                }
-                return _t_yarthziehts;
-            }
-        }
-        private ObjectSet<t_yarthziehts> _t_yarthziehts;
 
         #endregion
+
         #region AddTo Methods
     
         /// <summary>
@@ -310,16 +296,9 @@ namespace DataCache
         {
             base.AddObject("t_yahrtziehts", t_yahrtziehts);
         }
-    
-        /// <summary>
-        /// Deprecated Method for adding a new object to the t_yarthziehts EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
-        /// </summary>
-        public void AddTot_yarthziehts(t_yarthziehts t_yarthziehts)
-        {
-            base.AddObject("t_yarthziehts", t_yarthziehts);
-        }
 
         #endregion
+
         #region Function Imports
     
         /// <summary>
@@ -331,11 +310,11 @@ namespace DataCache
         }
 
         #endregion
+
     }
-    
 
     #endregion
-    
+
     #region Entities
     
     /// <summary>
@@ -362,6 +341,7 @@ namespace DataCache
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -464,6 +444,7 @@ namespace DataCache
         partial void Onlast_month_paidChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -528,6 +509,7 @@ namespace DataCache
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -562,6 +544,7 @@ namespace DataCache
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -760,6 +743,7 @@ namespace DataCache
         partial void OncommentsChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -802,6 +786,7 @@ namespace DataCache
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -826,6 +811,7 @@ namespace DataCache
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -976,6 +962,7 @@ namespace DataCache
         partial void OnmemberChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -1046,6 +1033,7 @@ namespace DataCache
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -1076,6 +1064,7 @@ namespace DataCache
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -1178,6 +1167,7 @@ namespace DataCache
         partial void OnC_idChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -1258,6 +1248,7 @@ namespace DataCache
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -1284,6 +1275,7 @@ namespace DataCache
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -1338,6 +1330,7 @@ namespace DataCache
         partial void Ontype_nameChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -1364,6 +1357,7 @@ namespace DataCache
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -1388,6 +1382,7 @@ namespace DataCache
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -1442,6 +1437,7 @@ namespace DataCache
         partial void Ongroup_nameChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -1490,6 +1486,7 @@ namespace DataCache
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -1514,6 +1511,7 @@ namespace DataCache
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -1568,6 +1566,7 @@ namespace DataCache
         partial void Onprivilege_nameChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -1594,6 +1593,7 @@ namespace DataCache
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -1626,6 +1626,7 @@ namespace DataCache
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -1752,6 +1753,7 @@ namespace DataCache
         partial void Onprivileges_groupChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -1794,6 +1796,7 @@ namespace DataCache
         }
 
         #endregion
+
     }
     
     /// <summary>
@@ -1824,6 +1827,7 @@ namespace DataCache
         }
 
         #endregion
+
         #region Primitive Properties
     
         /// <summary>
@@ -1950,6 +1954,7 @@ namespace DataCache
         partial void Ondeceaseds_nameChanged();
 
         #endregion
+
     
         #region Navigation Properties
     
@@ -1992,165 +1997,10 @@ namespace DataCache
         }
 
         #endregion
-    }
-    
-    /// <summary>
-    /// No Metadata Documentation available.
-    /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="zera_leviModel", Name="t_yarthziehts")]
-    [Serializable()]
-    [DataContractAttribute(IsReference=true)]
-    public partial class t_yarthziehts : EntityObject
-    {
-        #region Factory Method
-    
-        /// <summary>
-        /// Create a new t_yarthziehts object.
-        /// </summary>
-        /// <param name="c_id">Initial value of the C_id property.</param>
-        /// <param name="person_id">Initial value of the person_id property.</param>
-        /// <param name="date">Initial value of the date property.</param>
-        /// <param name="deceaseds_name">Initial value of the deceaseds_name property.</param>
-        public static t_yarthziehts Createt_yarthziehts(global::System.Int32 c_id, global::System.Int32 person_id, global::System.DateTime date, global::System.String deceaseds_name)
-        {
-            t_yarthziehts t_yarthziehts = new t_yarthziehts();
-            t_yarthziehts.C_id = c_id;
-            t_yarthziehts.person_id = person_id;
-            t_yarthziehts.date = date;
-            t_yarthziehts.deceaseds_name = deceaseds_name;
-            return t_yarthziehts;
-        }
 
-        #endregion
-        #region Primitive Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 C_id
-        {
-            get
-            {
-                return _C_id;
-            }
-            set
-            {
-                if (_C_id != value)
-                {
-                    OnC_idChanging(value);
-                    ReportPropertyChanging("C_id");
-                    _C_id = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("C_id");
-                    OnC_idChanged();
-                }
-            }
-        }
-        private global::System.Int32 _C_id;
-        partial void OnC_idChanging(global::System.Int32 value);
-        partial void OnC_idChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 person_id
-        {
-            get
-            {
-                return _person_id;
-            }
-            set
-            {
-                Onperson_idChanging(value);
-                ReportPropertyChanging("person_id");
-                _person_id = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("person_id");
-                Onperson_idChanged();
-            }
-        }
-        private global::System.Int32 _person_id;
-        partial void Onperson_idChanging(global::System.Int32 value);
-        partial void Onperson_idChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public global::System.String relation
-        {
-            get
-            {
-                return _relation;
-            }
-            set
-            {
-                OnrelationChanging(value);
-                ReportPropertyChanging("relation");
-                _relation = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("relation");
-                OnrelationChanged();
-            }
-        }
-        private global::System.String _relation;
-        partial void OnrelationChanging(global::System.String value);
-        partial void OnrelationChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.DateTime date
-        {
-            get
-            {
-                return _date;
-            }
-            set
-            {
-                OndateChanging(value);
-                ReportPropertyChanging("date");
-                _date = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("date");
-                OndateChanged();
-            }
-        }
-        private global::System.DateTime _date;
-        partial void OndateChanging(global::System.DateTime value);
-        partial void OndateChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.String deceaseds_name
-        {
-            get
-            {
-                return _deceaseds_name;
-            }
-            set
-            {
-                Ondeceaseds_nameChanging(value);
-                ReportPropertyChanging("deceaseds_name");
-                _deceaseds_name = StructuralObject.SetValidValue(value, false);
-                ReportPropertyChanged("deceaseds_name");
-                Ondeceaseds_nameChanged();
-            }
-        }
-        private global::System.String _deceaseds_name;
-        partial void Ondeceaseds_nameChanging(global::System.String value);
-        partial void Ondeceaseds_nameChanged();
-
-        #endregion
-    
     }
 
     #endregion
+
     
 }

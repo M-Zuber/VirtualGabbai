@@ -16,7 +16,6 @@
           <EntitySet Name="t_privileges_per_group" EntityType="zera_leviModel.Store.t_privileges_per_group" store:Type="Tables" Schema="zera_levi" />
           <EntitySet Name="t_users" EntityType="zera_leviModel.Store.t_users" store:Type="Tables" Schema="zera_levi" />
           <EntitySet Name="t_yahrtziehts" EntityType="zera_leviModel.Store.t_yahrtziehts" store:Type="Tables" Schema="zera_levi" />
-          <EntitySet Name="t_yarthziehts" EntityType="zera_leviModel.Store.t_yarthziehts" store:Type="Tables" Schema="zera_levi" />
           <AssociationSet Name="fk_accounts_people1" Association="zera_leviModel.Store.fk_accounts_people1">
             <End Role="t_people" EntitySet="t_people" />
             <End Role="t_accounts" EntitySet="t_accounts" />
@@ -132,16 +131,6 @@
           <Property Name="privileges_group" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="t_yahrtziehts">
-          <Key>
-            <PropertyRef Name="_id" />
-          </Key>
-          <Property Name="_id" Type="int" Nullable="false" />
-          <Property Name="person_id" Type="int" Nullable="false" />
-          <Property Name="relation" Type="varchar" MaxLength="45" />
-          <Property Name="date" Type="datetime" Nullable="false" />
-          <Property Name="deceaseds_name" Type="varchar" Nullable="false" MaxLength="45" />
-        </EntityType>
-        <EntityType Name="t_yarthziehts">
           <Key>
             <PropertyRef Name="_id" />
           </Key>
@@ -278,7 +267,6 @@
           <EntitySet Name="t_privileges" EntityType="zera_leviModel.t_privileges" />
           <EntitySet Name="t_users" EntityType="zera_leviModel.t_users" />
           <EntitySet Name="t_yahrtziehts" EntityType="zera_leviModel.t_yahrtziehts" />
-          <EntitySet Name="t_yarthziehts" EntityType="zera_leviModel.t_yarthziehts" />
           <AssociationSet Name="fk_accounts_people1" Association="zera_leviModel.fk_accounts_people1">
             <End Role="t_people" EntitySet="t_people" />
             <End Role="t_accounts" EntitySet="t_accounts" />
@@ -405,16 +393,6 @@
           <Property Name="date" Type="DateTime" Nullable="false" />
           <Property Name="deceaseds_name" Type="String" Nullable="false" MaxLength="45" Unicode="false" FixedLength="false" />
           <NavigationProperty Name="t_people" Relationship="zera_leviModel.fk_yahrtziehts_people1" FromRole="t_yahrtziehts" ToRole="t_people" />
-        </EntityType>
-        <EntityType Name="t_yarthziehts">
-          <Key>
-            <PropertyRef Name="C_id" />
-          </Key>
-          <Property Name="C_id" Type="Int32" Nullable="false" />
-          <Property Name="person_id" Type="Int32" Nullable="false" />
-          <Property Name="relation" Type="String" MaxLength="45" Unicode="false" FixedLength="false" />
-          <Property Name="date" Type="DateTime" Nullable="false" />
-          <Property Name="deceaseds_name" Type="String" Nullable="false" MaxLength="45" Unicode="false" FixedLength="false" />
         </EntityType>
         <Association Name="fk_accounts_people1">
           <End Role="t_people" Type="zera_leviModel.t_people" Multiplicity="1">
@@ -566,13 +544,6 @@
             <ScalarProperty Name="date" ColumnName="date" />
             <ScalarProperty Name="deceaseds_name" ColumnName="deceaseds_name" />
           </MappingFragment></EntityTypeMapping></EntitySetMapping>
-          <EntitySetMapping Name="t_yarthziehts"><EntityTypeMapping TypeName="zera_leviModel.t_yarthziehts"><MappingFragment StoreEntitySet="t_yarthziehts">
-            <ScalarProperty Name="C_id" ColumnName="_id" />
-            <ScalarProperty Name="person_id" ColumnName="person_id" />
-            <ScalarProperty Name="relation" ColumnName="relation" />
-            <ScalarProperty Name="date" ColumnName="date" />
-            <ScalarProperty Name="deceaseds_name" ColumnName="deceaseds_name" />
-          </MappingFragment></EntityTypeMapping></EntitySetMapping>
           <AssociationSetMapping Name="t_privileges_per_group" TypeName="zera_leviModel.t_privileges_per_group" StoreEntitySet="t_privileges_per_group">
             <EndProperty Name="t_privilege_groups">
               <ScalarProperty Name="C_id" ColumnName="group_id" />
@@ -612,7 +583,6 @@
         <EntityTypeShape EntityType="zera_leviModel.t_privileges" Width="1.5" PointX="11" PointY="1" Height="1.5956835937499996" IsExpanded="true" />
         <EntityTypeShape EntityType="zera_leviModel.t_users" Width="1.5" PointX="11" PointY="3.375" Height="2.1725878906249996" IsExpanded="true" />
         <EntityTypeShape EntityType="zera_leviModel.t_yahrtziehts" Width="1.5" PointX="3" PointY="9.125" Height="2.1725878906249996" IsExpanded="true" />
-        <EntityTypeShape EntityType="zera_leviModel.t_yarthziehts" Width="1.5" PointX="8.75" PointY="6.75" Height="1.9802864583333317" IsExpanded="true" />
         <AssociationConnector Association="zera_leviModel.fk_accounts_people1" ManuallyRouted="false">
           <ConnectorPoint PointX="2.25" PointY="4.6487939453125" />
           <ConnectorPoint PointX="3" PointY="4.6487939453125" />
