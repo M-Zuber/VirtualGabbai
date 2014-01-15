@@ -151,7 +151,12 @@ namespace DataAccess
         {
             try
             {
+                PrivilegeGroupAccess.UpsertSinglePrivilegesGroup(newUser.UserGroup);
+
+                t_users newDbUser = ConvertSingleLocalUserToDbType(newUser);
+                Cache.CacheData.t_users.AddObject(newDbUser);
                 Cache.CacheData.SaveChanges();
+
                 return Enums.CRUDResults.CREATE_SUCCESS;
             }
             catch (Exception)

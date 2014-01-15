@@ -158,11 +158,13 @@ namespace DataAccessTest
         [TestMethod()]
         public void AddNewUserTest()
         {
-            User newUser = null; // TODO: Initialize to an appropriate value
-            Enums.CRUDResults expected = new Enums.CRUDResults(); // TODO: Initialize to an appropriate value
+            User newUser = new User(11, "name:11", "11^^^11", "11blah@doit.nike", PrivilegeGroupAccess.GetPrivilegesGroupById(201));
+            Enums.CRUDResults expected = Enums.CRUDResults.CREATE_SUCCESS;
             Enums.CRUDResults actual;
             actual = UserAccess.AddNewUser(newUser);
             Assert.AreEqual(expected, actual);
+            User afterAdd = UserAccess.GetByUserId(11);
+            Assert.AreEqual(newUser, afterAdd);
         }
 
         /// <summary>
@@ -171,8 +173,14 @@ namespace DataAccessTest
         [TestMethod()]
         public void AddMultipleNewUsersTest()
         {
-            List<User> newUserList = null; // TODO: Initialize to an appropriate value
+            List<User> newUserList = new List<User>()
+            {
+                new User(12, "name:12", "12^^^12", "12@doit.nike", PrivilegeGroupAccess.GetPrivilegesGroupById(201)),
+                new User(13, "name:13", "13^^^13", "13@doit.nike", PrivilegeGroupAccess.GetPrivilegesGroupById(201))
+            };
             UserAccess.AddMultipleNewUsers(newUserList);
+            List<User> afterAdd = UserAccess.GetAllUsers();
+            Assert.IsTrue(afterAdd.Contains(afterAdd));
         }
         
         #endregion
