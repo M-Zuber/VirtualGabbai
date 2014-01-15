@@ -187,6 +187,10 @@ namespace DataAccess
         {
             try
             {
+                PrivilegeGroupAccess.UpsertSinglePrivilegesGroup(updatedUser.UserGroup);
+                t_users userUpdating = LookupByUserId(updatedUser._Id);
+                userUpdating = ConvertSingleLocalUserToDbType(updatedUser);
+                Cache.CacheData.t_users.ApplyCurrentValues(userUpdating);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.UPDATE_SUCCESS;
             }

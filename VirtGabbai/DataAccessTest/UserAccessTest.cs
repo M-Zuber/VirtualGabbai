@@ -569,8 +569,16 @@ namespace DataAccessTest
         [TestMethod()]
         public void UpdateMultipleUsersTest()
         {
-            List<User> updatedUserList = null; // TODO: Initialize to an appropriate value
+            List<User> updatedUserList = new List<User>()
+            {
+                UserAccess.GetByUserId(6),
+                UserAccess.GetByUserId(7)
+            };
+            updatedUserList[0].UserName = "jhon";
+            updatedUserList[1].Email = new MailAddress("foo@bar.js");
             UserAccess.UpdateMultipleUsers(updatedUserList);
+            List<User> afterUpdate = UserAccess.GetAllUsers();
+            Assert.IsTrue(afterUpdate.Contains(updatedUserList));
         }
 
         /// <summary>
@@ -579,8 +587,24 @@ namespace DataAccessTest
         [TestMethod()]
         public void UpdateSingleUserTest()
         {
-            User updatedUser = null; // TODO: Initialize to an appropriate value
-            Enums.CRUDResults expected = new Enums.CRUDResults(); // TODO: Initialize to an appropriate value
+            User updatedUser = UserAccess.GetByUserId(5);
+            updatedUser.Password += "@<script>background:yellow</script>";
+            Enums.CRUDResults expected = Enums.CRUDResults.UPDATE_SUCCESS;
+            Enums.CRUDResults actual;
+            actual = UserAccess.UpdateSingleUser(updatedUser);
+            Assert.AreEqual(expected, actual);
+            User afterUpdate = UserAccess.GetByUserId(5);
+            Assert.AreEqual(updatedUser, afterUpdate);
+        }
+
+        /// <summary>
+        ///A test for UpdateSingleUser
+        ///</summary>
+        [TestMethod()]
+        public void UpdateSingleNonExsistentUserTest()
+        {
+            User updatedUser = new User(613, "", "", "blah@blah.com", null);
+            Enums.CRUDResults expected = Enums.CRUDResults.UPDATE_FAIL;
             Enums.CRUDResults actual;
             actual = UserAccess.UpdateSingleUser(updatedUser);
             Assert.AreEqual(expected, actual);
