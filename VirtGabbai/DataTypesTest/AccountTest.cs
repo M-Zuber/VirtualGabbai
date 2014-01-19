@@ -98,7 +98,7 @@ namespace LocalTypesTest
         ///Comparing two accounts with a difference in the donations list
         ///</summary>
         [TestMethod()]
-        public void DiffrencesInDonationsEqualsTest()
+        public void Account_Equals_DifferenceInDonations_Test()
         {   
             List<Donation> otherDonations = new List<Donation>();
             otherDonations.AddRange(allDonations);
@@ -114,7 +114,7 @@ namespace LocalTypesTest
         ///Comparing two accounts with a difference in the last montly payment date
         ///</summary>
         [TestMethod()]
-        public void DiffLastMonthlyPaymentDateEqualsTest()
+        public void Account_Equals_DifferenceInLastMonthlyPayment_Test()
         {
             Account otherAccount = new Account(id, monthlyPaymentTotal, DateTime.MaxValue, allDonations);
             Assert.IsFalse(targetAccount.Equals(otherAccount));
@@ -124,7 +124,7 @@ namespace LocalTypesTest
         ///Comparing two accounts with a difference in the monthly payment total
         ///</summary>
         [TestMethod()]
-        public void DiffMonthlyPaymentTotalEqualsTest()
+        public void Account_Equals_DifferenceInMonthlyPaymentTotal_Test()
         {
             Account otherAccount = new Account(id, (2 * monthlyPaymentTotal), lastMonthlyPaymentDate, allDonations);
             Assert.IsFalse(targetAccount.Equals(otherAccount));
@@ -134,7 +134,7 @@ namespace LocalTypesTest
         ///Comparing two accounts with a difference in the id
         ///</summary>
         [TestMethod()]
-        public void DiffIdEqualsTest()
+        public void Account_Equals_DifferenceInId_Test()
         {
             Account otherAccount = new Account((id * 2), monthlyPaymentTotal, lastMonthlyPaymentDate, allDonations);
             Assert.IsFalse(targetAccount.Equals(otherAccount));
@@ -144,7 +144,7 @@ namespace LocalTypesTest
         ///Comparing two accounts with no differences
         ///</summary>
         [TestMethod()]
-        public void AllSameEqualsTest()
+        public void Account_Equals_NoDifferences_Test()
         {
             Account otherAccount = new Account(id, monthlyPaymentTotal, lastMonthlyPaymentDate, allDonations);
             Assert.IsTrue(targetAccount.Equals(otherAccount));
@@ -154,7 +154,7 @@ namespace LocalTypesTest
         ///Comparing two accounts with every field different
         ///</summary>
         [TestMethod()]
-        public void AllDiffEqualsTest()
+        public void Account_Equals_DifferenceInEveryField_Test()
         {
             List<Donation> otherDonation = new List<Donation>();
             otherDonation.AddRange(allDonations);
@@ -174,7 +174,7 @@ namespace LocalTypesTest
         ///</summary>
         [TestMethod()]
         [DeploymentItem("DataTypes.dll")]
-        public void AllDonationsPaidGetPaidDonationsTest()
+        public void Account_GetPaidDonations_AllDonations_ofType_PaidDonation_Test()
         {
             List<Donation> allDonations = new List<Donation>()
             {
@@ -200,7 +200,7 @@ namespace LocalTypesTest
         ///</summary>
         [TestMethod()]
         [DeploymentItem("DataTypes.dll")]
-        public void SomeDonationsPaidGetPaidDonationsTest()
+        public void Account_GetPaidDonations_SomeDonations_ofType_PaidDonation_Test()
         {
             List<Donation> allDonations = new List<Donation>()
             {
@@ -225,7 +225,7 @@ namespace LocalTypesTest
         ///</summary>
         [TestMethod()]
         [DeploymentItem("DataTypes.dll")]
-        public void NoDonationsPaidGetPaidDonationsTest()
+        public void Account_GetPaidDonations_NoDonations_ofType_PaidDonation_Test()
         {
             List<Donation> allDonations = new List<Donation>()
             {
@@ -248,7 +248,7 @@ namespace LocalTypesTest
         ///</summary>
         [TestMethod()]
         [DeploymentItem("DataTypes.dll")]
-        public void NoDonationsUnpaidGetUnpaidDonationsTest()
+        public void Account_GetUnpaidDonations_NoDonations_ofType_Donation_Test()
         {
             List<Donation> allDonations = new List<Donation>()
             {
@@ -267,7 +267,7 @@ namespace LocalTypesTest
         ///</summary>
         [TestMethod()]
         [DeploymentItem("DataTypes.dll")]
-        public void SomeDonationsUnpaidGetUnpaidDonationsTest()
+        public void Account_GetUnpaidDonations_SomeDonations_ofType_Donation_Test()
         {
             List<Donation> allDonations = new List<Donation>()
             {
@@ -297,7 +297,7 @@ namespace LocalTypesTest
         ///</summary>
         [TestMethod()]
         [DeploymentItem("DataTypes.dll")]
-        public void AllDonationsUnpaidGetUnpaidDonationsTest()
+        public void Account_GetUnpaidDonations_AllDonations_ofType_Donation_Test()
         {
             List<Donation> allDonations = new List<Donation>()
             {
@@ -326,7 +326,7 @@ namespace LocalTypesTest
         ///A test for ToString
         ///</summary>
         [TestMethod()]
-        public void ToStringTest()
+        public void Account_ToStringTest()
         {
             string donations = "";
             foreach (Donation CurrDonation in targetAccount.UnpaidDonations)
