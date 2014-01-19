@@ -323,7 +323,7 @@ namespace LocalTypesTest
         #region ToString Tests
         
         /// <summary>
-        ///A test for ToString
+        ///Account.ToString() test
         ///</summary>
         [TestMethod()]
         public void Account_ToStringTest()

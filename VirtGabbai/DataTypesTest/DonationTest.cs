@@ -85,7 +85,7 @@ namespace LocalTypesTest
         #region ToString Test
 
         /// <summary>
-        ///A test for ToString
+        ///Donation.ToString() with all fields set
         ///</summary>
         [TestMethod()]
         public void Donation_ToString_AllFieldsSet_Test()
@@ -99,7 +99,7 @@ namespace LocalTypesTest
         }
 
         /// <summary>
-        ///A test for ToString
+        ///Donation.ToString() with no comment
         ///</summary>
         [TestMethod()]
         public void Donation_ToString_NoComment_Test()
