@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Framework;
 
 namespace LocalTypes
@@ -81,7 +79,7 @@ namespace LocalTypes
 
         #region Other Methods
 
-        private List<Donation> GetUnpaidDonations(List<Donation> allDonations)
+        private static List<Donation> GetUnpaidDonations(List<Donation> allDonations)
         {
             List<Donation> filteredList = new List<Donation>();
 
@@ -96,7 +94,7 @@ namespace LocalTypes
             return filteredList;
         }
 
-        private List<PaidDonation> GetPaidDonations(List<Donation> allDonations)
+        private static List<PaidDonation> GetPaidDonations(List<Donation> allDonations)
         {
             List<PaidDonation> filteredList = new List<PaidDonation>();
 
