@@ -14,6 +14,12 @@ namespace DataAccessTest
     public class PhoneNumberTest
     {
 
+        #region Test Data Members
+
+        //Target Data Members
+        PhoneNumber targetPhoneNumber = null;
+
+        #endregion
 
         private TestContext testContextInstance;
 
@@ -50,103 +56,71 @@ namespace DataAccessTest
         //}
         //
         //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
+        [TestInitialize()]
+        public void MyTestInitialize()
+        {
+            targetPhoneNumber = new PhoneNumber(1, "0546137475", new PhoneType(1, "cell phone"));
+        }
         //
         //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
+        [TestCleanup()]
+        public void MyTestCleanup()
+        {
+            targetPhoneNumber = null;
+        }
         //
         #endregion
 
         #region Equals Test
 
         /// <summary>
-        ///A test for Equals
+        ///Comparing two phone numbers with no differences
         ///</summary>
         [TestMethod()]
-        public void AllSameEqualsTest()
+        public void PhoneNumber_Equals_NoDifferences_Test()
         {
-            PhoneNumber target = new PhoneNumber(1, "0546137475", new PhoneType(1,"cell phone"));
             PhoneNumber comparedNumber = new PhoneNumber(1, "0546137475", new PhoneType(1, "cell phone"));
-            bool expected = true;
-            bool actual;
-            actual = target.Equals(comparedNumber);
-            Assert.AreEqual(expected, actual);
+            Assert.IsTrue(targetPhoneNumber.Equals(comparedNumber));
         }
 
         /// <summary>
-        ///A test for Equals
+        ///Comparing two phone numbers with a difference in every field
         ///</summary>
         [TestMethod()]
-        public void AllDiffEqualsTest()
+        public void PhoneNumber_Equals_DifferenceInEveryField_Test()
         {
-            PhoneNumber target = new PhoneNumber(1, "0546137475", new PhoneType(1, "cell phone"));
             PhoneNumber comparedNumber = new PhoneNumber(2, "0546147485", new PhoneType(2, "house phone"));
-            bool expected = false;
-            bool actual;
-            actual = target.Equals(comparedNumber);
-            Assert.AreEqual(expected, actual);
+            Assert.IsFalse(targetPhoneNumber.Equals(comparedNumber));
         }
 
         /// <summary>
-        ///A test for Equals
+        ///Comparing two phone numbers with a difference in the id
         ///</summary>
         [TestMethod()]
-        public void DiffIdEqualsTest()
+        public void PhoneNumber_Equals_DifferenceInId_Test()
         {
-            PhoneNumber target = new PhoneNumber(1, "0546137475", new PhoneType(1, "cell phone"));
             PhoneNumber comparedNumber = new PhoneNumber(2, "0546137475", new PhoneType(1, "cell phone"));
-            bool expected = false;
-            bool actual;
-            actual = target.Equals(comparedNumber);
-            Assert.AreEqual(expected, actual);
+            Assert.IsFalse(targetPhoneNumber.Equals(comparedNumber));
         }
 
         /// <summary>
-        ///A test for Equals
+        ///Comparing two phone numbers with a difference in the numnber
         ///</summary>
         [TestMethod()]
-        public void DiffNumberEqualsTest()
+        public void PhoneNumber_Equals_DifferenceInNumber_Test()
         {
-            PhoneNumber target = new PhoneNumber(1, "0546137475", new PhoneType(1, "cell phone"));
             PhoneNumber comparedNumber = new PhoneNumber(1, "0546147485", new PhoneType(1, "cell phone"));
-            bool expected = false;
-            bool actual;
-            actual = target.Equals(comparedNumber);
-            Assert.AreEqual(expected, actual);
+            Assert.IsFalse(targetPhoneNumber.Equals(comparedNumber));
         }
 
         /// <summary>
-        ///A test for Equals
+        ///Comparing two phone numbers with a difference in the type
         ///</summary>
         [TestMethod()]
-        public void DiffNumberTypeEqualsTest()
+        public void PhoneNumber_Equals_DifferenceInType_Test()
         {
-            PhoneNumber target = new PhoneNumber(1, "0546137475", new PhoneType(1, "cell phone"));
             PhoneNumber comparedNumber = new PhoneNumber(1, "0546137475", new PhoneType(2, "house phone"));
-            bool expected = false;
-            bool actual;
-            actual = target.Equals(comparedNumber);
-            Assert.AreEqual(expected, actual);
-        }
-
-        /// <summary>
-        ///A test for Equals
-        ///</summary>
-        [TestMethod()]
-        public void SomeDiffEqualsTest()
-        {
-            PhoneNumber target = new PhoneNumber(1, "0546137475", new PhoneType(1, "cell phone"));
-            PhoneNumber comparedNumber = new PhoneNumber(1, "0546147485", new PhoneType(2, "cell phone"));
-            bool expected = false;
-            bool actual;
-            actual = target.Equals(comparedNumber);
-            Assert.AreEqual(expected, actual);
+            Assert.IsFalse(targetPhoneNumber.Equals(comparedNumber));
         }
 
         #endregion
@@ -154,16 +128,14 @@ namespace DataAccessTest
         #region ToStringTest
 
         /// <summary>
-        ///A test for ToString
+        ///PhoneNumber.ToString() test
         ///</summary>
         [TestMethod()]
-        public void ToStringTest()
+        public void PhoneNUmber_ToString_Test()
         {
-            PhoneNumber target = new PhoneNumber(1, "0546137475", new PhoneType(1, "cell phone"));
-            string expected = "Number:\"" + target.Number + "\" " +
-                              target.NumberType.ToString();
-            string actual;
-            actual = target.ToString();
+            string expected = "Number:\"" + targetPhoneNumber.Number + "\" " +
+                              targetPhoneNumber.NumberType.ToString();
+            string actual = targetPhoneNumber.ToString();
             Assert.AreEqual(expected, actual);
         }
         
