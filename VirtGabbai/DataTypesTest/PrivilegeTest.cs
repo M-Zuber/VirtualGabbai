@@ -13,7 +13,14 @@ namespace LocalTypesTest
     [TestClass()]
     public class PrivilegeTest
     {
+        #region Test Data Members
 
+        //Target Data Members
+        int id = 1;
+        string privilegeName = "admin";
+        Privilege targetPrivilege = null;
+
+        #endregion
 
         private TestContext testContextInstance;
 
@@ -50,83 +57,61 @@ namespace LocalTypesTest
         //}
         //
         //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
+        [TestInitialize()]
+        public void MyTestInitialize()
+        {
+            targetPrivilege = new Privilege(id, privilegeName); ;
+        }
         //
         //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
+        [TestCleanup()]
+        public void MyTestCleanup()
+        {
+            targetPrivilege = null;
+        }
         //
         #endregion
 
         #region Equals Tests
 
         /// <summary>
-        ///A test for Equals
+        ///Comparing two privleges with no differences
         ///</summary>
         [TestMethod()]
-        public void AllSameEqualsTest()
+        public void Privilege_Equals_NoDifferences()
         {
-            int id = 1;
-            string privilegeName = "administrator";
-            Privilege target = new Privilege(id, privilegeName);
-            object obj = new Privilege(id, privilegeName);
-            bool expected = true;
-            bool actual;
-            actual = target.Equals(obj);
-            Assert.AreEqual(expected, actual);
+            Privilege otherPrivilege = new Privilege(id, privilegeName);
+            Assert.IsTrue(targetPrivilege.Equals(otherPrivilege));
         }
         
         /// <summary>
-        ///A test for Equals
+        ///Comparing two privileges with a difference in every field
         ///</summary>
         [TestMethod()]
-        public void AllDiffEqualsTest()
+        public void Privilege_Equals_DifferenceInEveryField()
         {
-            int id = 1;
-            string privilegeName = "administrator";
-            Privilege target = new Privilege(id, privilegeName);
-            object obj = new Privilege(2, "guest");
-            bool expected = false;
-            bool actual;
-            actual = target.Equals(obj);
-            Assert.AreEqual(expected, actual);
+            Privilege otherPrivilege = new Privilege((id * 2), privilegeName + privilegeName);
+            Assert.IsFalse(targetPrivilege.Equals(otherPrivilege));
         }
 
         /// <summary>
-        ///A test for Equals
+        ///Comparing two privileges with a difference in the id
         ///</summary>
         [TestMethod()]
-        public void DiffIdEqualsTest()
+        public void Privilege_Equals_DifferenceInId()
         {
-            int id = 1;
-            string privilegeName = "administrator";
-            Privilege target = new Privilege(id, privilegeName);
-            object obj = new Privilege(2, privilegeName);
-            bool expected = false;
-            bool actual;
-            actual = target.Equals(obj);
-            Assert.AreEqual(expected, actual);
+            Privilege otherPrivilege = new Privilege((id * 2), privilegeName);
+            Assert.IsFalse(targetPrivilege.Equals(otherPrivilege));
         }
 
         /// <summary>
-        ///A test for Equals
+        ///Comparing two privleges with a difference in the privilege name
         ///</summary>
         [TestMethod()]
-        public void DiffPrivilegeNameEqualsTest()
+        public void Privilege_Equals_DifferenceInPrivilegeName()
         {
-            int id = 1;
-            string privilegeName = "administrator";
-            Privilege target = new Privilege(id, privilegeName);
-            object obj = new Privilege(id, "guest");
-            bool expected = false;
-            bool actual;
-            actual = target.Equals(obj);
-            Assert.AreEqual(expected, actual);
+            Privilege otherPrivilege = new Privilege(id, privilegeName + privilegeName);
+            Assert.IsFalse(targetPrivilege.Equals(otherPrivilege));
         }
         
         #endregion
@@ -134,17 +119,13 @@ namespace LocalTypesTest
         #region ToString Tests
 
         /// <summary>
-        ///A test for ToString
+        ///Privilege.ToString() Test
         ///</summary>
         [TestMethod()]
-        public void ToStringTest()
+        public void Privilege_ToString()
         {
-            int id = 1;
-            string privilegeName = "administrator";
-            Privilege target = new Privilege(id, privilegeName);
-            string expected = "administrator";
-            string actual;
-            actual = target.ToString();
+            string expected = "admin";
+            string actual = targetPrivilege.ToString();
             Assert.AreEqual(expected, actual);
         }
         
