@@ -77,7 +77,7 @@ namespace DataAccessTest
         ///Comparing two phone numbers with no differences
         ///</summary>
         [TestMethod()]
-        public void PhoneNumber_Equals_NoDifferences_Test()
+        public void PhoneNumber_Equals_NoDifferences()
         {
             PhoneNumber comparedNumber = new PhoneNumber(1, "0546137475", new PhoneType(1, "cell phone"));
             Assert.IsTrue(targetPhoneNumber.Equals(comparedNumber));
@@ -87,7 +87,7 @@ namespace DataAccessTest
         ///Comparing two phone numbers with a difference in every field
         ///</summary>
         [TestMethod()]
-        public void PhoneNumber_Equals_DifferenceInEveryField_Test()
+        public void PhoneNumber_Equals_DifferenceInEveryField()
         {
             PhoneNumber comparedNumber = new PhoneNumber(2, "0546147485", new PhoneType(2, "house phone"));
             Assert.IsFalse(targetPhoneNumber.Equals(comparedNumber));
@@ -97,7 +97,7 @@ namespace DataAccessTest
         ///Comparing two phone numbers with a difference in the id
         ///</summary>
         [TestMethod()]
-        public void PhoneNumber_Equals_DifferenceInId_Test()
+        public void PhoneNumber_Equals_DifferenceInId()
         {
             PhoneNumber comparedNumber = new PhoneNumber(2, "0546137475", new PhoneType(1, "cell phone"));
             Assert.IsFalse(targetPhoneNumber.Equals(comparedNumber));
@@ -107,7 +107,7 @@ namespace DataAccessTest
         ///Comparing two phone numbers with a difference in the numnber
         ///</summary>
         [TestMethod()]
-        public void PhoneNumber_Equals_DifferenceInNumber_Test()
+        public void PhoneNumber_Equals_DifferenceInNumber()
         {
             PhoneNumber comparedNumber = new PhoneNumber(1, "0546147485", new PhoneType(1, "cell phone"));
             Assert.IsFalse(targetPhoneNumber.Equals(comparedNumber));
@@ -117,7 +117,7 @@ namespace DataAccessTest
         ///Comparing two phone numbers with a difference in the type
         ///</summary>
         [TestMethod()]
-        public void PhoneNumber_Equals_DifferenceInType_Test()
+        public void PhoneNumber_Equals_DifferenceInType()
         {
             PhoneNumber comparedNumber = new PhoneNumber(1, "0546137475", new PhoneType(2, "house phone"));
             Assert.IsFalse(targetPhoneNumber.Equals(comparedNumber));
@@ -131,7 +131,7 @@ namespace DataAccessTest
         ///PhoneNumber.ToString() test
         ///</summary>
         [TestMethod()]
-        public void PhoneNUmber_ToString_Test()
+        public void PhoneNUmber_ToString()
         {
             string expected = "Number:\"" + targetPhoneNumber.Number + "\" " +
                               targetPhoneNumber.NumberType.ToString();

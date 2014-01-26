@@ -78,7 +78,7 @@ namespace LocalTypesTest
         ///Comparing two paid donations with no differences
         ///</summary>
         [TestMethod()]
-        public void PaidDonation_Equals_NoDifferences_Test()
+        public void PaidDonation_Equals_NoDifferences()
         {
             PaidDonation otherPaidDonation = 
                 new PaidDonation(baseUnpaidDonation, DateTime.Today);
@@ -89,7 +89,7 @@ namespace LocalTypesTest
         ///Comparing two paid donations with a difference in the payment date
         ///</summary>
         [TestMethod()]
-        public void PaidDonation_Equals_DifferenceInPaymentDate_Test()
+        public void PaidDonation_Equals_DifferenceInPaymentDate()
         {
             PaidDonation otherPaidDonation =
                 new PaidDonation(baseUnpaidDonation, DateTime.MaxValue);
@@ -100,7 +100,7 @@ namespace LocalTypesTest
         ///Comparing two paid donations with a difference in every field
         ///</summary>
         [TestMethod()]
-        public void PaidDonation_Equals_DifferencesInAllFields_Test()
+        public void PaidDonation_Equals_DifferencesInAllFields()
         {
             PaidDonation otherPaidDonation =
                 new PaidDonation(baseUnpaidDonation._Id * 2,
@@ -120,7 +120,7 @@ namespace LocalTypesTest
         ///PaidDonation.ToString() with all fields set
         ///</summary>
         [TestMethod()]
-        public void PaidDonation_ToString_WithComment_Test()
+        public void PaidDonation_ToString_WithComment()
         {
             string expected = baseUnpaidDonation.ToString() + 
                 " Paid on: \"" + targetPaidDonation.PaymentDate.ToString("dd/MM/yyyy") + "\"";
@@ -132,7 +132,7 @@ namespace LocalTypesTest
         ///PaidDonation.ToString() with no comment
         ///</summary>
         [TestMethod()]
-        public void PaidDonation_ToString_WithOutComment_Test()
+        public void PaidDonation_ToString_WithOutComment()
         {
             baseUnpaidDonation.Comments = "";
             targetPaidDonation.Comments = "";

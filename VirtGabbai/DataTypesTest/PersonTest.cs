@@ -105,7 +105,7 @@ namespace LocalTypesTest
         ///Comparing two people with no differences
         ///</summary>
         [TestMethod()]
-        public void Person_Equals_NoDifferences_Test()
+        public void Person_Equals_NoDifferences()
         {
             Person otherPerson = new Person(targetPerson._Id, targetPerson.Email.ToString(), targetPerson.FirstName,
                                     targetPerson.LastName, targetPerson.MembershipStatus, targetPerson.Address.ToDbString(),
@@ -117,7 +117,7 @@ namespace LocalTypesTest
         ///Comparing two people with a difference in every field
         ///</summary>
         [TestMethod()]
-        public void Person_Equals_DifferenceInEveryField_Test()
+        public void Person_Equals_DifferenceInEveryField()
         {
             int secondId = 2;
             string secondEmailAddress = "ColonelJack@stargateCommand.com";
@@ -145,7 +145,7 @@ namespace LocalTypesTest
         ///Comparing two people with a difference in the membership status
         ///</summary>
         [TestMethod()]
-        public void Person_Equals_DifferenceInMembership_Test()
+        public void Person_Equals_DifferenceInMembership()
         {
             Person otherPerson = new Person(targetPerson._Id, targetPerson.Email.ToString(), targetPerson.FirstName,
                                     targetPerson.LastName, false, targetPerson.Address.ToDbString(),
@@ -157,7 +157,7 @@ namespace LocalTypesTest
         ///Comparing two people with a difference in the email
         ///</summary>
         [TestMethod()]
-        public void Person_Equals_DifferenceInEmail_Test()
+        public void Person_Equals_DifferenceInEmail()
         {
             Person otherPerson = new Person(targetPerson._Id, "yeahright@somethingelse.blah", targetPerson.FirstName, targetPerson.LastName,
                                     targetPerson.MembershipStatus,targetPerson.Address.ToDbString(), targetPerson.PersonalAccount,
@@ -169,7 +169,7 @@ namespace LocalTypesTest
         ///Comparing two people with a difference in the first name
         ///</summary>
         [TestMethod()]
-        public void People_Equals_DfferenceInFirstName_Test()
+        public void People_Equals_DfferenceInFirstName()
         {
             Person otherPerson = new Person(targetPerson._Id, targetPerson.Email.ToString(), "not him again", targetPerson.LastName,
                                     targetPerson.MembershipStatus,targetPerson.Address.ToDbString(), targetPerson.PersonalAccount,
@@ -181,7 +181,7 @@ namespace LocalTypesTest
         ///Comparing two people with a difference in the last name
         ///</summary>
         [TestMethod()]
-        public void People_Equals_DifferenceInLastName_Test()
+        public void People_Equals_DifferenceInLastName()
         {
             Person otherPerson = new Person(targetPerson._Id, targetPerson.Email.ToString(), targetPerson.FirstName, "no it wasnt me",
                                      targetPerson.MembershipStatus,targetPerson.Address.ToDbString(), targetPerson.PersonalAccount,
@@ -193,7 +193,7 @@ namespace LocalTypesTest
         ///Comparing two people with a difference in the street address
         ///</summary>
         [TestMethod()]
-        public void People_Equals_DifferenceInStreetAddress_Test()
+        public void People_Equals_DifferenceInStreetAddress()
         {
             Person otherPerson = new Person(targetPerson._Id, targetPerson.Email.ToString(), targetPerson.FirstName, targetPerson.LastName,
                                      targetPerson.MembershipStatus, ";;;;;;", targetPerson.PersonalAccount,
@@ -205,7 +205,7 @@ namespace LocalTypesTest
         ///Comparing two people with a difference in the account
         ///</summary>
         [TestMethod()]
-        public void People_Equals_DifferenceInAccount_Test()
+        public void People_Equals_DifferenceInAccount()
         {
             Account secondPersonalAccount = new Account(18, 500, new DateTime(DateTime.Today.Year, 2, DateTime.Today.Day),
                 new List<Donation>() {new Donation(1, "cuz i wanna", 45.90, DateTime.Today, "i dont know that we will ever see the money"),
@@ -220,7 +220,7 @@ namespace LocalTypesTest
         ///Comparing two people with a difference in the phone numbers
         ///</summary>
         [TestMethod()]
-        public void People_Equals_DifferenceInPhoneNumbers_Test()
+        public void People_Equals_DifferenceInPhoneNumbers()
         {
             List<PhoneNumber> secondPhoneNumbers = new List<PhoneNumber>()
             {
@@ -236,7 +236,7 @@ namespace LocalTypesTest
         ///Comparing two people with a difference in the yahrtziehts
         ///</summary>
         [TestMethod()]
-        public void People_Equals_DifferenceInLYahrtziehts_Test()
+        public void People_Equals_DifferenceInLYahrtziehts()
         {
             List<Yahrtzieht> secondYahrtziehts = new List<Yahrtzieht>()
             {
@@ -256,7 +256,7 @@ namespace LocalTypesTest
         ///Person.ToString() with membership field true test
         ///</summary>
         [TestMethod()]
-        public void Person_ToString_IsAMember_Test()
+        public void Person_ToString_IsAMember()
         {
             string phoneNumberStrings = "";
             if (phoneNumbers.Count > 0)
@@ -291,7 +291,7 @@ namespace LocalTypesTest
         ///Person.ToString() with membership field false test
         ///</summary>
         [TestMethod()]
-        public void Person_ToString_IsNotAMember_Test()
+        public void Person_ToString_IsNotAMember()
         {
             Person newTarget = new Person(targetPerson._Id, targetPerson.Email.Address, targetPerson.FirstName, targetPerson.LastName,
                                           false, targetPerson.Address.ToDbString(), targetPerson.PersonalAccount,

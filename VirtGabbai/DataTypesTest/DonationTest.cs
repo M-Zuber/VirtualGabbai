@@ -88,7 +88,7 @@ namespace LocalTypesTest
         ///Donation.ToString() with all fields set
         ///</summary>
         [TestMethod()]
-        public void Donation_ToString_AllFieldsSet_Test()
+        public void Donation_ToString_AllFieldsSet()
         {
             string expected = "Donated for: \"" + targetDonation.Reason +
                               "\" Amount donated: \"" + targetDonation.Amount + 
@@ -102,7 +102,7 @@ namespace LocalTypesTest
         ///Donation.ToString() with no comment
         ///</summary>
         [TestMethod()]
-        public void Donation_ToString_NoComment_Test()
+        public void Donation_ToString_NoComment()
         {
             Donation target = new Donation(id, reason, amount, donationDate, "");
             string expected = "Donated for: \"" + target.Reason +
@@ -120,7 +120,7 @@ namespace LocalTypesTest
         ///Comparing two donations with no differences
         ///</summary>
         [TestMethod()]
-        public void Donation_Equals_NoDifferences_Test()
+        public void Donation_Equals_NoDifferences()
         {
             Donation otherDonation = new Donation(id, reason, amount, donationDate, comments);
             Assert.IsTrue(targetDonation.Equals(otherDonation));
@@ -130,7 +130,7 @@ namespace LocalTypesTest
         ///Comparing two donations with a difference in the id
         ///</summary>
         [TestMethod()]
-        public void Donation_Equals_DifferenceInId_Test()
+        public void Donation_Equals_DifferenceInId()
         {
             Donation otherDonation = new Donation((id * 2), reason, amount, donationDate, comments);
             Assert.IsFalse(targetDonation.Equals(otherDonation));
@@ -140,7 +140,7 @@ namespace LocalTypesTest
         ///Comparing two donations with a difference in the reason
         ///</summary>
         [TestMethod()]
-        public void Donation_Equals_DifferenceInReason_Test()
+        public void Donation_Equals_DifferenceInReason()
         {
             Donation otherDonation = new Donation(id, reason + reason, amount, donationDate, comments);
             Assert.IsFalse(targetDonation.Equals(otherDonation));
@@ -150,7 +150,7 @@ namespace LocalTypesTest
         ///Comparing two donations with a difference in the amount
         ///</summary>
         [TestMethod()]
-        public void Donation_Equals_DifferenceInAmount_Test()
+        public void Donation_Equals_DifferenceInAmount()
         {
             Donation otherDonation = new Donation(id, reason, (amount * 2), donationDate, comments);
             Assert.IsFalse(targetDonation.Equals(otherDonation));
@@ -160,7 +160,7 @@ namespace LocalTypesTest
         ///Comparing two donations with a difference in the donation date
         ///</summary>
         [TestMethod()]
-        public void Donation_Equals_DifferenceInDonationDate_Test()
+        public void Donation_Equals_DifferenceInDonationDate()
         {
             Donation otherDonation = new Donation(id, reason, amount, DateTime.MaxValue, comments);
             Assert.IsFalse(targetDonation.Equals(otherDonation));
@@ -170,7 +170,7 @@ namespace LocalTypesTest
         ///Comparing two donations with a difference in the comment
         ///</summary>
         [TestMethod()]
-        public void Donation_Equals_DifferenceInComment_Test()
+        public void Donation_Equals_DifferenceInComment()
         {
             Donation otherDonation = new Donation(id, reason, amount, donationDate, comments + comments);
             Assert.IsFalse(targetDonation.Equals(otherDonation));
@@ -180,7 +180,7 @@ namespace LocalTypesTest
         ///Comparing two donations with a difference in ever field
         ///</summary>
         [TestMethod()]
-        public void Donation_Equals_DifferencesInAllFields_Test()
+        public void Donation_Equals_DifferencesInAllFields()
         {
             Donation otherDonation = 
                 new Donation((id *2), reason + reason, (amount * 2), DateTime.MaxValue, comments + comments);
