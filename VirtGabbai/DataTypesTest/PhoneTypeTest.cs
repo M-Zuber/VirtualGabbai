@@ -13,7 +13,12 @@ namespace LocalTypesTest
     [TestClass()]
     public class PhoneTypeTest
     {
+        #region Test Data Members
 
+        //Target Data Members
+        PhoneType targetPhoneType = null;
+
+        #endregion
 
         private TestContext testContextInstance;
 
@@ -50,71 +55,67 @@ namespace LocalTypesTest
         //}
         //
         //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
+        [TestInitialize()]
+        public void MyTestInitialize()
+        {
+            targetPhoneType = new PhoneType(1, "one");
+        }
         //
         //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
+        [TestCleanup()]
+        public void MyTestCleanup()
+        {
+            targetPhoneType = null;
+        }
         //
         #endregion
 
         #region Equals
 
         /// <summary>
-        ///Everything is the same
+        ///Comparing two phone types with no differences
         ///</summary>
         [TestMethod()]
-        public void AllIsEqualsTest()
+        public void PhoneType_Equals_NoDifferences()
         {
-            PhoneType target = new PhoneType(1,"one");
-            object phoneTypeToCompare = new PhoneType(1, "one");
-            bool expected = true;
-            bool actual = target.Equals(phoneTypeToCompare);
-            Assert.AreEqual(expected, actual);
+            PhoneType otherPhoneType = 
+                new PhoneType(targetPhoneType._Id, targetPhoneType.PhoneTypeName);
+            Assert.IsTrue(targetPhoneType.Equals(otherPhoneType));
         }
 
         /// <summary>
-        ///The id is different
+        ///Comparing two phone types with a difference in the id
         ///</summary>
         [TestMethod()]
-        public void DiffIdEqualsTest()
+        public void PhoneType_Equals_DifferenceInId()
         {
-            PhoneType target = new PhoneType(1, "one");
-            object phoneTypeToCompare = new PhoneType(12, "one");
-            bool expected = false;
-            bool actual = target.Equals(phoneTypeToCompare);
-            Assert.AreEqual(expected, actual);
+            PhoneType otherPhoneType = 
+                new PhoneType((targetPhoneType._Id * 2), targetPhoneType.PhoneTypeName);
+            Assert.IsFalse(targetPhoneType.Equals(otherPhoneType));
         }
 
         /// <summary>
-        ///The type name is different
+        ///Comparing two phone types with a difference in the type
         ///</summary>
         [TestMethod()]
-        public void DiffTypeNameEqualsTest()
+        public void PhoneType_Equals_DifferenceInType()
         {
-            PhoneType target = new PhoneType(1, "one");
-            object phoneTypeToCompare = new PhoneType(1, "one:1");
-            bool expected = false;
-            bool actual = target.Equals(phoneTypeToCompare);
-            Assert.AreEqual(expected, actual);
+            PhoneType otherPhoneType =
+                new PhoneType(targetPhoneType._Id,
+                    targetPhoneType.PhoneTypeName + targetPhoneType.PhoneTypeName);
+            Assert.IsFalse(targetPhoneType.Equals(otherPhoneType));
         }
 
         /// <summary>
-        ///Everything is different
+        ///Comparing two phone types with a difference in every field
         ///</summary>
         [TestMethod()]
-        public void AllDiffEqualsTest()
+        public void PhoneType_Equals_DifferenceInEveryField()
         {
-            PhoneType target = new PhoneType(1, "one");
-            object phoneTypeToCompare = new PhoneType(12, "one:1");
-            bool expected = false;
-            bool actual = target.Equals(phoneTypeToCompare);
-            Assert.AreEqual(expected, actual);
+            PhoneType otherPhoneType =
+                new PhoneType((targetPhoneType._Id * 2),
+                    targetPhoneType.PhoneTypeName + targetPhoneType.PhoneTypeName);
+            Assert.IsFalse(targetPhoneType.Equals(otherPhoneType));
         }
 
         #endregion
@@ -122,15 +123,13 @@ namespace LocalTypesTest
         #region ToString
 
         /// <summary>
-        ///A test for ToString
+        ///PhoneType,ToString() Test
         ///</summary>
         [TestMethod()]
-        public void ToStringTest()
+        public void PhoneType_ToString()
         {
-            PhoneType target = new PhoneType(1, "cell phone");
-            string expected = "Type:\"cell phone\"";
-            string actual;
-            actual = target.ToString();
+            string expected = "Type:\"one\"";
+            string actual = targetPhoneType.ToString();
             Assert.AreEqual(expected, actual);
         }
 

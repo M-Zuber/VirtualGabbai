@@ -197,9 +197,7 @@ namespace DataAccessTest
             List<t_phone_types> expected = new List<t_phone_types>();
             for (int i = 0; i < 10; i++)
             {
-                PhoneType toAdd = new PhoneType();
-                toAdd._Id = i;
-                toAdd.PhoneTypeName = "Type name number: " + i.ToString();
+                PhoneType toAdd = new PhoneType(i, "Type name number: " + i);
                 dbTypePhoneTypeList.Add(toAdd);
                 expected.Add(PhoneTypeAccess_Accessor.ConvertSingleLocalPhoneTypeToDbType(toAdd));
             }
