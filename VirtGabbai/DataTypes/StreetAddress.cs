@@ -40,6 +40,17 @@ namespace LocalTypes
             this.Country = addressParts[5].ToUpper();
             this.Zipcode = addressParts[6];
         }
+        
+        public StreetAddress(string apartmentNumber, string house, string street, string city, string state, string country, string zipCode)
+        {
+            this.ApartmentNumber = apartmentNumber;
+            this.House = house;
+            this.Street = street;
+            this.City = city;
+            this.State = state.ToUpper();
+            this.Country = country.ToUpper();
+            this.Zipcode = zipCode;
+        }
 
         #endregion
 
