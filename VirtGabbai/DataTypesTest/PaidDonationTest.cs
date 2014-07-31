@@ -13,7 +13,13 @@ namespace LocalTypesTest
     [TestClass()]
     public class PaidDonationTest
     {
+        #region Test Data Members
+        
+        //Target Data Members
+        PaidDonation targetPaidDonation = null;
+        Donation baseUnpaidDonation = new Donation(1, "reason", 12.5, DateTime.Today, "comment");
 
+        #endregion
 
         private TestContext testContextInstance;
 
@@ -50,16 +56,18 @@ namespace LocalTypesTest
         //}
         //
         //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
+        [TestInitialize()]
+        public void MyTestInitialize()
+        {
+            targetPaidDonation = new PaidDonation(baseUnpaidDonation, DateTime.Today);
+        }
         //
         //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
+        [TestCleanup()]
+        public void MyTestCleanup()
+        {
+            targetPaidDonation = null;
+        }
         //
         #endregion
 
@@ -67,48 +75,41 @@ namespace LocalTypesTest
         #region Equals Tests
 
         /// <summary>
-        ///A test for Equals
+        ///Comparing two paid donations with no differences
         ///</summary>
         [TestMethod()]
-        public void AllEqualsTest()
+        public void PaidDonation_Equals_NoDifferences()
         {
-            Donation donationPaying = new Donation(1, "reason:1", 12.5, DateTime.Today, "");
-            DateTime paymentDate = DateTime.Today;
-            PaidDonation target = new PaidDonation(donationPaying, paymentDate);
-            PaidDonation obj = new PaidDonation(1, "reason:1", 12.5, DateTime.Today, "", DateTime.Today);
-            bool expected = true;
-            bool actual = target.Equals(obj);
-            Assert.AreEqual(expected, actual);
+            PaidDonation otherPaidDonation = 
+                new PaidDonation(baseUnpaidDonation, DateTime.Today);
+            Assert.IsTrue(targetPaidDonation.Equals(otherPaidDonation));
         }
 
         /// <summary>
-        ///A test for Equals
+        ///Comparing two paid donations with a difference in the payment date
         ///</summary>
         [TestMethod()]
-        public void SomeDiffEqualsTest()
+        public void PaidDonation_Equals_DifferenceInPaymentDate()
         {
-            Donation donationPaying = new Donation(1, "reason:1", 12.5, DateTime.Today, "");
-            DateTime paymentDate = DateTime.Today;
-            PaidDonation target = new PaidDonation(donationPaying, paymentDate);
-            PaidDonation obj = new PaidDonation(1, "reason:2", 12.5, DateTime.Today, "a comment", DateTime.Today);
-            bool expected = false;
-            bool actual = target.Equals(obj);
-            Assert.AreEqual(expected, actual);
+            PaidDonation otherPaidDonation =
+                new PaidDonation(baseUnpaidDonation, DateTime.MaxValue);
+            Assert.IsFalse(targetPaidDonation.Equals(otherPaidDonation));
         }
 
         /// <summary>
-        ///A test for Equals
+        ///Comparing two paid donations with a difference in every field
         ///</summary>
         [TestMethod()]
-        public void AllDiffEqualsTest()
+        public void PaidDonation_Equals_DifferencesInAllFields()
         {
-            Donation donationPaying = new Donation(1, "reason:1", 12.5, DateTime.Today, "");
-            DateTime paymentDate = DateTime.Today;
-            PaidDonation target = new PaidDonation(donationPaying, paymentDate);
-            PaidDonation obj = new PaidDonation(2, "reason:2", 25, DateTime.MinValue, "a comment", DateTime.MaxValue);
-            bool expected = false;
-            bool actual = target.Equals(obj);
-            Assert.AreEqual(expected, actual);
+            PaidDonation otherPaidDonation =
+                new PaidDonation(baseUnpaidDonation._Id * 2,
+                                 baseUnpaidDonation.Reason + baseUnpaidDonation.Reason,
+                                 baseUnpaidDonation.Amount * 2,
+                                 DateTime.MinValue,
+                                 baseUnpaidDonation.Comments + baseUnpaidDonation.Comments,
+                                 DateTime.Today);
+            Assert.IsFalse(targetPaidDonation.Equals(otherPaidDonation));
         }
 
         #endregion
@@ -116,32 +117,28 @@ namespace LocalTypesTest
         #region ToString Tests
 
         /// <summary>
-        ///A test for ToString
+        ///PaidDonation.ToString() with all fields set
         ///</summary>
         [TestMethod()]
-        public void ToStringTest()
+        public void PaidDonation_ToString_WithComment()
         {
-            Donation donationPaying = new Donation(1, "reason:1", 12.5, DateTime.Today, "a comment");
-            DateTime paymentDate = DateTime.Today;
-            PaidDonation target = new PaidDonation(donationPaying, paymentDate);
-            string expected = donationPaying.ToString() + " Paid on: \"" + paymentDate.ToString("dd/MM/yyyy") + "\"";
-            string actual;
-            actual = target.ToString();
+            string expected = baseUnpaidDonation.ToString() + 
+                " Paid on: \"" + targetPaidDonation.PaymentDate.ToString("dd/MM/yyyy") + "\"";
+            string actual = targetPaidDonation.ToString();
             Assert.AreEqual(expected, actual);
         }
 
         /// <summary>
-        ///A test for ToString
+        ///PaidDonation.ToString() with no comment
         ///</summary>
         [TestMethod()]
-        public void ToStringNoCommentTest()
+        public void PaidDonation_ToString_WithOutComment()
         {
-            Donation donationPaying = new Donation(1, "reason:1", 12.5, DateTime.Today, "");
-            DateTime paymentDate = DateTime.Today;
-            PaidDonation target = new PaidDonation(donationPaying, paymentDate);
-            string expected = donationPaying.ToString() + " Paid on: \"" + paymentDate.ToString("dd/MM/yyyy") + "\"";
-            string actual;
-            actual = target.ToString();
+            baseUnpaidDonation.Comments = "";
+            targetPaidDonation.Comments = "";
+            string expected = baseUnpaidDonation.ToString() +
+                " Paid on: \"" + targetPaidDonation.PaymentDate.ToString("dd/MM/yyyy") + "\"";
+            string actual = targetPaidDonation.ToString();
             Assert.AreEqual(expected, actual);
         }
 

@@ -17,6 +17,18 @@ namespace LocalTypesTest
 
         private TestContext testContextInstance;
 
+        #region Test Data Members
+
+        //Target Data Members
+        Donation targetDonation = null;
+        int id;
+        string reason;
+        double amount;
+        string comments;
+        DateTime donationDate = DateTime.Today;
+
+        #endregion
+
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
@@ -50,49 +62,53 @@ namespace LocalTypesTest
         //}
         //
         //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
+        [TestInitialize()]
+        public void MyTestInitialize()
+        {
+            id = 1;
+            reason = "Just because";
+            amount = 10.5;
+            comments = "not to much";
+
+            targetDonation = new Donation(id, reason, amount, donationDate, comments);
+        }
         //
         //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
+        [TestCleanup()]
+        public void MyTestCleanup()
+        {
+            targetDonation = null;
+        }
         //
         #endregion
 
         #region ToString Test
 
         /// <summary>
-        ///A test for ToString
+        ///Donation.ToString() with all fields set
         ///</summary>
         [TestMethod()]
-        public void AllFieldsSetToStringTest()
+        public void Donation_ToString_AllFieldsSet()
         {
-            Donation target = new Donation(1, "reason", 23.09, DateTime.Today, "comments");
-            string expected = "Donated for: \"" + target.Reason +
-                              "\" Amount donated: \"" + target.Amount + 
-                              "\" Date donated: \"" + target.DonationDate.ToString("dd/MM/yyyy") +
-                              "\" Comments: \"" + "comments" + "\"";
-            string actual;
-            actual = target.ToString();
+            string expected = "Donated for: \"" + targetDonation.Reason +
+                              "\" Amount donated: \"" + targetDonation.Amount + 
+                              "\" Date donated: \"" + targetDonation.DonationDate.ToString("dd/MM/yyyy") +
+                              "\" Comments: \"" + targetDonation.Comments + "\"";
+            string actual = targetDonation.ToString();
             Assert.AreEqual(expected, actual);
         }
 
         /// <summary>
-        ///A test for ToString
+        ///Donation.ToString() with no comment
         ///</summary>
         [TestMethod()]
-        public void NoCommentToStringTest()
+        public void Donation_ToString_NoComment()
         {
-            Donation target = new Donation(1, "reason", 23.09, DateTime.Today, "");
+            Donation target = new Donation(id, reason, amount, donationDate, "");
             string expected = "Donated for: \"" + target.Reason +
                               "\" Amount donated: \"" + target.Amount +
                               "\" Date donated: \"" + target.DonationDate.ToString("dd/MM/yyyy") + "\"";
-            string actual;
-            actual = target.ToString();
+            string actual = target.ToString();
             Assert.AreEqual(expected, actual);
         }
         
@@ -101,108 +117,74 @@ namespace LocalTypesTest
         #region Equals Test
 
         /// <summary>
-        ///A test for Equals
+        ///Comparing two donations with no differences
         ///</summary>
         [TestMethod()]
-        public void AllSameDonationEqualsTest()
+        public void Donation_Equals_NoDifferences()
         {
-            Donation target = new Donation(1, "reason", 23.09, DateTime.Today,"comments");
-            Donation obj = new Donation(1, "reason", 23.09, DateTime.Today, "comments");
-            bool expected = true;
-            bool actual = target.Equals(obj);
-            Assert.AreEqual(expected, actual);
+            Donation otherDonation = new Donation(id, reason, amount, donationDate, comments);
+            Assert.IsTrue(targetDonation.Equals(otherDonation));
         }
 
         /// <summary>
-        ///A test for Equals
+        ///Comparing two donations with a difference in the id
         ///</summary>
         [TestMethod()]
-        public void DiffIdEqualsTest()
+        public void Donation_Equals_DifferenceInId()
         {
-            Donation target = new Donation(1, "reason", 23.09, DateTime.Today, "comments");
-            Donation obj = new Donation(2, "reason", 23.09, DateTime.Today, "comments");
-            bool expected = false;
-            bool actual = target.Equals(obj);
-            Assert.AreEqual(expected, actual);
+            Donation otherDonation = new Donation((id * 2), reason, amount, donationDate, comments);
+            Assert.IsFalse(targetDonation.Equals(otherDonation));
         }
 
         /// <summary>
-        ///A test for Equals
+        ///Comparing two donations with a difference in the reason
         ///</summary>
         [TestMethod()]
-        public void DiffReasonEqualsTest()
+        public void Donation_Equals_DifferenceInReason()
         {
-            Donation target = new Donation(1, "reason", 23.09, DateTime.Today, "comments");
-            Donation obj = new Donation(1, "reason:2", 23.09, DateTime.Today, "comments");
-            bool expected = false;
-            bool actual = target.Equals(obj);
-            Assert.AreEqual(expected, actual);
+            Donation otherDonation = new Donation(id, reason + reason, amount, donationDate, comments);
+            Assert.IsFalse(targetDonation.Equals(otherDonation));
         }
 
         /// <summary>
-        ///A test for Equals
+        ///Comparing two donations with a difference in the amount
         ///</summary>
         [TestMethod()]
-        public void DiffAmountEqualsTest()
+        public void Donation_Equals_DifferenceInAmount()
         {
-            Donation target = new Donation(1, "reason", 23.09, DateTime.Today, "comments");
-            Donation obj = new Donation(1, "reason", 23.10, DateTime.Today, "comments");
-            bool expected = false;
-            bool actual = target.Equals(obj);
-            Assert.AreEqual(expected, actual);
+            Donation otherDonation = new Donation(id, reason, (amount * 2), donationDate, comments);
+            Assert.IsFalse(targetDonation.Equals(otherDonation));
         }
 
         /// <summary>
-        ///A test for Equals
+        ///Comparing two donations with a difference in the donation date
         ///</summary>
         [TestMethod()]
-        public void DiffDonationDateEqualsTest()
+        public void Donation_Equals_DifferenceInDonationDate()
         {
-            DateTime donationDate = new DateTime(2013, 1, 1);
-            Donation target = new Donation(1, "reason", 23.09, DateTime.Today, "comments");
-            Donation obj = new Donation(1, "reason", 23.09, donationDate, "comments");
-            bool expected = false;
-            bool actual = target.Equals(obj);
-            Assert.AreEqual(expected, actual);
+            Donation otherDonation = new Donation(id, reason, amount, DateTime.MaxValue, comments);
+            Assert.IsFalse(targetDonation.Equals(otherDonation));
         }
 
         /// <summary>
-        ///A test for Equals
+        ///Comparing two donations with a difference in the comment
         ///</summary>
         [TestMethod()]
-        public void DiffCommentEqualsTest()
+        public void Donation_Equals_DifferenceInComment()
         {
-            Donation target = new Donation(1, "reason", 23.09, DateTime.Today, "comments");
-            Donation obj = new Donation(1, "reason", 23.09, DateTime.Today, "");
-            bool expected = false;
-            bool actual = target.Equals(obj);
-            Assert.AreEqual(expected, actual);
+            Donation otherDonation = new Donation(id, reason, amount, donationDate, comments + comments);
+            Assert.IsFalse(targetDonation.Equals(otherDonation));
         }
 
         /// <summary>
-        ///A test for Equals
+        ///Comparing two donations with a difference in ever field
         ///</summary>
         [TestMethod()]
-        public void SomeDiffEqualsTest()
+        public void Donation_Equals_DifferencesInAllFields()
         {
-            Donation target = new Donation(1, "reason", 23.09, DateTime.Today, "comments");
-            Donation obj = new Donation(1, "reason:2", 23.54, DateTime.Today, "comments:2");
-            bool expected = false;
-            bool actual = target.Equals(obj);
-            Assert.AreEqual(expected, actual);
-        }
-
-        /// <summary>
-        ///A test for Equals
-        ///</summary>
-        [TestMethod()]
-        public void AllDiffEqualsTest()
-        {
-            Donation target = new Donation(1, "reason", 23.09, DateTime.Today, "comments");
-            Donation obj = new Donation(2, "reason:2", 23.87, DateTime.MinValue, "comments:2");
-            bool expected = false;
-            bool actual = target.Equals(obj);
-            Assert.AreEqual(expected, actual);
+            Donation otherDonation = 
+                new Donation((id *2), reason + reason, (amount * 2), DateTime.MaxValue, comments + comments);
+            Assert.IsFalse(targetDonation.Equals(otherDonation));
         }
 
         #endregion

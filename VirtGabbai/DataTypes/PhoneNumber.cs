@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace LocalTypes
+﻿namespace LocalTypes
 {
     public class PhoneNumber
     {
@@ -19,8 +14,6 @@ namespace LocalTypes
 
         #region C'tor
 
-        public PhoneNumber() {}
-
         public PhoneNumber(int _id, string phoneNumber, PhoneType numberType)
         {
             this._Id = _id;
@@ -35,6 +28,7 @@ namespace LocalTypes
         public override bool Equals(object obj)
         {
             PhoneNumber numberComparing = (PhoneNumber)obj;
+
             return ((this._Id == numberComparing._Id) &&
                     (this.Number == numberComparing.Number) &&
                     (this.NumberType.Equals(numberComparing.NumberType)));

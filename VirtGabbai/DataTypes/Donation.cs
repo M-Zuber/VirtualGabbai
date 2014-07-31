@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace LocalTypes
 {
@@ -22,8 +19,6 @@ namespace LocalTypes
         #endregion
 
         #region C'tor
-
-        public Donation(){}
 
         public Donation(int id, string reason, double amount, DateTime donationDate, string comments)
         {

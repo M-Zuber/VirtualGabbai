@@ -18,6 +18,17 @@ namespace LocalTypesTest
 
         private TestContext testContextInstance;
 
+        #region Test Data Members
+
+        // Target Data Members
+        private Account targetAccount = null;
+        private List<Donation> allDonations = null;
+        DateTime lastMonthlyPaymentDate = DateTime.Today;
+        int monthlyPaymentTotal;
+        int id;
+
+        #endregion
+
         /// <summary>
         ///Gets or sets the test context which provides
         ///information about and functionality for the current test run.
@@ -51,181 +62,107 @@ namespace LocalTypesTest
         //}
         //
         //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
+        [TestInitialize()]
+        public void MyTestInitialize()
+        {
+            id = 1;
+            monthlyPaymentTotal = 12;
+            allDonations = new List<Donation>() 
+            {
+                new Donation(1,"reason:1", 12.5, DateTime.Today, "comment"),
+                new Donation(2,"reason:2", 12.5, DateTime.Today, "comment"),
+                new Donation(3,"reason:3", 12.5, DateTime.Today, "comment"),
+                new Donation(4,"reason:4", 12.5, DateTime.Today, "comment"),
+                new Donation(5,"reason:5", 12.5, DateTime.Today, "comment"),
+                new PaidDonation(6, "reason:6", 12.5, DateTime.Today, "comment", DateTime.Today),
+                new PaidDonation(7, "reason:7", 12.5, DateTime.Today, "comment", DateTime.Today),
+                new PaidDonation(8, "reason:8", 12.5, DateTime.Today, "comment", DateTime.Today)
+            };
+
+            targetAccount = new Account(id, monthlyPaymentTotal, lastMonthlyPaymentDate, allDonations);
+        }
         //
         //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
+        [TestCleanup()]
+        public void MyTestCleanup()
+        {
+            targetAccount = null;
+            allDonations = null;
+        }
         //
         #endregion
 
         #region Equals Tests
 
         /// <summary>
-        ///A test for Equals
+        ///Comparing two accounts with a difference in the donations list
         ///</summary>
         [TestMethod()]
-        public void DiffrencesInDonationsEqualsTest()
-        {
-            int id = 1;
-            int monthlyPaymentTotal = 12;
-            DateTime lastMonthlyPaymentDate = DateTime.Today;
-            List<Donation> allDonations = new List<Donation>() 
-            {
-                new Donation(1,"reason:1", 12.5, DateTime.Today, "comment"),
-                new Donation(2,"reason:2", 12.5, DateTime.Today, "comment"),
-                new Donation(3,"reason:3", 12.5, DateTime.Today, "comment"),
-                new Donation(4,"reason:4", 12.5, DateTime.Today, "comment"),
-                new Donation(5,"reason:5", 12.5, DateTime.Today, "comment")
-            };
-            
-            Account target = new Account(id, monthlyPaymentTotal, lastMonthlyPaymentDate, allDonations);
-            allDonations.Add(new PaidDonation(6, "reason:6", 12.5, DateTime.Today, "comment", DateTime.Today));
-            allDonations.Add(new PaidDonation(7, "reason:7", 12.5, DateTime.Today, "comment", DateTime.Today));
-            allDonations.Add(new PaidDonation(8, "reason:8", 12.5, DateTime.Today, "comment", DateTime.Today));
+        public void Account_Equals_DifferenceInDonations()
+        {   
             List<Donation> otherDonations = new List<Donation>();
             otherDonations.AddRange(allDonations);
             otherDonations.Add(new PaidDonation(34, "reason:6", 12.5, DateTime.Today, "comment", DateTime.Today));
             otherDonations.Add(new PaidDonation(7, "reason:7", 12.5, DateTime.Today, "comment", DateTime.Today));
             otherDonations.Add(new PaidDonation(56, "reason:8", 12.5, DateTime.Today, "comment", DateTime.Today));
-            object obj = new Account(id, monthlyPaymentTotal, lastMonthlyPaymentDate, otherDonations);
-            bool expected = false;
-            bool actual;
-            actual = target.Equals(obj);
-            Assert.AreEqual(expected, actual);
+            Account otherAccount = new Account(id, monthlyPaymentTotal, lastMonthlyPaymentDate, otherDonations);
+
+            Assert.IsFalse(targetAccount.Equals(otherAccount));
         }
 
         /// <summary>
-        ///A test for Equals
+        ///Comparing two accounts with a difference in the last montly payment date
         ///</summary>
         [TestMethod()]
-        public void DiffLastMonthlyPaymentDateEqualsTest()
+        public void Account_Equals_DifferenceInLastMonthlyPayment()
         {
-            int id = 1;
-            int monthlyPaymentTotal = 12;
-            DateTime lastMonthlyPaymentDate = DateTime.Today;
-            List<Donation> allDonations = new List<Donation>() 
-            {
-                new Donation(1,"reason:1", 12.5, DateTime.Today, "comment"),
-                new Donation(2,"reason:2", 12.5, DateTime.Today, "comment"),
-                new Donation(3,"reason:3", 12.5, DateTime.Today, "comment"),
-                new Donation(4,"reason:4", 12.5, DateTime.Today, "comment"),
-                new Donation(5,"reason:5", 12.5, DateTime.Today, "comment")
-            };
-            Account target = new Account(id, monthlyPaymentTotal, lastMonthlyPaymentDate, allDonations);
-            object obj = new Account(id, monthlyPaymentTotal, DateTime.MaxValue, allDonations);
-            bool expected = false;
-            bool actual;
-            actual = target.Equals(obj);
-            Assert.AreEqual(expected, actual);
+            Account otherAccount = new Account(id, monthlyPaymentTotal, DateTime.MaxValue, allDonations);
+            Assert.IsFalse(targetAccount.Equals(otherAccount));
         }
 
         /// <summary>
-        ///A test for Equals
+        ///Comparing two accounts with a difference in the monthly payment total
         ///</summary>
         [TestMethod()]
-        public void DiffMonthlyPaymentTotalEqualsTest()
+        public void Account_Equals_DifferenceInMonthlyPaymentTotal()
         {
-            int id = 1;
-            int monthlyPaymentTotal = 12;
-            DateTime lastMonthlyPaymentDate = DateTime.Today;
-            List<Donation> allDonations = new List<Donation>() 
-            {
-                new Donation(1,"reason:1", 12.5, DateTime.Today, "comment"),
-                new Donation(2,"reason:2", 12.5, DateTime.Today, "comment"),
-                new Donation(3,"reason:3", 12.5, DateTime.Today, "comment"),
-                new Donation(4,"reason:4", 12.5, DateTime.Today, "comment"),
-                new Donation(5,"reason:5", 12.5, DateTime.Today, "comment")
-            };
-            Account target = new Account(id, monthlyPaymentTotal, lastMonthlyPaymentDate, allDonations);
-            object obj = new Account(id, 25, lastMonthlyPaymentDate, allDonations);
-            bool expected = false;
-            bool actual;
-            actual = target.Equals(obj);
-            Assert.AreEqual(expected, actual);
+            Account otherAccount = new Account(id, (2 * monthlyPaymentTotal), lastMonthlyPaymentDate, allDonations);
+            Assert.IsFalse(targetAccount.Equals(otherAccount));
         }
 
         /// <summary>
-        ///A test for Equals
+        ///Comparing two accounts with a difference in the id
         ///</summary>
         [TestMethod()]
-        public void DiffIdEqualsTest()
+        public void Account_Equals_DifferenceInId()
         {
-            int id = 1;
-            int monthlyPaymentTotal = 12;
-            DateTime lastMonthlyPaymentDate = DateTime.Today;
-            List<Donation> allDonations = new List<Donation>() 
-            {
-                new Donation(1,"reason:1", 12.5, DateTime.Today, "comment"),
-                new Donation(2,"reason:2", 12.5, DateTime.Today, "comment"),
-                new Donation(3,"reason:3", 12.5, DateTime.Today, "comment"),
-                new Donation(4,"reason:4", 12.5, DateTime.Today, "comment"),
-                new Donation(5,"reason:5", 12.5, DateTime.Today, "comment")
-            };
-            Account target = new Account(id, monthlyPaymentTotal, lastMonthlyPaymentDate, allDonations);
-            object obj = new Account(3, monthlyPaymentTotal, lastMonthlyPaymentDate, allDonations);
-            bool expected = false;
-            bool actual;
-            actual = target.Equals(obj);
-            Assert.AreEqual(expected, actual);
+            Account otherAccount = new Account((id * 2), monthlyPaymentTotal, lastMonthlyPaymentDate, allDonations);
+            Assert.IsFalse(targetAccount.Equals(otherAccount));
         }
 
         /// <summary>
-        ///A test for Equals
+        ///Comparing two accounts with no differences
         ///</summary>
         [TestMethod()]
-        public void AllSameEqualsTest()
+        public void Account_Equals_NoDifferences()
         {
-            int id = 1;
-            int monthlyPaymentTotal = 12;
-            DateTime lastMonthlyPaymentDate = DateTime.Today;
-            List<Donation> allDonations = new List<Donation>() 
-            {
-                new Donation(1,"reason:1", 12.5, DateTime.Today, "comment"),
-                new Donation(2,"reason:2", 12.5, DateTime.Today, "comment"),
-                new Donation(3,"reason:3", 12.5, DateTime.Today, "comment"),
-                new Donation(4,"reason:4", 12.5, DateTime.Today, "comment"),
-                new Donation(5,"reason:5", 12.5, DateTime.Today, "comment")
-            };
-            Account target = new Account(id, monthlyPaymentTotal, lastMonthlyPaymentDate, allDonations);
-            object obj = new Account(id, monthlyPaymentTotal, lastMonthlyPaymentDate, allDonations);
-            bool expected = true;
-            bool actual;
-            actual = target.Equals(obj);
-            Assert.AreEqual(expected, actual);
+            Account otherAccount = new Account(id, monthlyPaymentTotal, lastMonthlyPaymentDate, allDonations);
+            Assert.IsTrue(targetAccount.Equals(otherAccount));
         }
 
         /// <summary>
-        ///A test for Equals
+        ///Comparing two accounts with every field different
         ///</summary>
         [TestMethod()]
-        public void AllDiffEqualsTest()
+        public void Account_Equals_DifferenceInEveryField()
         {
-            int id = 1;
-            int monthlyPaymentTotal = 12;
-            DateTime lastMonthlyPaymentDate = DateTime.Today;
-            List<Donation> allDonations = new List<Donation>() 
-            {
-                new Donation(1,"reason:1", 12.5, DateTime.Today, "comment"),
-                new Donation(2,"reason:2", 12.5, DateTime.Today, "comment"),
-                new Donation(3,"reason:3", 12.5, DateTime.Today, "comment"),
-                new Donation(4,"reason:4", 12.5, DateTime.Today, "comment"),
-                new Donation(5,"reason:5", 12.5, DateTime.Today, "comment")
-            };
-            Account target = new Account(id, monthlyPaymentTotal, lastMonthlyPaymentDate, allDonations);
-            allDonations.Add(new PaidDonation(6, "reason:6", 12.5, DateTime.Today, "comment", DateTime.Today));
-            allDonations.Add(new PaidDonation(7, "reason:7", 12.5, DateTime.Today, "comment", DateTime.Today));
-            allDonations.Add(new PaidDonation(8, "reason:8", 12.5, DateTime.Today, "comment", DateTime.Today));
-            object obj = new Account(4, 25, DateTime.MaxValue, allDonations);
-            bool expected = false;
-            bool actual;
-            actual = target.Equals(obj);
-            Assert.AreEqual(expected, actual);
+            List<Donation> otherDonation = new List<Donation>();
+            otherDonation.AddRange(allDonations);
+            otherDonation.Add(new PaidDonation(6, "reason:6", 12.5, DateTime.Today, "comment", DateTime.Today));
+            otherDonation.Add(new PaidDonation(7, "reason:7", 12.5, DateTime.Today, "comment", DateTime.Today));
+            otherDonation.Add(new PaidDonation(8, "reason:8", 12.5, DateTime.Today, "comment", DateTime.Today));
+            Account otherAccount = new Account((id * 2), (monthlyPaymentTotal * 2), DateTime.MaxValue, otherDonation);
+            Assert.IsFalse(targetAccount.Equals(otherAccount));
         }
 
         #endregion
@@ -233,13 +170,12 @@ namespace LocalTypesTest
         #region GetPaidDonations Tests
         
         /// <summary>
-        ///A test for GetPaidDonations
+        ///Running the GetPaidDonations function when all the donations are paid
         ///</summary>
         [TestMethod()]
         [DeploymentItem("DataTypes.dll")]
-        public void AllDonationsPaidGetPaidDonationsTest()
+        public void Account_GetPaidDonations_AllDonations_ofType_PaidDonation()
         {
-            Account_Accessor target = new Account_Accessor(1,1, DateTime.Today, new List<Donation>());
             List<Donation> allDonations = new List<Donation>()
             {
                 new PaidDonation(1, "reason:1", 12.5, DateTime.Today, "comment", DateTime.Today),
@@ -255,18 +191,17 @@ namespace LocalTypesTest
                 new PaidDonation(4, "reason:4", 12.5, DateTime.Today, "comment", DateTime.Today)
             };
             List<PaidDonation> actual;
-            actual = target.GetPaidDonations(allDonations);
+            actual = Account_Accessor.GetPaidDonations(allDonations);
             CollectionAssert.AreEqual(expected, actual);
         }
 
         /// <summary>
-        ///A test for GetPaidDonations
+        ///Running the GetPaidDonations function when some of the donations are paid
         ///</summary>
         [TestMethod()]
         [DeploymentItem("DataTypes.dll")]
-        public void SomeDonationsPaidGetPaidDonationsTest()
+        public void Account_GetPaidDonations_SomeDonations_ofType_PaidDonation()
         {
-            Account_Accessor target = new Account_Accessor(1, 1, DateTime.Today, new List<Donation>());
             List<Donation> allDonations = new List<Donation>()
             {
                 new PaidDonation(1, "reason:1", 12.5, DateTime.Today, "comment", DateTime.Today),
@@ -275,7 +210,7 @@ namespace LocalTypesTest
                 new Donation(4, "reason:4", 12.5, DateTime.Today, "comment")
             };
             List<PaidDonation> actual;
-            actual = target.GetPaidDonations(allDonations);
+            actual = Account_Accessor.GetPaidDonations(allDonations);
             for (int i = 0; i < allDonations.Count; i++)
             {
                 if (allDonations[i] is PaidDonation)
@@ -286,13 +221,12 @@ namespace LocalTypesTest
         }
 
         /// <summary>
-        ///A test for GetPaidDonations
+        ///Running the GetPaidDonations function when no donations are paid
         ///</summary>
         [TestMethod()]
         [DeploymentItem("DataTypes.dll")]
-        public void NoDonationsPaidGetPaidDonationsTest()
+        public void Account_GetPaidDonations_NoDonations_ofType_PaidDonation()
         {
-            Account_Accessor target = new Account_Accessor(1, 1, DateTime.Today, new List<Donation>());
             List<Donation> allDonations = new List<Donation>()
             {
                 new Donation(1, "reason:1", 12.5, DateTime.Today, "comment"),
@@ -301,7 +235,7 @@ namespace LocalTypesTest
                 new Donation(4, "reason:4", 12.5, DateTime.Today, "comment")
             };
             List<PaidDonation> actual;
-            actual = target.GetPaidDonations(allDonations);
+            actual = Account_Accessor.GetPaidDonations(allDonations);
             Assert.IsTrue(actual.Count == 0);
         }
 
@@ -310,13 +244,12 @@ namespace LocalTypesTest
         #region GetUnPaidDonations Tests
 
         /// <summary>
-        ///A test for GetUnpaidDonations
+        ///Running the GetUnpaidDonations function when no donations are unpaid
         ///</summary>
         [TestMethod()]
         [DeploymentItem("DataTypes.dll")]
-        public void NoDonationsUnpaidGetUnpaidDonationsTest()
+        public void Account_GetUnpaidDonations_NoDonations_ofType_Donation()
         {
-            Account_Accessor target = new Account_Accessor(1, 1, DateTime.Today, new List<Donation>());
             List<Donation> allDonations = new List<Donation>()
             {
                 new PaidDonation(1, "reason:1", 12.5, DateTime.Today, "comment", DateTime.Today),
@@ -325,18 +258,17 @@ namespace LocalTypesTest
                 new PaidDonation(4, "reason:4", 12.5, DateTime.Today, "comment", DateTime.Today)
             };
             List<Donation> actual;
-            actual = target.GetUnpaidDonations(allDonations);
+            actual = Account_Accessor.GetUnpaidDonations(allDonations);
             Assert.IsTrue(actual.Count == 0);
         }
 
         /// <summary>
-        ///A test for GetUnpaidDonations
+        ///Running the GetUnpaidDonations function when some of the donations are unpaid
         ///</summary>
         [TestMethod()]
         [DeploymentItem("DataTypes.dll")]
-        public void SomeDonationsUnpaidGetUnpaidDonationsTest()
+        public void Account_GetUnpaidDonations_SomeDonations_ofType_Donation()
         {
-            Account_Accessor target = new Account_Accessor(1, 1, DateTime.Today, new List<Donation>());
             List<Donation> allDonations = new List<Donation>()
             {
                 new Donation(1, "reason:1", 12.5, DateTime.Today, "comment"),
@@ -345,7 +277,7 @@ namespace LocalTypesTest
                 new PaidDonation(4, "reason:4", 12.5, DateTime.Today, "comment", DateTime.Today)
             };
             List<Donation> actual;
-            actual = target.GetUnpaidDonations(allDonations);
+            actual = Account_Accessor.GetUnpaidDonations(allDonations);
 
             for (int i = 0; i < allDonations.Count; i++)
             {
@@ -361,13 +293,12 @@ namespace LocalTypesTest
         }
 
         /// <summary>
-        ///A test for GetUnpaidDonations
+        ///Running the GetUnpaidDonations function when all of the donations are unpaid
         ///</summary>
         [TestMethod()]
         [DeploymentItem("DataTypes.dll")]
-        public void AllDonationsUnpaidGetUnpaidDonationsTest()
+        public void Account_GetUnpaidDonations_AllDonations_ofType_Donation()
         {
-            Account_Accessor target = new Account_Accessor(1, 1, DateTime.Today, new List<Donation>());
             List<Donation> allDonations = new List<Donation>()
             {
                 new Donation(1, "reason:1", 12.5, DateTime.Today, "comment"),
@@ -383,7 +314,7 @@ namespace LocalTypesTest
                 new Donation(4, "reason:4", 12.5, DateTime.Today, "comment")
             };
             List<Donation> actual;
-            actual = target.GetUnpaidDonations(allDonations);
+            actual = Account_Accessor.GetUnpaidDonations(allDonations);
             CollectionAssert.AreEqual(expected, actual);
         }
 
@@ -392,44 +323,28 @@ namespace LocalTypesTest
         #region ToString Tests
         
         /// <summary>
-        ///A test for ToString
+        ///Account.ToString() test
         ///</summary>
         [TestMethod()]
-        public void ToStringTest()
+        public void Account_ToStringTest()
         {
-            int id = 1;
-            int monthlyPaymentTotal = 254;
-            DateTime lastMonthlyPaymentDate = DateTime.Today;
-            List<Donation> allDonations = new List<Donation>() 
-            {
-                new Donation(1,"reason:1", 12.5, DateTime.Today, "comment"),
-                new Donation(2,"reason:2", 12.5, DateTime.Today, "comment"),
-                new Donation(3,"reason:3", 12.5, DateTime.Today, "comment"),
-                new Donation(4,"reason:4", 12.5, DateTime.Today, "comment"),
-                new Donation(5,"reason:5", 12.5, DateTime.Today, "comment"),
-                new PaidDonation(6, "reason:6", 12.5, DateTime.Today, "comment", DateTime.Today),
-                new PaidDonation(7, "reason:7", 12.5, DateTime.Today, "comment", DateTime.Today),
-                new PaidDonation(8, "reason:8", 12.5, DateTime.Today, "comment", DateTime.Today)
-            };
-            Account target = new Account(id, monthlyPaymentTotal, lastMonthlyPaymentDate, allDonations);
             string donations = "";
-            foreach (Donation CurrDonation in target.UnpaidDonations)
+            foreach (Donation CurrDonation in targetAccount.UnpaidDonations)
             {
                 donations += CurrDonation.ToString();
                 donations += "\n";
             }
 
-            foreach (PaidDonation CurrPaidDonation in target.PaidDonations)
+            foreach (PaidDonation CurrPaidDonation in targetAccount.PaidDonations)
             {
                 donations += CurrPaidDonation.ToString();
                 donations += "\n";
             }
             donations = donations.Remove(donations.Length - 1);
-            string expected = "Total owed for the monthly payment: \""+ target.MonthlyPaymentTotal+ "\"\n" + 
-                              "Last month the monthly payment was made: \""+ target.LastMonthlyPaymentDate.Month +"\"\n" +
+            string expected = "Total owed for the monthly payment: \""+ targetAccount.MonthlyPaymentTotal+ "\"\n" + 
+                              "Last month the monthly payment was made: \""+ targetAccount.LastMonthlyPaymentDate.Month +"\"\n" +
                               "Donations:\n" + donations;
-            string actual;
-            actual = target.ToString();
+            string actual = targetAccount.ToString();
             Assert.AreEqual(expected, actual);
         }
         

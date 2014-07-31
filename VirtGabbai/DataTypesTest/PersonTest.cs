@@ -15,7 +15,20 @@ namespace LocalTypesTest
     public class PersonTest
     {
 
+        #region Test Data Members
 
+        // Target Data Members
+        private int id;
+        private string emailAddress;
+        private string firstName; 
+        private string lastName;
+        private string streetAddress;
+        private Account personalAccount = null;
+        private List<PhoneNumber> phoneNumbers = null;
+        private List<Yahrtzieht> yahrtziehts = null;
+        private Person targetPerson = null;
+
+        #endregion
         private TestContext testContextInstance;
 
         /// <summary>
@@ -51,64 +64,60 @@ namespace LocalTypesTest
         //}
         //
         //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
-
-        #region Setup
-
-        static int id = 1;
-        static string emailAddress = "funinjust@gmail.com";
-        static string firstName = "Justin";
-        static string lastName = "Fune";
-        static string streetAddress = ";12;somwhere road;city;state;country;325";
-        static Account personalAccount = new Account(1, 50, new DateTime(DateTime.Today.Year, 1, DateTime.Today.Day),
+        [TestInitialize()]
+        public void MyTestInitialize()
+        {
+            id = 1;
+            emailAddress = "funinjust@gmail.com";
+            firstName = "Justin";
+            lastName = "Fune";
+            streetAddress = ";12;somwhere road;city;state;country;325";
+            personalAccount = new Account(1, 50, new DateTime(DateTime.Today.Year, 1, DateTime.Today.Day),
             new List<Donation>() {new Donation(1, "cuz i wanna", 45.90, DateTime.Today, "i dont know that we will ever see the money"),
                                       new PaidDonation(2, "it was a glorious day", 4010, DateTime.Today, "it was good that this money came in", DateTime.Today)});
-        static List<PhoneNumber> phoneNumbers = new List<PhoneNumber>()
+            phoneNumbers =  new List<PhoneNumber>()
             {
                 new PhoneNumber(1, "123456789", new PhoneType(1,"nothing"))
             };
-        static List<Yahrtzieht> yahrtziehts = new List<Yahrtzieht>()
+            yahrtziehts = new List<Yahrtzieht>()
             {
                 new Yahrtzieht(1, DateTime.MinValue, "ploni ben almoni", "they where not related")
             };
-        private Person target = new Person(id, emailAddress, firstName, lastName, true,
+            targetPerson = new Person(id, emailAddress, firstName, lastName, true,
                                 streetAddress, personalAccount, phoneNumbers, yahrtziehts);
-
+        }
+        //
+        //Use TestCleanup to run code after each test has run
+        [TestCleanup()]
+        public void MyTestCleanup()
+        {
+            targetPerson = null;
+            personalAccount = null;
+            phoneNumbers = null;
+            yahrtziehts = null;
+        }
+        //
         #endregion
         
         #region Equals Tests
 
         /// <summary>
-        ///A test for Equals
+        ///Comparing two people with no differences
         ///</summary>
         [TestMethod()]
-        public void AllSameEqualsTest()
+        public void Person_Equals_NoDifferences()
         {
-            object obj = new Person(target._Id, target.Email.ToString(), target.FirstName,
-                                    target.LastName, target.MembershipStatus, target.Address.ToDbString(),
-                                    target.PersonalAccount, target.PhoneNumbers, target.Yahrtziehts);
-            bool expected = true;
-            bool actual;
-            actual = target.Equals(obj);
-            Assert.AreEqual(expected, actual);
+            Person otherPerson = new Person(targetPerson._Id, targetPerson.Email.ToString(), targetPerson.FirstName,
+                                    targetPerson.LastName, targetPerson.MembershipStatus, targetPerson.Address.ToDbString(),
+                                    targetPerson.PersonalAccount, targetPerson.PhoneNumbers, targetPerson.Yahrtziehts);
+            Assert.IsTrue(targetPerson.Equals(otherPerson));
         }
 
         /// <summary>
-        ///A test for Equals
+        ///Comparing two people with a difference in every field
         ///</summary>
         [TestMethod()]
-        public void AllDiffEqualsTest()
+        public void Person_Equals_DifferenceInEveryField()
         {
             int secondId = 2;
             string secondEmailAddress = "ColonelJack@stargateCommand.com";
@@ -126,144 +135,117 @@ namespace LocalTypesTest
             {
                 new Yahrtzieht(18, DateTime.MinValue, "ploni ben almoni", "they where not related")
             };
-            object obj = new Person(secondId, secondEmailAddress, secondFirstName,
+            Person otherPerson = new Person(secondId, secondEmailAddress, secondFirstName,
                                     secondLastName, false,secondStreetAddress, secondPersonalAccount,
                                     secondPhoneNumbers, secondYahrtziehts);
-            bool expected = false;
-            bool actual;
-            actual = target.Equals(obj);
-            Assert.AreEqual(expected, actual);
+            Assert.IsFalse(targetPerson.Equals(otherPerson));
         }
 
         /// <summary>
-        ///A test for Equals
+        ///Comparing two people with a difference in the membership status
         ///</summary>
         [TestMethod()]
-        public void DiffMembershipEqualsTest()
+        public void Person_Equals_DifferenceInMembership()
         {
-            object obj = new Person(target._Id, target.Email.ToString(), target.FirstName,
-                                    target.LastName, false, target.Address.ToDbString(),
-                                    target.PersonalAccount, target.PhoneNumbers, target.Yahrtziehts);
-            bool expected = false;
-            bool actual;
-            actual = target.Equals(obj);
-            Assert.AreEqual(expected, actual);
+            Person otherPerson = new Person(targetPerson._Id, targetPerson.Email.ToString(), targetPerson.FirstName,
+                                    targetPerson.LastName, false, targetPerson.Address.ToDbString(),
+                                    targetPerson.PersonalAccount, targetPerson.PhoneNumbers, targetPerson.Yahrtziehts);
+            Assert.IsFalse(targetPerson.Equals(otherPerson));
         }
 
         /// <summary>
-        ///A test for Equals
+        ///Comparing two people with a difference in the email
         ///</summary>
         [TestMethod()]
-        public void DiffEmailEqualsTest()
+        public void Person_Equals_DifferenceInEmail()
         {
-            object obj = new Person(target._Id, "yeahright@somethingelse.blah", target.FirstName, target.LastName,
-                                    target.MembershipStatus,target.Address.ToDbString(), target.PersonalAccount,
-                                    target.PhoneNumbers, target.Yahrtziehts);
-            bool expected = false;
-            bool actual;
-            actual = target.Equals(obj);
-            Assert.AreEqual(expected, actual);
+            Person otherPerson = new Person(targetPerson._Id, "yeahright@somethingelse.blah", targetPerson.FirstName, targetPerson.LastName,
+                                    targetPerson.MembershipStatus,targetPerson.Address.ToDbString(), targetPerson.PersonalAccount,
+                                    targetPerson.PhoneNumbers, targetPerson.Yahrtziehts);
+            Assert.IsFalse(targetPerson.Equals(otherPerson));
         }
 
         /// <summary>
-        ///A test for Equals
+        ///Comparing two people with a difference in the first name
         ///</summary>
         [TestMethod()]
-        public void DiffFirstNameEqualsTest()
+        public void People_Equals_DfferenceInFirstName()
         {
-            object obj = new Person(target._Id, target.Email.ToString(), "not him again", target.LastName,
-                                    target.MembershipStatus,target.Address.ToDbString(), target.PersonalAccount,
-                                    target.PhoneNumbers, target.Yahrtziehts);
-            bool expected = false;
-            bool actual;
-            actual = target.Equals(obj);
-            Assert.AreEqual(expected, actual);
+            Person otherPerson = new Person(targetPerson._Id, targetPerson.Email.ToString(), "not him again", targetPerson.LastName,
+                                    targetPerson.MembershipStatus,targetPerson.Address.ToDbString(), targetPerson.PersonalAccount,
+                                    targetPerson.PhoneNumbers, targetPerson.Yahrtziehts);
+            Assert.IsFalse(targetPerson.Equals(otherPerson));
         }
 
         /// <summary>
-        ///A test for Equals
+        ///Comparing two people with a difference in the last name
         ///</summary>
         [TestMethod()]
-        public void DiffLastNameEqualsTest()
+        public void People_Equals_DifferenceInLastName()
         {
-            object obj = new Person(target._Id, target.Email.ToString(), target.FirstName, "no it wasnt me",
-                                     target.MembershipStatus,target.Address.ToDbString(), target.PersonalAccount,
-                                     target.PhoneNumbers, target.Yahrtziehts);
-            bool expected = false;
-            bool actual;
-            actual = target.Equals(obj);
-            Assert.AreEqual(expected, actual);
+            Person otherPerson = new Person(targetPerson._Id, targetPerson.Email.ToString(), targetPerson.FirstName, "no it wasnt me",
+                                     targetPerson.MembershipStatus,targetPerson.Address.ToDbString(), targetPerson.PersonalAccount,
+                                     targetPerson.PhoneNumbers, targetPerson.Yahrtziehts);
+            Assert.IsFalse(targetPerson.Equals(otherPerson));
         }
 
         /// <summary>
-        ///A test for Equals
+        ///Comparing two people with a difference in the street address
         ///</summary>
         [TestMethod()]
-        public void DiffStreetAddressEqualsTest()
+        public void People_Equals_DifferenceInStreetAddress()
         {
-            object obj = new Person(target._Id, target.Email.ToString(), target.FirstName, target.LastName,
-                                     target.MembershipStatus, ";;;;;;", target.PersonalAccount,
-                                     target.PhoneNumbers, target.Yahrtziehts);
-            bool expected = false;
-            bool actual;
-            actual = target.Equals(obj);
-            Assert.AreEqual(expected, actual);
+            Person otherPerson = new Person(targetPerson._Id, targetPerson.Email.ToString(), targetPerson.FirstName, targetPerson.LastName,
+                                     targetPerson.MembershipStatus, ";;;;;;", targetPerson.PersonalAccount,
+                                     targetPerson.PhoneNumbers, targetPerson.Yahrtziehts);
+            Assert.IsFalse(targetPerson.Equals(otherPerson));
         }
 
         /// <summary>
-        ///A test for Equals
+        ///Comparing two people with a difference in the account
         ///</summary>
         [TestMethod()]
-        public void DiffAccountEqualsTest()
+        public void People_Equals_DifferenceInAccount()
         {
             Account secondPersonalAccount = new Account(18, 500, new DateTime(DateTime.Today.Year, 2, DateTime.Today.Day),
                 new List<Donation>() {new Donation(1, "cuz i wanna", 45.90, DateTime.Today, "i dont know that we will ever see the money"),
                                       new PaidDonation(2, "it was a glorious day", 4010, DateTime.Today, "it was good that this money came in", DateTime.Today)});
-            object obj = new Person(target._Id, target.Email.ToString(), target.FirstName,
-                                    target.LastName, target.MembershipStatus,target.Address.ToDbString(),
-                                    secondPersonalAccount, target.PhoneNumbers, target.Yahrtziehts);
-            bool expected = false;
-            bool actual;
-            actual = target.Equals(obj);
-            Assert.AreEqual(expected, actual);
+            Person otherPerson = new Person(targetPerson._Id, targetPerson.Email.ToString(), targetPerson.FirstName,
+                                    targetPerson.LastName, targetPerson.MembershipStatus,targetPerson.Address.ToDbString(),
+                                    secondPersonalAccount, targetPerson.PhoneNumbers, targetPerson.Yahrtziehts);
+            Assert.IsFalse(targetPerson.Equals(otherPerson));
         }
 
         /// <summary>
-        ///A test for Equals
+        ///Comparing two people with a difference in the phone numbers
         ///</summary>
         [TestMethod()]
-        public void DiffPhoneNumbersEqualsTest()
+        public void People_Equals_DifferenceInPhoneNumbers()
         {
             List<PhoneNumber> secondPhoneNumbers = new List<PhoneNumber>()
             {
                 new PhoneNumber(1, "987654321", new PhoneType(1,"nothing"))
             };
-            object obj = new Person(target._Id, target.Email.ToString(), target.FirstName,
-                                    target.LastName, target.MembershipStatus,target.Address.ToDbString(),
-                                    target.PersonalAccount, secondPhoneNumbers, target.Yahrtziehts);
-            bool expected = false;
-            bool actual;
-            actual = target.Equals(obj);
-            Assert.AreEqual(expected, actual);
+            Person otherPerson = new Person(targetPerson._Id, targetPerson.Email.ToString(), targetPerson.FirstName,
+                                    targetPerson.LastName, targetPerson.MembershipStatus,targetPerson.Address.ToDbString(),
+                                    targetPerson.PersonalAccount, secondPhoneNumbers, targetPerson.Yahrtziehts);
+            Assert.IsFalse(targetPerson.Equals(otherPerson));
         }
 
         /// <summary>
-        ///A test for Equals
+        ///Comparing two people with a difference in the yahrtziehts
         ///</summary>
         [TestMethod()]
-        public void DiffYahrtziehtEqualsTest()
+        public void People_Equals_DifferenceInLYahrtziehts()
         {
             List<Yahrtzieht> secondYahrtziehts = new List<Yahrtzieht>()
             {
                 new Yahrtzieht(18, DateTime.MinValue, "ploni ben almoni", "they where not related")
             };
-            object obj = new Person(target._Id, target.Email.ToString(), target.FirstName,
-                                    target.LastName, target.MembershipStatus,target.Address.ToDbString(),
-                                    target.PersonalAccount, target.PhoneNumbers, secondYahrtziehts);
-            bool expected = false;
-            bool actual;
-            actual = target.Equals(obj);
-            Assert.AreEqual(expected, actual);
+            Person otherPerson = new Person(targetPerson._Id, targetPerson.Email.ToString(), targetPerson.FirstName,
+                                    targetPerson.LastName, targetPerson.MembershipStatus,targetPerson.Address.ToDbString(),
+                                    targetPerson.PersonalAccount, targetPerson.PhoneNumbers, secondYahrtziehts);
+            Assert.IsFalse(targetPerson.Equals(otherPerson));
         }
 
         #endregion
@@ -271,10 +253,10 @@ namespace LocalTypesTest
         #region ToStringTests
 
         /// <summary>
-        ///A test for ToString
+        ///Person.ToString() with membership field true test
         ///</summary>
         [TestMethod()]
-        public void ToStringTest()
+        public void Person_ToString_IsAMember()
         {
             string phoneNumberStrings = "";
             if (phoneNumbers.Count > 0)
@@ -301,20 +283,19 @@ namespace LocalTypesTest
                               "\nAccount information:\n" + personalAccount.ToString() +
                               "\nPhone Numbers:\n\t" + phoneNumberStrings +
                               "\nYahrtziehts:\n\t" + yahrtziehtStrings;
-            string actual;
-            actual = target.ToString();
+            string actual = targetPerson.ToString();
             Assert.AreEqual(expected, actual);
         }
 
         /// <summary>
-        ///A test for ToString
+        ///Person.ToString() with membership field false test
         ///</summary>
         [TestMethod()]
-        public void NotMemberToStringTest()
+        public void Person_ToString_IsNotAMember()
         {
-            Person newTarget = new Person(target._Id, target.Email.Address, target.FirstName, target.LastName,
-                                          false, target.Address.ToDbString(), target.PersonalAccount,
-                                          target.PhoneNumbers, target.Yahrtziehts);
+            Person newTarget = new Person(targetPerson._Id, targetPerson.Email.Address, targetPerson.FirstName, targetPerson.LastName,
+                                          false, targetPerson.Address.ToDbString(), targetPerson.PersonalAccount,
+                                          targetPerson.PhoneNumbers, targetPerson.Yahrtziehts);
             string phoneNumberStrings = "";
             if (phoneNumbers.Count > 0)
             {
@@ -339,8 +320,7 @@ namespace LocalTypesTest
                               "\nAccount information:\n" + personalAccount.ToString() +
                               "\nPhone Numbers:\n\t" + phoneNumberStrings +
                               "\nYahrtziehts:\n\t" + yahrtziehtStrings;
-            string actual;
-            actual = newTarget.ToString();
+            string actual = newTarget.ToString();
             Assert.AreEqual(expected, actual);
         }
         
