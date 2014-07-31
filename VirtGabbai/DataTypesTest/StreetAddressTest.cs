@@ -82,6 +82,23 @@ namespace LocalTypesTest
             Assert.AreEqual("USA", target.Country);
             Assert.AreEqual("02445", target.Zipcode);
         }
+        
+        /// <summary>
+        ///A test for StreetAddress Constructor with explicit parameters
+        ///</summary>
+        [TestMethod()]
+        public void StreetAddressExplicitConstructorTest()
+        {
+            string address = ";1894;beacon st;brookline;ma;usa;02445";
+            StreetAddress target = new StreetAddress("", "1894", "beacon st", "brookline", "MA", "USA", "02445");
+            Assert.AreEqual("", target.ApartmentNumber);
+            Assert.AreEqual("1894", target.House);
+            Assert.AreEqual("beacon st", target.Street);
+            Assert.AreEqual("brookline", target.City);
+            Assert.AreEqual("MA", target.State);
+            Assert.AreEqual("USA", target.Country);
+            Assert.AreEqual("02445", target.Zipcode);
+        }
 
         #endregion
 
