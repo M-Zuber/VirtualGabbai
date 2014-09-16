@@ -53,8 +53,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IntegrationOne.cs" />
-    <Compile Include="IntegrationTester.cs" />
     <Compile Include="IntegrationTwo.cs" />
+    <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -6,6 +6,7 @@ using LocalTypes;
 using System.Collections.Generic;
 using Framework;
 using DataCache;
+using Helpers.UnitTests.Extensions;
 
 namespace DataAccessTest
 {
@@ -205,7 +206,8 @@ namespace DataAccessTest
         public void GetAllPrivilegesTest()
         {
             List<Privilege> expected = PrivilegeAccess.ConvertMultipleDbPrivilegesToLocalType(
-                PrivilegeAccess_Accessor.LookupAllPrivileges());
+                1.InvokeStaticPrivateMethod<List<t_privileges>>(typeof(PrivilegeAccess), "LookupAllPrivileges")
+               );
             List<Privilege> actual;
             actual = PrivilegeAccess.GetAllPrivileges();
             CollectionAssert.AreEqual(expected, actual);
@@ -245,7 +247,6 @@ namespace DataAccessTest
         ///A test for LookupAllPrivileges
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
         public void LookupAllPrivilegesTest()
         {
             List<t_privileges> expected = (from privilege in Cache.CacheData.t_privileges
@@ -259,7 +260,7 @@ namespace DataAccessTest
         ///A test for LookupPrivilegeById
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupPrivilegeByIdTest()
         {
             int id = 1;
@@ -275,7 +276,7 @@ namespace DataAccessTest
         ///A test for LookupPrivilegeByName
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupPrivilegeByNameTest()
         {
             string privilegeName = "privilege:1";
