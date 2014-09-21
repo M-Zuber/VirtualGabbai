@@ -7,6 +7,6 @@ namespace Framework
 {
     public static class Globals
     {
-        public const char DELIMITER = ';';
+        public const string DELIMITER = ";";
     }
 }

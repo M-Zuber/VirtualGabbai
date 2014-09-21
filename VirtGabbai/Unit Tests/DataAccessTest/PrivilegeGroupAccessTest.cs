@@ -171,7 +171,7 @@ namespace DataAccessTest
         ///A test for ConvertSingleDbPrivilegesGroupToLocalType
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void ConvertSingleDbPrivilegesGroupToLocalTypeTest()
         {
             t_privilege_groups dbTypePrivilegesGroup = t_privilege_groups.Createt_privilege_groups(1);
@@ -196,7 +196,7 @@ namespace DataAccessTest
         ///A test for ConvertSingleLocalPrivilegesGroupToDbType
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void ConvertSingleLocalPrivilegesGroupToDbTypeTest()
         {
             PrivilegesGroup localTypePrivilegesGroup = new PrivilegesGroup(1, "group:1",
@@ -358,7 +358,7 @@ namespace DataAccessTest
         ///A test for LookupAllPrivilegesGroups
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupAllPrivilegesGroupsTest()
         {
             List<t_privilege_groups> expected = (from privilegeGroup in Cache.CacheData.t_privilege_groups
@@ -372,7 +372,7 @@ namespace DataAccessTest
         ///A test for LookupPrivilegesGroupByGroupName
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupPrivilegesGroupByGroupNameTest()
         {
             string groupName = "group:1";
@@ -388,7 +388,7 @@ namespace DataAccessTest
         ///A test for LookupPrivilegesGroupByGroupName
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupPrivilegesGroupByNonExistentGroupNameTest()
         {
             string groupName = "blah";
@@ -402,7 +402,7 @@ namespace DataAccessTest
         ///A test for LookupPrivilegesGroupById
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupPrivilegesGroupByIdTest()
         {
             int id = 1;
@@ -418,7 +418,7 @@ namespace DataAccessTest
         ///A test for LookupPrivilegesGroupById
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupPrivilegesGroupByNonExsistentIdTest()
         {
             int id = 0;

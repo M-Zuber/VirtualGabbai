@@ -155,7 +155,7 @@ namespace DataAccessTest
         ///A test for ConvertMultipleDbPhoneNumbersToLocalType
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void ConvertMultipleDbPhoneNumbersToLocalTypeTest()
         {
             List<t_phone_numbers> dbTypePhoneNumberList = new List<t_phone_numbers>();
@@ -179,7 +179,7 @@ namespace DataAccessTest
         ///A test for ConvertMultipleLocalPhoneNumbersToDbType
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void ConvertMultipleLocalPhoneNumbersToDbTypeTest()
         {
             List<PhoneNumber> localTypePhoneNumberList = new List<PhoneNumber>();
@@ -205,7 +205,7 @@ namespace DataAccessTest
         ///A test for ConvertSingleDbPhoneNumberToLocalType
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void ConvertSingleDbPhoneNumberToLocalTypeTest()
         {
             t_phone_numbers dbTypePhoneNumber = t_phone_numbers.Createt_phone_numbers(1, "phone number:1", 1, 1); 
@@ -219,7 +219,7 @@ namespace DataAccessTest
         ///A test for ConvertSingleLocalPhoneNumberToDbType
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void ConvertSingleLocalPhoneNumberToDbTypeTest()
         {
             PhoneNumber localTypePhoneNumber = new PhoneNumber(1, "phone number:1", new PhoneType(1, "phonetype:1"));
@@ -418,7 +418,7 @@ namespace DataAccessTest
         ///A test for LookupAllPhoneNumbers
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupAllPhoneNumbersTest()
         {
             int personId = 1;
@@ -444,7 +444,7 @@ namespace DataAccessTest
         ///A test for LookupAllPhoneNumbers
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupAllPhoneNumbersOfNonExistintPersonTest()
         {
             int personId = 450;
@@ -457,7 +457,7 @@ namespace DataAccessTest
         ///A test for LookupPhoneNumberById
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupPhoneNumberByIdTest()
         {
             int id = 1;
@@ -474,7 +474,7 @@ namespace DataAccessTest
         ///A test for LookupPhoneNumberById
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupPhoneNumberByNonExistintIdTest()
         {
             int id = 50;
@@ -487,7 +487,7 @@ namespace DataAccessTest
         ///A test for LookupPhoneNumberByType
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupPhoneNumberByTypeTest()
         {
             PhoneType searchedType = new PhoneType(1, "phonetype:1");
@@ -513,7 +513,7 @@ namespace DataAccessTest
         ///A test for LookupPhoneNumberByType
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupPhoneNumberByTypeTestNonExistint()
         {
             PhoneType searchedType = new PhoneType(50, "phonetype:50");
@@ -526,7 +526,7 @@ namespace DataAccessTest
         ///A test for LookupSpecificPhoneNumber
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupSpecificPhoneNumberTest()
         {
             string phoneNumber = "phone number:1";
@@ -544,7 +544,7 @@ namespace DataAccessTest
         ///A test for LookupSpecificPhoneNumber
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupSpecificNonExistintPhoneNumberTest()
         {
             string phoneNumber = "phone number:50";

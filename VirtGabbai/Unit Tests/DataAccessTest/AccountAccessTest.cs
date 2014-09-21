@@ -6,6 +6,7 @@ using DataCache;
 using LocalTypes;
 using Framework;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Helpers.UnitTests.Extensions;
 
 namespace DataAccessTest
 {
@@ -193,8 +194,7 @@ namespace DataAccessTest
             });
 
             Account actual;
-            actual = (Account)(new PrivateObject(typeof(AccountAccess)).Invoke("ConvertSingleDbAccountToLocalType", dbTypeAccount));
-            //actual = AccountAccess_Accessor.ConvertSingleDbAccountToLocalType(dbTypeAccount);
+            actual = 1.InvokeStaticPrivateMethod<Account>(typeof(AccountAccess),"ConvertSingleDbAccountToLocalType", dbTypeAccount);
             Assert.AreEqual(expected, actual);
         }
 
@@ -483,8 +483,8 @@ namespace DataAccessTest
             List<t_accounts> expected = (from acc in Cache.CacheData.t_accounts
                                          select acc).ToList<t_accounts>();
             List<t_accounts> actual;
-            //actual = AccountAccess_Accessor.LookupAllAccounts();
-            //CollectionAssert.AreEqual(expected, actual);
+            actual = AccountAccess_Accessor.LookupAllAccounts();
+            CollectionAssert.AreEqual(expected, actual);
         }
 
         /// <summary>
@@ -553,7 +553,7 @@ namespace DataAccessTest
             Donation donationToLookBy = new Donation(102, "reason:102", 12.5, DateTime.Today, "");
             t_accounts expected = Cache.CacheData.t_accounts.First(wAcc => wAcc.C_id == 2);
             t_accounts actual;
-            actual = AccountAccess_Accessor.LookupByDonation(donationToLookBy);
+            actual = 1.InvokeStaticPrivateMethod<t_accounts>(typeof(AccountAccess),"LookupByDonation", donationToLookBy);
             Assert.AreEqual(expected, actual);
         }
 

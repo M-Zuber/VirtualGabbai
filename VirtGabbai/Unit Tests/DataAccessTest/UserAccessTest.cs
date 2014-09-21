@@ -394,7 +394,7 @@ namespace DataAccessTest
         ///A test for LookupAllUsers
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupAllUsersTest()
         {
             List<t_users> expected = (from user in Cache.CacheData.t_users
@@ -408,7 +408,7 @@ namespace DataAccessTest
         ///A test for LookupByEmail
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupByEmailTest()
         {
             string email = "1blah@doit.nike";
@@ -426,7 +426,7 @@ namespace DataAccessTest
         ///A test for LookupByEmail
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupByNonExsistentEmailTest()
         {
             string email = "bad@mail.com";
@@ -440,7 +440,7 @@ namespace DataAccessTest
         ///A test for LookupByPrivilege
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupByPrivilegeTest()
         {
             t_privileges privilege = PrivilegeAccess.LookupPrivilegeById(301);
@@ -457,7 +457,7 @@ namespace DataAccessTest
         ///A test for LookupByPrivilege
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupByNonExsistentPrivilegeTest()
         {
             t_privileges privilege = t_privileges.Createt_privileges(9999);
@@ -471,7 +471,7 @@ namespace DataAccessTest
         ///A test for LookupByPrivilegesGroup
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupByPrivilegesGroupTest()
         {
             t_privilege_groups privilegeGroup = 
@@ -489,7 +489,7 @@ namespace DataAccessTest
         ///A test for LookupByPrivilegesGroup
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupByNonExsistentPrivilegesGroupTest()
         {
             t_privilege_groups privilegeGroupId = t_privilege_groups.Createt_privilege_groups(9999); 
@@ -503,7 +503,7 @@ namespace DataAccessTest
         ///A test for LookupByUserName
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupByUserNameTest()
         {
             string userName = "name:1";
@@ -519,7 +519,7 @@ namespace DataAccessTest
         ///A test for LookupByUserName
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupByNonExsistentUserNameTest()
         {
             string userName = "blah";
@@ -533,7 +533,7 @@ namespace DataAccessTest
         ///A test for LookupByUserId
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupByUserIdTest()
         {
             int id = 1;
@@ -549,7 +549,7 @@ namespace DataAccessTest
         ///A test for LookupByUserId
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupByNonExsistentUserIdTest()
         {
             int id = 0; 

@@ -2,10 +2,10 @@
 ## User Defined
 #################
 
-packages/
 classTemplates/
 IntegrationTester.cs
 Design Files/
+!packages/repositories.config
 
 #################
 ## Eclipse
@@ -140,7 +140,7 @@ publish/
 
 # NuGet Packages Directory
 ## TODO: If you have NuGet Package Restore enabled, uncomment the next line
-#packages/
+packages/
 
 # Windows Azure Build Output
 csx

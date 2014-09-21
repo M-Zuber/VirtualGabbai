@@ -315,7 +315,7 @@ namespace DataAccessTest
         ///A test for LookupAllYarthziehts
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupAllYarthziehtsTest()
         {
             int personId = 1;
@@ -339,7 +339,7 @@ namespace DataAccessTest
         ///A test for LookupAllYarthziehts
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupAllYarthziehtsOfNonExistintPersonTest()
         {
             int personId = 450;
@@ -353,7 +353,7 @@ namespace DataAccessTest
         ///A test for LookupSpecificYarthzieht
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupSpecificYarthziehtTest()
         {
             int personId = 1;
@@ -376,7 +376,7 @@ namespace DataAccessTest
         ///A test for LookupSpecificYarthzieht
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupSpecificNonExistintYarthziehtTest()
         {
             int personId = 1;
@@ -391,7 +391,7 @@ namespace DataAccessTest
         ///A test for LookupYarhtzietById
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupYarhtzietByIdTest()
         {
             int personId = 1;
@@ -415,7 +415,7 @@ namespace DataAccessTest
         ///A test for LookupYarhtzietById
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupYarhtzietByNonExistintIdTest()
         {
             int ID = 50;
@@ -428,7 +428,7 @@ namespace DataAccessTest
         ///A test for LookupYarhtzietsByDate
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupYarhtzietsByDateTest()
         {
             int personId = 1;
@@ -447,7 +447,7 @@ namespace DataAccessTest
         ///A test for LookupYarhtzietsByDate
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupYarhtzietsByNonExistentDateTest()
         {
             int personId = 1;
@@ -520,7 +520,7 @@ namespace DataAccessTest
         ///A test for ConvertMultipleYahrtziehtsToLocalType
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void ConvertMultipleYahrtziehtsToLocalTypeTest()
         {
             List<t_yahrtziehts> dbTypeYahrList = new List<t_yahrtziehts>();
@@ -546,7 +546,7 @@ namespace DataAccessTest
         ///A test for ConvertMultipleYahrtziehtsToDbType
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void ConvertMultipleYahrtziehtsToDbTypeTest()
         {
             List<Yahrtzieht> localTypeYahrList = new List<Yahrtzieht>();
@@ -572,7 +572,7 @@ namespace DataAccessTest
         ///A test for ConvertSingleYahrtziehtToDbType
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void ConvertSingleYahrtziehtToDbTypeTest()
         {
             Yahrtzieht localTypeYahr = new Yahrtzieht(1, DateTime.Today, "passed on number:1", "best friends dog");
@@ -588,7 +588,7 @@ namespace DataAccessTest
         ///A test for ConvertSingleYahrtziehtToLocalType
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void ConvertSingleYahrtziehtToLocalTypeTest()
         {
             t_yahrtziehts dbTypeYahr = t_yahrtziehts.Createt_yahrtziehts(1, 1, DateTime.Today, "passed on number:1");

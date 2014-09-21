@@ -182,7 +182,7 @@ namespace DataAccessTest
         ///A test for ConvertMultipleDbDonationsToLocalType
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void ConvertMultipleDbDonationsToLocalTypeTest()
         {
             List<t_donations> dbTypeDonationList = new List<t_donations>()
@@ -206,7 +206,7 @@ namespace DataAccessTest
         ///A test for ConvertMultipleLocalDonationssToDbType
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void ConvertMultipleLocalDonationssToDbTypeTest()
         {
             List<Donation> localTypeDonationList = new List<Donation>()
@@ -247,7 +247,7 @@ namespace DataAccessTest
         ///A test for ConvertSingleDbDonationToLocalType
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void ConvertSingleUnpaidDbDonationToLocalTypeTest()
         {
             t_donations dbTypeDoantions = t_donations.Createt_donations(1,1,"reason:1", 12.5, DateTime.Today, false);
@@ -261,7 +261,7 @@ namespace DataAccessTest
         ///A test for ConvertSingleDbDonationToLocalType
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void ConvertSinglePaidDbDonationToLocalTypeTest()
         {
             t_donations dbTypeDoantions = t_donations.Createt_donations(1, 1, "reason:1", 12.5, DateTime.Today, true);
@@ -276,7 +276,7 @@ namespace DataAccessTest
         ///A test for ConvertSingleLocalDonationToDbType
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void ConvertSingleLocalDonationToDbTypeTest()
         {
             Donation localTypeDonation = new Donation(1, "reason:1", 12.5, DateTime.Today, "comment");
@@ -298,7 +298,7 @@ namespace DataAccessTest
         ///A test for ConvertSingleLocalDonationToDbType
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void ConvertSinglePaidLocalDonationToDbTypeTest()
         {
             PaidDonation localTypeDonation = new PaidDonation(1, "reason:1", 12.5, DateTime.Today, "comment", DateTime.Today);
@@ -395,7 +395,7 @@ namespace DataAccessTest
         ///A test for GetAllDonations
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void GetAllDonationsTest()
         {
             int accountId = 1;
@@ -411,7 +411,7 @@ namespace DataAccessTest
         ///A test for GetAllDonations
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void GetAllDonationsOfNonExistentAccountTest()
         {
             int accountId = 50;
@@ -423,7 +423,7 @@ namespace DataAccessTest
         ///A test for GetByDonationDate
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void GetByDonationDateTest()
         {
             DateTime donationDate = DateTime.Today;
@@ -438,7 +438,7 @@ namespace DataAccessTest
         ///A test for GetByDonationDate
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void GetByNonExistentDonationDateTest()
         {
             DateTime donationDate = DateTime.MinValue;
@@ -451,7 +451,7 @@ namespace DataAccessTest
         ///A test for GetByPaymentDate
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void GetByPaymentDateTest()
         {
             DateTime paymentDate = DateTime.Today;
@@ -467,7 +467,7 @@ namespace DataAccessTest
         ///A test for GetByPaymentDate
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void GetByNonExistentPaymentDateTest()
         {
             DateTime paymentDate = DateTime.MinValue;
@@ -480,7 +480,7 @@ namespace DataAccessTest
         ///A test for GetByReason
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void GetByReasonTest()
         {
             string reason = "reason:1";
@@ -496,7 +496,7 @@ namespace DataAccessTest
         ///A test for GetByReason
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void GetByNonExistentReasonTest()
         {
             string reason = "reason";
@@ -509,7 +509,7 @@ namespace DataAccessTest
         ///A test for GetDonationById
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void GetDonationByIdTest()
         {
             int id = 1;
@@ -525,7 +525,7 @@ namespace DataAccessTest
         ///A test for GetDonationById
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void GetDonationByNonExistentIdTest()
         {
             int id = 0;
@@ -539,7 +539,7 @@ namespace DataAccessTest
         ///A test for GetSpecificDonation
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void GetSpecificDonationTest()
         {
             string reason = "reason:1";
@@ -557,7 +557,7 @@ namespace DataAccessTest
         ///A test for GetSpecificDonation
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void GetSpecificNonExistentDonationTest()
         {
             string reason = string.Empty;
@@ -577,7 +577,7 @@ namespace DataAccessTest
         ///A test for LookupAllDonations
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupAllDonationsTest()
         {
             int accountId = 1;
@@ -596,7 +596,7 @@ namespace DataAccessTest
         ///A test for LookupAllDonations
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupAllDonationsOfNonExistentAccountTest()
         {
             int accountId = 0;
@@ -610,7 +610,7 @@ namespace DataAccessTest
         ///A test for LookupByDonationDate
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupByDonationDateTest()
         {
             DateTime donationDate = DateTime.Today;
@@ -628,7 +628,7 @@ namespace DataAccessTest
         ///A test for LookupByDonationDate
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupByNonExistentDonationDateTest()
         {
             DateTime donationDate = DateTime.MinValue;
@@ -641,7 +641,7 @@ namespace DataAccessTest
         ///A test for LookupByPaymentDate
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupByPaymentDateTest()
         {
             DateTime paymentDate = DateTime.Today;
@@ -662,7 +662,7 @@ namespace DataAccessTest
         ///A test for LookupByPaymentDate
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupByNonExistentPaymentDateTest()
         {
             DateTime paymentDate = DateTime.MinValue;
@@ -675,7 +675,7 @@ namespace DataAccessTest
         ///A test for LookupByReason
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupByReasonTest()
         {
             string reason = "reason:1";
@@ -700,7 +700,7 @@ namespace DataAccessTest
         ///A test for LookupByReason
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupByNonExistentReasonTest()
         {
             string reason = "reason";
@@ -713,7 +713,7 @@ namespace DataAccessTest
         ///A test for LookupDonationById
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupDonationByIdTest()
         {
             int idUnpaid = 1;
@@ -733,7 +733,7 @@ namespace DataAccessTest
         ///A test for LookupDonationById
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupDonationByNonExistentIdTest()
         {
             int id = 0;
@@ -747,7 +747,7 @@ namespace DataAccessTest
         ///A test for LookupSpecificDonation
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupSpecificDonationTest()
         {
             string reason = "reason:1";
@@ -764,7 +764,7 @@ namespace DataAccessTest
         ///A test for LookupSpecificDonation
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupSpecificNonExistentDonationTest()
         {
             string reason = "reason:1";

@@ -563,7 +563,7 @@ namespace DataAccessTest
         ///A test for LookupAllPeople
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupAllPeopleTest()
         {
             List<t_people> expected = (from person in Cache.CacheData.t_people
@@ -577,7 +577,7 @@ namespace DataAccessTest
         ///A test for LookupByAccount
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupByAccountTest()
         {
             int accountId = 201;
@@ -591,7 +591,7 @@ namespace DataAccessTest
         ///A test for LookupByAccount
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupByMembersTest()
         {
             bool membershipStatus = true;
@@ -606,7 +606,7 @@ namespace DataAccessTest
         ///A test for LookupByAccount
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupByNonMembersTest()
         {
             bool membershipStatus = false;
@@ -621,7 +621,7 @@ namespace DataAccessTest
         ///A test for LookupByNoNExsistentAccount
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupByNonExsistentAccountTest()
         {
             int accountId = 1578;
@@ -635,7 +635,7 @@ namespace DataAccessTest
         ///A test for LookupByAddress
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupByAddressTest()
         {
             string address = "12;33;main st;anywhere;anystate;usa;12345";
@@ -652,7 +652,7 @@ namespace DataAccessTest
         ///A test for LookupByAddress
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupByNonExsistentAddressTest()
         {
             string address = string.Empty;
@@ -665,7 +665,7 @@ namespace DataAccessTest
         ///A test for LookupByEmail
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupByEmailTest()
         {
             string email = "3@something.somewhere";
@@ -679,7 +679,7 @@ namespace DataAccessTest
         ///A test for LookupByEmail
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupByNonExsistentEmailTest()
         {
             string email = string.Empty;
@@ -693,7 +693,7 @@ namespace DataAccessTest
         ///A test for LookupById
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupByIdTest()
         {
             int id = 3;
@@ -707,7 +707,7 @@ namespace DataAccessTest
         ///A test for LookupById
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupByNonExsistentIdTest()
         {
             int id = 0;
@@ -721,7 +721,7 @@ namespace DataAccessTest
         ///A test for LookupByName
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupByNameTest()
         {
             string firstName = "Jack/Jane";
@@ -740,7 +740,7 @@ namespace DataAccessTest
         ///A test for LookupByName
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupByNonExsistentNameTest()
         {
             string fullName = "blah";
@@ -753,7 +753,7 @@ namespace DataAccessTest
         ///A test for LookupByPhoneNumber
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupByPhoneNumberTest()
         {
             string numberSearchedBy = "phone number:100";
@@ -767,7 +767,7 @@ namespace DataAccessTest
         ///A test for LookupByPhoneNumber
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupByNonExsistentPhoneNumberTest()
         {
             string numberSearchedBy = "blah";
@@ -781,7 +781,7 @@ namespace DataAccessTest
         ///A test for LookupByYahrtzieht
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupByYahrtziehtTest()
         {
             string nameOfDeceased = "ploni ben almoni";
@@ -799,7 +799,7 @@ namespace DataAccessTest
         ///A test for LookupByYahrtzieht
         ///</summary>
         [TestMethod()]
-        [DeploymentItem("DataAccess.dll")]
+        
         public void LookupByNonExsistentYahrtziehtTest()
         {
             string nameOfDeceased = string.Empty;
@@ -840,7 +840,7 @@ namespace DataAccessTest
         {
             Person updatedPerson = PersonAccess.GetById(9);
             updatedPerson.Address = 
-                new StreetAddress(";1234;main st;blah town;blah city;;blah country;87452");
+                new StreetAddress("1234;main st;blah town;blah city;;blah country;87452");
             Enums.CRUDResults expected = Enums.CRUDResults.UPDATE_SUCCESS;
             Enums.CRUDResults actual;
             actual = PersonAccess.UpdateSinglePerson(updatedPerson);

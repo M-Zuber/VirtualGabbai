@@ -30,17 +30,20 @@ namespace LocalTypes
 
         public StreetAddress(string address)
         {
-            char[] delimiters = new char[] { Globals.DELIMITER };
-            string[] addressParts = address.Split(delimiters, StringSplitOptions.None);
-            this.ApartmentNumber = addressParts[0];
-            this.House = addressParts[1];
-            this.Street = addressParts[2];
-            this.City = addressParts[3];
-            this.State = addressParts[4].ToUpper();
-            this.Country = addressParts[5].ToUpper();
-            this.Zipcode = addressParts[6];
+            string[] addressParts = address.Split(new string[] { Globals.DELIMITER }, StringSplitOptions.None);
+
+            if (addressParts.Length == 7)
+            {
+                this.ApartmentNumber = addressParts[0];
+                this.House = addressParts[1];
+                this.Street = addressParts[2];
+                this.City = addressParts[3];
+                this.State = addressParts[4].ToUpper();
+                this.Country = addressParts[5].ToUpper();
+                this.Zipcode = addressParts[6];
+            }
         }
-        
+
         public StreetAddress(string apartmentNumber, string house, string street, string city, string state, string country, string zipCode)
         {
             this.ApartmentNumber = apartmentNumber;
@@ -94,7 +97,7 @@ namespace LocalTypes
 
         #region Other Methods
 
-        public string ToDbString() 
+        public string ToDbString()
         {
             return (this.ApartmentNumber + Globals.DELIMITER +
                     this.House + Globals.DELIMITER +
@@ -104,7 +107,7 @@ namespace LocalTypes
                     this.Country + Globals.DELIMITER +
                     this.Zipcode);
         }
-        
+
         #endregion
     }
 }

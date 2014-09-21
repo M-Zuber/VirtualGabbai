@@ -63,7 +63,9 @@
     <Compile Include="PersonAccessTest.cs" />
     <Compile Include="PhoneNumberAccessTest.cs" />
     <Compile Include="PhoneTypeAccessTest.cs" />
-    <Compile Include="PrivilegeAccessTest.cs" />
+    <Compile Include="..\Unit Tests\DataAccessTest\PrivilegeAccessTest.cs">
+      <Link>PrivilegeAccessTest.cs</Link>
+    </Compile>
     <Compile Include="PrivilegeGroupAccessTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserAccessTest.cs" />
