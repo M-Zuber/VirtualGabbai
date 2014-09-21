@@ -840,7 +840,7 @@ namespace DataAccessTest
         {
             Person updatedPerson = PersonAccess.GetById(9);
             updatedPerson.Address = 
-                new StreetAddress(";1234;main st;blah town;blah city;;blah country;87452");
+                new StreetAddress("1234;main st;blah town;blah city;;blah country;87452");
             Enums.CRUDResults expected = Enums.CRUDResults.UPDATE_SUCCESS;
             Enums.CRUDResults actual;
             actual = PersonAccess.UpdateSinglePerson(updatedPerson);
