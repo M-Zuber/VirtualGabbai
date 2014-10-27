@@ -4,41 +4,40 @@ using System.Linq;
 using DataCache;
 using LocalTypes;
 using Framework;
+using DataAccess.Infrastructure;
 
 namespace DataAccess
 {
-    public static class PhoneTypeAccess
+    public class PhoneTypeAccess : BaseDataAccess<PhoneType, t_phone_types>
     {
         #region Read Methods
 
         #region Local type return
 
-        public static PhoneType GetPhoneTypeByTypeName(string typeName)
+        public PhoneType GeByPhoneTypeName(string typeName)
         {
-            return PhoneTypeAccess.ConvertSingleDbPhoneTypeToLocalType(PhoneTypeAccess.LookupPhoneTypeByTypeName(typeName));
+            return this.ConvertSingleToLocalType(this.LookupByPhoneTypeName(typeName));
         }
 
-        public static PhoneType GetPhoneTypeById(int id)
+        public override PhoneType GetByID(int id)
         {
-            return PhoneTypeAccess.ConvertSingleDbPhoneTypeToLocalType(PhoneTypeAccess.LookupPhoneTypeById(id));
+            return this.ConvertSingleToLocalType(this.LookupByID(id));
         }
 
-        public static List<PhoneType> GetAllPhoneTypes()
+        public override IEnumerable<PhoneType> GetAll()
         {
-            return PhoneTypeAccess.ConvertMultipleDbPhoneTypesToLocalType(PhoneTypeAccess.LookupAllPhoneTypes());
+            return this.ConvertMultipleToLocalType(this.LookupAll().ToList());
         }
 
         #endregion
 
         #region Db type return
 
-        private static t_phone_types LookupPhoneTypeByTypeName(string typeName)
+        protected override IEnumerable<t_phone_types> LookupAll()
         {
             try
             {
-                return (from CurrPhoneType in Cache.CacheData.t_phone_types
-                        where CurrPhoneType.type_name == typeName
-                        select CurrPhoneType).First();
+                return Cache.CacheData.t_phone_types;
             }
             catch (Exception)
             {
@@ -47,12 +46,11 @@ namespace DataAccess
             }
         }
 
-        private static List<t_phone_types> LookupAllPhoneTypes()
+        protected override t_phone_types LookupByID(int id)
         {
             try
             {
-                return (from CurrPhoneType in Cache.CacheData.t_phone_types
-                        select CurrPhoneType).ToList<t_phone_types>();
+                return Cache.CacheData.t_phone_types.FirstOrDefault(pt => pt.C_id == id);
             }
             catch (Exception)
             {
@@ -61,13 +59,11 @@ namespace DataAccess
             }
         }
 
-        private static t_phone_types LookupPhoneTypeById(int id)
+        protected t_phone_types LookupByPhoneTypeName(string typeName)
         {
             try
             {
-                return (from CurrPhoneType in Cache.CacheData.t_phone_types
-                        where CurrPhoneType.C_id == id
-                        select CurrPhoneType).First();
+                return Cache.CacheData.t_phone_types.FirstOrDefault(pt => pt.type_name.Equals(typeName, StringComparison.CurrentCultureIgnoreCase));
             }
             catch (Exception)
             {
@@ -122,7 +118,7 @@ namespace DataAccess
         {
             try
             {
-                t_phone_types phoneTypeUpdating = PhoneTypeAccess.LookupPhoneTypeById(updatedPhoneType._Id);
+                t_phone_types phoneTypeUpdating = new PhoneTypeAccess().LookupByID(updatedPhoneType._Id);
                 phoneTypeUpdating = PhoneTypeAccess.ConvertSingleLocalPhoneTypeToDbType(updatedPhoneType);
                 Cache.CacheData.t_phone_types.ApplyCurrentValues(phoneTypeUpdating);
                 Cache.CacheData.SaveChanges();
@@ -191,7 +187,7 @@ namespace DataAccess
 
         public static Enums.CRUDResults UpsertSinglePhoneType(PhoneType upsertedPhoneType) 
         {
-            PhoneType currentPhoneType = GetPhoneTypeById(upsertedPhoneType._Id);
+            PhoneType currentPhoneType = new PhoneTypeAccess().GetByID(upsertedPhoneType._Id);
 
             if (currentPhoneType == null)
             {
@@ -263,5 +259,72 @@ namespace DataAccess
         }
 
         #endregion
+
+
+
+        public override Enums.CRUDResults AddSingle(PhoneType objectToAdd)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void AddMultiple(IEnumerable<PhoneType> objectsToAdd)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Enums.CRUDResults UpdateSingle(PhoneType objectToUpdate)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void UpdateMultiple(IEnumerable<PhoneType> objecstToUpsert)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Enums.CRUDResults UpsertSingle(PhoneType objectToUpsert)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void UpsertMultiple(IEnumerable<PhoneType> objectsToUpsert)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Enums.CRUDResults DeleteSingle(PhoneType objectToDelete)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void DeleteMultiple(IEnumerable<PhoneType> objectsToDelete)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override IEnumerable<PhoneType> ConvertMultipleToLocalType(IEnumerable<t_phone_types> dbTypeObjects)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override PhoneType ConvertSingleToLocalType(t_phone_types dbTypeObject)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override IEnumerable<t_phone_types> ConvertMultipleToDBType(IEnumerable<PhoneType> localTypeObjects)
+        {
+            throw new NotImplementedException();
+        }
+
+        protected override t_phone_types ConvertSingleToDBType(PhoneType localTypeObject)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override int GetMaxID()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

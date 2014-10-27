@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="AccountAccess.cs" />
     <Compile Include="DonationAccess.cs" />
+    <Compile Include="Infrastructure\BaseDataAccess.cs" />
     <Compile Include="Infrastructure\IDataAccess.cs" />
     <Compile Include="PersonAccess.cs" />
     <Compile Include="PhoneNumberAccess.cs" />

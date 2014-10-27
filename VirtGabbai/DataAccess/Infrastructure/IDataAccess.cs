@@ -6,23 +6,15 @@ using Framework;
 
 namespace DataAccess.Infrastructure
 {
-    interface IDataAccess<T, K>
+    public interface IDataAccess<TLocalType, TDBType>
     {
         #region Read Methods
 
         #region Local Type Return
 
-        T GetAll();
+        TLocalType GetByID(int id);
 
-        IEnumerable<T> GetByID();
-
-        #endregion
-
-        #region Db Type Return
-
-        K LookupAll();
-
-        IEnumerable<K> LookupByID(int id);
+        IEnumerable<TLocalType> GetAll();
 
         #endregion
 
@@ -32,53 +24,33 @@ namespace DataAccess.Infrastructure
 
         #region Create Methods
 
-        Enums.CRUDResults AddSingle(T objectToAdd);
+        Enums.CRUDResults AddSingle(TLocalType objectToAdd);
 
-        void AddMultiple(IEnumerable<T> objectsToAdd);
+        void AddMultiple(IEnumerable<TLocalType> objectsToAdd);
 
         #endregion
 
         #region Update Methods
 
-        Enums.CRUDResults UpdateSingle(T objectToUpdate);
+        Enums.CRUDResults UpdateSingle(TLocalType objectToUpdate);
 
-        void UpdateMultiple(IEnumerable<T> objecstToUpsert);
+        void UpdateMultiple(IEnumerable<TLocalType> objecstToUpsert);
 
         #endregion
 
         #region Upsert Methods
 
-        Enums.CRUDResults UpsertSingle(T objectToUpsert);
+        Enums.CRUDResults UpsertSingle(TLocalType objectToUpsert);
 
-        void UpsertMultiple(IEnumerable<T> objectsToUpsert);
+        void UpsertMultiple(IEnumerable<TLocalType> objectsToUpsert);
         
         #endregion
 
         #region Delete Methods
 
-        Enums.CRUDResults DeleteSingle(T objectToDelete);
+        Enums.CRUDResults DeleteSingle(TLocalType objectToDelete);
 
-        void DeleteMultiple(IEnumerable<T> objectsToDelete);
-
-        #endregion
-
-        #endregion
-
-        #region Convert Methods
-
-        #region To Local Type
-
-        T ConvertMultipleToLocalType(IEnumerable<K> dbTypeObjects);
-
-        T ConvertSingleToLocalType(K dbTypeObject);
-        
-        #endregion
-
-        #region To Db Type
-
-        K ConvertMultipleToDBType(IEnumerable<T> localTypeObjects);
-
-        K ConvertSingleToDBType(T localTypeObject);
+        void DeleteMultiple(IEnumerable<TLocalType> objectsToDelete);
 
         #endregion
 

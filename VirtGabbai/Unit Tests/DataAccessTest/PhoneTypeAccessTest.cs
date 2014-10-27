@@ -6,6 +6,7 @@ using LocalTypes;
 using System.Collections.Generic;
 using DataCache;
 using Framework;
+using Helpers.UnitTests.Extensions;
 
 namespace DataAccessTest
 {
@@ -100,7 +101,7 @@ namespace DataAccessTest
 
             for (int actualIndex = 11; actualIndex <= 20; actualIndex++)
             {
-                actual.Add(PhoneTypeAccess.GetPhoneTypeById(actualIndex));
+                actual.Add(new PhoneTypeAccess().GetByID(actualIndex));
             }
 
             for (int assertIndex = 0; assertIndex < newPhoneTypeList.Count; assertIndex++)
@@ -117,7 +118,7 @@ namespace DataAccessTest
         {
             PhoneType newPhoneType = new PhoneType(21, "phonetype:21");
             Enums.CRUDResults result = PhoneTypeAccess.AddNewPhoneType(newPhoneType);
-            PhoneType actual = PhoneTypeAccess.GetPhoneTypeById(21);
+            PhoneType actual = new PhoneTypeAccess().GetByID(21);
             Assert.AreEqual(Enums.CRUDResults.CREATE_SUCCESS, result);
             Assert.IsTrue(newPhoneType.Equals(actual));
         }
@@ -139,7 +140,7 @@ namespace DataAccessTest
             int expectedId = 3;
             string expectedTypeName = "cell phone";
             PhoneType actual;
-            actual = PhoneTypeAccess_Accessor.ConvertSingleDbPhoneTypeToLocalType(dbTypePhoneType);
+            actual = (PhoneType)new PhoneTypeAccess().InvokeStaticPrivateMethod("ConvertSingleDbPhoneTypeToLocalType", dbTypePhoneType);
             Assert.AreEqual(expectedId, actual._Id);
             Assert.AreEqual(expectedTypeName, actual.PhoneTypeName);
         }
@@ -159,10 +160,11 @@ namespace DataAccessTest
                 toAdd.C_id = i;
                 toAdd.type_name = "Type name number: " + i.ToString();
                 dbTypePhoneTypeList.Add(toAdd);
-                expected.Add(PhoneTypeAccess_Accessor.ConvertSingleDbPhoneTypeToLocalType(toAdd));
+                expected.Add((PhoneType)new PhoneTypeAccess().InvokeStaticPrivateMethod("ConvertSingleDbPhoneTypeToLocalType", toAdd));
             }
             List<PhoneType> actual;
-            actual = PhoneTypeAccess_Accessor.ConvertMultipleDbPhoneTypesToLocalType(dbTypePhoneTypeList);
+            actual =
+                (List<PhoneType>)new PhoneTypeAccess().InvokeStaticPrivateMethod("ConvertMultipleDbPhoneTypesToLocalType", dbTypePhoneTypeList);
             for (int i = 0; i < expected.Count; i++)
             {
                 Assert.IsTrue(expected[i].Equals(actual[i]));
@@ -181,7 +183,7 @@ namespace DataAccessTest
             expected.C_id = 1;
             expected.type_name = localTypePhoneType.PhoneTypeName;
             t_phone_types actual;
-            actual = PhoneTypeAccess_Accessor.ConvertSingleLocalPhoneTypeToDbType(localTypePhoneType);
+            actual = (t_phone_types)new PhoneTypeAccess().InvokeStaticPrivateMethod("ConvertSingleLocalPhoneTypeToDbType", localTypePhoneType);
             Assert.AreEqual(expected.C_id, actual.C_id);
             Assert.AreEqual(expected.type_name, actual.type_name);
         }
@@ -199,10 +201,11 @@ namespace DataAccessTest
             {
                 PhoneType toAdd = new PhoneType(i, "Type name number: " + i);
                 dbTypePhoneTypeList.Add(toAdd);
-                expected.Add(PhoneTypeAccess_Accessor.ConvertSingleLocalPhoneTypeToDbType(toAdd));
+                expected.Add((t_phone_types)new PhoneTypeAccess().InvokeStaticPrivateMethod("ConvertSingleLocalPhoneTypeToDbType", toAdd));
             }
             List<t_phone_types> actual;
-            actual = PhoneTypeAccess_Accessor.ConvertMultipleLocalPhoneTypesToDbType(dbTypePhoneTypeList);
+            actual =
+                (List<t_phone_types>)new PhoneTypeAccess().InvokeStaticPrivateMethod("ConvertMultipleLocalPhoneTypesToDbType", dbTypePhoneTypeList);
             for (int i = 0; i < expected.Count; i++)
             {
                 Assert.IsTrue(expected[i].C_id == actual[i].C_id);
@@ -226,7 +229,7 @@ namespace DataAccessTest
                 new PhoneType(3, "phonetype:3")
             };
             PhoneTypeAccess.DeleteMultiplePhoneTypes(deletedPhoneTypeList);
-            List<PhoneType> allPhoneTypes = PhoneTypeAccess.GetAllPhoneTypes();
+            List<PhoneType> allPhoneTypes = new PhoneTypeAccess().GetAll();
 
             for (int i = 0; i < deletedPhoneTypeList.Count; i++)
             {
@@ -332,14 +335,13 @@ namespace DataAccessTest
         ///A test for LookupAllPhoneTypes
         ///</summary>
         [TestMethod()]
-        
         public void LookupAllPhoneTypesTest()
         {
-            List<t_phone_types> actual;
-            actual = PhoneTypeAccess_Accessor.LookupAllPhoneTypes();
+            IEnumerable<t_phone_types> actual;
+            actual = (IEnumerable<t_phone_types>)(new PhoneTypeAccess()).InvokePrivateMethod("LookupAll");
 
-            Assert.IsInstanceOfType(actual, typeof(List<t_phone_types>));
-            Assert.IsTrue(actual.Count > 0);
+            Assert.IsInstanceOfType(actual, typeof(IEnumerable<t_phone_types>));
+            Assert.IsTrue(actual.Count() > 0);
         }
 
         /// <summary>
@@ -354,9 +356,9 @@ namespace DataAccessTest
             expected.C_id = 1;
             expected.type_name = "phonetype:1";
             t_phone_types actual;
-            actual = PhoneTypeAccess_Accessor.LookupPhoneTypeById(ID);
-            Assert.IsTrue(PhoneTypeAccess_Accessor.ConvertSingleDbPhoneTypeToLocalType(expected).
-                Equals(PhoneTypeAccess_Accessor.ConvertSingleDbPhoneTypeToLocalType(actual)));
+            actual = (t_phone_types)new PhoneTypeAccess().InvokePrivateMethod("LookupByID",ID);
+            Assert.IsTrue(new PhoneTypeAccess().InvokeStaticPrivateMethod("ConvertSingleDbPhoneTypeToLocalType", expected).Equals(
+                (PhoneType)new PhoneTypeAccess().InvokeStaticPrivateMethod("ConvertSingleDbPhoneTypeToLocalType", actual)));
         }
 
         /// <summary>
@@ -368,7 +370,7 @@ namespace DataAccessTest
         {
             int ID = 50;
             t_phone_types actual;
-            actual = PhoneTypeAccess_Accessor.LookupPhoneTypeById(ID);
+            actual = (t_phone_types)new PhoneTypeAccess().InvokePrivateMethod("LookupByID", ID);
             Assert.IsNull(actual);
         }
 
@@ -376,7 +378,6 @@ namespace DataAccessTest
         ///A test for LookupPhoneTypeByTypeName
         ///</summary>
         [TestMethod()]
-        
         public void LookupPhoneTypeByTypeNameTest()
         {
             string typeName = "phonetype:1";
@@ -384,7 +385,7 @@ namespace DataAccessTest
             expected.C_id = 1;
             expected.type_name = "phonetype:1";
             t_phone_types actual;
-            actual = PhoneTypeAccess_Accessor.LookupPhoneTypeByTypeName(typeName);
+            actual = (t_phone_types)(new PhoneTypeAccess()).InvokePrivateMethod("LookupByPhoneTypeName", typeName);
             Assert.AreEqual(expected.C_id, actual.C_id);
             Assert.AreEqual(expected.type_name, actual.type_name);
         }
@@ -393,12 +394,11 @@ namespace DataAccessTest
         ///A test for LookupPhoneTypeByTypeName
         ///</summary>
         [TestMethod()]
-        
         public void LookupPhoneTypeByNonExistintTypeNameTest()
         {
             string typeName = "phonetype:50";
             t_phone_types actual;
-            actual = PhoneTypeAccess_Accessor.LookupPhoneTypeByTypeName(typeName);
+            actual = (t_phone_types)(new PhoneTypeAccess()).InvokePrivateMethod("LookupByPhoneTypeName", typeName);
             Assert.IsNull(actual);
         }
         
