@@ -48,7 +48,7 @@ namespace DataAccess.Infrastructure
 
         public abstract Enums.CRUDResults UpdateSingle(TLocalType objectToUpdate);
 
-        public abstract void UpdateMultiple(IEnumerable<TLocalType> objecstToUpsert);
+        public abstract void UpdateMultiple(IEnumerable<TLocalType> objecstToUpdate);
 
         public abstract Enums.CRUDResults UpsertSingle(TLocalType objectToUpsert);
 

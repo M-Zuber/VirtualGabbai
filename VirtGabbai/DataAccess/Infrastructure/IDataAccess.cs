@@ -34,7 +34,7 @@ namespace DataAccess.Infrastructure
 
         Enums.CRUDResults UpdateSingle(TLocalType objectToUpdate);
 
-        void UpdateMultiple(IEnumerable<TLocalType> objecstToUpsert);
+        void UpdateMultiple(IEnumerable<TLocalType> objecstToUpdate);
 
         #endregion
 

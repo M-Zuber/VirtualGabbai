@@ -80,12 +80,12 @@ namespace DataAccess
 
         #region Create
 
-        public static Enums.CRUDResults AddNewPhoneType(PhoneType newPhoneType)
+        public override Enums.CRUDResults AddSingle(PhoneType objectToAdd)
         {
             try
             {
-                t_phone_types phonrTypeToAdd = PhoneTypeAccess.ConvertSingleLocalPhoneTypeToDbType(newPhoneType);
-                Cache.CacheData.t_phone_types.AddObject(phonrTypeToAdd);
+                t_phone_types phoneTypeToAdd = this.ConvertSingleToDBType(objectToAdd);
+                Cache.CacheData.t_phone_types.AddObject(phoneTypeToAdd);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.CREATE_SUCCESS;
             }
@@ -96,12 +96,12 @@ namespace DataAccess
             }
         }
 
-        public static void AddMultipleNewPhoneTypes(List<PhoneType> newPhoneTypeList)
+        public override void AddMultiple(IEnumerable<PhoneType> objectsToAdd)
         {
             Enums.CRUDResults result;
-            foreach (PhoneType newPhoneType in newPhoneTypeList)
+            foreach (PhoneType newPhoneType in objectsToAdd)
             {
-                result = PhoneTypeAccess.AddNewPhoneType(newPhoneType);
+                result = this.AddSingle(newPhoneType);
 
                 if (result == Enums.CRUDResults.CREATE_FAIL)
                 {
@@ -114,12 +114,12 @@ namespace DataAccess
 
         #region Update
 
-        public static Enums.CRUDResults UpdateSinglePhoneType(PhoneType updatedPhoneType)
+        public override Enums.CRUDResults UpdateSingle(PhoneType objectToUpdate)
         {
             try
             {
-                t_phone_types phoneTypeUpdating = new PhoneTypeAccess().LookupByID(updatedPhoneType._Id);
-                phoneTypeUpdating = PhoneTypeAccess.ConvertSingleLocalPhoneTypeToDbType(updatedPhoneType);
+                t_phone_types phoneTypeUpdating = this.LookupByID(objectToUpdate._Id);
+                phoneTypeUpdating = this.ConvertSingleToDBType(objectToUpdate);
                 Cache.CacheData.t_phone_types.ApplyCurrentValues(phoneTypeUpdating);
                 Cache.CacheData.SaveChanges();
 
@@ -132,12 +132,12 @@ namespace DataAccess
             }
         }
 
-        public static void UpdateMultiplePhoneTypes(List<PhoneType> updatedPhoneTypeList)
+        public override void UpdateMultiple(IEnumerable<PhoneType> objecstToUpdate)
         {
             Enums.CRUDResults result;
-            foreach (PhoneType updatedPhoneType in updatedPhoneTypeList)
+            foreach (PhoneType updatedPhoneType in objecstToUpdate)
             {
-                result = PhoneTypeAccess.UpdateSinglePhoneType(updatedPhoneType);
+                result = this.UpdateSingle(updatedPhoneType);
 
                 if (result == Enums.CRUDResults.UPDATE_FAIL)
                 {
@@ -260,27 +260,6 @@ namespace DataAccess
 
         #endregion
 
-
-
-        public override Enums.CRUDResults AddSingle(PhoneType objectToAdd)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void AddMultiple(IEnumerable<PhoneType> objectsToAdd)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override Enums.CRUDResults UpdateSingle(PhoneType objectToUpdate)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void UpdateMultiple(IEnumerable<PhoneType> objecstToUpsert)
-        {
-            throw new NotImplementedException();
-        }
 
         public override Enums.CRUDResults UpsertSingle(PhoneType objectToUpsert)
         {
