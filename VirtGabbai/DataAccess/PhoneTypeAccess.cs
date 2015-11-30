@@ -4,41 +4,40 @@ using System.Linq;
 using DataCache;
 using LocalTypes;
 using Framework;
+using DataAccess.Infrastructure;
 
 namespace DataAccess
 {
-    public static class PhoneTypeAccess
+    public class PhoneTypeAccess : BaseDataAccess<PhoneType, t_phone_types>
     {
         #region Read Methods
 
         #region Local type return
 
-        public static PhoneType GetPhoneTypeByTypeName(string typeName)
+        public PhoneType GetByPhoneTypeName(string typeName)
         {
-            return PhoneTypeAccess.ConvertSingleDbPhoneTypeToLocalType(PhoneTypeAccess.LookupPhoneTypeByTypeName(typeName));
+            return this.ConvertSingleToLocalType(this.LookupByPhoneTypeName(typeName));
         }
 
-        public static PhoneType GetPhoneTypeById(int id)
+        public override PhoneType GetByID(int id)
         {
-            return PhoneTypeAccess.ConvertSingleDbPhoneTypeToLocalType(PhoneTypeAccess.LookupPhoneTypeById(id));
+            return this.ConvertSingleToLocalType(this.LookupByID(id));
         }
 
-        public static List<PhoneType> GetAllPhoneTypes()
+        public override IEnumerable<PhoneType> GetAll()
         {
-            return PhoneTypeAccess.ConvertMultipleDbPhoneTypesToLocalType(PhoneTypeAccess.LookupAllPhoneTypes());
+            return this.ConvertMultipleToLocalType(this.LookupAll().ToList());
         }
 
         #endregion
 
         #region Db type return
 
-        private static t_phone_types LookupPhoneTypeByTypeName(string typeName)
+        protected override IEnumerable<t_phone_types> LookupAll()
         {
             try
             {
-                return (from CurrPhoneType in Cache.CacheData.t_phone_types
-                        where CurrPhoneType.type_name == typeName
-                        select CurrPhoneType).First();
+                return Cache.CacheData.t_phone_types;
             }
             catch (Exception)
             {
@@ -47,12 +46,11 @@ namespace DataAccess
             }
         }
 
-        private static List<t_phone_types> LookupAllPhoneTypes()
+        protected override t_phone_types LookupByID(int id)
         {
             try
             {
-                return (from CurrPhoneType in Cache.CacheData.t_phone_types
-                        select CurrPhoneType).ToList<t_phone_types>();
+                return Cache.CacheData.t_phone_types.FirstOrDefault(pt => pt.C_id == id);
             }
             catch (Exception)
             {
@@ -61,13 +59,11 @@ namespace DataAccess
             }
         }
 
-        private static t_phone_types LookupPhoneTypeById(int id)
+        protected t_phone_types LookupByPhoneTypeName(string typeName)
         {
             try
             {
-                return (from CurrPhoneType in Cache.CacheData.t_phone_types
-                        where CurrPhoneType.C_id == id
-                        select CurrPhoneType).First();
+                return Cache.CacheData.t_phone_types.FirstOrDefault(pt => pt.type_name.Equals(typeName, StringComparison.CurrentCultureIgnoreCase));
             }
             catch (Exception)
             {
@@ -84,12 +80,12 @@ namespace DataAccess
 
         #region Create
 
-        public static Enums.CRUDResults AddNewPhoneType(PhoneType newPhoneType)
+        public override Enums.CRUDResults AddSingle(PhoneType objectToAdd)
         {
             try
             {
-                t_phone_types phonrTypeToAdd = PhoneTypeAccess.ConvertSingleLocalPhoneTypeToDbType(newPhoneType);
-                Cache.CacheData.t_phone_types.AddObject(phonrTypeToAdd);
+                t_phone_types phoneTypeToAdd = this.ConvertSingleToDBType(objectToAdd);
+                Cache.CacheData.t_phone_types.AddObject(phoneTypeToAdd);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.CREATE_SUCCESS;
             }
@@ -100,12 +96,12 @@ namespace DataAccess
             }
         }
 
-        public static void AddMultipleNewPhoneTypes(List<PhoneType> newPhoneTypeList)
+        public override void AddMultiple(IEnumerable<PhoneType> objectsToAdd)
         {
             Enums.CRUDResults result;
-            foreach (PhoneType newPhoneType in newPhoneTypeList)
+            foreach (PhoneType newPhoneType in objectsToAdd)
             {
-                result = PhoneTypeAccess.AddNewPhoneType(newPhoneType);
+                result = this.AddSingle(newPhoneType);
 
                 if (result == Enums.CRUDResults.CREATE_FAIL)
                 {
@@ -118,12 +114,12 @@ namespace DataAccess
 
         #region Update
 
-        public static Enums.CRUDResults UpdateSinglePhoneType(PhoneType updatedPhoneType)
+        public override Enums.CRUDResults UpdateSingle(PhoneType objectToUpdate)
         {
             try
             {
-                t_phone_types phoneTypeUpdating = PhoneTypeAccess.LookupPhoneTypeById(updatedPhoneType._Id);
-                phoneTypeUpdating = PhoneTypeAccess.ConvertSingleLocalPhoneTypeToDbType(updatedPhoneType);
+                t_phone_types phoneTypeUpdating = this.LookupByID(objectToUpdate._Id);
+                phoneTypeUpdating = this.ConvertSingleToDBType(objectToUpdate);
                 Cache.CacheData.t_phone_types.ApplyCurrentValues(phoneTypeUpdating);
                 Cache.CacheData.SaveChanges();
 
@@ -136,12 +132,12 @@ namespace DataAccess
             }
         }
 
-        public static void UpdateMultiplePhoneTypes(List<PhoneType> updatedPhoneTypeList)
+        public override void UpdateMultiple(IEnumerable<PhoneType> objecstToUpdate)
         {
             Enums.CRUDResults result;
-            foreach (PhoneType updatedPhoneType in updatedPhoneTypeList)
+            foreach (PhoneType updatedPhoneType in objecstToUpdate)
             {
-                result = PhoneTypeAccess.UpdateSinglePhoneType(updatedPhoneType);
+                result = this.UpdateSingle(updatedPhoneType);
 
                 if (result == Enums.CRUDResults.UPDATE_FAIL)
                 {
@@ -154,12 +150,12 @@ namespace DataAccess
 
         #region Delete
 
-        public static Enums.CRUDResults DeleteSinglePhoneType(PhoneType deletedPhoneType)
+        public override Enums.CRUDResults DeleteSingle(PhoneType objectToDelete)
         {
             try
             {
                 t_phone_types phoneTypeDeleting =
-            Cache.CacheData.t_phone_types.First(phoneType => phoneType.C_id == deletedPhoneType._Id);
+                    Cache.CacheData.t_phone_types.FirstOrDefault(phoneType => phoneType.C_id == objectToDelete._Id);
                 Cache.CacheData.t_phone_types.DeleteObject(phoneTypeDeleting);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.DELETE_SUCCESS;
@@ -170,13 +166,12 @@ namespace DataAccess
                 return Enums.CRUDResults.DELETE_FAIL;
             }
         }
-
-        public static void DeleteMultiplePhoneTypes(List<PhoneType> deletedPhoneTypeList)
+        public override void DeleteMultiple(IEnumerable<PhoneType> objectsToDelete)
         {
             Enums.CRUDResults result;
-            foreach (PhoneType deletedPhoneType in deletedPhoneTypeList)
+            foreach (PhoneType deletedPhoneType in objectsToDelete)
             {
-                result = PhoneTypeAccess.DeleteSinglePhoneType(deletedPhoneType);
+                result = this.DeleteSingle(deletedPhoneType);
 
                 if (result == Enums.CRUDResults.DELETE_FAIL)
                 {
@@ -189,25 +184,24 @@ namespace DataAccess
 
         #region Upsert
 
-        public static Enums.CRUDResults UpsertSinglePhoneType(PhoneType upsertedPhoneType) 
+        public override Enums.CRUDResults UpsertSingle(PhoneType objectToUpsert)
         {
-            PhoneType currentPhoneType = GetPhoneTypeById(upsertedPhoneType._Id);
+            PhoneType currentPhoneType = new PhoneTypeAccess().GetByID(objectToUpsert._Id);
 
             if (currentPhoneType == null)
             {
-                return AddNewPhoneType(upsertedPhoneType);
+                return this.AddSingle(objectToUpsert);
             }
             else
             {
-                return UpdateSinglePhoneType(upsertedPhoneType);
+                return this.UpdateSingle(objectToUpsert);
             }
         }
-
-        public static void UpsertMultiplePhoneTypes(List<PhoneType> upsertedList) 
+        public override void UpsertMultiple(IEnumerable<PhoneType> objectsToUpsert)
         {
-            foreach (PhoneType CurrPhoneType in upsertedList)
+            foreach (PhoneType CurrPhoneType in objectsToUpsert)
             {
-                UpsertSinglePhoneType(CurrPhoneType);
+                this.UpsertSingle(CurrPhoneType);
             }
         }
 
@@ -217,26 +211,26 @@ namespace DataAccess
 
         #region Private Methods
 
-        internal static List<t_phone_types> ConvertMultipleLocalPhoneTypesToDbType(List<PhoneType> localTypePhoneTypeList)
+        protected override IEnumerable<t_phone_types> ConvertMultipleToDBType(IEnumerable<PhoneType> localTypeObjects)
         {
             List<t_phone_types> dbTypePhoneTypeList = new List<t_phone_types>();
 
-            foreach (PhoneType CurrPhoneType in localTypePhoneTypeList)
+            foreach (PhoneType CurrPhoneType in localTypeObjects)
             {
-                dbTypePhoneTypeList.Add(PhoneTypeAccess.ConvertSingleLocalPhoneTypeToDbType(CurrPhoneType));
+                dbTypePhoneTypeList.Add(this.ConvertSingleToDBType(CurrPhoneType));
             }
 
             return dbTypePhoneTypeList;
         }
 
-        internal static t_phone_types ConvertSingleLocalPhoneTypeToDbType(PhoneType localTypePhoneType)
+        protected override t_phone_types ConvertSingleToDBType(PhoneType localTypeObject)
         {
-            return t_phone_types.Createt_phone_types(localTypePhoneType._Id, localTypePhoneType.PhoneTypeName);
+            return t_phone_types.Createt_phone_types(localTypeObject._Id, localTypeObject.PhoneTypeName);
         }
 
-        internal static List<PhoneType> ConvertMultipleDbPhoneTypesToLocalType(List<t_phone_types> dbTypePhoneTypeList)
+        protected override IEnumerable<PhoneType> ConvertMultipleToLocalType(IEnumerable<t_phone_types> dbTypeObjects)
         {
-            if (dbTypePhoneTypeList == null)
+            if (dbTypeObjects == null)
             {
                 //LOG 
                 return null;
@@ -244,24 +238,33 @@ namespace DataAccess
 
             List<PhoneType> localTypePhoneTypeList = new List<PhoneType>();
 
-            foreach (t_phone_types CurrPhoneType in dbTypePhoneTypeList)
+            foreach (t_phone_types CurrPhoneType in dbTypeObjects)
             {
-                localTypePhoneTypeList.Add(PhoneTypeAccess.ConvertSingleDbPhoneTypeToLocalType(CurrPhoneType));
+                localTypePhoneTypeList.Add(this.ConvertSingleToLocalType(CurrPhoneType));
             }
 
             return localTypePhoneTypeList;
         }
 
-        internal static PhoneType ConvertSingleDbPhoneTypeToLocalType(t_phone_types dbTypePhoneType)
+        protected override PhoneType ConvertSingleToLocalType(t_phone_types dbTypeObject)
         {
-            if (dbTypePhoneType == null) 
-            { 
+            if (dbTypeObject == null)
+            {
                 //LOG 
-                return null; 
+                return null;
             }
-            return new PhoneType(dbTypePhoneType.C_id, dbTypePhoneType.type_name);
+            return new PhoneType(dbTypeObject.C_id, dbTypeObject.type_name);
         }
 
+        #endregion
+
+        #region HelperMethods
+
+        public override int GetMaxID()
+        {
+            return Cache.CacheData.t_phone_types.Max(pt => pt.C_id);
+        }
+        
         #endregion
     }
 }

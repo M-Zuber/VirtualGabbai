@@ -75,9 +75,6 @@
     <Compile Include="YahrtziehtAccessTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Shadow Include="Test References\DataAccess.accessor" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\DataAccess\DataAccess.csproj">
       <Project>{E0E28C03-0AE2-4489-946B-41B8D04B3B37}</Project>
       <Name>DataAccess</Name>
@@ -107,6 +104,9 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Test References\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
