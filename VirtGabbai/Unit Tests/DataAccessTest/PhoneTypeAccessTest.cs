@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using DataCache;
 using Framework;
 using Helpers.UnitTests.Extensions;
+using DataCache.Models;
 
 namespace DataAccessTest
 {
@@ -49,11 +50,11 @@ namespace DataAccessTest
         {
             if (!Cache.CacheData.t_phone_types.Any(numberType => numberType.C_id == 1))
             {
-                Cache.CacheData.t_phone_types.AddObject(t_phone_types.Createt_phone_types(1, "phonetype:1"));
+                Cache.CacheData.t_phone_types.Add(t_phone_types.Createt_phone_types(1, "phonetype:1"));
             }
             for (int newPhoneTypeIndex = 2; newPhoneTypeIndex <= 10; newPhoneTypeIndex++)
             {
-                Cache.CacheData.t_phone_types.AddObject(
+                Cache.CacheData.t_phone_types.Add(
                     t_phone_types.Createt_phone_types(newPhoneTypeIndex,
                                                 "phonetype:" + newPhoneTypeIndex.ToString()));
             }

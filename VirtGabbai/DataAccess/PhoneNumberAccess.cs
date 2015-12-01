@@ -4,6 +4,7 @@ using System.Linq;
 using DataCache;
 using LocalTypes;
 using Framework;
+using DataCache.Models;
 
 namespace DataAccess
 {
@@ -100,7 +101,7 @@ namespace DataAccess
             {
                 new PhoneTypeAccess().UpsertSingle(newPhoneNumber.NumberType);
                 t_phone_numbers phoneNumberToAdd = ConvertSingleLocalPhoneNumberToDbType(newPhoneNumber, personId);
-                Cache.CacheData.t_phone_numbers.AddObject(phoneNumberToAdd);
+                Cache.CacheData.t_phone_numbers.Add(phoneNumberToAdd);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.CREATE_SUCCESS;
             }
@@ -135,7 +136,7 @@ namespace DataAccess
                 new PhoneTypeAccess().UpsertSingle(updatedPhoneNumber.NumberType);
                 t_phone_numbers phoneNumberUpdating = LookupPhoneNumberById(updatedPhoneNumber._Id);
                 phoneNumberUpdating = ConvertSingleLocalPhoneNumberToDbType(updatedPhoneNumber, personId);
-                Cache.CacheData.t_phone_numbers.ApplyCurrentValues(phoneNumberUpdating);
+                Cache.CacheData.t_phone_numbers.Attach(phoneNumberUpdating);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.UPDATE_SUCCESS;
             }
@@ -169,7 +170,7 @@ namespace DataAccess
             {
                 t_phone_numbers phoneTypeDeleting =
                         Cache.CacheData.t_phone_numbers.First(number => number.C_id == deletedPhoneNumber._Id);
-                Cache.CacheData.t_phone_numbers.DeleteObject(phoneTypeDeleting);
+                Cache.CacheData.t_phone_numbers.Remove(phoneTypeDeleting);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.DELETE_SUCCESS;
             }

@@ -5,6 +5,7 @@ using DataCache;
 using LocalTypes;
 using Framework;
 using System.Net.Mail;
+using DataCache.Models;
 
 namespace DataAccess
 {
@@ -186,7 +187,7 @@ namespace DataAccess
         	try
         	{
                 t_people newDbPerson = ConvertSingleLocalPersonToDbType(newPerson);
-                Cache.CacheData.t_people.AddObject(newDbPerson);
+                Cache.CacheData.t_people.Add(newDbPerson);
                 Cache.CacheData.SaveChanges();
                 YahrtziehtAccess.UpsertMultipleYahrtziehts(newPerson.Yahrtziehts, newPerson._Id);
                 AccountAccess.UpsertSingleAccount(newPerson.PersonalAccount, newPerson._Id);
@@ -224,7 +225,7 @@ namespace DataAccess
         	{
                 t_people personUpdating = LookupById(updatedPerson._Id);
                 personUpdating = ConvertSingleLocalPersonToDbType(updatedPerson);
-                Cache.CacheData.t_people.ApplyCurrentValues(personUpdating);
+                Cache.CacheData.t_people.Attach(personUpdating);
                 YahrtziehtAccess.UpsertMultipleYahrtziehts(updatedPerson.Yahrtziehts, updatedPerson._Id);
                 AccountAccess.UpsertSingleAccount(updatedPerson.PersonalAccount, updatedPerson._Id);
                 PhoneNumberAccess.UpsertMultiplePhoneNumbers(updatedPerson.PhoneNumbers, updatedPerson._Id);
@@ -261,7 +262,7 @@ namespace DataAccess
         	{
                 t_people personDeleting =
                     Cache.CacheData.t_people.First(person => person.C_id == deletedPerson._Id);
-                Cache.CacheData.t_people.DeleteObject(personDeleting);
+                Cache.CacheData.t_people.Remove(personDeleting);
         		Cache.CacheData.SaveChanges();
         		return Enums.CRUDResults.DELETE_SUCCESS;
         	}

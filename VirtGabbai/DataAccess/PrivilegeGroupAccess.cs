@@ -6,6 +6,7 @@ using LocalTypes;
 using Framework;
 using DataCache;
 using System.Data;
+using DataCache.Models;
 
 namespace DataAccess
 {
@@ -90,7 +91,7 @@ namespace DataAccess
                     newDbPrivilegeGroup.t_privileges.Add(PrivilegeAccess.LookupPrivilegeById(CurrPrivilege._Id));
                 }
 
-                Cache.CacheData.t_privilege_groups.AddObject(newDbPrivilegeGroup);
+                Cache.CacheData.t_privilege_groups.Add(newDbPrivilegeGroup);
                 
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.CREATE_SUCCESS;
@@ -135,7 +136,7 @@ namespace DataAccess
                     privilegeGroupUpdating.t_privileges.Add(PrivilegeAccess.LookupPrivilegeById(CurrPrivilege._Id));
                 }
 
-                Cache.CacheData.t_privilege_groups.ApplyCurrentValues(privilegeGroupUpdating);
+                Cache.CacheData.t_privilege_groups.Attach(privilegeGroupUpdating);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.UPDATE_SUCCESS;
             }
@@ -168,7 +169,7 @@ namespace DataAccess
             try
             {
                 t_privilege_groups privilegeGroupDeleting = LookupPrivilegesGroupById(deletedPrivilegesGroup._Id);
-                Cache.CacheData.t_privilege_groups.DeleteObject(privilegeGroupDeleting);
+                Cache.CacheData.t_privilege_groups.Remove(privilegeGroupDeleting);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.DELETE_SUCCESS;
             }

@@ -5,6 +5,7 @@ using System.Text;
 using DataCache;
 using LocalTypes;
 using Framework;
+using DataCache.Models;
 
 namespace DataAccess
 {
@@ -81,7 +82,7 @@ namespace DataAccess
             try
             {
                 t_privileges newDbPrivilege = ConvertSingleLocalPrivilegeToDbType(newPrivilege);
-                Cache.CacheData.t_privileges.AddObject(newDbPrivilege);
+                Cache.CacheData.t_privileges.Add(newDbPrivilege);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.CREATE_SUCCESS;
             }
@@ -115,7 +116,7 @@ namespace DataAccess
             {
                 t_privileges privilegeUpdating = LookupPrivilegeById(updatedPrivilege._Id);
                 privilegeUpdating = ConvertSingleLocalPrivilegeToDbType(updatedPrivilege);
-                Cache.CacheData.t_privileges.ApplyCurrentValues(privilegeUpdating);
+                Cache.CacheData.t_privileges.Attach(privilegeUpdating);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.UPDATE_SUCCESS;
             }
@@ -149,7 +150,7 @@ namespace DataAccess
             {
                 t_privileges deletedDbPrivilege = Cache.CacheData.t_privileges.First(
                     privilege => privilege.C_id == deletedPrivilege._Id);
-                Cache.CacheData.t_privileges.DeleteObject(deletedDbPrivilege);
+                Cache.CacheData.t_privileges.Remove(deletedDbPrivilege);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.DELETE_SUCCESS;
             }

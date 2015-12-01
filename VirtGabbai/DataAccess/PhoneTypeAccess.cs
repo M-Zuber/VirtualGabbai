@@ -5,6 +5,7 @@ using DataCache;
 using LocalTypes;
 using Framework;
 using DataAccess.Infrastructure;
+using DataCache.Models;
 
 namespace DataAccess
 {
@@ -76,7 +77,7 @@ namespace DataAccess
             try
             {
                 t_phone_types phoneTypeToAdd = this.ConvertSingleToDBType(objectToAdd);
-                Cache.CacheData.t_phone_types.AddObject(phoneTypeToAdd);
+                Cache.CacheData.t_phone_types.Add(phoneTypeToAdd);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.CREATE_SUCCESS;
             }
@@ -111,7 +112,7 @@ namespace DataAccess
             {
                 t_phone_types phoneTypeUpdating = this.LookupByID(objectToUpdate._Id);
                 phoneTypeUpdating = this.ConvertSingleToDBType(objectToUpdate);
-                Cache.CacheData.t_phone_types.ApplyCurrentValues(phoneTypeUpdating);
+                Cache.CacheData.t_phone_types.Attach(phoneTypeUpdating);
                 Cache.CacheData.SaveChanges();
 
                 return Enums.CRUDResults.UPDATE_SUCCESS;
@@ -147,7 +148,7 @@ namespace DataAccess
             {
                 t_phone_types phoneTypeDeleting =
                     Cache.CacheData.t_phone_types.FirstOrDefault(phoneType => phoneType.C_id == objectToDelete._Id);
-                Cache.CacheData.t_phone_types.DeleteObject(phoneTypeDeleting);
+                Cache.CacheData.t_phone_types.Remove(phoneTypeDeleting);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.DELETE_SUCCESS;
             }

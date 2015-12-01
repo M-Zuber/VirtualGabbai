@@ -4,6 +4,7 @@ using System.Linq;
 using DataCache;
 using LocalTypes;
 using Framework;
+using DataCache.Models;
 
 namespace DataAccess
 {
@@ -101,7 +102,7 @@ namespace DataAccess
             try
             {
                 t_yahrtziehts yahrToAdd = YahrtziehtAccess.ConvertSingleYahrtziehtToDbType(newYahr, personId);
-                Cache.CacheData.t_yahrtziehts.AddObject(yahrToAdd);
+                Cache.CacheData.t_yahrtziehts.Add(yahrToAdd);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.CREATE_SUCCESS;
             }
@@ -135,7 +136,7 @@ namespace DataAccess
             {
                 t_yahrtziehts yahrUpdating = YahrtziehtAccess.LookupYahrtziehtById(updatedYahr._Id);
                 yahrUpdating = YahrtziehtAccess.ConvertSingleYahrtziehtToDbType(updatedYahr, personId);
-                Cache.CacheData.t_yahrtziehts.ApplyCurrentValues(yahrUpdating);
+                Cache.CacheData.t_yahrtziehts.Attach(yahrUpdating);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.UPDATE_SUCCESS;
             }
@@ -168,7 +169,7 @@ namespace DataAccess
             try
             {
                 t_yahrtziehts yahrDeleting = Cache.CacheData.t_yahrtziehts.First(yahr => yahr.C_id == deletedYahr._Id);
-                Cache.CacheData.t_yahrtziehts.DeleteObject(yahrDeleting);
+                Cache.CacheData.t_yahrtziehts.Remove(yahrDeleting);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.DELETE_SUCCESS;
             }

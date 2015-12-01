@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DataCache;
+using DataCache.Models;
 
 namespace TempUI
 {
@@ -16,7 +17,7 @@ namespace TempUI
                 {
                     t_privileges newPrivilege = t_privileges.Createt_privileges(privilegeIndex);
                     newPrivilege.privilege_name = privilegeIndex + ":privilege";
-                    Cache.CacheData.t_privileges.AddObject(newPrivilege);
+                    Cache.CacheData.t_privileges.Add(newPrivilege);
                 }
             }
             Cache.CacheData.SaveChanges();
@@ -39,7 +40,7 @@ namespace TempUI
                     {
                         newGroup.t_privileges.Add(CurrPrivilege);
                     }
-                    Cache.CacheData.t_privilege_groups.AddObject(newGroup);
+                    Cache.CacheData.t_privilege_groups.Add(newGroup);
                 }
             }
             Cache.CacheData.SaveChanges();
