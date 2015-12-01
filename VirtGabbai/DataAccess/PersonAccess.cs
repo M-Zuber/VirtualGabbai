@@ -11,54 +11,27 @@ namespace DataAccess
     public static class PersonAccess
     {
         #region Read Methods
-        
+
         #region Local type return
 
-        public static List<Person> GetAllPeople()
-        {
-            return ConvertMultipleDbPersonsToLocalType(LookupAllPeople());
-        }
+        public static List<Person> GetAllPeople() => ConvertMultipleDbPersonsToLocalType(LookupAllPeople());
 
-        public static List<Person> GetPeopleByMembership(bool membershipStatus)
-        {
-            return ConvertMultipleDbPersonsToLocalType(LookupByMembership(membershipStatus));
-        }
+        public static List<Person> GetPeopleByMembership(bool membershipStatus) => ConvertMultipleDbPersonsToLocalType(LookupByMembership(membershipStatus));
 
-        public static List<Person> GetByYahrtzieht(Yahrtzieht yahrtziehtSearchedBy)
-        {
-            return ConvertMultipleDbPersonsToLocalType(
-                        LookupByYahrtzieht(yahrtziehtSearchedBy.Name, yahrtziehtSearchedBy.Relation));
-        }
+        public static List<Person> GetByYahrtzieht(Yahrtzieht yahrtziehtSearchedBy) => ConvertMultipleDbPersonsToLocalType(
+            LookupByYahrtzieht(yahrtziehtSearchedBy.Name, yahrtziehtSearchedBy.Relation));
 
-        public static Person GetById(int id)
-        {
-            return ConvertSingleDbPersonToLocalType(LookupById(id));
-        }
+        public static Person GetById(int id) => ConvertSingleDbPersonToLocalType(LookupById(id));
 
-        public static Person GetByEmail(MailAddress email)
-        {
-            return ConvertSingleDbPersonToLocalType(LookupByEmail(email.Address));
-        }
+        public static Person GetByEmail(MailAddress email) => ConvertSingleDbPersonToLocalType(LookupByEmail(email.Address));
 
-        public static List<Person> GetByName(string firstName, string lastName)
-        {
-            return ConvertMultipleDbPersonsToLocalType(LookupByName(firstName, lastName));
-        }
+        public static List<Person> GetByName(string firstName, string lastName) => ConvertMultipleDbPersonsToLocalType(LookupByName(firstName, lastName));
 
-        public static List<Person> GetByAddress(StreetAddress addressSearchedBy)
-        {
-            return ConvertMultipleDbPersonsToLocalType(LookupByAddress(addressSearchedBy.ToDbString()));
-        }
+        public static List<Person> GetByAddress(StreetAddress addressSearchedBy) => ConvertMultipleDbPersonsToLocalType(LookupByAddress(addressSearchedBy.ToDbString()));
 
-        public static Person GetByAccount(Account accountSearchedBy)
-        {
-            return ConvertSingleDbPersonToLocalType(LookupByAccount(accountSearchedBy._Id));
-        }
+        public static Person GetByAccount(Account accountSearchedBy) => ConvertSingleDbPersonToLocalType(LookupByAccount(accountSearchedBy._Id));
 
-        public static Person GetByPhoneNumber(PhoneNumber numberSearchedBy)
-        {
-            return ConvertSingleDbPersonToLocalType(LookupByPhoneNumber(numberSearchedBy.Number));
-        }
+        public static Person GetByPhoneNumber(PhoneNumber numberSearchedBy) => ConvertSingleDbPersonToLocalType(LookupByPhoneNumber(numberSearchedBy.Number));
 
         #endregion
 

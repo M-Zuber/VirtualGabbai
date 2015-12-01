@@ -13,25 +13,13 @@ namespace DataAccess
 
         #region Local type return
 
-        public static List<PhoneNumber> GetPhoneNumberByType(PhoneType searchedType)
-        {
-            return ConvertMultipleDbPhoneNumbersToLocalType(LookupPhoneNumberByType(searchedType));
-        }
+        public static List<PhoneNumber> GetPhoneNumberByType(PhoneType searchedType) => ConvertMultipleDbPhoneNumbersToLocalType(LookupPhoneNumberByType(searchedType));
 
-        public static PhoneNumber GetPhoneNumberById(int id)
-        {
-            return ConvertSingleDbPhoneNumberToLocalType(LookupPhoneNumberById(id));
-        }
+        public static PhoneNumber GetPhoneNumberById(int id) => ConvertSingleDbPhoneNumberToLocalType(LookupPhoneNumberById(id));
 
-        public static List<PhoneNumber> GetAllPhoneNumbers(int personId)
-        {
-            return ConvertMultipleDbPhoneNumbersToLocalType(LookupAllPhoneNumbers(personId));
-        }
+        public static List<PhoneNumber> GetAllPhoneNumbers(int personId) => ConvertMultipleDbPhoneNumbersToLocalType(LookupAllPhoneNumbers(personId));
 
-        public static PhoneNumber GetSpecificPhoneNumber(string phoneNumber, PhoneType numberType)
-        {
-            return ConvertSingleDbPhoneNumberToLocalType(LookupSpecificPhoneNumber(phoneNumber, numberType._Id));
-        }
+        public static PhoneNumber GetSpecificPhoneNumber(string phoneNumber, PhoneType numberType) => ConvertSingleDbPhoneNumberToLocalType(LookupSpecificPhoneNumber(phoneNumber, numberType._Id));
 
         #endregion
 
@@ -249,11 +237,8 @@ namespace DataAccess
             return dbTypePhoneNumberList;
         }
 
-        internal static t_phone_numbers ConvertSingleLocalPhoneNumberToDbType(PhoneNumber localTypePhoneNumber, int personId)
-        {
-            return t_phone_numbers.Createt_phone_numbers(personId, localTypePhoneNumber.Number, 
-                                            localTypePhoneNumber.NumberType._Id, localTypePhoneNumber._Id);
-        }
+        internal static t_phone_numbers ConvertSingleLocalPhoneNumberToDbType(PhoneNumber localTypePhoneNumber, int personId) => t_phone_numbers.Createt_phone_numbers(personId, localTypePhoneNumber.Number,
+                                localTypePhoneNumber.NumberType._Id, localTypePhoneNumber._Id);
 
         internal static List<PhoneNumber> ConvertMultipleDbPhoneNumbersToLocalType(List<t_phone_numbers> dbTypePhoneNumberList)
         {

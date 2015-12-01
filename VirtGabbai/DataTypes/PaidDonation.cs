@@ -34,15 +34,9 @@ namespace LocalTypes
             return ((base.Equals(obj)) && this.PaymentDate == comparingDonation.PaymentDate);
         }
 
-        public override string ToString()
-        {
-            return base.ToString() + " Paid on: \"" + PaymentDate.ToString("dd/MM/yyyy") + "\"";
-        }
+        public override string ToString() => base.ToString() + " Paid on: \"" + PaymentDate.ToString("dd/MM/yyyy") + "\"";
 
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
+        public override int GetHashCode() => base.GetHashCode();
 
         #endregion
     }

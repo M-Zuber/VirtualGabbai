@@ -19,13 +19,7 @@
         /// Allows outside access to the main data set
         ///  - without letting the user access it any other way
         /// </summary>
-        public static zera_leviEntities CacheData
-        {
-            get
-            {
-                return m_dsDataSet;
-            }
-        }
+        public static zera_leviEntities CacheData => m_dsDataSet;
 
         #endregion
     }

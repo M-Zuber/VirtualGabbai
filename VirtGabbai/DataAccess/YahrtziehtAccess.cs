@@ -14,25 +14,13 @@ namespace DataAccess
 
         #region Local type return
 
-        public static Yahrtzieht GetYahrtziehtById(int yahrId)
-        {
-            return (YahrtziehtAccess.ConvertSingleYahrtziehtToLocalType(YahrtziehtAccess.LookupYahrtziehtById(yahrId)));
-        }
+        public static Yahrtzieht GetYahrtziehtById(int yahrId) => (YahrtziehtAccess.ConvertSingleYahrtziehtToLocalType(YahrtziehtAccess.LookupYahrtziehtById(yahrId)));
 
-        public static Yahrtzieht GetSpecificYahrtzieht(int personId, DateTime yahrDate, string personName)
-        {
-            return YahrtziehtAccess.ConvertSingleYahrtziehtToLocalType(YahrtziehtAccess.LookupSpecificYahrtzieht(personId, yahrDate,personName));
-        }
+        public static Yahrtzieht GetSpecificYahrtzieht(int personId, DateTime yahrDate, string personName) => YahrtziehtAccess.ConvertSingleYahrtziehtToLocalType(YahrtziehtAccess.LookupSpecificYahrtzieht(personId, yahrDate, personName));
 
-        public static List<Yahrtzieht> GetYahrtziehtsByDate(int personId, DateTime yahrDate)
-        {
-            return YahrtziehtAccess.ConvertMultipleYahrtziehtsToLocalType(YahrtziehtAccess.LookupYahrtziehtsByDate(personId, yahrDate));
-        }
+        public static List<Yahrtzieht> GetYahrtziehtsByDate(int personId, DateTime yahrDate) => YahrtziehtAccess.ConvertMultipleYahrtziehtsToLocalType(YahrtziehtAccess.LookupYahrtziehtsByDate(personId, yahrDate));
 
-        public static List<Yahrtzieht> GetAllYahrtziehts(int personId)
-        {
-            return YahrtziehtAccess.ConvertMultipleYahrtziehtsToLocalType(YahrtziehtAccess.LookupAllYahrtziehts(personId));
-        } 
+        public static List<Yahrtzieht> GetAllYahrtziehts(int personId) => YahrtziehtAccess.ConvertMultipleYahrtziehtsToLocalType(YahrtziehtAccess.LookupAllYahrtziehts(personId));
 
         #endregion
 

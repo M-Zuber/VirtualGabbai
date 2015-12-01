@@ -29,15 +29,9 @@
                     (this.PrivilegeName == comparedPrivilege.PrivilegeName));
         }
 
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
+        public override int GetHashCode() => base.GetHashCode();
 
-        public override string ToString()
-        {
-            return this.PrivilegeName;
-        }
+        public override string ToString() => this.PrivilegeName;
 
         #endregion
     }

@@ -14,20 +14,11 @@ namespace DataAccess
 
         #region Local type return
 
-        public static List<Privilege> GetAllPrivileges()
-        {
-            return ConvertMultipleDbPrivilegesToLocalType(LookupAllPrivileges());
-        }
+        public static List<Privilege> GetAllPrivileges() => ConvertMultipleDbPrivilegesToLocalType(LookupAllPrivileges());
 
-        public static Privilege GetPrivilegeById(int id)
-        {
-            return ConvertSingleDbPrivilegeToLocalType(LookupPrivilegeById(id));
-        }
+        public static Privilege GetPrivilegeById(int id) => ConvertSingleDbPrivilegeToLocalType(LookupPrivilegeById(id));
 
-        public static Privilege GetPrivilegeByName(string privilegeName)
-        {
-            return ConvertSingleDbPrivilegeToLocalType(LookupPrivilegeByName(privilegeName));
-        }
+        public static Privilege GetPrivilegeByName(string privilegeName) => ConvertSingleDbPrivilegeToLocalType(LookupPrivilegeByName(privilegeName));
 
         #endregion
 

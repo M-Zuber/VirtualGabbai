@@ -39,10 +39,7 @@ namespace LocalTypes
                     (this.Privileges.SameAs(groupComparing.Privileges)));
         }
 
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
+        public override int GetHashCode() => base.GetHashCode();
 
         public override string ToString()
         {

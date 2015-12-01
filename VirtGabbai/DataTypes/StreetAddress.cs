@@ -71,10 +71,7 @@ namespace LocalTypes
                     (this.Zipcode == comparingAddress.Zipcode));
         }
 
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
+        public override int GetHashCode() => base.GetHashCode();
 
         public override string ToString()
         {
@@ -97,16 +94,13 @@ namespace LocalTypes
 
         #region Other Methods
 
-        public string ToDbString()
-        {
-            return (this.ApartmentNumber + Globals.DELIMITER +
-                    this.House + Globals.DELIMITER +
-                    this.Street + Globals.DELIMITER +
-                    this.City + Globals.DELIMITER +
-                    this.State + Globals.DELIMITER +
-                    this.Country + Globals.DELIMITER +
-                    this.Zipcode);
-        }
+        public string ToDbString() => (this.ApartmentNumber + Globals.DELIMITER +
+        this.House + Globals.DELIMITER +
+        this.Street + Globals.DELIMITER +
+        this.City + Globals.DELIMITER +
+        this.State + Globals.DELIMITER +
+        this.Country + Globals.DELIMITER +
+        this.Zipcode);
 
         #endregion
     }
