@@ -110,7 +110,7 @@ namespace DataAccess
         {
             try
             {
-                PhoneTypeAccess.UpsertSinglePhoneType(newPhoneNumber.NumberType);
+                new PhoneTypeAccess().UpsertSingle(newPhoneNumber.NumberType);
                 t_phone_numbers phoneNumberToAdd = ConvertSingleLocalPhoneNumberToDbType(newPhoneNumber, personId);
                 Cache.CacheData.t_phone_numbers.AddObject(phoneNumberToAdd);
                 Cache.CacheData.SaveChanges();
@@ -144,7 +144,7 @@ namespace DataAccess
         {
             try
             {
-                PhoneTypeAccess.UpsertSinglePhoneType(updatedPhoneNumber.NumberType);
+                new PhoneTypeAccess().UpsertSingle(updatedPhoneNumber.NumberType);
                 t_phone_numbers phoneNumberUpdating = LookupPhoneNumberById(updatedPhoneNumber._Id);
                 phoneNumberUpdating = ConvertSingleLocalPhoneNumberToDbType(updatedPhoneNumber, personId);
                 Cache.CacheData.t_phone_numbers.ApplyCurrentValues(phoneNumberUpdating);
@@ -280,7 +280,7 @@ namespace DataAccess
                 return null;
             }
 
-            PhoneType numberType = PhoneTypeAccess.GetPhoneTypeById(dbTypePhoneNumber.number_type);
+            PhoneType numberType = new PhoneTypeAccess().GetByID(dbTypePhoneNumber.number_type);
             return new PhoneNumber(dbTypePhoneNumber.C_id, dbTypePhoneNumber.number, numberType);
         }
 

@@ -1,21 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
   <!-- EF Runtime content -->
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="zera_leviModel.Store" Alias="Self" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.6" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+    <Schema Namespace="zera_leviModel.Store" Alias="Self" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.6" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="zera_leviModelStoreContainer">
-          <EntitySet Name="t_accounts" EntityType="zera_leviModel.Store.t_accounts" store:Type="Tables" Schema="zera_levi" />
-          <EntitySet Name="t_donations" EntityType="zera_leviModel.Store.t_donations" store:Type="Tables" Schema="zera_levi" />
-          <EntitySet Name="t_people" EntityType="zera_leviModel.Store.t_people" store:Type="Tables" Schema="zera_levi" />
-          <EntitySet Name="t_phone_numbers" EntityType="zera_leviModel.Store.t_phone_numbers" store:Type="Tables" Schema="zera_levi" />
-          <EntitySet Name="t_phone_types" EntityType="zera_leviModel.Store.t_phone_types" store:Type="Tables" Schema="zera_levi" />
-          <EntitySet Name="t_privilege_groups" EntityType="zera_leviModel.Store.t_privilege_groups" store:Type="Tables" Schema="zera_levi" />
-          <EntitySet Name="t_privileges" EntityType="zera_leviModel.Store.t_privileges" store:Type="Tables" Schema="zera_levi" />
-          <EntitySet Name="t_privileges_per_group" EntityType="zera_leviModel.Store.t_privileges_per_group" store:Type="Tables" Schema="zera_levi" />
-          <EntitySet Name="t_users" EntityType="zera_leviModel.Store.t_users" store:Type="Tables" Schema="zera_levi" />
-          <EntitySet Name="t_yahrtziehts" EntityType="zera_leviModel.Store.t_yahrtziehts" store:Type="Tables" Schema="zera_levi" />
+          <EntitySet Name="t_accounts" EntityType="zera_leviModel.Store.t_accounts" store:Type="Tables" Schema="zera_levi" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="t_donations" EntityType="zera_leviModel.Store.t_donations" store:Type="Tables" Schema="zera_levi" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="t_people" EntityType="zera_leviModel.Store.t_people" store:Type="Tables" Schema="zera_levi" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="t_phone_numbers" EntityType="zera_leviModel.Store.t_phone_numbers" store:Type="Tables" Schema="zera_levi" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="t_phone_types" EntityType="zera_leviModel.Store.t_phone_types" store:Type="Tables" Schema="zera_levi" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="t_privilege_groups" EntityType="zera_leviModel.Store.t_privilege_groups" store:Type="Tables" Schema="zera_levi" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="t_privileges" EntityType="zera_leviModel.Store.t_privileges" store:Type="Tables" Schema="zera_levi" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="t_privileges_per_group" EntityType="zera_leviModel.Store.t_privileges_per_group" store:Type="Tables" Schema="zera_levi" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="t_users" EntityType="zera_leviModel.Store.t_users" store:Type="Tables" Schema="zera_levi" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="t_yahrtziehts" EntityType="zera_leviModel.Store.t_yahrtziehts" store:Type="Tables" Schema="zera_levi" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
           <AssociationSet Name="fk_accounts_people1" Association="zera_leviModel.Store.fk_accounts_people1">
             <End Role="t_people" EntitySet="t_people" />
             <End Role="t_accounts" EntitySet="t_accounts" />
@@ -256,8 +256,8 @@
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="zera_leviModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
-        <EntityContainer Name="zera_leviEntities" annotation:LazyLoadingEnabled="true">
+      <Schema Namespace="zera_leviModel" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2009/11/edm" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+        <EntityContainer Name="zera_leviEntities" annotation:LazyLoadingEnabled="true" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
           <EntitySet Name="t_accounts" EntityType="zera_leviModel.t_accounts" />
           <EntitySet Name="t_donations" EntityType="zera_leviModel.t_donations" />
           <EntitySet Name="t_people" EntityType="zera_leviModel.t_people" />
@@ -486,7 +486,7 @@
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
-      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="zera_leviModelStoreContainer" CdmEntityContainer="zera_leviEntities">
           <EntitySetMapping Name="t_accounts"><EntityTypeMapping TypeName="zera_leviModel.t_accounts"><MappingFragment StoreEntitySet="t_accounts">
             <ScalarProperty Name="C_id" ColumnName="_id" />
@@ -558,7 +558,7 @@
     </edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
-  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <Connection>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />

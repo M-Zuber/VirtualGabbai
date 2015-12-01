@@ -342,7 +342,7 @@ namespace DataCache
 
         #endregion
 
-        #region Primitive Properties
+        #region Simple Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -361,7 +361,7 @@ namespace DataCache
                 {
                     OnC_idChanging(value);
                     ReportPropertyChanging("C_id");
-                    _C_id = StructuralObject.SetValidValue(value);
+                    _C_id = StructuralObject.SetValidValue(value, "C_id");
                     ReportPropertyChanged("C_id");
                     OnC_idChanged();
                 }
@@ -386,7 +386,7 @@ namespace DataCache
             {
                 Onperson_idChanging(value);
                 ReportPropertyChanging("person_id");
-                _person_id = StructuralObject.SetValidValue(value);
+                _person_id = StructuralObject.SetValidValue(value, "person_id");
                 ReportPropertyChanged("person_id");
                 Onperson_idChanged();
             }
@@ -410,7 +410,7 @@ namespace DataCache
             {
                 Onmonthly_totalChanging(value);
                 ReportPropertyChanging("monthly_total");
-                _monthly_total = StructuralObject.SetValidValue(value);
+                _monthly_total = StructuralObject.SetValidValue(value, "monthly_total");
                 ReportPropertyChanged("monthly_total");
                 Onmonthly_totalChanged();
             }
@@ -434,7 +434,7 @@ namespace DataCache
             {
                 Onlast_month_paidChanging(value);
                 ReportPropertyChanging("last_month_paid");
-                _last_month_paid = StructuralObject.SetValidValue(value);
+                _last_month_paid = StructuralObject.SetValidValue(value, "last_month_paid");
                 ReportPropertyChanged("last_month_paid");
                 Onlast_month_paidChanged();
             }
@@ -445,7 +445,6 @@ namespace DataCache
 
         #endregion
 
-    
         #region Navigation Properties
     
         /// <summary>
@@ -545,7 +544,7 @@ namespace DataCache
 
         #endregion
 
-        #region Primitive Properties
+        #region Simple Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -564,7 +563,7 @@ namespace DataCache
                 {
                     OnC_idChanging(value);
                     ReportPropertyChanging("C_id");
-                    _C_id = StructuralObject.SetValidValue(value);
+                    _C_id = StructuralObject.SetValidValue(value, "C_id");
                     ReportPropertyChanged("C_id");
                     OnC_idChanged();
                 }
@@ -589,7 +588,7 @@ namespace DataCache
             {
                 Onaccount_idChanging(value);
                 ReportPropertyChanging("account_id");
-                _account_id = StructuralObject.SetValidValue(value);
+                _account_id = StructuralObject.SetValidValue(value, "account_id");
                 ReportPropertyChanged("account_id");
                 Onaccount_idChanged();
             }
@@ -613,7 +612,7 @@ namespace DataCache
             {
                 OnreasonChanging(value);
                 ReportPropertyChanging("reason");
-                _reason = StructuralObject.SetValidValue(value, false);
+                _reason = StructuralObject.SetValidValue(value, false, "reason");
                 ReportPropertyChanged("reason");
                 OnreasonChanged();
             }
@@ -637,7 +636,7 @@ namespace DataCache
             {
                 OnamountChanging(value);
                 ReportPropertyChanging("amount");
-                _amount = StructuralObject.SetValidValue(value);
+                _amount = StructuralObject.SetValidValue(value, "amount");
                 ReportPropertyChanged("amount");
                 OnamountChanged();
             }
@@ -661,7 +660,7 @@ namespace DataCache
             {
                 Ondate_donatedChanging(value);
                 ReportPropertyChanging("date_donated");
-                _date_donated = StructuralObject.SetValidValue(value);
+                _date_donated = StructuralObject.SetValidValue(value, "date_donated");
                 ReportPropertyChanged("date_donated");
                 Ondate_donatedChanged();
             }
@@ -685,7 +684,7 @@ namespace DataCache
             {
                 Ondate_paidChanging(value);
                 ReportPropertyChanging("date_paid");
-                _date_paid = StructuralObject.SetValidValue(value);
+                _date_paid = StructuralObject.SetValidValue(value, "date_paid");
                 ReportPropertyChanged("date_paid");
                 Ondate_paidChanged();
             }
@@ -709,7 +708,7 @@ namespace DataCache
             {
                 OnpaidChanging(value);
                 ReportPropertyChanging("paid");
-                _paid = StructuralObject.SetValidValue(value);
+                _paid = StructuralObject.SetValidValue(value, "paid");
                 ReportPropertyChanged("paid");
                 OnpaidChanged();
             }
@@ -733,7 +732,7 @@ namespace DataCache
             {
                 OncommentsChanging(value);
                 ReportPropertyChanging("comments");
-                _comments = StructuralObject.SetValidValue(value, true);
+                _comments = StructuralObject.SetValidValue(value, true, "comments");
                 ReportPropertyChanged("comments");
                 OncommentsChanged();
             }
@@ -744,7 +743,6 @@ namespace DataCache
 
         #endregion
 
-    
         #region Navigation Properties
     
         /// <summary>
@@ -812,7 +810,7 @@ namespace DataCache
 
         #endregion
 
-        #region Primitive Properties
+        #region Simple Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -831,7 +829,7 @@ namespace DataCache
                 {
                     OnC_idChanging(value);
                     ReportPropertyChanging("C_id");
-                    _C_id = StructuralObject.SetValidValue(value);
+                    _C_id = StructuralObject.SetValidValue(value, "C_id");
                     ReportPropertyChanged("C_id");
                     OnC_idChanged();
                 }
@@ -856,7 +854,7 @@ namespace DataCache
             {
                 OnemailChanging(value);
                 ReportPropertyChanging("email");
-                _email = StructuralObject.SetValidValue(value, true);
+                _email = StructuralObject.SetValidValue(value, true, "email");
                 ReportPropertyChanged("email");
                 OnemailChanged();
             }
@@ -880,7 +878,7 @@ namespace DataCache
             {
                 Ongiven_nameChanging(value);
                 ReportPropertyChanging("given_name");
-                _given_name = StructuralObject.SetValidValue(value, true);
+                _given_name = StructuralObject.SetValidValue(value, true, "given_name");
                 ReportPropertyChanged("given_name");
                 Ongiven_nameChanged();
             }
@@ -904,7 +902,7 @@ namespace DataCache
             {
                 Onfamily_nameChanging(value);
                 ReportPropertyChanging("family_name");
-                _family_name = StructuralObject.SetValidValue(value, true);
+                _family_name = StructuralObject.SetValidValue(value, true, "family_name");
                 ReportPropertyChanged("family_name");
                 Onfamily_nameChanged();
             }
@@ -928,7 +926,7 @@ namespace DataCache
             {
                 OnaddressChanging(value);
                 ReportPropertyChanging("address");
-                _address = StructuralObject.SetValidValue(value, true);
+                _address = StructuralObject.SetValidValue(value, true, "address");
                 ReportPropertyChanged("address");
                 OnaddressChanged();
             }
@@ -952,7 +950,7 @@ namespace DataCache
             {
                 OnmemberChanging(value);
                 ReportPropertyChanging("member");
-                _member = StructuralObject.SetValidValue(value);
+                _member = StructuralObject.SetValidValue(value, "member");
                 ReportPropertyChanged("member");
                 OnmemberChanged();
             }
@@ -963,7 +961,6 @@ namespace DataCache
 
         #endregion
 
-    
         #region Navigation Properties
     
         /// <summary>
@@ -1065,7 +1062,7 @@ namespace DataCache
 
         #endregion
 
-        #region Primitive Properties
+        #region Simple Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -1082,7 +1079,7 @@ namespace DataCache
             {
                 Onperson_idChanging(value);
                 ReportPropertyChanging("person_id");
-                _person_id = StructuralObject.SetValidValue(value);
+                _person_id = StructuralObject.SetValidValue(value, "person_id");
                 ReportPropertyChanged("person_id");
                 Onperson_idChanged();
             }
@@ -1106,7 +1103,7 @@ namespace DataCache
             {
                 OnnumberChanging(value);
                 ReportPropertyChanging("number");
-                _number = StructuralObject.SetValidValue(value, false);
+                _number = StructuralObject.SetValidValue(value, false, "number");
                 ReportPropertyChanged("number");
                 OnnumberChanged();
             }
@@ -1130,7 +1127,7 @@ namespace DataCache
             {
                 Onnumber_typeChanging(value);
                 ReportPropertyChanging("number_type");
-                _number_type = StructuralObject.SetValidValue(value);
+                _number_type = StructuralObject.SetValidValue(value, "number_type");
                 ReportPropertyChanged("number_type");
                 Onnumber_typeChanged();
             }
@@ -1156,7 +1153,7 @@ namespace DataCache
                 {
                     OnC_idChanging(value);
                     ReportPropertyChanging("C_id");
-                    _C_id = StructuralObject.SetValidValue(value);
+                    _C_id = StructuralObject.SetValidValue(value, "C_id");
                     ReportPropertyChanged("C_id");
                     OnC_idChanged();
                 }
@@ -1168,7 +1165,6 @@ namespace DataCache
 
         #endregion
 
-    
         #region Navigation Properties
     
         /// <summary>
@@ -1276,7 +1272,7 @@ namespace DataCache
 
         #endregion
 
-        #region Primitive Properties
+        #region Simple Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -1295,7 +1291,7 @@ namespace DataCache
                 {
                     OnC_idChanging(value);
                     ReportPropertyChanging("C_id");
-                    _C_id = StructuralObject.SetValidValue(value);
+                    _C_id = StructuralObject.SetValidValue(value, "C_id");
                     ReportPropertyChanged("C_id");
                     OnC_idChanged();
                 }
@@ -1320,7 +1316,7 @@ namespace DataCache
             {
                 Ontype_nameChanging(value);
                 ReportPropertyChanging("type_name");
-                _type_name = StructuralObject.SetValidValue(value, false);
+                _type_name = StructuralObject.SetValidValue(value, false, "type_name");
                 ReportPropertyChanged("type_name");
                 Ontype_nameChanged();
             }
@@ -1331,7 +1327,6 @@ namespace DataCache
 
         #endregion
 
-    
         #region Navigation Properties
     
         /// <summary>
@@ -1383,7 +1378,7 @@ namespace DataCache
 
         #endregion
 
-        #region Primitive Properties
+        #region Simple Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -1402,7 +1397,7 @@ namespace DataCache
                 {
                     OnC_idChanging(value);
                     ReportPropertyChanging("C_id");
-                    _C_id = StructuralObject.SetValidValue(value);
+                    _C_id = StructuralObject.SetValidValue(value, "C_id");
                     ReportPropertyChanged("C_id");
                     OnC_idChanged();
                 }
@@ -1427,7 +1422,7 @@ namespace DataCache
             {
                 Ongroup_nameChanging(value);
                 ReportPropertyChanging("group_name");
-                _group_name = StructuralObject.SetValidValue(value, true);
+                _group_name = StructuralObject.SetValidValue(value, true, "group_name");
                 ReportPropertyChanged("group_name");
                 Ongroup_nameChanged();
             }
@@ -1438,7 +1433,6 @@ namespace DataCache
 
         #endregion
 
-    
         #region Navigation Properties
     
         /// <summary>
@@ -1512,7 +1506,7 @@ namespace DataCache
 
         #endregion
 
-        #region Primitive Properties
+        #region Simple Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -1531,7 +1525,7 @@ namespace DataCache
                 {
                     OnC_idChanging(value);
                     ReportPropertyChanging("C_id");
-                    _C_id = StructuralObject.SetValidValue(value);
+                    _C_id = StructuralObject.SetValidValue(value, "C_id");
                     ReportPropertyChanged("C_id");
                     OnC_idChanged();
                 }
@@ -1556,7 +1550,7 @@ namespace DataCache
             {
                 Onprivilege_nameChanging(value);
                 ReportPropertyChanging("privilege_name");
-                _privilege_name = StructuralObject.SetValidValue(value, true);
+                _privilege_name = StructuralObject.SetValidValue(value, true, "privilege_name");
                 ReportPropertyChanged("privilege_name");
                 Onprivilege_nameChanged();
             }
@@ -1567,7 +1561,6 @@ namespace DataCache
 
         #endregion
 
-    
         #region Navigation Properties
     
         /// <summary>
@@ -1627,7 +1620,7 @@ namespace DataCache
 
         #endregion
 
-        #region Primitive Properties
+        #region Simple Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -1646,7 +1639,7 @@ namespace DataCache
                 {
                     OnC_idChanging(value);
                     ReportPropertyChanging("C_id");
-                    _C_id = StructuralObject.SetValidValue(value);
+                    _C_id = StructuralObject.SetValidValue(value, "C_id");
                     ReportPropertyChanged("C_id");
                     OnC_idChanged();
                 }
@@ -1671,7 +1664,7 @@ namespace DataCache
             {
                 OnnameChanging(value);
                 ReportPropertyChanging("name");
-                _name = StructuralObject.SetValidValue(value, false);
+                _name = StructuralObject.SetValidValue(value, false, "name");
                 ReportPropertyChanged("name");
                 OnnameChanged();
             }
@@ -1695,7 +1688,7 @@ namespace DataCache
             {
                 OnpasswordChanging(value);
                 ReportPropertyChanging("password");
-                _password = StructuralObject.SetValidValue(value, false);
+                _password = StructuralObject.SetValidValue(value, false, "password");
                 ReportPropertyChanged("password");
                 OnpasswordChanged();
             }
@@ -1719,7 +1712,7 @@ namespace DataCache
             {
                 OnemailChanging(value);
                 ReportPropertyChanging("email");
-                _email = StructuralObject.SetValidValue(value, false);
+                _email = StructuralObject.SetValidValue(value, false, "email");
                 ReportPropertyChanged("email");
                 OnemailChanged();
             }
@@ -1743,7 +1736,7 @@ namespace DataCache
             {
                 Onprivileges_groupChanging(value);
                 ReportPropertyChanging("privileges_group");
-                _privileges_group = StructuralObject.SetValidValue(value);
+                _privileges_group = StructuralObject.SetValidValue(value, "privileges_group");
                 ReportPropertyChanged("privileges_group");
                 Onprivileges_groupChanged();
             }
@@ -1754,7 +1747,6 @@ namespace DataCache
 
         #endregion
 
-    
         #region Navigation Properties
     
         /// <summary>
@@ -1828,7 +1820,7 @@ namespace DataCache
 
         #endregion
 
-        #region Primitive Properties
+        #region Simple Properties
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -1847,7 +1839,7 @@ namespace DataCache
                 {
                     OnC_idChanging(value);
                     ReportPropertyChanging("C_id");
-                    _C_id = StructuralObject.SetValidValue(value);
+                    _C_id = StructuralObject.SetValidValue(value, "C_id");
                     ReportPropertyChanged("C_id");
                     OnC_idChanged();
                 }
@@ -1872,7 +1864,7 @@ namespace DataCache
             {
                 Onperson_idChanging(value);
                 ReportPropertyChanging("person_id");
-                _person_id = StructuralObject.SetValidValue(value);
+                _person_id = StructuralObject.SetValidValue(value, "person_id");
                 ReportPropertyChanged("person_id");
                 Onperson_idChanged();
             }
@@ -1896,7 +1888,7 @@ namespace DataCache
             {
                 OnrelationChanging(value);
                 ReportPropertyChanging("relation");
-                _relation = StructuralObject.SetValidValue(value, true);
+                _relation = StructuralObject.SetValidValue(value, true, "relation");
                 ReportPropertyChanged("relation");
                 OnrelationChanged();
             }
@@ -1920,7 +1912,7 @@ namespace DataCache
             {
                 OndateChanging(value);
                 ReportPropertyChanging("date");
-                _date = StructuralObject.SetValidValue(value);
+                _date = StructuralObject.SetValidValue(value, "date");
                 ReportPropertyChanged("date");
                 OndateChanged();
             }
@@ -1944,7 +1936,7 @@ namespace DataCache
             {
                 Ondeceaseds_nameChanging(value);
                 ReportPropertyChanging("deceaseds_name");
-                _deceaseds_name = StructuralObject.SetValidValue(value, false);
+                _deceaseds_name = StructuralObject.SetValidValue(value, false, "deceaseds_name");
                 ReportPropertyChanged("deceaseds_name");
                 Ondeceaseds_nameChanged();
             }
@@ -1955,7 +1947,6 @@ namespace DataCache
 
         #endregion
 
-    
         #region Navigation Properties
     
         /// <summary>
@@ -2002,5 +1993,4 @@ namespace DataCache
 
     #endregion
 
-    
 }
