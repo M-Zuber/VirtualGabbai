@@ -89,7 +89,6 @@ namespace LocalTypesTest
         [TestMethod()]
         public void StreetAddressExplicitConstructorTest()
         {
-            string address = ";1894;beacon st;brookline;ma;usa;02445";
             StreetAddress target = new StreetAddress("", "1894", "beacon st", "brookline", "MA", "USA", "02445");
             Assert.AreEqual("", target.ApartmentNumber);
             Assert.AreEqual("1894", target.House);
