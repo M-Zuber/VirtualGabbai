@@ -14,21 +14,12 @@ namespace DataAccess
         #region Read Methods
 
         #region Local type return
-        
-        public static List<PrivilegesGroup> GetAllPrivilegesGroups()
-        {
-            return ConvertMultipleDbPrivilegesGroupsToLocalType(LookupAllPrivilegesGroups());
-        }
 
-        public static PrivilegesGroup GetPrivilegesGroupById(int id)
-        {
-            return ConvertSingleDbPrivilegesGroupToLocalType(LookupPrivilegesGroupById(id));
-        }
+        public static List<PrivilegesGroup> GetAllPrivilegesGroups() => ConvertMultipleDbPrivilegesGroupsToLocalType(LookupAllPrivilegesGroups());
 
-        public static PrivilegesGroup GetPrivilegesGroupByGroupName(string groupName)
-        {
-            return ConvertSingleDbPrivilegesGroupToLocalType(LookupPrivilegesGroupByGroupName(groupName));
-        }
+        public static PrivilegesGroup GetPrivilegesGroupById(int id) => ConvertSingleDbPrivilegesGroupToLocalType(LookupPrivilegesGroupById(id));
+
+        public static PrivilegesGroup GetPrivilegesGroupByGroupName(string groupName) => ConvertSingleDbPrivilegesGroupToLocalType(LookupPrivilegesGroupByGroupName(groupName));
 
         #endregion
 

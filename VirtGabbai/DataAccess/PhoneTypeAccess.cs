@@ -14,20 +14,11 @@ namespace DataAccess
 
         #region Local type return
 
-        public PhoneType GetByPhoneTypeName(string typeName)
-        {
-            return this.ConvertSingleToLocalType(this.LookupByPhoneTypeName(typeName));
-        }
+        public PhoneType GetByPhoneTypeName(string typeName) => this.ConvertSingleToLocalType(this.LookupByPhoneTypeName(typeName));
 
-        public override PhoneType GetByID(int id)
-        {
-            return this.ConvertSingleToLocalType(this.LookupByID(id));
-        }
+        public override PhoneType GetByID(int id) => this.ConvertSingleToLocalType(this.LookupByID(id));
 
-        public override IEnumerable<PhoneType> GetAll()
-        {
-            return this.ConvertMultipleToLocalType(this.LookupAll().ToList());
-        }
+        public override IEnumerable<PhoneType> GetAll() => this.ConvertMultipleToLocalType(this.LookupAll().ToList());
 
         #endregion
 
@@ -223,10 +214,7 @@ namespace DataAccess
             return dbTypePhoneTypeList;
         }
 
-        protected override t_phone_types ConvertSingleToDBType(PhoneType localTypeObject)
-        {
-            return t_phone_types.Createt_phone_types(localTypeObject._Id, localTypeObject.PhoneTypeName);
-        }
+        protected override t_phone_types ConvertSingleToDBType(PhoneType localTypeObject) => t_phone_types.Createt_phone_types(localTypeObject._Id, localTypeObject.PhoneTypeName);
 
         protected override IEnumerable<PhoneType> ConvertMultipleToLocalType(IEnumerable<t_phone_types> dbTypeObjects)
         {
@@ -260,11 +248,8 @@ namespace DataAccess
 
         #region HelperMethods
 
-        public override int GetMaxID()
-        {
-            return Cache.CacheData.t_phone_types.Max(pt => pt.C_id);
-        }
-        
+        public override int GetMaxID() => Cache.CacheData.t_phone_types.Max(pt => pt.C_id);
+
         #endregion
     }
 }

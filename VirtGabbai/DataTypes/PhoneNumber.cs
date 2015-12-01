@@ -34,15 +34,9 @@
                     (this.NumberType.Equals(numberComparing.NumberType)));
         }
 
-        public override string ToString()
-        {
-            return "Number:\"" + this.Number + "\" " + this.NumberType.ToString();
-        }
+        public override string ToString() => "Number:\"" + this.Number + "\" " + this.NumberType.ToString();
 
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
+        public override int GetHashCode() => base.GetHashCode();
 
         #endregion
     }

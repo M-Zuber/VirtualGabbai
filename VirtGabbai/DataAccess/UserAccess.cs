@@ -14,37 +14,19 @@ namespace DataAccess
 
         #region Local type return
 
-        public static List<User> GetAllUsers()
-        {
-            return ConvertMultipleDbUsersToLocalType(LookupAllUsers());
-        }
+        public static List<User> GetAllUsers() => ConvertMultipleDbUsersToLocalType(LookupAllUsers());
 
-        public static List<User> GetByPrivilegesGroup(PrivilegesGroup privilegeGroup)
-        {
-            return ConvertMultipleDbUsersToLocalType(LookupByPrivilegesGroup(
-                        PrivilegeGroupAccess.ConvertSingleLocalPrivilegesGroupToDbType(privilegeGroup)));
-        }
+        public static List<User> GetByPrivilegesGroup(PrivilegesGroup privilegeGroup) => ConvertMultipleDbUsersToLocalType(LookupByPrivilegesGroup(
+            PrivilegeGroupAccess.ConvertSingleLocalPrivilegesGroupToDbType(privilegeGroup)));
 
-        public static List<User> GetByPrivilege(Privilege privilege)
-        {
-            return ConvertMultipleDbUsersToLocalType(LookupByPrivilege(
-                                    PrivilegeAccess.ConvertSingleLocalPrivilegeToDbType(privilege)));
-        }
+        public static List<User> GetByPrivilege(Privilege privilege) => ConvertMultipleDbUsersToLocalType(LookupByPrivilege(
+                        PrivilegeAccess.ConvertSingleLocalPrivilegeToDbType(privilege)));
 
-        public static User GetByUserName(string userName)
-        {
-            return ConvertSingleDbUserToLocalType(LookupByUserName(userName));
-        }
+        public static User GetByUserName(string userName) => ConvertSingleDbUserToLocalType(LookupByUserName(userName));
 
-        public static User GetByEmail(MailAddress email)
-        {
-            return ConvertSingleDbUserToLocalType(LookupByEmail(email.Address));
-        }
+        public static User GetByEmail(MailAddress email) => ConvertSingleDbUserToLocalType(LookupByEmail(email.Address));
 
-        public static User GetByUserId(int id)
-        {
-            return ConvertSingleDbUserToLocalType(LookupByUserId(id));
-        }
+        public static User GetByUserId(int id) => ConvertSingleDbUserToLocalType(LookupByUserId(id));
 
         #endregion
 
@@ -292,11 +274,8 @@ namespace DataAccess
             return dbTypeUserList;
         }
 
-        internal static t_users ConvertSingleLocalUserToDbType(User localTypeUser)
-        {
-            return t_users.Createt_users(localTypeUser._Id, localTypeUser.UserName,
-                        localTypeUser.Password, localTypeUser.Email.Address, localTypeUser.UserGroup._Id);
-        }
+        internal static t_users ConvertSingleLocalUserToDbType(User localTypeUser) => t_users.Createt_users(localTypeUser._Id, localTypeUser.UserName,
+            localTypeUser.Password, localTypeUser.Email.Address, localTypeUser.UserGroup._Id);
 
         internal static List<User> ConvertMultipleDbUsersToLocalType(List<t_users> dbTypeUserList)
         {

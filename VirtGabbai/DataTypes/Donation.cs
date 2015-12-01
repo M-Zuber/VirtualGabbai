@@ -61,10 +61,7 @@ namespace LocalTypes
                     (this.Reason == donationToCompare.Reason));
         }
 
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
+        public override int GetHashCode() => base.GetHashCode();
 
         #endregion
     }

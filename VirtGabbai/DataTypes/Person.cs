@@ -98,10 +98,7 @@ namespace LocalTypes
                    "\nYahrtziehts:\n\t" + yahrtziehtsString;
         }
 
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
+        public override int GetHashCode() => base.GetHashCode();
 
         #endregion
     }

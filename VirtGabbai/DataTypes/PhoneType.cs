@@ -29,15 +29,9 @@
                     (this.PhoneTypeName == comparingPhoneType.PhoneTypeName));
         }
 
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
+        public override int GetHashCode() => base.GetHashCode();
 
-        public override string ToString()
-        {
-            return ("Type:\"" + this.PhoneTypeName + "\"");
-        }
+        public override string ToString() => ("Type:\"" + this.PhoneTypeName + "\"");
 
         #endregion
     }

@@ -48,16 +48,10 @@ namespace LocalTypes
                     (this.UserGroup.Equals(comparedUser.UserGroup)));
         }
 
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
+        public override int GetHashCode() => base.GetHashCode();
 
-        public override string ToString()
-        {
-            return "User name: " + this.UserName + "\nEmail: " + this.Email.Address +
-                    "\n" + this.UserGroup.ToString();
-        }
+        public override string ToString() => "User name: " + this.UserName + "\nEmail: " + this.Email.Address +
+        "\n" + this.UserGroup.ToString();
 
         #endregion
     }

@@ -41,17 +41,11 @@ namespace LocalTypes
                     (this.Relation == yahrComparing.Relation));
         }
 
-        public override string ToString()
-        {
-            return "Deceased's Name:\"" + this.Name + "\" " +
-                   "Date:\""+ this.Date.Date.ToString("dd/MM/yyyy") + "\" " +
-                   "Relation:\"" +this.Relation + "\"";
-        }
+        public override string ToString() => "Deceased's Name:\"" + this.Name + "\" " +
+       "Date:\"" + this.Date.Date.ToString("dd/MM/yyyy") + "\" " +
+       "Relation:\"" + this.Relation + "\"";
 
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
+        public override int GetHashCode() => base.GetHashCode();
 
         #endregion
     }

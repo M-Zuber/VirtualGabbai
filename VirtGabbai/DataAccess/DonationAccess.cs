@@ -13,35 +13,17 @@ namespace DataAccess
 
         #region Local type return
 
-        public static Donation GetDonationById(int id)
-        {
-            return ConvertSingleDbDonationToLocalType(LookupDonationById(id));
-        }
+        public static Donation GetDonationById(int id) => ConvertSingleDbDonationToLocalType(LookupDonationById(id));
 
-        public static List<Donation> GetByReason(string reason)
-        {
-            return ConvertMultipleDbDonationsToLocalType(LookupByReason(reason));
-        }
+        public static List<Donation> GetByReason(string reason) => ConvertMultipleDbDonationsToLocalType(LookupByReason(reason));
 
-        public static List<Donation> GetByDonationDate(DateTime donationDate)
-        {
-            return ConvertMultipleDbDonationsToLocalType(LookupByDonationDate(donationDate));
-        }
+        public static List<Donation> GetByDonationDate(DateTime donationDate) => ConvertMultipleDbDonationsToLocalType(LookupByDonationDate(donationDate));
 
-        public static List<Donation> GetByPaymentDate(DateTime paymentDate)
-        {
-            return ConvertMultipleDbDonationsToLocalType(LookupByPaymentDate(paymentDate));
-        }
+        public static List<Donation> GetByPaymentDate(DateTime paymentDate) => ConvertMultipleDbDonationsToLocalType(LookupByPaymentDate(paymentDate));
 
-        public static Donation GetSpecificDonation(string reason, double amount, DateTime donationDate)
-        {
-            return ConvertSingleDbDonationToLocalType(LookupSpecificDonation(reason, amount, donationDate));
-        }
+        public static Donation GetSpecificDonation(string reason, double amount, DateTime donationDate) => ConvertSingleDbDonationToLocalType(LookupSpecificDonation(reason, amount, donationDate));
 
-        public static List<Donation> GetAllDonations(int accountId)
-        {
-            return ConvertMultipleDbDonationsToLocalType(LookupAllDonations(accountId));
-        }
+        public static List<Donation> GetAllDonations(int accountId) => ConvertMultipleDbDonationsToLocalType(LookupAllDonations(accountId));
 
         #endregion
 

@@ -10,43 +10,22 @@ namespace DataAccess
     public static class AccountAccess
     {
         #region Read Methods
-        
+
         #region Local type return
 
-        public static Account GetAccountById(int accountId)
-        {
-            return ConvertSingleDbAccountToLocalType(LookupByAccountId(accountId));
-        }
+        public static Account GetAccountById(int accountId) => ConvertSingleDbAccountToLocalType(LookupByAccountId(accountId));
 
-        public static Account GetByPersonId(int personId)
-        {
-            return ConvertSingleDbAccountToLocalType(LookupByPersonId(personId));
-        }
+        public static Account GetByPersonId(int personId) => ConvertSingleDbAccountToLocalType(LookupByPersonId(personId));
 
-        public static List<Account> GetAllAccounts()
-        {
-            return ConvertMultipleDbAccountsToLocalType(LookupAllAccounts());
-        }
+        public static List<Account> GetAllAccounts() => ConvertMultipleDbAccountsToLocalType(LookupAllAccounts());
 
-        public static List<Account> GetByMonthlyPaymentTotal(int monthlyTotal)
-        {
-            return ConvertMultipleDbAccountsToLocalType(LookupByMonthlyPaymentTotal(monthlyTotal));
-        }
+        public static List<Account> GetByMonthlyPaymentTotal(int monthlyTotal) => ConvertMultipleDbAccountsToLocalType(LookupByMonthlyPaymentTotal(monthlyTotal));
 
-        public static List<Account> GetByLastMonthlyPaymentDate(DateTime lastPayment)
-        {
-            return ConvertMultipleDbAccountsToLocalType(LookupByLastMonthlyPaymentDate(lastPayment));
-        }
+        public static List<Account> GetByLastMonthlyPaymentDate(DateTime lastPayment) => ConvertMultipleDbAccountsToLocalType(LookupByLastMonthlyPaymentDate(lastPayment));
 
-        public static Account GetByDonation(int donationId)
-        {
-            return ConvertSingleDbAccountToLocalType(LookupByDonation(donationId));
-        }
+        public static Account GetByDonation(int donationId) => ConvertSingleDbAccountToLocalType(LookupByDonation(donationId));
 
-        public static Account GetByDonation(Donation donationToLookBy)
-        {
-            return ConvertSingleDbAccountToLocalType(LookupByDonation(donationToLookBy));
-        }
+        public static Account GetByDonation(Donation donationToLookBy) => ConvertSingleDbAccountToLocalType(LookupByDonation(donationToLookBy));
 
         #endregion
 
