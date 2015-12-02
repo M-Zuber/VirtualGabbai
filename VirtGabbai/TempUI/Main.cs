@@ -11,14 +11,15 @@ namespace TempUI
     {
         static void Main(string[] args)
         {
-                new IntegrationTwo().PrivilegesAndGroupsTest();
             try
             {
+                new IntegrationTwo().PrivilegesAndGroupsTest();
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
             }
+            DataCache.Cache.CacheData.Database.Delete();
         }
     }
 }
