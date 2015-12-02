@@ -15,11 +15,10 @@ namespace DataCache.Models.Mapping
                 .IsRequired()
                 .HasMaxLength(45);
 
-            this.Property(t => t.C_id)
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+            this.Property(t => t.C_id);
 
             // Table & Column Mappings
-            this.ToTable("t_phone_numbers", "zera_levi");
+            this.ToTable("phone_numbers", "zera_levi");
             this.Property(t => t.person_id).HasColumnName("person_id");
             this.Property(t => t.number).HasColumnName("number");
             this.Property(t => t.number_type).HasColumnName("number_type");

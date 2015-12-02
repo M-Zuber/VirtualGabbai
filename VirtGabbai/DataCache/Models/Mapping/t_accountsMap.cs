@@ -11,11 +11,10 @@ namespace DataCache.Models.Mapping
             this.HasKey(t => t.C_id);
 
             // Properties
-            this.Property(t => t.C_id)
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+            this.Property(t => t.C_id);
 
             // Table & Column Mappings
-            this.ToTable("t_accounts", "zera_levi");
+            this.ToTable("accounts", "zera_levi");
             this.Property(t => t.C_id).HasColumnName("_id");
             this.Property(t => t.person_id).HasColumnName("person_id");
             this.Property(t => t.monthly_total).HasColumnName("monthly_total");

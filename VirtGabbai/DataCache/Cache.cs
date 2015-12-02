@@ -1,4 +1,6 @@
-﻿namespace DataCache
+﻿using DataCache.Models;
+
+namespace DataCache
 {
     /// <summary>
     /// Allows access to the cached data - but only a single (and constant) instance of it
@@ -9,7 +11,7 @@
         #region Data Members
 
         // Data members
-        private static zera_leviEntities m_dsDataSet = new zera_leviEntities();
+        private static zera_leviContext m_dsDataSet = new zera_leviContext();
 
         #endregion
 
@@ -19,7 +21,7 @@
         /// Allows outside access to the main data set
         ///  - without letting the user access it any other way
         /// </summary>
-        public static zera_leviEntities CacheData => m_dsDataSet;
+        public static zera_leviContext CacheData => m_dsDataSet;
 
         #endregion
     }

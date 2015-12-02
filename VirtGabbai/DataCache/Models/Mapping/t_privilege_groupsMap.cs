@@ -11,14 +11,13 @@ namespace DataCache.Models.Mapping
             this.HasKey(t => t.C_id);
 
             // Properties
-            this.Property(t => t.C_id)
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+            this.Property(t => t.C_id);
 
             this.Property(t => t.group_name)
                 .HasMaxLength(45);
 
             // Table & Column Mappings
-            this.ToTable("t_privilege_groups", "zera_levi");
+            this.ToTable("privilege_groups", "zera_levi");
             this.Property(t => t.C_id).HasColumnName("_id");
             this.Property(t => t.group_name).HasColumnName("group_name");
 
@@ -27,7 +26,7 @@ namespace DataCache.Models.Mapping
                 .WithMany(t => t.t_privilege_groups)
                 .Map(m =>
                     {
-                        m.ToTable("t_privileges_per_group", "zera_levi");
+                        m.ToTable("privileges_per_group", "zera_levi");
                         m.MapLeftKey("group_id");
                         m.MapRightKey("privilege_id");
                     });

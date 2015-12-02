@@ -6,13 +6,8 @@ namespace DataCache.Models
 {
     public partial class zera_leviContext : DbContext
     {
-        static zera_leviContext()
-        {
-            Database.SetInitializer<zera_leviContext>(null);
-        }
-
         public zera_leviContext()
-            : base("Name=zera_leviContext")
+            : base("Name=VGContext")
         {
         }
 
@@ -22,12 +17,13 @@ namespace DataCache.Models
         public DbSet<t_phone_numbers> t_phone_numbers { get; set; }
         public DbSet<t_phone_types> t_phone_types { get; set; }
         public DbSet<t_privilege_groups> t_privilege_groups { get; set; }
-        public DbSet<t_privileges> t_privileges { get; set; }
+        public DbSet<t_zl_privileges> t_privileges { get; set; }
         public DbSet<t_users> t_users { get; set; }
         public DbSet<t_yahrtziehts> t_yahrtziehts { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Configurations.Add(new t_accountsMap());
             modelBuilder.Configurations.Add(new t_donationsMap());
             modelBuilder.Configurations.Add(new t_peopleMap());

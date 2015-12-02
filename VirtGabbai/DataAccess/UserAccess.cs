@@ -62,7 +62,7 @@ namespace DataAccess
             }
         }
 
-        private static List<t_users> LookupByPrivilege(t_privileges privilege)
+        private static List<t_users> LookupByPrivilege(t_zl_privileges privilege)
         {
             try
             {

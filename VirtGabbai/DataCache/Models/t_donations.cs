@@ -14,5 +14,7 @@ namespace DataCache.Models
         public bool paid { get; set; }
         public string comments { get; set; }
         public virtual t_accounts t_accounts { get; set; }
+
+        public static t_donations Createt_donations(int _Id, int accountNumber, string reason, double amount, DateTime donationDate, bool v) => new t_donations { C_id = _Id, account_id = accountNumber, reason = reason, amount = amount, date_donated = donationDate, paid = v };
     }
 }

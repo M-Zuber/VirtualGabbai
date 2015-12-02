@@ -11,6 +11,7 @@ namespace TempUI
     {
         static void Main(string[] args)
         {
+                new IntegrationTwo().PrivilegesAndGroupsTest();
             try
             {
             }

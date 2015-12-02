@@ -21,5 +21,7 @@ namespace DataCache.Models
         public virtual ICollection<t_accounts> t_accounts { get; set; }
         public virtual ICollection<t_phone_numbers> t_phone_numbers { get; set; }
         public virtual ICollection<t_yahrtziehts> t_yahrtziehts { get; set; }
+
+        public static t_people Createt_people(int _Id) => new t_people { C_id = _Id };
     }
 }

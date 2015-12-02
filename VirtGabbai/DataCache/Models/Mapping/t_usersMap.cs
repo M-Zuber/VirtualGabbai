@@ -11,8 +11,7 @@ namespace DataCache.Models.Mapping
             this.HasKey(t => t.C_id);
 
             // Properties
-            this.Property(t => t.C_id)
-                .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
+            this.Property(t => t.C_id);
 
             this.Property(t => t.name)
                 .IsRequired()
@@ -27,7 +26,7 @@ namespace DataCache.Models.Mapping
                 .HasMaxLength(45);
 
             // Table & Column Mappings
-            this.ToTable("t_users", "zera_levi");
+            this.ToTable("users", "zera_levi");
             this.Property(t => t.C_id).HasColumnName("_id");
             this.Property(t => t.name).HasColumnName("name");
             this.Property(t => t.password).HasColumnName("password");
