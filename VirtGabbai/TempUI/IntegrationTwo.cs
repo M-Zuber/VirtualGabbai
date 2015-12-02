@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DataCache;
+using DataCache.Models;
 
 namespace TempUI
 {
@@ -14,9 +15,9 @@ namespace TempUI
             {
                 if (!Cache.CacheData.t_privileges.Any(privilege => privilege.C_id == privilegeIndex))
                 {
-                    t_privileges newPrivilege = t_privileges.Createt_privileges(privilegeIndex);
+                    t_zl_privileges newPrivilege = t_zl_privileges.Createt_privileges(privilegeIndex);
                     newPrivilege.privilege_name = privilegeIndex + ":privilege";
-                    Cache.CacheData.t_privileges.AddObject(newPrivilege);
+                    Cache.CacheData.t_privileges.Add(newPrivilege);
                 }
             }
             Cache.CacheData.SaveChanges();
@@ -28,18 +29,18 @@ namespace TempUI
                     t_privilege_groups newGroup = t_privilege_groups.Createt_privilege_groups(groupIndex);
                     newGroup.group_name = "group:" + groupIndex;
 
-                    List<t_privileges> allPrivileges = (from privilege in Cache.CacheData.t_privileges
+                    List<t_zl_privileges> allPrivileges = (from privilege in Cache.CacheData.t_privileges
                                                         where privilege.C_id == 201 ||
                                                               privilege.C_id == 202 ||
                                                               privilege.C_id == 203 ||
                                                               privilege.C_id == 204 ||
                                                               privilege.C_id == 205
                                                         select privilege).ToList();
-                    foreach (t_privileges CurrPrivilege in allPrivileges)
+                    foreach (t_zl_privileges CurrPrivilege in allPrivileges)
                     {
                         newGroup.t_privileges.Add(CurrPrivilege);
                     }
-                    Cache.CacheData.t_privilege_groups.AddObject(newGroup);
+                    Cache.CacheData.t_privilege_groups.Add(newGroup);
                 }
             }
             Cache.CacheData.SaveChanges();

@@ -4,6 +4,7 @@ using System.Linq;
 using DataCache;
 using LocalTypes;
 using Framework;
+using DataCache.Models;
 
 namespace DataAccess
 {
@@ -134,7 +135,7 @@ namespace DataAccess
             try
             {
                 t_donations newDbDonation = ConvertSingleLocalDonationToDbType(newDonation, accountId);
-                Cache.CacheData.t_donations.AddObject(newDbDonation);
+                Cache.CacheData.t_donations.Add(newDbDonation);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.CREATE_SUCCESS;
             }
@@ -168,7 +169,7 @@ namespace DataAccess
             {
                 t_donations donationUpdating = LookupDonationById(updatedDonation._Id);
                 donationUpdating = ConvertSingleLocalDonationToDbType(updatedDonation, accountId);
-                Cache.CacheData.t_donations.ApplyCurrentValues(donationUpdating);
+                Cache.CacheData.t_donations.Attach(donationUpdating);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.UPDATE_SUCCESS;
             }
@@ -202,7 +203,7 @@ namespace DataAccess
             {
                 t_donations donationDeleting =
                     Cache.CacheData.t_donations.First(donation => donation.C_id == deleteDonation._Id);
-                Cache.CacheData.t_donations.DeleteObject(donationDeleting);
+                Cache.CacheData.t_donations.Remove(donationDeleting);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.DELETE_SUCCESS;
             }

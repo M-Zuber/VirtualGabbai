@@ -4,6 +4,7 @@ using System.Linq;
 using DataCache;
 using LocalTypes;
 using Framework;
+using DataCache.Models;
 
 namespace DataAccess
 {
@@ -142,7 +143,7 @@ namespace DataAccess
             try
             {
                 t_accounts newDbAccount = ConvertSingleLocalAccountToDbType(newAccount, personId);
-                Cache.CacheData.t_accounts.AddObject(newDbAccount);
+                Cache.CacheData.t_accounts.Add(newDbAccount);
                 DonationAccess.UpsertMultipleDonations(newAccount.UnpaidDonations, newAccount._Id);
                 DonationAccess.UpsertMultipleDonations(
                     new List<Donation>(newAccount.PaidDonations), newAccount._Id);
@@ -181,7 +182,7 @@ namespace DataAccess
                 DonationAccess.UpsertMultipleDonations(new List<Donation>(updatedAccount.PaidDonations), updatedAccount._Id);
                 t_accounts accountUpdating = LookupByAccountId(updatedAccount._Id);
                 accountUpdating = ConvertSingleLocalAccountToDbType(updatedAccount, personId);
-                Cache.CacheData.t_accounts.ApplyCurrentValues(accountUpdating);
+                Cache.CacheData.t_accounts.Attach(accountUpdating);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.UPDATE_SUCCESS;
             }
@@ -215,7 +216,7 @@ namespace DataAccess
             {
                 t_accounts accountDeleting =
                     Cache.CacheData.t_accounts.First(account => account.C_id == deletedAccount._Id);
-                Cache.CacheData.t_accounts.DeleteObject(accountDeleting);
+                Cache.CacheData.t_accounts.Remove(accountDeleting);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.DELETE_SUCCESS;
             }
@@ -285,7 +286,7 @@ namespace DataAccess
 
         internal static t_accounts ConvertSingleLocalAccountToDbType(Account localTypeAccount, int personId)
         {
-            t_accounts convertedAccount = t_accounts.Createt_accounts(localTypeAccount._Id, personId);
+            t_accounts convertedAccount = new t_accounts { C_id = localTypeAccount._Id,person_id = personId };
             convertedAccount.last_month_paid = localTypeAccount.LastMonthlyPaymentDate;
             convertedAccount.monthly_total = localTypeAccount.MonthlyPaymentTotal;
             return convertedAccount;

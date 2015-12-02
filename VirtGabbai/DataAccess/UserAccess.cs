@@ -5,6 +5,7 @@ using DataCache;
 using LocalTypes;
 using Framework;
 using System.Net.Mail;
+using DataCache.Models;
 
 namespace DataAccess
 {
@@ -61,7 +62,7 @@ namespace DataAccess
             }
         }
 
-        private static List<t_users> LookupByPrivilege(t_privileges privilege)
+        private static List<t_users> LookupByPrivilege(t_zl_privileges privilege)
         {
             try
             {
@@ -136,7 +137,7 @@ namespace DataAccess
                 PrivilegeGroupAccess.UpsertSinglePrivilegesGroup(newUser.UserGroup);
 
                 t_users newDbUser = ConvertSingleLocalUserToDbType(newUser);
-                Cache.CacheData.t_users.AddObject(newDbUser);
+                Cache.CacheData.t_users.Add(newDbUser);
                 Cache.CacheData.SaveChanges();
 
                 return Enums.CRUDResults.CREATE_SUCCESS;
@@ -172,7 +173,7 @@ namespace DataAccess
                 PrivilegeGroupAccess.UpsertSinglePrivilegesGroup(updatedUser.UserGroup);
                 t_users userUpdating = LookupByUserId(updatedUser._Id);
                 userUpdating = ConvertSingleLocalUserToDbType(updatedUser);
-                Cache.CacheData.t_users.ApplyCurrentValues(userUpdating);
+                Cache.CacheData.t_users.Attach(userUpdating);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.UPDATE_SUCCESS;
             }
@@ -206,7 +207,7 @@ namespace DataAccess
             {
                 t_users userDeleting =
                     Cache.CacheData.t_users.First(user => user.C_id == deletedUser._Id);
-                Cache.CacheData.t_users.DeleteObject(userDeleting);
+                Cache.CacheData.t_users.Remove(userDeleting);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.DELETE_SUCCESS;
             }
