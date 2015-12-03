@@ -79,14 +79,6 @@
       <Project>{41C40F86-3FAF-415E-BB93-725FD4E4DF0F}</Project>
       <Name>DataCache</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DataTypes\LocalTypes.csproj">
-      <Project>{9B2ABB56-D031-4753-ADD5-B5DCEB597E3C}</Project>
-      <Name>LocalTypes</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Framework\Framework.csproj">
-      <Project>{23F121B4-CA1D-4E7A-B72C-241A93886EAF}</Project>
-      <Name>Framework</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config">

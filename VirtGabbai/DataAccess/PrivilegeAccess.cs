@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using DataCache;
-using LocalTypes;
 using Framework;
 using DataCache.Models;
 
@@ -25,7 +23,7 @@ namespace DataAccess
 
         #region Db type return
 
-        private static List<t_zl_privileges> LookupAllPrivileges()
+        private static List<DataCache.Models.Privilege> LookupAllPrivileges()
         {
             try
             {
@@ -39,12 +37,12 @@ namespace DataAccess
             }
         }
 
-        internal static t_zl_privileges LookupPrivilegeById(int id)
+        internal static Privilege LookupPrivilegeById(int id)
         {
             try
             {
                 return (from privilege in Cache.CacheData.t_privileges
-                        where privilege.C_id == id
+                        where privilege.ID == id
                         select privilege).First();
             }
             catch (Exception)
@@ -54,12 +52,12 @@ namespace DataAccess
             }
         }
 
-        private static t_zl_privileges LookupPrivilegeByName(string privilegeName)
+        private static Privilege LookupPrivilegeByName(string privilegeName)
         {
             try
             {
                 return (from privilege in Cache.CacheData.t_privileges
-                        where privilege.privilege_name == privilegeName
+                        where privilege.Name == privilegeName
                         select privilege).First();
             }
             catch (Exception)
@@ -81,7 +79,7 @@ namespace DataAccess
         {
             try
             {
-                t_zl_privileges newDbPrivilege = ConvertSingleLocalPrivilegeToDbType(newPrivilege);
+                DataCache.Models.Privilege newDbPrivilege = ConvertSingleLocalPrivilegeToDbType(newPrivilege);
                 Cache.CacheData.t_privileges.Add(newDbPrivilege);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.CREATE_SUCCESS;
@@ -114,7 +112,7 @@ namespace DataAccess
         {
             try
             {
-                t_zl_privileges privilegeUpdating = LookupPrivilegeById(updatedPrivilege._Id);
+                DataCache.Models.Privilege privilegeUpdating = LookupPrivilegeById(updatedPrivilege.ID);
                 privilegeUpdating = ConvertSingleLocalPrivilegeToDbType(updatedPrivilege);
                 Cache.CacheData.t_privileges.Attach(privilegeUpdating);
                 Cache.CacheData.SaveChanges();
@@ -148,8 +146,8 @@ namespace DataAccess
         {
             try
             {
-                t_zl_privileges deletedDbPrivilege = Cache.CacheData.t_privileges.First(
-                    privilege => privilege.C_id == deletedPrivilege._Id);
+                DataCache.Models.Privilege deletedDbPrivilege = Cache.CacheData.t_privileges.First(
+                    privilege => privilege.ID == deletedPrivilege.ID);
                 Cache.CacheData.t_privileges.Remove(deletedDbPrivilege);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.DELETE_SUCCESS;
@@ -180,7 +178,7 @@ namespace DataAccess
 
         public static Enums.CRUDResults UpsertSinglePrivilege(Privilege upsertedPrivilege)
         {
-            Privilege currentPrivilege = GetPrivilegeById(upsertedPrivilege._Id);
+            Privilege currentPrivilege = GetPrivilegeById(upsertedPrivilege.ID);
 
             if (currentPrivilege == null)
             {
@@ -192,7 +190,7 @@ namespace DataAccess
             }
         }
 
-        public static void UpsertMultiplePrivileges(List<Privilege> upsertedList)
+        public static void UpsertMultiplePrivileges(IEnumerable<Privilege> upsertedList)
         {
             foreach (Privilege CurrPrivilege in upsertedList)
             {
@@ -206,26 +204,26 @@ namespace DataAccess
 
         #region Private Methods
 
-        internal static List<t_zl_privileges> ConvertMultipleLocalPrivilegesToDbType(List<Privilege> localTypePrivilegeList)
+        internal static List<DataCache.Models.Privilege> ConvertMultipleLocalPrivilegesToDbType(List<Privilege> localTypePrivilegeList)
         {
-            List<t_zl_privileges> dbTypePrivilegeList = new List<t_zl_privileges>();
+            List<DataCache.Models.Privilege> dbTypePrivilegeList = new List<DataCache.Models.Privilege>();
             
             foreach (Privilege CurrPrivilege in localTypePrivilegeList)
             {
-                dbTypePrivilegeList.Add(ConvertSingleLocalPrivilegeToDbType(CurrPrivilege));
+                dbTypePrivilegeList.Add((DataCache.Models.Privilege)ConvertSingleLocalPrivilegeToDbType(CurrPrivilege));
             }
 
             return dbTypePrivilegeList;
         }
 
-        internal static t_zl_privileges ConvertSingleLocalPrivilegeToDbType(Privilege localTypePrivilege)
+        internal static Privilege ConvertSingleLocalPrivilegeToDbType(Privilege localTypePrivilege)
         {
-            t_zl_privileges convertedPrivilege = t_zl_privileges.Createt_privileges(localTypePrivilege._Id);
-            convertedPrivilege.privilege_name = localTypePrivilege.PrivilegeName;
+            DataCache.Models.Privilege convertedPrivilege = DataCache.Models.Privilege.Createt_privileges(localTypePrivilege.ID);
+            convertedPrivilege.Name = localTypePrivilege.Name;
             return convertedPrivilege;
         }
 
-        internal static List<Privilege> ConvertMultipleDbPrivilegesToLocalType(List<t_zl_privileges> dbTypePrivilegeList)
+        internal static List<Privilege> ConvertMultipleDbPrivilegesToLocalType(List<DataCache.Models.Privilege> dbTypePrivilegeList)
         {
             if (dbTypePrivilegeList == null)
             {
@@ -234,15 +232,15 @@ namespace DataAccess
             }
             List<Privilege> localTypePhoneTypeList = new List<Privilege>();
 
-            foreach (t_zl_privileges CurrPrivilege in dbTypePrivilegeList)
+            foreach (DataCache.Models.Privilege CurrPrivilege in dbTypePrivilegeList)
             {
-                localTypePhoneTypeList.Add(ConvertSingleDbPrivilegeToLocalType(CurrPrivilege));
+                localTypePhoneTypeList.Add((Privilege)ConvertSingleDbPrivilegeToLocalType(CurrPrivilege));
             }
 
             return localTypePhoneTypeList;
         }
 
-        internal static Privilege ConvertSingleDbPrivilegeToLocalType(t_zl_privileges dbTypePrivilege)
+        internal static Privilege ConvertSingleDbPrivilegeToLocalType(DataCache.Models.Privilege dbTypePrivilege)
         {
             if (dbTypePrivilege == null)
             {
@@ -250,7 +248,7 @@ namespace DataAccess
                 return null;
             }
 
-            return new Privilege(dbTypePrivilege.C_id, dbTypePrivilege.privilege_name);
+            return new Privilege();
         }
 
         #endregion

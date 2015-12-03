@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using DataCache;
-using LocalTypes;
 using Framework;
 using DataCache.Models;
 
@@ -32,11 +31,11 @@ namespace DataAccess
 
         #region Db type return
 
-        private static t_accounts LookupByAccountId(int accountId)
+        private static Account LookupByAccountId(int accountId)
         {
             try
             {
-                return Cache.CacheData.t_accounts.First(currAccount => currAccount.C_id == accountId);
+                return Cache.CacheData.t_accounts.First(currAccount => currAccount.ID == accountId);
             }
             catch (Exception)
             {
@@ -45,11 +44,11 @@ namespace DataAccess
             }
         }
 
-        private static t_accounts LookupByPersonId(int personId)
+        private static Account LookupByPersonId(int personId)
         {
             try
             {
-                return Cache.CacheData.t_accounts.First(WantedAccount => WantedAccount.C_id == personId);
+                return Cache.CacheData.t_accounts.First(WantedAccount => WantedAccount.ID == personId);
             }
             catch (Exception)
             {
@@ -58,27 +57,12 @@ namespace DataAccess
             }
         }
 
-        private static List<t_accounts> LookupAllAccounts()
-        {
-            try
-            {
-                return (from CurrAccount in Cache.CacheData.t_accounts
-                        select CurrAccount).ToList<t_accounts>();
-            }
-            catch (Exception)
-            {
-                //LOG
-                return null;
-            }
-        }
-
-        private static List<t_accounts> LookupByMonthlyPaymentTotal(int monthlyTotal)
+        private static List<DataCache.Models.Account> LookupAllAccounts()
         {
             try
             {
                 return (from CurrAccount in Cache.CacheData.t_accounts
-                        where CurrAccount.monthly_total == monthlyTotal
-                        select CurrAccount).ToList<t_accounts>();
+                        select CurrAccount).ToList();
             }
             catch (Exception)
             {
@@ -87,13 +71,13 @@ namespace DataAccess
             }
         }
 
-        private static List<t_accounts> LookupByLastMonthlyPaymentDate(DateTime lastPayment)
+        private static List<DataCache.Models.Account> LookupByMonthlyPaymentTotal(int monthlyTotal)
         {
             try
             {
                 return (from CurrAccount in Cache.CacheData.t_accounts
-                        where CurrAccount.last_month_paid == lastPayment
-                        select CurrAccount).ToList<t_accounts>();
+                        where CurrAccount.MonthlyPaymentTotal == monthlyTotal
+                        select CurrAccount).ToList();
             }
             catch (Exception)
             {
@@ -102,12 +86,27 @@ namespace DataAccess
             }
         }
 
-        private static t_accounts LookupByDonation(int donationId)
+        private static List<DataCache.Models.Account> LookupByLastMonthlyPaymentDate(DateTime lastPayment)
+        {
+            try
+            {
+                return (from CurrAccount in Cache.CacheData.t_accounts
+                        where CurrAccount.LastMonthlyPaymentDate == lastPayment
+                        select CurrAccount).ToList();
+            }
+            catch (Exception)
+            {
+                //LOG
+                return null;
+            }
+        }
+
+        private static Account LookupByDonation(int donationId)
         {
             try
             {
                 return (from WantedAccount in Cache.CacheData.t_accounts
-                        where WantedAccount.t_donations.Any(WantedDonation => WantedDonation.C_id == donationId)
+                        where WantedAccount.Donations.Any(WantedDonation => WantedDonation.ID == donationId)
                         select WantedAccount).First();
             }
             catch (Exception)
@@ -117,11 +116,11 @@ namespace DataAccess
             }
         }
 
-        private static t_accounts LookupByDonation(Donation donationToLookBy)
+        private static Account LookupByDonation(Donation donationToLookBy)
         {
             try
             {
-                return LookupByDonation(donationToLookBy._Id);
+                return LookupByDonation(donationToLookBy.ID);
             }
             catch (Exception)
             {
@@ -142,11 +141,11 @@ namespace DataAccess
         {
             try
             {
-                t_accounts newDbAccount = ConvertSingleLocalAccountToDbType(newAccount, personId);
+                DataCache.Models.Account newDbAccount = ConvertSingleLocalAccountToDbType(newAccount, personId);
                 Cache.CacheData.t_accounts.Add(newDbAccount);
-                DonationAccess.UpsertMultipleDonations(newAccount.UnpaidDonations, newAccount._Id);
+                DonationAccess.UpsertMultipleDonations(newAccount.UnpaidDonations, newAccount.ID);
                 DonationAccess.UpsertMultipleDonations(
-                    new List<Donation>(newAccount.PaidDonations), newAccount._Id);
+                    new List<Donation>(newAccount.PaidDonations), newAccount.ID);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.CREATE_SUCCESS;
             }
@@ -178,9 +177,9 @@ namespace DataAccess
         {
             try
             {
-                DonationAccess.UpsertMultipleDonations(updatedAccount.UnpaidDonations, updatedAccount._Id);
-                DonationAccess.UpsertMultipleDonations(new List<Donation>(updatedAccount.PaidDonations), updatedAccount._Id);
-                t_accounts accountUpdating = LookupByAccountId(updatedAccount._Id);
+                DonationAccess.UpsertMultipleDonations(updatedAccount.UnpaidDonations, updatedAccount.ID);
+                DonationAccess.UpsertMultipleDonations(new List<Donation>(updatedAccount.PaidDonations), updatedAccount.ID);
+                DataCache.Models.Account accountUpdating = LookupByAccountId(updatedAccount.ID);
                 accountUpdating = ConvertSingleLocalAccountToDbType(updatedAccount, personId);
                 Cache.CacheData.t_accounts.Attach(accountUpdating);
                 Cache.CacheData.SaveChanges();
@@ -214,8 +213,8 @@ namespace DataAccess
         {
             try
             {
-                t_accounts accountDeleting =
-                    Cache.CacheData.t_accounts.First(account => account.C_id == deletedAccount._Id);
+                DataCache.Models.Account accountDeleting =
+                    Cache.CacheData.t_accounts.First(account => account.ID == deletedAccount.ID);
                 Cache.CacheData.t_accounts.Remove(accountDeleting);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.DELETE_SUCCESS;
@@ -246,7 +245,7 @@ namespace DataAccess
 
         public static Enums.CRUDResults UpsertSingleAccount(Account upsertedAccount, int personId)
         {
-            Account currentAccount = GetAccountById(upsertedAccount._Id);
+            Account currentAccount = GetAccountById(upsertedAccount.ID);
 
             if (currentAccount == null)
             {
@@ -272,27 +271,26 @@ namespace DataAccess
         
         #region Private Methods
 
-        internal static List<t_accounts> ConvertMultipleLocalAccountsToDbType(List<Account> localTypeAccountList, int personId)
+        internal static List<DataCache.Models.Account> ConvertMultipleLocalAccountsToDbType(List<Account> localTypeAccountList, int personId)
         {
-            List<t_accounts> dbTypeAccountList = new List<t_accounts>();
+            List<DataCache.Models.Account> dbTypeAccountList = new List<DataCache.Models.Account>();
 
             foreach (Account CurrAccount in localTypeAccountList)
             {
-                dbTypeAccountList.Add(ConvertSingleLocalAccountToDbType(CurrAccount, personId));
+                dbTypeAccountList.Add((DataCache.Models.Account)ConvertSingleLocalAccountToDbType(CurrAccount, personId));
             }
 
             return dbTypeAccountList;
         }
 
-        internal static t_accounts ConvertSingleLocalAccountToDbType(Account localTypeAccount, int personId)
+        internal static Account ConvertSingleLocalAccountToDbType(Account localTypeAccount, int personId)
         {
-            t_accounts convertedAccount = new t_accounts { C_id = localTypeAccount._Id,person_id = personId };
-            convertedAccount.last_month_paid = localTypeAccount.LastMonthlyPaymentDate;
-            convertedAccount.monthly_total = localTypeAccount.MonthlyPaymentTotal;
+            DataCache.Models.Account convertedAccount = new DataCache.Models.Account { ID = localTypeAccount.ID, PersonID = personId };
+            convertedAccount.LastMonthlyPaymentDate = localTypeAccount.LastMonthlyPaymentDate;
             return convertedAccount;
         }
 
-        internal static List<Account> ConvertMultipleDbAccountsToLocalType(List<t_accounts> dbTypeAccountList)
+        internal static List<Account> ConvertMultipleDbAccountsToLocalType(List<DataCache.Models.Account> dbTypeAccountList)
         {
             if (dbTypeAccountList == null)
             {
@@ -301,15 +299,15 @@ namespace DataAccess
             }
             List<Account> localTypePhoneTypeList = new List<Account>();
 
-            foreach (t_accounts CurrAccount in dbTypeAccountList)
+            foreach (DataCache.Models.Account CurrAccount in dbTypeAccountList)
             {
-                localTypePhoneTypeList.Add(ConvertSingleDbAccountToLocalType(CurrAccount));
+                localTypePhoneTypeList.Add((Account)ConvertSingleDbAccountToLocalType(CurrAccount));
             }
         
             return localTypePhoneTypeList;
         }
 
-        internal static Account ConvertSingleDbAccountToLocalType(t_accounts dbTypeAccount)
+        internal static Account ConvertSingleDbAccountToLocalType(DataCache.Models.Account dbTypeAccount)
         {
             if (dbTypeAccount == null)
             {
@@ -317,22 +315,20 @@ namespace DataAccess
                 return null;
             }
 
-            List<Donation> accountDonations = 
-                DonationAccess.ConvertMultipleDbDonationsToLocalType(dbTypeAccount.t_donations.ToList<t_donations>());
+            List<Donation> accountDonations =
+                DonationAccess.ConvertMultipleDbDonationsToLocalType(dbTypeAccount.Donations.ToList());
 
             DateTime lastMonthlyPaymentDate = DateTime.Today;
-            if (dbTypeAccount.last_month_paid.HasValue)
+            if (dbTypeAccount.LastMonthlyPaymentDate.HasValue)
             {
-                lastMonthlyPaymentDate = dbTypeAccount.last_month_paid.Value;
+                lastMonthlyPaymentDate = dbTypeAccount.LastMonthlyPaymentDate.Value;
             }
 
             int monthlyTotal = 0;
-            if (dbTypeAccount.monthly_total.HasValue)
-            {
-                monthlyTotal = dbTypeAccount.monthly_total.Value;
-            }
-
-            return new Account(dbTypeAccount.C_id, monthlyTotal, lastMonthlyPaymentDate, accountDonations);
+                monthlyTotal = dbTypeAccount.MonthlyPaymentTotal;
+            //TODO fix
+            return null;
+            //return new Account(dbTypeAccount.ID, monthlyTotal, lastMonthlyPaymentDate, accountDonations);
         }
         
         #endregion

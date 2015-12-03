@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using LocalTypes;
 using DataAccess;
 
 namespace TempUI
@@ -11,7 +10,6 @@ namespace TempUI
     {
         static void Main(string[] args)
         {
-                new IntegrationTwo().PrivilegesAndGroupsTest();
             try
             {
             }
@@ -19,6 +17,7 @@ namespace TempUI
             {
                 Console.WriteLine(e.ToString());
             }
+            DataCache.Cache.CacheData.Database.Delete();
         }
     }
 }

@@ -68,17 +68,13 @@
     <Compile Include="YahrtziehtTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\DataTypes\LocalTypes.csproj">
-      <Project>{9B2ABB56-D031-4753-ADD5-B5DCEB597E3C}</Project>
-      <Name>LocalTypes</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Framework\Framework.csproj">
-      <Project>{23F121B4-CA1D-4E7A-B72C-241A93886EAF}</Project>
-      <Name>Framework</Name>
+    <ProjectReference Include="..\..\DataCache\DataCache.csproj">
+      <Project>{41c40f86-3faf-415e-bb93-725fd4e4df0f}</Project>
+      <Name>DataCache</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Shadow Include="Test References\DataTypes.accessor" />
+    <Folder Include="Test References\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

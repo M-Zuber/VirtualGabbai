@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using DataCache;
-using LocalTypes;
 using Framework;
 using System.Net.Mail;
 using DataCache.Models;
@@ -30,7 +29,7 @@ namespace DataAccess
 
         public static List<Person> GetByAddress(StreetAddress addressSearchedBy) => ConvertMultipleDbPersonsToLocalType(LookupByAddress(addressSearchedBy.ToDbString()));
 
-        public static Person GetByAccount(Account accountSearchedBy) => ConvertSingleDbPersonToLocalType(LookupByAccount(accountSearchedBy._Id));
+        public static Person GetByAccount(Account accountSearchedBy) => ConvertSingleDbPersonToLocalType(LookupByAccount(accountSearchedBy.ID));
 
         public static Person GetByPhoneNumber(PhoneNumber numberSearchedBy) => ConvertSingleDbPersonToLocalType(LookupByPhoneNumber(numberSearchedBy.Number));
 
@@ -38,7 +37,7 @@ namespace DataAccess
 
         #region Db type return
 
-        private static List<t_people> LookupAllPeople()
+        private static List<DataCache.Models.Person> LookupAllPeople()
         {
             try
             {
@@ -52,12 +51,12 @@ namespace DataAccess
             }
         }
 
-        private static List<t_people> LookupByMembership(bool membershipStatus)
+        private static List<DataCache.Models.Person> LookupByMembership(bool membershipStatus)
         {
             try
             {
                 return (from person in Cache.CacheData.t_people
-                        where person.member == membershipStatus
+                        where person.Member == membershipStatus
                         select person).ToList();
             }
             catch (Exception)
@@ -67,14 +66,14 @@ namespace DataAccess
             }
         }
 
-        private static List<t_people> LookupByYahrtzieht(string nameOfDeceased, string relationToDeceased)
+        private static List<DataCache.Models.Person> LookupByYahrtzieht(string nameOfDeceased, string relationToDeceased)
         {
             try
             {
                 return (from currYahrtzieht in Cache.CacheData.t_yahrtziehts
-                        where currYahrtzieht.deceaseds_name == nameOfDeceased &&
-                              currYahrtzieht.relation == relationToDeceased
-                        select currYahrtzieht.t_people).ToList();
+                        where currYahrtzieht.Name == nameOfDeceased &&
+                              currYahrtzieht.Relation == relationToDeceased
+                        select currYahrtzieht.Person).ToList();
             }
             catch (Exception)
             {
@@ -83,12 +82,12 @@ namespace DataAccess
             }
         }
 
-        private static t_people LookupById(int id)
+        private static Person LookupById(int id)
         {
             try
             {
                 return (from currPerson in Cache.CacheData.t_people
-                        where currPerson.C_id == id
+                        where currPerson.ID == id
                         select currPerson).First();
             }
             catch (Exception)
@@ -98,12 +97,12 @@ namespace DataAccess
             }
         }
 
-        private static t_people LookupByEmail(string email)
+        private static Person LookupByEmail(string email)
         {
             try
             {
                 return (from currPerson in Cache.CacheData.t_people
-                        where currPerson.email == email
+                        where currPerson.Email == email
                         select currPerson).First();
             }
             catch (Exception)
@@ -113,13 +112,13 @@ namespace DataAccess
             }
         }
 
-        private static List<t_people> LookupByName(string firstName, string lastName)
+        private static List<DataCache.Models.Person> LookupByName(string firstName, string lastName)
         {
             try
             {
                 return (from currPerson in Cache.CacheData.t_people
-                        where currPerson.given_name == firstName &&
-                              currPerson.family_name == lastName
+                        where currPerson.GivenName == firstName &&
+                              currPerson.FamilyName == lastName
                         select currPerson).ToList();
             }
             catch (Exception)
@@ -129,12 +128,12 @@ namespace DataAccess
             }
         }
 
-        private static List<t_people> LookupByAddress(string address)
+        private static List<DataCache.Models.Person> LookupByAddress(string address)
         {
             try
             {
                 return (from currPerson in Cache.CacheData.t_people
-                        where currPerson.address == address
+                        where currPerson.Address == address
                         select currPerson).ToList();
             }
             catch (Exception)
@@ -144,13 +143,13 @@ namespace DataAccess
             }
         }
 
-        private static t_people LookupByAccount(int accountId)
+        private static Person LookupByAccount(int accountId)
         {
             try
             {
                 return (from currAccount in Cache.CacheData.t_accounts
-                        where currAccount.C_id == accountId
-                        select currAccount.t_people).First();
+                        where currAccount.ID == accountId
+                        select currAccount.Person).First();
             }
             catch (Exception)
             {
@@ -159,13 +158,13 @@ namespace DataAccess
             }
         }
 
-        private static t_people LookupByPhoneNumber(string numberSearchedBy)
+        private static Person LookupByPhoneNumber(string numberSearchedBy)
         {
             try
             {
                 return (from currNumber in Cache.CacheData.t_phone_numbers
-                        where currNumber.number == numberSearchedBy
-                        select currNumber.t_people).First();
+                        where currNumber.Number == numberSearchedBy
+                        select currNumber.Person).First();
             }
             catch (Exception)
             {
@@ -186,12 +185,12 @@ namespace DataAccess
         {
         	try
         	{
-                t_people newDbPerson = ConvertSingleLocalPersonToDbType(newPerson);
+                DataCache.Models.Person newDbPerson = ConvertSingleLocalPersonToDbType(newPerson);
                 Cache.CacheData.t_people.Add(newDbPerson);
                 Cache.CacheData.SaveChanges();
-                YahrtziehtAccess.UpsertMultipleYahrtziehts(newPerson.Yahrtziehts, newPerson._Id);
-                AccountAccess.UpsertSingleAccount(newPerson.PersonalAccount, newPerson._Id);
-                PhoneNumberAccess.UpsertMultiplePhoneNumbers(newPerson.PhoneNumbers, newPerson._Id);
+                YahrtziehtAccess.UpsertMultipleYahrtziehts(newPerson.Yahrtziehts, newPerson.ID);
+                AccountAccess.UpsertSingleAccount(newPerson.Account, newPerson.ID);
+                PhoneNumberAccess.UpsertMultiplePhoneNumbers(newPerson.PhoneNumbers, newPerson.ID);
                 Cache.CacheData.SaveChanges();        		
                 return Enums.CRUDResults.CREATE_SUCCESS;
         	}
@@ -223,12 +222,12 @@ namespace DataAccess
         {
         	try
         	{
-                t_people personUpdating = LookupById(updatedPerson._Id);
+                DataCache.Models.Person personUpdating = LookupById(updatedPerson.ID);
                 personUpdating = ConvertSingleLocalPersonToDbType(updatedPerson);
                 Cache.CacheData.t_people.Attach(personUpdating);
-                YahrtziehtAccess.UpsertMultipleYahrtziehts(updatedPerson.Yahrtziehts, updatedPerson._Id);
-                AccountAccess.UpsertSingleAccount(updatedPerson.PersonalAccount, updatedPerson._Id);
-                PhoneNumberAccess.UpsertMultiplePhoneNumbers(updatedPerson.PhoneNumbers, updatedPerson._Id);
+                YahrtziehtAccess.UpsertMultipleYahrtziehts(updatedPerson.Yahrtziehts, updatedPerson.ID);
+                AccountAccess.UpsertSingleAccount(updatedPerson.Account, updatedPerson.ID);
+                PhoneNumberAccess.UpsertMultiplePhoneNumbers(updatedPerson.PhoneNumbers, updatedPerson.ID);
                 Cache.CacheData.SaveChanges();
         		return Enums.CRUDResults.UPDATE_SUCCESS;
         	}
@@ -260,8 +259,8 @@ namespace DataAccess
         {
         	try
         	{
-                t_people personDeleting =
-                    Cache.CacheData.t_people.First(person => person.C_id == deletedPerson._Id);
+                DataCache.Models.Person personDeleting =
+                    Cache.CacheData.t_people.First(person => person.ID == deletedPerson.ID);
                 Cache.CacheData.t_people.Remove(personDeleting);
         		Cache.CacheData.SaveChanges();
         		return Enums.CRUDResults.DELETE_SUCCESS;
@@ -292,7 +291,7 @@ namespace DataAccess
 
         public static Enums.CRUDResults UpsertSinglePerson(Person upsertedPerson)
         {
-            Person currentPerson = GetById(upsertedPerson._Id);
+            Person currentPerson = GetById(upsertedPerson.ID);
 
             if (currentPerson == null)
         	{
@@ -318,30 +317,30 @@ namespace DataAccess
         
         #region Private Methods
 
-        internal static List<t_people> ConvertMultipleLocalPersonsToDbType(List<Person> localTypePersonList)
+        internal static List<DataCache.Models.Person> ConvertMultipleLocalPersonsToDbType(List<Person> localTypePersonList)
         {
-            List<t_people> dbTypePersonList = new List<t_people>();
+            List<DataCache.Models.Person> dbTypePersonList = new List<DataCache.Models.Person>();
 
             foreach (Person CurrPerson in localTypePersonList)
         	{
-                dbTypePersonList.Add(ConvertSingleLocalPersonToDbType(CurrPerson));
+                dbTypePersonList.Add((DataCache.Models.Person)ConvertSingleLocalPersonToDbType(CurrPerson));
         	}
 
             return dbTypePersonList;
         }
 
-        internal static t_people ConvertSingleLocalPersonToDbType(Person localTypePerson)
+        internal static Person ConvertSingleLocalPersonToDbType(Person localTypePerson)
         {
-            t_people convertedPerson = t_people.Createt_people(localTypePerson._Id);
-            convertedPerson.address = localTypePerson.Address.ToDbString();
-            convertedPerson.email = localTypePerson.Email.Address;
-            convertedPerson.family_name = localTypePerson.LastName;
-            convertedPerson.given_name = localTypePerson.FirstName;
-            convertedPerson.member = localTypePerson.MembershipStatus;
+            DataCache.Models.Person convertedPerson = DataCache.Models.Person.Createt_people(localTypePerson.ID);
+            convertedPerson.Address = localTypePerson.FullAddress.ToDbString();
+            convertedPerson.Email = localTypePerson.Email;
+            convertedPerson.FamilyName = localTypePerson.FamilyName;
+            convertedPerson.GivenName = localTypePerson.GivenName;
+            convertedPerson.Member = localTypePerson.Member;
         	return convertedPerson;
         }
 
-        internal static List<Person> ConvertMultipleDbPersonsToLocalType(List<t_people> dbTypePersonList)
+        internal static List<Person> ConvertMultipleDbPersonsToLocalType(List<DataCache.Models.Person> dbTypePersonList)
         {
             if (dbTypePersonList == null)
         	{
@@ -350,15 +349,15 @@ namespace DataAccess
         	}
             List<Person> localTypePhoneTypeList = new List<Person>();
 
-            foreach (t_people CurrPerson in dbTypePersonList)
+            foreach (DataCache.Models.Person CurrPerson in dbTypePersonList)
         	{
-                localTypePhoneTypeList.Add(ConvertSingleDbPersonToLocalType(CurrPerson));
+                localTypePhoneTypeList.Add((Person)ConvertSingleDbPersonToLocalType(CurrPerson));
         	}
         
         	return localTypePhoneTypeList;
         }
 
-        internal static Person ConvertSingleDbPersonToLocalType(t_people dbTypePerson)
+        internal static Person ConvertSingleDbPersonToLocalType(DataCache.Models.Person dbTypePerson)
         {
             if (dbTypePerson == null)
         	{
@@ -369,18 +368,16 @@ namespace DataAccess
 
             try
             {
-                personalAccount = AccountAccess.ConvertSingleDbAccountToLocalType(dbTypePerson.t_accounts.First());
+                personalAccount = AccountAccess.ConvertSingleDbAccountToLocalType(dbTypePerson.Account);
             }
             catch {/*LOG*/ }
             List<Yahrtzieht> personalYahrtziehts =
                 YahrtziehtAccess.ConvertMultipleYahrtziehtsToLocalType(
-                                                        dbTypePerson.t_yahrtziehts.ToList());
+                                                        dbTypePerson.Yahrtziehts.ToList());
             List<PhoneNumber> personalNumbers =
                 PhoneNumberAccess.ConvertMultipleDbPhoneNumbersToLocalType(
-                                                        dbTypePerson.t_phone_numbers.ToList());
-            return new Person(dbTypePerson.C_id, dbTypePerson.email, dbTypePerson.given_name,
-                              dbTypePerson.family_name, dbTypePerson.member.Value, dbTypePerson.address,
-                              personalAccount, personalNumbers, personalYahrtziehts);
+                                                        dbTypePerson.PhoneNumbers.ToList());
+            return new Person();
         }
         
         #endregion
