@@ -36,7 +36,7 @@ namespace DataAccess
         {
             try
             {
-                return (from user in Cache.CacheData.t_users
+                return (from user in Cache.CacheData.Users
                         select user).ToList();
             }
             catch (Exception)
@@ -50,7 +50,7 @@ namespace DataAccess
         {
             try
             {
-                return (from user in Cache.CacheData.t_users
+                return (from user in Cache.CacheData.Users
                         where user.PrivilegesGroupID == privilegeGroup.ID
                         select user).ToList();
             }
@@ -65,7 +65,7 @@ namespace DataAccess
         {
             try
             {
-                return (from user in Cache.CacheData.t_users
+                return (from user in Cache.CacheData.Users
                         where user.PrivilegeGroup.Privileges.Any(lPrivilege => lPrivilege.ID == privilege.ID)
                         select user).ToList();
             }
@@ -80,7 +80,7 @@ namespace DataAccess
         {
             try
             {
-                return (from user in Cache.CacheData.t_users
+                return (from user in Cache.CacheData.Users
                         where user.UserName == userName
                         select user).First();
             }
@@ -95,7 +95,7 @@ namespace DataAccess
         {
             try
             {
-                return (from user in Cache.CacheData.t_users
+                return (from user in Cache.CacheData.Users
                         where user.Email == email
                         select user).First();
             }
@@ -110,7 +110,7 @@ namespace DataAccess
         {
             try
             {
-                return (from user in Cache.CacheData.t_users
+                return (from user in Cache.CacheData.Users
                         where user.ID == id
                         select user).First();
             }
@@ -136,7 +136,7 @@ namespace DataAccess
                 PrivilegeGroupAccess.UpsertSinglePrivilegesGroup(newUser.PrivilegeGroup);
 
                 DataCache.Models.User newDbUser = ConvertSingleLocalUserToDbType(newUser);
-                Cache.CacheData.t_users.Add(newDbUser);
+                Cache.CacheData.Users.Add(newDbUser);
                 Cache.CacheData.SaveChanges();
 
                 return Enums.CRUDResults.CREATE_SUCCESS;
@@ -172,7 +172,7 @@ namespace DataAccess
                 PrivilegeGroupAccess.UpsertSinglePrivilegesGroup(updatedUser.PrivilegeGroup);
                 DataCache.Models.User userUpdating = LookupByUserId(updatedUser.ID);
                 userUpdating = ConvertSingleLocalUserToDbType(updatedUser);
-                Cache.CacheData.t_users.Attach(userUpdating);
+                Cache.CacheData.Users.Attach(userUpdating);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.UPDATE_SUCCESS;
             }
@@ -205,8 +205,8 @@ namespace DataAccess
             try
             {
                 DataCache.Models.User userDeleting =
-                    Cache.CacheData.t_users.First(user => user.ID == deletedUser.ID);
-                Cache.CacheData.t_users.Remove(userDeleting);
+                    Cache.CacheData.Users.First(user => user.ID == deletedUser.ID);
+                Cache.CacheData.Users.Remove(userDeleting);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.DELETE_SUCCESS;
             }

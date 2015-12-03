@@ -28,7 +28,7 @@ namespace DataAccess
         {
             try
             {
-                return (from privilegeGroup in Cache.CacheData.t_privilege_groups
+                return (from privilegeGroup in Cache.CacheData.PrivilegesGroups
                         select privilegeGroup).ToList();
             }
             catch (Exception)
@@ -42,7 +42,7 @@ namespace DataAccess
         {
             try
             {
-                return (from privilegeGroup in Cache.CacheData.t_privilege_groups
+                return (from privilegeGroup in Cache.CacheData.PrivilegesGroups
                         where privilegeGroup.ID == id
                         select privilegeGroup).First();
             }
@@ -57,7 +57,7 @@ namespace DataAccess
         {
             try
             {
-                return (from privilegeGroup in Cache.CacheData.t_privilege_groups
+                return (from privilegeGroup in Cache.CacheData.PrivilegesGroups
                         where privilegeGroup.GroupName == groupName
                         select privilegeGroup).First();
             }
@@ -89,7 +89,7 @@ namespace DataAccess
                     newDbPrivilegeGroup.Privileges.Add(PrivilegeAccess.LookupPrivilegeById(CurrPrivilege.ID));
                 }
 
-                Cache.CacheData.t_privilege_groups.Add(newDbPrivilegeGroup);
+                Cache.CacheData.PrivilegesGroups.Add(newDbPrivilegeGroup);
                 
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.CREATE_SUCCESS;
@@ -134,7 +134,7 @@ namespace DataAccess
                     privilegeGroupUpdating.Privileges.Add(PrivilegeAccess.LookupPrivilegeById(CurrPrivilege.ID));
                 }
 
-                Cache.CacheData.t_privilege_groups.Attach(privilegeGroupUpdating);
+                Cache.CacheData.PrivilegesGroups.Attach(privilegeGroupUpdating);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.UPDATE_SUCCESS;
             }
@@ -167,7 +167,7 @@ namespace DataAccess
             try
             {
                 DataCache.Models.PrivilegesGroup privilegeGroupDeleting = LookupPrivilegesGroupById(deletedPrivilegesGroup.ID);
-                Cache.CacheData.t_privilege_groups.Remove(privilegeGroupDeleting);
+                Cache.CacheData.PrivilegesGroups.Remove(privilegeGroupDeleting);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.DELETE_SUCCESS;
             }

@@ -1,6 +1,6 @@
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
-using DataCache.Models.Mapping;
+using DataCache.Mapping;
 
 namespace DataCache.Models
 {
@@ -11,19 +11,18 @@ namespace DataCache.Models
         {
         }
 
-        public DbSet<Account> t_accounts { get; set; }
-        public DbSet<Donation> t_donations { get; set; }
-        public DbSet<Person> t_people { get; set; }
-        public DbSet<PhoneNumber> t_phone_numbers { get; set; }
-        public DbSet<PhoneType> t_phone_types { get; set; }
-        public DbSet<PrivilegesGroup> t_privilege_groups { get; set; }
-        public DbSet<Privilege> t_privileges { get; set; }
-        public DbSet<User> t_users { get; set; }
-        public DbSet<Yahrtzieht> t_yahrtziehts { get; set; }
+        public DbSet<Account> Accounts { get; set; }
+        public DbSet<Donation> Donations { get; set; }
+        public DbSet<Person> People { get; set; }
+        public DbSet<PhoneNumber> PhoneNumbers { get; set; }
+        public DbSet<PhoneType> PhoneTypes { get; set; }
+        public DbSet<PrivilegesGroup> PrivilegesGroups { get; set; }
+        public DbSet<Privilege> Privileges { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Yahrtzieht> Yahrtziehts { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
             modelBuilder.Configurations.Add(new AccountsMap());
             modelBuilder.Configurations.Add(new DonationsMap());
             modelBuilder.Configurations.Add(new PeopleMap());

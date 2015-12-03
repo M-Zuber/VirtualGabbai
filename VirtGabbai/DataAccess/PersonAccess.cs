@@ -41,7 +41,7 @@ namespace DataAccess
         {
             try
             {
-                return (from person in Cache.CacheData.t_people
+                return (from person in Cache.CacheData.People
                         select person).ToList();
             }
             catch (Exception)
@@ -55,7 +55,7 @@ namespace DataAccess
         {
             try
             {
-                return (from person in Cache.CacheData.t_people
+                return (from person in Cache.CacheData.People
                         where person.Member == membershipStatus
                         select person).ToList();
             }
@@ -70,7 +70,7 @@ namespace DataAccess
         {
             try
             {
-                return (from currYahrtzieht in Cache.CacheData.t_yahrtziehts
+                return (from currYahrtzieht in Cache.CacheData.Yahrtziehts
                         where currYahrtzieht.Name == nameOfDeceased &&
                               currYahrtzieht.Relation == relationToDeceased
                         select currYahrtzieht.Person).ToList();
@@ -86,7 +86,7 @@ namespace DataAccess
         {
             try
             {
-                return (from currPerson in Cache.CacheData.t_people
+                return (from currPerson in Cache.CacheData.People
                         where currPerson.ID == id
                         select currPerson).First();
             }
@@ -101,7 +101,7 @@ namespace DataAccess
         {
             try
             {
-                return (from currPerson in Cache.CacheData.t_people
+                return (from currPerson in Cache.CacheData.People
                         where currPerson.Email == email
                         select currPerson).First();
             }
@@ -116,7 +116,7 @@ namespace DataAccess
         {
             try
             {
-                return (from currPerson in Cache.CacheData.t_people
+                return (from currPerson in Cache.CacheData.People
                         where currPerson.GivenName == firstName &&
                               currPerson.FamilyName == lastName
                         select currPerson).ToList();
@@ -132,7 +132,7 @@ namespace DataAccess
         {
             try
             {
-                return (from currPerson in Cache.CacheData.t_people
+                return (from currPerson in Cache.CacheData.People
                         where currPerson.Address == address
                         select currPerson).ToList();
             }
@@ -147,7 +147,7 @@ namespace DataAccess
         {
             try
             {
-                return (from currAccount in Cache.CacheData.t_accounts
+                return (from currAccount in Cache.CacheData.Accounts
                         where currAccount.ID == accountId
                         select currAccount.Person).First();
             }
@@ -162,7 +162,7 @@ namespace DataAccess
         {
             try
             {
-                return (from currNumber in Cache.CacheData.t_phone_numbers
+                return (from currNumber in Cache.CacheData.PhoneNumbers
                         where currNumber.Number == numberSearchedBy
                         select currNumber.Person).First();
             }
@@ -186,7 +186,7 @@ namespace DataAccess
         	try
         	{
                 DataCache.Models.Person newDbPerson = ConvertSingleLocalPersonToDbType(newPerson);
-                Cache.CacheData.t_people.Add(newDbPerson);
+                Cache.CacheData.People.Add(newDbPerson);
                 Cache.CacheData.SaveChanges();
                 YahrtziehtAccess.UpsertMultipleYahrtziehts(newPerson.Yahrtziehts, newPerson.ID);
                 AccountAccess.UpsertSingleAccount(newPerson.Account, newPerson.ID);
@@ -224,7 +224,7 @@ namespace DataAccess
         	{
                 DataCache.Models.Person personUpdating = LookupById(updatedPerson.ID);
                 personUpdating = ConvertSingleLocalPersonToDbType(updatedPerson);
-                Cache.CacheData.t_people.Attach(personUpdating);
+                Cache.CacheData.People.Attach(personUpdating);
                 YahrtziehtAccess.UpsertMultipleYahrtziehts(updatedPerson.Yahrtziehts, updatedPerson.ID);
                 AccountAccess.UpsertSingleAccount(updatedPerson.Account, updatedPerson.ID);
                 PhoneNumberAccess.UpsertMultiplePhoneNumbers(updatedPerson.PhoneNumbers, updatedPerson.ID);
@@ -260,8 +260,8 @@ namespace DataAccess
         	try
         	{
                 DataCache.Models.Person personDeleting =
-                    Cache.CacheData.t_people.First(person => person.ID == deletedPerson.ID);
-                Cache.CacheData.t_people.Remove(personDeleting);
+                    Cache.CacheData.People.First(person => person.ID == deletedPerson.ID);
+                Cache.CacheData.People.Remove(personDeleting);
         		Cache.CacheData.SaveChanges();
         		return Enums.CRUDResults.DELETE_SUCCESS;
         	}

@@ -29,7 +29,7 @@ namespace DataAccess
         {
             try
             {
-                return (from CurrPhoneNumber in Cache.CacheData.t_phone_numbers
+                return (from CurrPhoneNumber in Cache.CacheData.PhoneNumbers
                         where CurrPhoneNumber.NumberTypeID == searchedType.ID
                         select CurrPhoneNumber).ToList();
             }
@@ -44,7 +44,7 @@ namespace DataAccess
         {
             try
             {
-                return (from CurrPhoneNumber in Cache.CacheData.t_phone_numbers
+                return (from CurrPhoneNumber in Cache.CacheData.PhoneNumbers
                         where CurrPhoneNumber.Number == phoneNumber &&
                               CurrPhoneNumber.NumberTypeID == numberType
                         select CurrPhoneNumber).First();
@@ -60,7 +60,7 @@ namespace DataAccess
         {
             try
             {
-                return (from CurrPerson in Cache.CacheData.t_people
+                return (from CurrPerson in Cache.CacheData.People
                         where CurrPerson.ID == personId
                         select CurrPerson).First().PhoneNumbers.ToList();
             }
@@ -75,7 +75,7 @@ namespace DataAccess
         {
             try
             {
-                return (from CurrPhoneType in Cache.CacheData.t_phone_numbers
+                return (from CurrPhoneType in Cache.CacheData.PhoneNumbers
                         where CurrPhoneType.ID == id
                         select CurrPhoneType).First();
             }
@@ -100,7 +100,7 @@ namespace DataAccess
             {
                 new PhoneTypeAccess().UpsertSingle(newPhoneNumber.NumberType);
                 DataCache.Models.PhoneNumber phoneNumberToAdd = ConvertSingleLocalPhoneNumberToDbType(newPhoneNumber, personId);
-                Cache.CacheData.t_phone_numbers.Add(phoneNumberToAdd);
+                Cache.CacheData.PhoneNumbers.Add(phoneNumberToAdd);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.CREATE_SUCCESS;
             }
@@ -135,7 +135,7 @@ namespace DataAccess
                 new PhoneTypeAccess().UpsertSingle(updatedPhoneNumber.NumberType);
                 DataCache.Models.PhoneNumber phoneNumberUpdating = LookupPhoneNumberById(updatedPhoneNumber.ID);
                 phoneNumberUpdating = ConvertSingleLocalPhoneNumberToDbType(updatedPhoneNumber, personId);
-                Cache.CacheData.t_phone_numbers.Attach(phoneNumberUpdating);
+                Cache.CacheData.PhoneNumbers.Attach(phoneNumberUpdating);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.UPDATE_SUCCESS;
             }
@@ -168,8 +168,8 @@ namespace DataAccess
             try
             {
                 DataCache.Models.PhoneNumber phoneTypeDeleting =
-                        Cache.CacheData.t_phone_numbers.First(number => number.ID == deletedPhoneNumber.ID);
-                Cache.CacheData.t_phone_numbers.Remove(phoneTypeDeleting);
+                        Cache.CacheData.PhoneNumbers.First(number => number.ID == deletedPhoneNumber.ID);
+                Cache.CacheData.PhoneNumbers.Remove(phoneTypeDeleting);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.DELETE_SUCCESS;
             }
