@@ -17,15 +17,16 @@ namespace DataCache.Models
         public override bool Equals(object yahrComparingObj)
         {
             Yahrtzieht yahrComparing = (Yahrtzieht)yahrComparingObj;
-            return ((this.ID == yahrComparing.ID) &&
-                    (this.Date.Date == yahrComparing.Date.Date) &&
-                    (this.Name == yahrComparing.Name) &&
-                    (this.Relation == yahrComparing.Relation));
+            return ((ID == yahrComparing.ID) &&
+                    (Date.Date == yahrComparing.Date.Date) &&
+                    (Name == yahrComparing.Name) &&
+                    (Relation == yahrComparing.Relation));
         }
 
-        public override string ToString() => "Deceased's Name:\"" + this.Name + "\" " +
-            "Date:\"" + this.Date.Date.ToString("dd/MM/yyyy") + "\" " +
-            "Relation:\"" + this.Relation + "\"";
+        public override string ToString() => 
+            $"Deceased's Name:\"{Name}\" " +
+            $"Date:\"{Date.Date.ToString("dd/MM/yyyy")}\" " +
+            $"Relation:\"{Relation}\"";
 
         public override int GetHashCode() => base.GetHashCode();
     }

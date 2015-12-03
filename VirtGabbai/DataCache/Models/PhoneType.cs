@@ -20,6 +20,6 @@ namespace DataCache.Models
 
         public override int GetHashCode() => base.GetHashCode();
 
-        public override string ToString() => ("Type:\"" + Name + "\"");
+        public override string ToString() => $"Type:\"{Name}\"";
     }
 }

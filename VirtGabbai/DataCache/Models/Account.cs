@@ -58,9 +58,9 @@ namespace DataCache.Models
             }
 
             // TODO string should represent whether LastMonthlyPaymentDate is null
-            return "Total owed for the monthly payment: \"" + MonthlyPaymentTotal + "\"\n" +
-                              "Last month the monthly payment was made: \"" + LastMonthlyPaymentDate?.Month + "\"\n" +
-                              "Donations:\n" + donations;
+            return $"Total owed for the monthly payment: \"{MonthlyPaymentTotal}\"\n" +
+                              $"Last month the monthly payment was made: \"{LastMonthlyPaymentDate?.Month}\"\n" +
+                              $"Donations:\n{donations}";
         }
 
         public override int GetHashCode() => base.GetHashCode();

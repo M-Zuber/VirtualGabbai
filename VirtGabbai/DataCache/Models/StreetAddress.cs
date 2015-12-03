@@ -34,25 +34,25 @@ namespace DataCache.Models
 
             if (addressParts.Length == 7)
             {
-                this.ApartmentNumber = addressParts[0];
-                this.House = addressParts[1];
-                this.Street = addressParts[2];
-                this.City = addressParts[3];
-                this.State = addressParts[4].ToUpper();
-                this.Country = addressParts[5].ToUpper();
-                this.Zipcode = addressParts[6];
+                ApartmentNumber = addressParts[0];
+                House = addressParts[1];
+                Street = addressParts[2];
+                City = addressParts[3];
+                State = addressParts[4].ToUpper();
+                Country = addressParts[5].ToUpper();
+                Zipcode = addressParts[6];
             }
         }
 
         public StreetAddress(string apartmentNumber, string house, string street, string city, string state, string country, string zipCode)
         {
-            this.ApartmentNumber = apartmentNumber;
-            this.House = house;
-            this.Street = street;
-            this.City = city;
-            this.State = state.ToUpper();
-            this.Country = country.ToUpper();
-            this.Zipcode = zipCode;
+            ApartmentNumber = apartmentNumber;
+            House = house;
+            Street = street;
+            City = city;
+            State = state.ToUpper();
+            Country = country.ToUpper();
+            Zipcode = zipCode;
         }
 
         #endregion
@@ -62,30 +62,30 @@ namespace DataCache.Models
         public override bool Equals(object obj)
         {
             StreetAddress comparingAddress = (StreetAddress)obj;
-            return ((this.ApartmentNumber == comparingAddress.ApartmentNumber) &&
-                    (this.House == comparingAddress.House) &&
-                    (this.Street == comparingAddress.Street) &&
-                    (this.City == comparingAddress.City) &&
-                    (this.State == comparingAddress.State) &&
-                    (this.Country == comparingAddress.Country) &&
-                    (this.Zipcode == comparingAddress.Zipcode));
+            return ((ApartmentNumber == comparingAddress.ApartmentNumber) &&
+                    (House == comparingAddress.House) &&
+                    (Street == comparingAddress.Street) &&
+                    (City == comparingAddress.City) &&
+                    (State == comparingAddress.State) &&
+                    (Country == comparingAddress.Country) &&
+                    (Zipcode == comparingAddress.Zipcode));
         }
 
         public override int GetHashCode() => base.GetHashCode();
 
         public override string ToString()
         {
-            string addressToString = this.House + " " + this.Street;
-            if (this.ApartmentNumber != "")
+            string addressToString = House + " " + Street;
+            if (ApartmentNumber != "")
             {
-                addressToString += "\tApartment #" + this.ApartmentNumber;
+                addressToString += "\tApartment #" + ApartmentNumber;
             }
-            addressToString += "\n" + this.City + " ";
-            if (this.State != "")
+            addressToString += "\n" + City + " ";
+            if (State != "")
             {
-                addressToString += this.State + " ";
+                addressToString += State + " ";
             }
-            addressToString += this.Country + "\n" + this.Zipcode;
+            addressToString += Country + "\n" + Zipcode;
 
             return addressToString;
         }
@@ -94,13 +94,13 @@ namespace DataCache.Models
 
         #region Other Methods
 
-        public string ToDbString() => (this.ApartmentNumber + Globals.DELIMITER +
-        this.House + Globals.DELIMITER +
-        this.Street + Globals.DELIMITER +
-        this.City + Globals.DELIMITER +
-        this.State + Globals.DELIMITER +
-        this.Country + Globals.DELIMITER +
-        this.Zipcode);
+        public string ToDbString() => (ApartmentNumber + Globals.DELIMITER + 
+                                       House + Globals.DELIMITER + 
+                                       Street + Globals.DELIMITER +
+                                       City + Globals.DELIMITER +
+                                       State + Globals.DELIMITER +
+                                       Country + Globals.DELIMITER +
+                                       Zipcode);
 
         #endregion
     }
