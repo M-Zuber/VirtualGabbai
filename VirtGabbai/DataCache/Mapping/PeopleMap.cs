@@ -27,7 +27,7 @@ namespace DataCache.Mapping
                 .HasMaxLength(300);
 
             // Table & Column Mappings
-            ToTable("People", "zera_levi");
+            ToTable("People", "ZeraLevi");
             Property(t => t.ID).HasColumnName("ID");
             Property(t => t.Email).HasColumnName("Email");
             Property(t => t.GivenName).HasColumnName("GivenName");

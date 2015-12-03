@@ -18,8 +18,8 @@ namespace DataCache.Mapping
                 .HasMaxLength(45);
 
             // Table & Column Mappings
-            this.ToTable("privilege_groups", "zera_levi");
-            this.Property(t => t.ID).HasColumnName("_id");
+            this.ToTable("PrivilegesGroup", "ZeraLevi");
+            this.Property(t => t.ID).HasColumnName("ID");
             this.Property(t => t.GroupName).HasColumnName("GroupName");
 
             // Relationships
@@ -27,9 +27,9 @@ namespace DataCache.Mapping
                 .WithMany(t => t.PrivilegesGroup)
                 .Map(m =>
                     {
-                        m.ToTable("privileges_per_group", "zera_levi");
-                        m.MapLeftKey("group_id");
-                        m.MapRightKey("privilege_id");
+                        m.ToTable("PrivilegesPerGroup", "ZeraLevi");
+                        m.MapLeftKey("GroupID");
+                        m.MapRightKey("PrivilegeId");
                     });
 
 

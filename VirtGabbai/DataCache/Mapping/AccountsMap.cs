@@ -15,7 +15,7 @@ namespace DataCache.Mapping
             Property(t => t.ID);
 
             // Table & Column Mappings
-            ToTable("Accounts", "zera_levi");
+            ToTable("Accounts", "ZeraLevi");
             Property(t => t.ID).HasColumnName("ID");
             Property(t => t.PersonID).HasColumnName("PersonID");
             Property(t => t.LastMonthlyPaymentDate).HasColumnName("LastMonthlyPaymentDate");

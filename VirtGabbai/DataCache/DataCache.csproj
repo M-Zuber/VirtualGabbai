@@ -73,7 +73,7 @@
     <Compile Include="Models\PrivilegesGroup.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\Yahrtzieht.cs" />
-    <Compile Include="Models\zera_leviContext.cs" />
+    <Compile Include="Models\ZeraLeviContext.cs" />
     <Compile Include="Partials\Account.cs" />
     <Compile Include="Partials\Donation.cs" />
     <Compile Include="Partials\Person.cs" />
