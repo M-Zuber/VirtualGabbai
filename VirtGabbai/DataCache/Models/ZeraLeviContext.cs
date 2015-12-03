@@ -4,9 +4,9 @@ using DataCache.Mapping;
 
 namespace DataCache.Models
 {
-    public partial class zera_leviContext : DbContext
+    public partial class ZeraLeviContext : DbContext
     {
-        public zera_leviContext()
+        public ZeraLeviContext()
             : base("Name=VGContext")
         {
         }

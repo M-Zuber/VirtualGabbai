@@ -11,7 +11,7 @@ namespace DataCache
         #region Data Members
 
         // Data members
-        private static zera_leviContext m_dsDataSet = new zera_leviContext();
+        private static ZeraLeviContext m_dsDataSet = new ZeraLeviContext();
 
         #endregion
 
@@ -21,7 +21,7 @@ namespace DataCache
         /// Allows outside access to the main data set
         ///  - without letting the user access it any other way
         /// </summary>
-        public static zera_leviContext CacheData => m_dsDataSet;
+        public static ZeraLeviContext CacheData => m_dsDataSet;
 
         #endregion
     }

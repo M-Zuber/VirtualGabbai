@@ -19,7 +19,7 @@ namespace DataCache.Mapping
             Property(t => t.ID);
 
             // Table & Column Mappings
-            ToTable("PhoneNumbers", "zera_levi");
+            ToTable("PhoneNumbers", "ZeraLevi");
             Property(t => t.PersonID).HasColumnName("PersonID");
             Property(t => t.Number).HasColumnName("Number");
             Property(t => t.NumberTypeID).HasColumnName("NumberTypeID");

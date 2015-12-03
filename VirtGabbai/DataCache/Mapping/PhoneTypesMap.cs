@@ -19,7 +19,7 @@ namespace DataCache.Mapping
                 .HasMaxLength(45);
 
             // Table & Column Mappings
-            ToTable("PhoneTypes", "zera_levi");
+            ToTable("PhoneTypes", "ZeraLevi");
             Property(t => t.ID).HasColumnName("ID");
             Property(t => t.Name).HasColumnName("Name");
         }

@@ -22,7 +22,7 @@ namespace DataCache.Mapping
                 .HasMaxLength(300);
 
             // Table & Column Mappings
-            ToTable("Donations", "zera_levi");
+            ToTable("Donations", "ZeraLevi");
             Property(t => t.ID).HasColumnName("ID");
             Property(t => t.AccountID).HasColumnName("AccountID");
             Property(t => t.Reason).HasColumnName("Reason");

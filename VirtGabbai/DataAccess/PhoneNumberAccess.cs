@@ -98,7 +98,7 @@ namespace DataAccess
         {
             try
             {
-                new PhoneTypeAccess().UpsertSingle(newPhoneNumber.NumberType);
+                new PhoneTypeAccess().UpsertSingle(newPhoneNumber.Type);
                 DataCache.Models.PhoneNumber phoneNumberToAdd = ConvertSingleLocalPhoneNumberToDbType(newPhoneNumber, personId);
                 Cache.CacheData.PhoneNumbers.Add(phoneNumberToAdd);
                 Cache.CacheData.SaveChanges();
@@ -132,7 +132,7 @@ namespace DataAccess
         {
             try
             {
-                new PhoneTypeAccess().UpsertSingle(updatedPhoneNumber.NumberType);
+                new PhoneTypeAccess().UpsertSingle(updatedPhoneNumber.Type);
                 DataCache.Models.PhoneNumber phoneNumberUpdating = LookupPhoneNumberById(updatedPhoneNumber.ID);
                 phoneNumberUpdating = ConvertSingleLocalPhoneNumberToDbType(updatedPhoneNumber, personId);
                 Cache.CacheData.PhoneNumbers.Attach(phoneNumberUpdating);
