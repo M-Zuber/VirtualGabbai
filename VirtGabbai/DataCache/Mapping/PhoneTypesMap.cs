@@ -1,7 +1,8 @@
+using DataCache.Models;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
 
-namespace DataCache.Models.Mapping
+namespace DataCache.Mapping
 {
     public class PhoneTypesMap : EntityTypeConfiguration<PhoneType>
     {

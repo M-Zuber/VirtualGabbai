@@ -30,7 +30,7 @@ namespace DataAccess
         {
             try
             {
-                return (from CurrYahr in Cache.CacheData.t_yahrtziehts
+                return (from CurrYahr in Cache.CacheData.Yahrtziehts
                         where CurrYahr.PersonID == personId &&
                               CurrYahr.Date == yahrDate &&
                               CurrYahr.Name == personName
@@ -47,7 +47,7 @@ namespace DataAccess
         {
             try
             {
-                return (from CurrYahr in Cache.CacheData.t_yahrtziehts
+                return (from CurrYahr in Cache.CacheData.Yahrtziehts
                         where CurrYahr.Date == yahrDate
                         select CurrYahr).ToList();
             }
@@ -62,7 +62,7 @@ namespace DataAccess
         {
             try
             {
-                return (from CurrPerson in Cache.CacheData.t_people
+                return (from CurrPerson in Cache.CacheData.People
                         where CurrPerson.ID == personId
                         select CurrPerson).First().Yahrtziehts.ToList();
             }
@@ -77,7 +77,7 @@ namespace DataAccess
         {
             try
             {
-                return (from CurrYahr in Cache.CacheData.t_yahrtziehts
+                return (from CurrYahr in Cache.CacheData.Yahrtziehts
                         where CurrYahr.ID == id
                         select CurrYahr).First();
             }
@@ -101,7 +101,7 @@ namespace DataAccess
             try
             {
                 DataCache.Models.Yahrtzieht yahrToAdd = YahrtziehtAccess.ConvertSingleYahrtziehtToDbType(newYahr, personId);
-                Cache.CacheData.t_yahrtziehts.Add(yahrToAdd);
+                Cache.CacheData.Yahrtziehts.Add(yahrToAdd);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.CREATE_SUCCESS;
             }
@@ -135,7 +135,7 @@ namespace DataAccess
             {
                 DataCache.Models.Yahrtzieht yahrUpdating = YahrtziehtAccess.LookupYahrtziehtById(updatedYahr.ID);
                 yahrUpdating = YahrtziehtAccess.ConvertSingleYahrtziehtToDbType(updatedYahr, personId);
-                Cache.CacheData.t_yahrtziehts.Attach(yahrUpdating);
+                Cache.CacheData.Yahrtziehts.Attach(yahrUpdating);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.UPDATE_SUCCESS;
             }
@@ -167,8 +167,8 @@ namespace DataAccess
         {
             try
             {
-                DataCache.Models.Yahrtzieht yahrDeleting = Cache.CacheData.t_yahrtziehts.First(yahr => yahr.ID == deletedYahr.ID);
-                Cache.CacheData.t_yahrtziehts.Remove(yahrDeleting);
+                DataCache.Models.Yahrtzieht yahrDeleting = Cache.CacheData.Yahrtziehts.First(yahr => yahr.ID == deletedYahr.ID);
+                Cache.CacheData.Yahrtziehts.Remove(yahrDeleting);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.DELETE_SUCCESS;
             }

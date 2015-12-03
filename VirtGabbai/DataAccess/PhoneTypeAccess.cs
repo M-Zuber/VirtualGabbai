@@ -28,7 +28,7 @@ namespace DataAccess
         {
             try
             {
-                return Cache.CacheData.t_phone_types;
+                return Cache.CacheData.PhoneTypes;
             }
             catch (Exception)
             {
@@ -41,7 +41,7 @@ namespace DataAccess
         {
             try
             {
-                return Cache.CacheData.t_phone_types.FirstOrDefault(pt => pt.ID == id);
+                return Cache.CacheData.PhoneTypes.FirstOrDefault(pt => pt.ID == id);
             }
             catch (Exception)
             {
@@ -54,7 +54,7 @@ namespace DataAccess
         {
             try
             {
-                return Cache.CacheData.t_phone_types.FirstOrDefault(pt => pt.Name.Equals(typeName, StringComparison.CurrentCultureIgnoreCase));
+                return Cache.CacheData.PhoneTypes.FirstOrDefault(pt => pt.Name.Equals(typeName, StringComparison.CurrentCultureIgnoreCase));
             }
             catch (Exception)
             {
@@ -76,7 +76,7 @@ namespace DataAccess
             try
             {
                 DataCache.Models.PhoneType phoneTypeToAdd = this.ConvertSingleToDBType(objectToAdd);
-                Cache.CacheData.t_phone_types.Add(phoneTypeToAdd);
+                Cache.CacheData.PhoneTypes.Add(phoneTypeToAdd);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.CREATE_SUCCESS;
             }
@@ -111,7 +111,7 @@ namespace DataAccess
             {
                 DataCache.Models.PhoneType phoneTypeUpdating = this.LookupByID(objectToUpdate.ID);
                 phoneTypeUpdating = this.ConvertSingleToDBType(objectToUpdate);
-                Cache.CacheData.t_phone_types.Attach(phoneTypeUpdating);
+                Cache.CacheData.PhoneTypes.Attach(phoneTypeUpdating);
                 Cache.CacheData.SaveChanges();
 
                 return Enums.CRUDResults.UPDATE_SUCCESS;
@@ -146,8 +146,8 @@ namespace DataAccess
             try
             {
                 DataCache.Models.PhoneType phoneTypeDeleting =
-                    Cache.CacheData.t_phone_types.FirstOrDefault(phoneType => phoneType.ID == objectToDelete.ID);
-                Cache.CacheData.t_phone_types.Remove(phoneTypeDeleting);
+                    Cache.CacheData.PhoneTypes.FirstOrDefault(phoneType => phoneType.ID == objectToDelete.ID);
+                Cache.CacheData.PhoneTypes.Remove(phoneTypeDeleting);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.DELETE_SUCCESS;
             }
@@ -248,7 +248,7 @@ namespace DataAccess
 
         #region HelperMethods
 
-        public override int GetMaxID() => Cache.CacheData.t_phone_types.Max(pt => pt.ID);
+        public override int GetMaxID() => Cache.CacheData.PhoneTypes.Max(pt => pt.ID);
 
         #endregion
     }

@@ -35,7 +35,7 @@ namespace DataAccess
         {
             try
             {
-                return Cache.CacheData.t_accounts.First(currAccount => currAccount.ID == accountId);
+                return Cache.CacheData.Accounts.First(currAccount => currAccount.ID == accountId);
             }
             catch (Exception)
             {
@@ -48,7 +48,7 @@ namespace DataAccess
         {
             try
             {
-                return Cache.CacheData.t_accounts.First(WantedAccount => WantedAccount.ID == personId);
+                return Cache.CacheData.Accounts.First(WantedAccount => WantedAccount.ID == personId);
             }
             catch (Exception)
             {
@@ -61,7 +61,7 @@ namespace DataAccess
         {
             try
             {
-                return (from CurrAccount in Cache.CacheData.t_accounts
+                return (from CurrAccount in Cache.CacheData.Accounts
                         select CurrAccount).ToList();
             }
             catch (Exception)
@@ -75,7 +75,7 @@ namespace DataAccess
         {
             try
             {
-                return (from CurrAccount in Cache.CacheData.t_accounts
+                return (from CurrAccount in Cache.CacheData.Accounts
                         where CurrAccount.MonthlyPaymentTotal == monthlyTotal
                         select CurrAccount).ToList();
             }
@@ -90,7 +90,7 @@ namespace DataAccess
         {
             try
             {
-                return (from CurrAccount in Cache.CacheData.t_accounts
+                return (from CurrAccount in Cache.CacheData.Accounts
                         where CurrAccount.LastMonthlyPaymentDate == lastPayment
                         select CurrAccount).ToList();
             }
@@ -105,7 +105,7 @@ namespace DataAccess
         {
             try
             {
-                return (from WantedAccount in Cache.CacheData.t_accounts
+                return (from WantedAccount in Cache.CacheData.Accounts
                         where WantedAccount.Donations.Any(WantedDonation => WantedDonation.ID == donationId)
                         select WantedAccount).First();
             }
@@ -142,7 +142,7 @@ namespace DataAccess
             try
             {
                 DataCache.Models.Account newDbAccount = ConvertSingleLocalAccountToDbType(newAccount, personId);
-                Cache.CacheData.t_accounts.Add(newDbAccount);
+                Cache.CacheData.Accounts.Add(newDbAccount);
                 DonationAccess.UpsertMultipleDonations(newAccount.UnpaidDonations, newAccount.ID);
                 DonationAccess.UpsertMultipleDonations(
                     new List<Donation>(newAccount.PaidDonations), newAccount.ID);
@@ -181,7 +181,7 @@ namespace DataAccess
                 DonationAccess.UpsertMultipleDonations(new List<Donation>(updatedAccount.PaidDonations), updatedAccount.ID);
                 DataCache.Models.Account accountUpdating = LookupByAccountId(updatedAccount.ID);
                 accountUpdating = ConvertSingleLocalAccountToDbType(updatedAccount, personId);
-                Cache.CacheData.t_accounts.Attach(accountUpdating);
+                Cache.CacheData.Accounts.Attach(accountUpdating);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.UPDATE_SUCCESS;
             }
@@ -214,8 +214,8 @@ namespace DataAccess
             try
             {
                 DataCache.Models.Account accountDeleting =
-                    Cache.CacheData.t_accounts.First(account => account.ID == deletedAccount.ID);
-                Cache.CacheData.t_accounts.Remove(accountDeleting);
+                    Cache.CacheData.Accounts.First(account => account.ID == deletedAccount.ID);
+                Cache.CacheData.Accounts.Remove(accountDeleting);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.DELETE_SUCCESS;
             }

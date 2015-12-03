@@ -33,7 +33,7 @@ namespace DataAccess
         {
             try
             {
-                return (from CurrDonation in Cache.CacheData.t_donations
+                return (from CurrDonation in Cache.CacheData.Donations
                         where CurrDonation.ID == id
                         select CurrDonation).First();
             }
@@ -48,7 +48,7 @@ namespace DataAccess
         {
             try
             {
-                return (from CurrDonation in Cache.CacheData.t_donations
+                return (from CurrDonation in Cache.CacheData.Donations
                         where CurrDonation.Reason == reason
                         select CurrDonation).ToList();
             }
@@ -63,7 +63,7 @@ namespace DataAccess
         {
             try
             {
-                return (from CurrDonation in Cache.CacheData.t_donations
+                return (from CurrDonation in Cache.CacheData.Donations
                         where CurrDonation.DonationDate == donationDate
                         select CurrDonation).ToList();
             }
@@ -78,7 +78,7 @@ namespace DataAccess
         {
             try
             {
-                return (from CurrDonation in Cache.CacheData.t_donations
+                return (from CurrDonation in Cache.CacheData.Donations
                         where CurrDonation.DatePaid == paymentDate
                         select CurrDonation).ToList();
             }
@@ -93,7 +93,7 @@ namespace DataAccess
         {
             try
             {
-                return (from CurrDonation in Cache.CacheData.t_donations
+                return (from CurrDonation in Cache.CacheData.Donations
                         where CurrDonation.Reason == reason &&
                               CurrDonation.Amount == amount &&
                               CurrDonation.DonationDate == donationDate
@@ -110,7 +110,7 @@ namespace DataAccess
         {
             try
             {
-                return (from CurrAccount in Cache.CacheData.t_accounts
+                return (from CurrAccount in Cache.CacheData.Accounts
                         where CurrAccount.ID == accountId
                         select CurrAccount).First().Donations.ToList<DataCache.Models.Donation>();
             }
@@ -134,7 +134,7 @@ namespace DataAccess
             try
             {
                 DataCache.Models.Donation newDbDonation = ConvertSingleLocalDonationToDbType(newDonation, accountId);
-                Cache.CacheData.t_donations.Add(newDbDonation);
+                Cache.CacheData.Donations.Add(newDbDonation);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.CREATE_SUCCESS;
             }
@@ -168,7 +168,7 @@ namespace DataAccess
             {
                 DataCache.Models.Donation donationUpdating = LookupDonationById(updatedDonation.ID);
                 donationUpdating = ConvertSingleLocalDonationToDbType(updatedDonation, accountId);
-                Cache.CacheData.t_donations.Attach(donationUpdating);
+                Cache.CacheData.Donations.Attach(donationUpdating);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.UPDATE_SUCCESS;
             }
@@ -201,8 +201,8 @@ namespace DataAccess
             try
             {
                 DataCache.Models.Donation donationDeleting =
-                    Cache.CacheData.t_donations.First(donation => donation.ID == deleteDonation.ID);
-                Cache.CacheData.t_donations.Remove(donationDeleting);
+                    Cache.CacheData.Donations.First(donation => donation.ID == deleteDonation.ID);
+                Cache.CacheData.Donations.Remove(donationDeleting);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.DELETE_SUCCESS;
             }

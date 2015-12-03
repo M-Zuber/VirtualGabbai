@@ -27,7 +27,7 @@ namespace DataAccess
         {
             try
             {
-                return (from privilege in Cache.CacheData.t_privileges
+                return (from privilege in Cache.CacheData.Privileges
                         select privilege).ToList();
             }
             catch (Exception)
@@ -41,7 +41,7 @@ namespace DataAccess
         {
             try
             {
-                return (from privilege in Cache.CacheData.t_privileges
+                return (from privilege in Cache.CacheData.Privileges
                         where privilege.ID == id
                         select privilege).First();
             }
@@ -56,7 +56,7 @@ namespace DataAccess
         {
             try
             {
-                return (from privilege in Cache.CacheData.t_privileges
+                return (from privilege in Cache.CacheData.Privileges
                         where privilege.Name == privilegeName
                         select privilege).First();
             }
@@ -80,7 +80,7 @@ namespace DataAccess
             try
             {
                 DataCache.Models.Privilege newDbPrivilege = ConvertSingleLocalPrivilegeToDbType(newPrivilege);
-                Cache.CacheData.t_privileges.Add(newDbPrivilege);
+                Cache.CacheData.Privileges.Add(newDbPrivilege);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.CREATE_SUCCESS;
             }
@@ -114,7 +114,7 @@ namespace DataAccess
             {
                 DataCache.Models.Privilege privilegeUpdating = LookupPrivilegeById(updatedPrivilege.ID);
                 privilegeUpdating = ConvertSingleLocalPrivilegeToDbType(updatedPrivilege);
-                Cache.CacheData.t_privileges.Attach(privilegeUpdating);
+                Cache.CacheData.Privileges.Attach(privilegeUpdating);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.UPDATE_SUCCESS;
             }
@@ -146,9 +146,9 @@ namespace DataAccess
         {
             try
             {
-                DataCache.Models.Privilege deletedDbPrivilege = Cache.CacheData.t_privileges.First(
+                DataCache.Models.Privilege deletedDbPrivilege = Cache.CacheData.Privileges.First(
                     privilege => privilege.ID == deletedPrivilege.ID);
-                Cache.CacheData.t_privileges.Remove(deletedDbPrivilege);
+                Cache.CacheData.Privileges.Remove(deletedDbPrivilege);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.DELETE_SUCCESS;
             }
