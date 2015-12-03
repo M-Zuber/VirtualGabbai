@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using DataCache;
-using LocalTypes;
 using Framework;
 using DataCache.Models;
 
@@ -14,13 +13,13 @@ namespace DataAccess
 
         #region Local type return
 
-        public static List<LocalTypes.PhoneNumber> GetPhoneNumberByType(PhoneType searchedType) => ConvertMultipleDbPhoneNumbersToLocalType(LookupPhoneNumberByType(searchedType));
+        public static List<PhoneNumber> GetPhoneNumberByType(PhoneType searchedType) => ConvertMultipleDbPhoneNumbersToLocalType(LookupPhoneNumberByType(searchedType));
 
         public static PhoneNumber GetPhoneNumberById(int id) => ConvertSingleDbPhoneNumberToLocalType(LookupPhoneNumberById(id));
 
-        public static List<LocalTypes.PhoneNumber> GetAllPhoneNumbers(int personId) => ConvertMultipleDbPhoneNumbersToLocalType(LookupAllPhoneNumbers(personId));
+        public static List<PhoneNumber> GetAllPhoneNumbers(int personId) => ConvertMultipleDbPhoneNumbersToLocalType(LookupAllPhoneNumbers(personId));
 
-        public static PhoneNumber GetSpecificPhoneNumber(string phoneNumber, PhoneType numberType) => ConvertSingleDbPhoneNumberToLocalType(LookupSpecificPhoneNumber(phoneNumber, numberType._Id));
+        public static PhoneNumber GetSpecificPhoneNumber(string phoneNumber, PhoneType numberType) => ConvertSingleDbPhoneNumberToLocalType(LookupSpecificPhoneNumber(phoneNumber, numberType.ID));
 
         #endregion
 
@@ -31,7 +30,7 @@ namespace DataAccess
             try
             {
                 return (from CurrPhoneNumber in Cache.CacheData.t_phone_numbers
-                        where CurrPhoneNumber.number_type == searchedType._Id
+                        where CurrPhoneNumber.NumberTypeID == searchedType.ID
                         select CurrPhoneNumber).ToList();
             }
             catch (Exception)
@@ -46,8 +45,8 @@ namespace DataAccess
             try
             {
                 return (from CurrPhoneNumber in Cache.CacheData.t_phone_numbers
-                        where CurrPhoneNumber.number == phoneNumber &&
-                              CurrPhoneNumber.number_type == numberType
+                        where CurrPhoneNumber.Number == phoneNumber &&
+                              CurrPhoneNumber.NumberTypeID == numberType
                         select CurrPhoneNumber).First();
             }
             catch (Exception)
@@ -77,7 +76,7 @@ namespace DataAccess
             try
             {
                 return (from CurrPhoneType in Cache.CacheData.t_phone_numbers
-                        where CurrPhoneType.C_id == id
+                        where CurrPhoneType.ID == id
                         select CurrPhoneType).First();
             }
             catch (Exception)
@@ -95,7 +94,7 @@ namespace DataAccess
 
         #region Create
 
-        public static Enums.CRUDResults AddNewPhoneNumber(LocalTypes.PhoneNumber newPhoneNumber, int personId)
+        public static Enums.CRUDResults AddNewPhoneNumber(PhoneNumber newPhoneNumber, int personId)
         {
             try
             {
@@ -112,10 +111,10 @@ namespace DataAccess
             }
         }
 
-        public static void AddMultipleNewPhoneTypes(List<LocalTypes.PhoneNumber> newPhoneNumberList, int personId)
+        public static void AddMultipleNewPhoneTypes(List<PhoneNumber> newPhoneNumberList, int personId)
         {
             Enums.CRUDResults result;
-            foreach (LocalTypes.PhoneNumber newPhoneNumber in newPhoneNumberList)
+            foreach (PhoneNumber newPhoneNumber in newPhoneNumberList)
             {
                 result = AddNewPhoneNumber(newPhoneNumber, personId);
                 if (result == Enums.CRUDResults.CREATE_FAIL)
@@ -129,12 +128,12 @@ namespace DataAccess
 
         #region Update
 
-        public static Enums.CRUDResults UpdateSinglePhoneNumber(LocalTypes.PhoneNumber updatedPhoneNumber, int personId)
+        public static Enums.CRUDResults UpdateSinglePhoneNumber(PhoneNumber updatedPhoneNumber, int personId)
         {
             try
             {
                 new PhoneTypeAccess().UpsertSingle(updatedPhoneNumber.NumberType);
-                DataCache.Models.PhoneNumber phoneNumberUpdating = LookupPhoneNumberById(updatedPhoneNumber._Id);
+                DataCache.Models.PhoneNumber phoneNumberUpdating = LookupPhoneNumberById(updatedPhoneNumber.ID);
                 phoneNumberUpdating = ConvertSingleLocalPhoneNumberToDbType(updatedPhoneNumber, personId);
                 Cache.CacheData.t_phone_numbers.Attach(phoneNumberUpdating);
                 Cache.CacheData.SaveChanges();
@@ -147,10 +146,10 @@ namespace DataAccess
             }
         }
 
-        public static void UpdateMultiplePhoneNumbers(List<LocalTypes.PhoneNumber> updatedPhoneNumberList, int personId)
+        public static void UpdateMultiplePhoneNumbers(List<PhoneNumber> updatedPhoneNumberList, int personId)
         {
             Enums.CRUDResults result;
-            foreach (LocalTypes.PhoneNumber updatedPhoneNumber in updatedPhoneNumberList)
+            foreach (PhoneNumber updatedPhoneNumber in updatedPhoneNumberList)
             {
                 result = UpdateSinglePhoneNumber(updatedPhoneNumber, personId);
                 if (result == Enums.CRUDResults.UPDATE_FAIL)
@@ -164,12 +163,12 @@ namespace DataAccess
 
         #region Delete
 
-        public static Enums.CRUDResults DeleteSinglePhoneNumber(LocalTypes.PhoneNumber deletedPhoneNumber)
+        public static Enums.CRUDResults DeleteSinglePhoneNumber(PhoneNumber deletedPhoneNumber)
         {
             try
             {
                 DataCache.Models.PhoneNumber phoneTypeDeleting =
-                        Cache.CacheData.t_phone_numbers.First(number => number.C_id == deletedPhoneNumber._Id);
+                        Cache.CacheData.t_phone_numbers.First(number => number.ID == deletedPhoneNumber.ID);
                 Cache.CacheData.t_phone_numbers.Remove(phoneTypeDeleting);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.DELETE_SUCCESS;
@@ -181,10 +180,10 @@ namespace DataAccess
             }
         }
 
-        public static void DeleteMultiplePhoneNumbers(List<LocalTypes.PhoneNumber> deletedPhoneNumberList)
+        public static void DeleteMultiplePhoneNumbers(List<PhoneNumber> deletedPhoneNumberList)
         {
             Enums.CRUDResults result;
-            foreach (LocalTypes.PhoneNumber deletedPhoneNumber in deletedPhoneNumberList)
+            foreach (PhoneNumber deletedPhoneNumber in deletedPhoneNumberList)
             {
                 result = DeleteSinglePhoneNumber(deletedPhoneNumber);
                 if (result == Enums.CRUDResults.DELETE_FAIL)
@@ -198,9 +197,9 @@ namespace DataAccess
 
         #region Upsert
 
-        public static Enums.CRUDResults UpsertSinglePhoneNumber(LocalTypes.PhoneNumber upsertedPhoneNumber, int personId)
+        public static Enums.CRUDResults UpsertSinglePhoneNumber(PhoneNumber upsertedPhoneNumber, int personId)
         {
-            LocalTypes.PhoneNumber currentPhoneNumber = GetPhoneNumberById(upsertedPhoneNumber._Id);
+            PhoneNumber currentPhoneNumber = GetPhoneNumberById(upsertedPhoneNumber.ID);
 
             if (currentPhoneNumber == null)
             {
@@ -212,9 +211,9 @@ namespace DataAccess
             }
         }
 
-        public static void UpsertMultiplePhoneNumbers(List<LocalTypes.PhoneNumber> upsertedList, int personId)
+        public static void UpsertMultiplePhoneNumbers(IEnumerable<PhoneNumber> upsertedList, int personId)
         {
-            foreach (LocalTypes.PhoneNumber CurrPhoneNumber in upsertedList)
+            foreach (PhoneNumber CurrPhoneNumber in upsertedList)
             {
                 UpsertSinglePhoneNumber(CurrPhoneNumber, personId);
             }
@@ -226,11 +225,11 @@ namespace DataAccess
 
         #region Private Methods
 
-        internal static List<DataCache.Models.PhoneNumber> ConvertMultipleLocalPhoneNumbersToDbType(List<LocalTypes.PhoneNumber> localTypePhoneNumberList, int personId)
+        internal static List<DataCache.Models.PhoneNumber> ConvertMultipleLocalPhoneNumbersToDbType(List<PhoneNumber> localTypePhoneNumberList, int personId)
         {
             List<DataCache.Models.PhoneNumber> dbTypePhoneNumberList = new List<DataCache.Models.PhoneNumber>();
 
-            foreach (LocalTypes.PhoneNumber CurrPhoneNumber in localTypePhoneNumberList)
+            foreach (PhoneNumber CurrPhoneNumber in localTypePhoneNumberList)
             {
                 dbTypePhoneNumberList.Add((DataCache.Models.PhoneNumber)ConvertSingleLocalPhoneNumberToDbType(CurrPhoneNumber, personId));
             }
@@ -238,21 +237,21 @@ namespace DataAccess
             return dbTypePhoneNumberList;
         }
 
-        internal static PhoneNumber ConvertSingleLocalPhoneNumberToDbType(LocalTypes.PhoneNumber localTypePhoneNumber, int personId) => DataCache.Models.PhoneNumber.Createt_phone_numbers(personId, localTypePhoneNumber.Number,
-                                localTypePhoneNumber.NumberType._Id, localTypePhoneNumber._Id);
+        internal static PhoneNumber ConvertSingleLocalPhoneNumberToDbType(PhoneNumber localTypePhoneNumber, int personId) => DataCache.Models.PhoneNumber.Createt_phone_numbers(personId, localTypePhoneNumber.Number,
+                                localTypePhoneNumber.NumberTypeID, localTypePhoneNumber.ID);
 
-        internal static List<LocalTypes.PhoneNumber> ConvertMultipleDbPhoneNumbersToLocalType(List<DataCache.Models.PhoneNumber> dbTypePhoneNumberList)
+        internal static List<PhoneNumber> ConvertMultipleDbPhoneNumbersToLocalType(List<DataCache.Models.PhoneNumber> dbTypePhoneNumberList)
         {
             if (dbTypePhoneNumberList == null)
             {
                 //LOG
                 return null;
             }
-            List<LocalTypes.PhoneNumber> localTypePhoneTypeList = new List<LocalTypes.PhoneNumber>();
+            List<PhoneNumber> localTypePhoneTypeList = new List<PhoneNumber>();
 
             foreach (DataCache.Models.PhoneNumber CurrPhoneNumber in dbTypePhoneNumberList)
             {
-                localTypePhoneTypeList.Add((LocalTypes.PhoneNumber)ConvertSingleDbPhoneNumberToLocalType(CurrPhoneNumber));
+                localTypePhoneTypeList.Add((PhoneNumber)ConvertSingleDbPhoneNumberToLocalType(CurrPhoneNumber));
             }
 
             return localTypePhoneTypeList;
@@ -266,8 +265,8 @@ namespace DataAccess
                 return null;
             }
 
-            PhoneType numberType = new PhoneTypeAccess().GetByID(dbTypePhoneNumber.number_type);
-            return new LocalTypes.PhoneNumber(dbTypePhoneNumber.C_id, dbTypePhoneNumber.number, numberType);
+            PhoneType numberType = new PhoneTypeAccess().GetByID(dbTypePhoneNumber.NumberTypeID);
+            return new PhoneNumber();
         }
 
         #endregion

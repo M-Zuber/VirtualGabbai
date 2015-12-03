@@ -9,7 +9,7 @@ namespace DataCache.Models
         public Person()
         {
             PhoneNumbers = new List<PhoneNumber>();
-            Yahrtziehts = new List<t_yahrtziehts>();
+            Yahrtziehts = new List<Yahrtzieht>();
         }
 
         public int ID { get; set; }
@@ -20,7 +20,7 @@ namespace DataCache.Models
         public bool Member { get; set; }
         public virtual Account Account { get; set; }
         public virtual ICollection<PhoneNumber> PhoneNumbers { get; set; }
-        public virtual ICollection<t_yahrtziehts> Yahrtziehts { get; set; }
+        public virtual ICollection<Yahrtzieht> Yahrtziehts { get; set; }
 
         public static Person Createt_people(int _Id) => new Person { ID = _Id };
     }

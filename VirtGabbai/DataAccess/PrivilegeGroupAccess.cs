@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using LocalTypes;
 using Framework;
 using DataCache;
 using System.Data;
@@ -26,7 +24,7 @@ namespace DataAccess
 
         #region Db type return
 
-        private static List<t_privilege_groups> LookupAllPrivilegesGroups()
+        private static List<DataCache.Models.PrivilegesGroup> LookupAllPrivilegesGroups()
         {
             try
             {
@@ -40,12 +38,12 @@ namespace DataAccess
             }
         }
 
-        private static t_privilege_groups LookupPrivilegesGroupById(int id)
+        private static PrivilegesGroup LookupPrivilegesGroupById(int id)
         {
             try
             {
                 return (from privilegeGroup in Cache.CacheData.t_privilege_groups
-                        where privilegeGroup.C_id == id
+                        where privilegeGroup.ID == id
                         select privilegeGroup).First();
             }
             catch (Exception)
@@ -55,12 +53,12 @@ namespace DataAccess
             }
         }
 
-        private static t_privilege_groups LookupPrivilegesGroupByGroupName(string groupName)
+        private static PrivilegesGroup LookupPrivilegesGroupByGroupName(string groupName)
         {
             try
             {
                 return (from privilegeGroup in Cache.CacheData.t_privilege_groups
-                        where privilegeGroup.group_name == groupName
+                        where privilegeGroup.GroupName == groupName
                         select privilegeGroup).First();
             }
             catch (Exception)
@@ -83,12 +81,12 @@ namespace DataAccess
             try
             {
                 PrivilegeAccess.UpsertMultiplePrivileges(newPrivilegesGroup.Privileges);
-                t_privilege_groups newDbPrivilegeGroup = t_privilege_groups.Createt_privilege_groups(newPrivilegesGroup._Id);
-                newDbPrivilegeGroup.group_name = newPrivilegesGroup.GroupName;
+                DataCache.Models.PrivilegesGroup newDbPrivilegeGroup = DataCache.Models.PrivilegesGroup.Createt_privilege_groups(newPrivilegesGroup.ID);
+                newDbPrivilegeGroup.GroupName = newPrivilegesGroup.GroupName;
 
                 foreach (Privilege CurrPrivilege in newPrivilegesGroup.Privileges)
                 {
-                    newDbPrivilegeGroup.t_privileges.Add(PrivilegeAccess.LookupPrivilegeById(CurrPrivilege._Id));
+                    newDbPrivilegeGroup.Privileges.Add(PrivilegeAccess.LookupPrivilegeById(CurrPrivilege.ID));
                 }
 
                 Cache.CacheData.t_privilege_groups.Add(newDbPrivilegeGroup);
@@ -125,15 +123,15 @@ namespace DataAccess
             try
             {
                 PrivilegeAccess.UpsertMultiplePrivileges(updatedPrivilegesGroup.Privileges);
-                
-                t_privilege_groups privilegeGroupUpdating = LookupPrivilegesGroupById(updatedPrivilegesGroup._Id);
-                privilegeGroupUpdating.C_id = updatedPrivilegesGroup._Id;
-                privilegeGroupUpdating.group_name = updatedPrivilegesGroup.GroupName;
-                privilegeGroupUpdating.t_privileges.Clear();
+
+                DataCache.Models.PrivilegesGroup privilegeGroupUpdating = LookupPrivilegesGroupById(updatedPrivilegesGroup.ID);
+                privilegeGroupUpdating.ID = updatedPrivilegesGroup.ID;
+                privilegeGroupUpdating.GroupName = updatedPrivilegesGroup.GroupName;
+                privilegeGroupUpdating.Privileges.Clear();
 
                 foreach (Privilege CurrPrivilege in updatedPrivilegesGroup.Privileges)
                 {
-                    privilegeGroupUpdating.t_privileges.Add(PrivilegeAccess.LookupPrivilegeById(CurrPrivilege._Id));
+                    privilegeGroupUpdating.Privileges.Add(PrivilegeAccess.LookupPrivilegeById(CurrPrivilege.ID));
                 }
 
                 Cache.CacheData.t_privilege_groups.Attach(privilegeGroupUpdating);
@@ -168,7 +166,7 @@ namespace DataAccess
         {
             try
             {
-                t_privilege_groups privilegeGroupDeleting = LookupPrivilegesGroupById(deletedPrivilegesGroup._Id);
+                DataCache.Models.PrivilegesGroup privilegeGroupDeleting = LookupPrivilegesGroupById(deletedPrivilegesGroup.ID);
                 Cache.CacheData.t_privilege_groups.Remove(privilegeGroupDeleting);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.DELETE_SUCCESS;
@@ -199,7 +197,7 @@ namespace DataAccess
 
         public static Enums.CRUDResults UpsertSinglePrivilegesGroup(PrivilegesGroup upsertedPrivilegesGroup)
         {
-            PrivilegesGroup currentPrivilegesGroup = GetPrivilegesGroupById(upsertedPrivilegesGroup._Id);
+            PrivilegesGroup currentPrivilegesGroup = GetPrivilegesGroupById(upsertedPrivilegesGroup.ID);
 
             if (currentPrivilegesGroup == null)
             {
@@ -225,32 +223,32 @@ namespace DataAccess
 
         #region Private Methods
 
-        internal static List<t_privilege_groups> ConvertMultipleLocalPrivilegesGroupsToDbType(List<PrivilegesGroup> localTypePrivilegesGroupList)
+        internal static List<DataCache.Models.PrivilegesGroup> ConvertMultipleLocalPrivilegesGroupsToDbType(List<PrivilegesGroup> localTypePrivilegesGroupList)
         {
-            List<t_privilege_groups> dbTypePrivilegesGroupList = new List<t_privilege_groups>();
+            List<DataCache.Models.PrivilegesGroup> dbTypePrivilegesGroupList = new List<DataCache.Models.PrivilegesGroup>();
             
             foreach (PrivilegesGroup CurrPrivilegesGroup in localTypePrivilegesGroupList)
             {
-                dbTypePrivilegesGroupList.Add(ConvertSingleLocalPrivilegesGroupToDbType(CurrPrivilegesGroup));
+                dbTypePrivilegesGroupList.Add((DataCache.Models.PrivilegesGroup)ConvertSingleLocalPrivilegesGroupToDbType(CurrPrivilegesGroup));
             }
 
             return dbTypePrivilegesGroupList;
         }
 
-        internal static t_privilege_groups ConvertSingleLocalPrivilegesGroupToDbType(PrivilegesGroup localTypePrivilegesGroup)
+        internal static PrivilegesGroup ConvertSingleLocalPrivilegesGroupToDbType(PrivilegesGroup localTypePrivilegesGroup)
         {
-            t_privilege_groups convertedPrivilegesGroup = t_privilege_groups.Createt_privilege_groups(localTypePrivilegesGroup._Id);
-            convertedPrivilegesGroup.group_name = localTypePrivilegesGroup.GroupName;
+            DataCache.Models.PrivilegesGroup convertedPrivilegesGroup = DataCache.Models.PrivilegesGroup.Createt_privilege_groups(localTypePrivilegesGroup.ID);
+            convertedPrivilegesGroup.GroupName = localTypePrivilegesGroup.GroupName;
 
             foreach (Privilege CurrPrivilege in localTypePrivilegesGroup.Privileges)
             {
-                convertedPrivilegesGroup.t_privileges.Add(PrivilegeAccess.ConvertSingleLocalPrivilegeToDbType(CurrPrivilege));
+                convertedPrivilegesGroup.Privileges.Add(PrivilegeAccess.ConvertSingleLocalPrivilegeToDbType(CurrPrivilege));
             }
 
             return convertedPrivilegesGroup;
         }
 
-        internal static List<PrivilegesGroup> ConvertMultipleDbPrivilegesGroupsToLocalType(List<t_privilege_groups> dbTypePrivilegesGroupList)
+        internal static List<PrivilegesGroup> ConvertMultipleDbPrivilegesGroupsToLocalType(List<DataCache.Models.PrivilegesGroup> dbTypePrivilegesGroupList)
         {
             if (dbTypePrivilegesGroupList == null)
             {
@@ -259,15 +257,15 @@ namespace DataAccess
             }
             List<PrivilegesGroup> localTypePhoneTypeList = new List<PrivilegesGroup>();
 
-            foreach (t_privilege_groups CurrPrivilegesGroup in dbTypePrivilegesGroupList)
+            foreach (DataCache.Models.PrivilegesGroup CurrPrivilegesGroup in dbTypePrivilegesGroupList)
             {
-                localTypePhoneTypeList.Add(ConvertSingleDbPrivilegesGroupToLocalType(CurrPrivilegesGroup));
+                localTypePhoneTypeList.Add((PrivilegesGroup)ConvertSingleDbPrivilegesGroupToLocalType(CurrPrivilegesGroup));
             }
 
             return localTypePhoneTypeList;
         }
 
-        internal static PrivilegesGroup ConvertSingleDbPrivilegesGroupToLocalType(t_privilege_groups dbTypePrivilegesGroup)
+        internal static PrivilegesGroup ConvertSingleDbPrivilegesGroupToLocalType(DataCache.Models.PrivilegesGroup dbTypePrivilegesGroup)
         {
             if (dbTypePrivilegesGroup == null)
             {
@@ -276,10 +274,9 @@ namespace DataAccess
             }
             List<Privilege> convertedPrivilegesOfGroup = 
                 PrivilegeAccess.ConvertMultipleDbPrivilegesToLocalType(
-                                                    dbTypePrivilegesGroup.t_privileges.ToList());
+                                                    dbTypePrivilegesGroup.Privileges.ToList());
             PrivilegesGroup convertedPrivilegeGroup = 
-                new PrivilegesGroup(dbTypePrivilegesGroup.C_id, dbTypePrivilegesGroup.group_name,
-                                            convertedPrivilegesOfGroup);
+                new PrivilegesGroup();
             return convertedPrivilegeGroup;
         }
 

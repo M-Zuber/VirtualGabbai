@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using DataCache;
-using LocalTypes;
 using Framework;
 using System.Net.Mail;
 using DataCache.Models;
@@ -72,9 +71,9 @@ namespace DataAccess
             try
             {
                 return (from currYahrtzieht in Cache.CacheData.t_yahrtziehts
-                        where currYahrtzieht.deceaseds_name == nameOfDeceased &&
-                              currYahrtzieht.relation == relationToDeceased
-                        select currYahrtzieht.t_people).ToList();
+                        where currYahrtzieht.Name == nameOfDeceased &&
+                              currYahrtzieht.Relation == relationToDeceased
+                        select currYahrtzieht.Person).ToList();
             }
             catch (Exception)
             {
@@ -164,8 +163,8 @@ namespace DataAccess
             try
             {
                 return (from currNumber in Cache.CacheData.t_phone_numbers
-                        where currNumber.number == numberSearchedBy
-                        select currNumber.t_people).First();
+                        where currNumber.Number == numberSearchedBy
+                        select currNumber.Person).First();
             }
             catch (Exception)
             {

@@ -15,11 +15,11 @@ namespace DataCache.Models
         public DbSet<Donation> t_donations { get; set; }
         public DbSet<Person> t_people { get; set; }
         public DbSet<PhoneNumber> t_phone_numbers { get; set; }
-        public DbSet<t_phone_types> t_phone_types { get; set; }
-        public DbSet<t_privilege_groups> t_privilege_groups { get; set; }
-        public DbSet<t_zl_privileges> t_privileges { get; set; }
-        public DbSet<t_users> t_users { get; set; }
-        public DbSet<t_yahrtziehts> t_yahrtziehts { get; set; }
+        public DbSet<PhoneType> t_phone_types { get; set; }
+        public DbSet<PrivilegesGroup> t_privilege_groups { get; set; }
+        public DbSet<Privilege> t_privileges { get; set; }
+        public DbSet<User> t_users { get; set; }
+        public DbSet<Yahrtzieht> t_yahrtziehts { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -27,12 +27,12 @@ namespace DataCache.Models
             modelBuilder.Configurations.Add(new AccountsMap());
             modelBuilder.Configurations.Add(new DonationsMap());
             modelBuilder.Configurations.Add(new PeopleMap());
-            modelBuilder.Configurations.Add(new t_phone_numbersMap());
-            modelBuilder.Configurations.Add(new t_phone_typesMap());
-            modelBuilder.Configurations.Add(new t_privilege_groupsMap());
-            modelBuilder.Configurations.Add(new t_privilegesMap());
-            modelBuilder.Configurations.Add(new t_usersMap());
-            modelBuilder.Configurations.Add(new t_yahrtziehtsMap());
+            modelBuilder.Configurations.Add(new PhoneNumbersMap());
+            modelBuilder.Configurations.Add(new PhoneTypesMap());
+            modelBuilder.Configurations.Add(new PrivilegeGroupsMap());
+            modelBuilder.Configurations.Add(new PrivilegesMap());
+            modelBuilder.Configurations.Add(new UsersMap());
+            modelBuilder.Configurations.Add(new YahrtziehtsMap());
         }
     }
 }

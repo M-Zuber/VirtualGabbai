@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using DataCache;
-using LocalTypes;
 using Framework;
 using System.Net.Mail;
 using DataCache.Models;
@@ -33,7 +32,7 @@ namespace DataAccess
 
         #region Db type return
 
-        private static List<t_users> LookupAllUsers()
+        private static List<DataCache.Models.User> LookupAllUsers()
         {
             try
             {
@@ -47,12 +46,12 @@ namespace DataAccess
             }
         }
 
-        private static List<t_users> LookupByPrivilegesGroup(t_privilege_groups privilegeGroup)
+        private static List<DataCache.Models.User> LookupByPrivilegesGroup(DataCache.Models.PrivilegesGroup privilegeGroup)
         {
             try
             {
                 return (from user in Cache.CacheData.t_users
-                        where user.privileges_group == privilegeGroup.C_id
+                        where user.PrivilegesGroupID == privilegeGroup.ID
                         select user).ToList();
             }
             catch (Exception)
@@ -62,12 +61,12 @@ namespace DataAccess
             }
         }
 
-        private static List<t_users> LookupByPrivilege(t_zl_privileges privilege)
+        private static List<DataCache.Models.User> LookupByPrivilege(DataCache.Models.Privilege privilege)
         {
             try
             {
                 return (from user in Cache.CacheData.t_users
-                        where user.t_privilege_groups.t_privileges.Any(lPrivilege => lPrivilege.C_id == privilege.C_id)
+                        where user.PrivilegeGroup.Privileges.Any(lPrivilege => lPrivilege.ID == privilege.ID)
                         select user).ToList();
             }
             catch (Exception)
@@ -77,12 +76,12 @@ namespace DataAccess
             }
         }
 
-        private static t_users LookupByUserName(string userName)
+        private static User LookupByUserName(string userName)
         {
             try
             {
                 return (from user in Cache.CacheData.t_users
-                        where user.name == userName
+                        where user.UserName == userName
                         select user).First();
             }
             catch (Exception)
@@ -92,12 +91,12 @@ namespace DataAccess
             }
         }
 
-        private static t_users LookupByEmail(string email)
+        private static User LookupByEmail(string email)
         {
             try
             {
                 return (from user in Cache.CacheData.t_users
-                        where user.email == email
+                        where user.Email == email
                         select user).First();
             }
             catch (Exception)
@@ -107,12 +106,12 @@ namespace DataAccess
             }
         }
 
-        private static t_users LookupByUserId(int id)
+        private static User LookupByUserId(int id)
         {
             try
             {
                 return (from user in Cache.CacheData.t_users
-                        where user.C_id == id
+                        where user.ID == id
                         select user).First();
             }
             catch (Exception)
@@ -134,9 +133,9 @@ namespace DataAccess
         {
             try
             {
-                PrivilegeGroupAccess.UpsertSinglePrivilegesGroup(newUser.UserGroup);
+                PrivilegeGroupAccess.UpsertSinglePrivilegesGroup(newUser.PrivilegeGroup);
 
-                t_users newDbUser = ConvertSingleLocalUserToDbType(newUser);
+                DataCache.Models.User newDbUser = ConvertSingleLocalUserToDbType(newUser);
                 Cache.CacheData.t_users.Add(newDbUser);
                 Cache.CacheData.SaveChanges();
 
@@ -170,8 +169,8 @@ namespace DataAccess
         {
             try
             {
-                PrivilegeGroupAccess.UpsertSinglePrivilegesGroup(updatedUser.UserGroup);
-                t_users userUpdating = LookupByUserId(updatedUser._Id);
+                PrivilegeGroupAccess.UpsertSinglePrivilegesGroup(updatedUser.PrivilegeGroup);
+                DataCache.Models.User userUpdating = LookupByUserId(updatedUser.ID);
                 userUpdating = ConvertSingleLocalUserToDbType(updatedUser);
                 Cache.CacheData.t_users.Attach(userUpdating);
                 Cache.CacheData.SaveChanges();
@@ -205,8 +204,8 @@ namespace DataAccess
         {
             try
             {
-                t_users userDeleting =
-                    Cache.CacheData.t_users.First(user => user.C_id == deletedUser._Id);
+                DataCache.Models.User userDeleting =
+                    Cache.CacheData.t_users.First(user => user.ID == deletedUser.ID);
                 Cache.CacheData.t_users.Remove(userDeleting);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.DELETE_SUCCESS;
@@ -237,7 +236,7 @@ namespace DataAccess
 
         public static Enums.CRUDResults UpsertSingleUser(User upsertedUser)
         {
-            User currentUser = GetByUserId(upsertedUser._Id);
+            User currentUser = GetByUserId(upsertedUser.ID);
 
             if (currentUser == null)
             {
@@ -263,22 +262,22 @@ namespace DataAccess
 
         #region Private Methods
 
-        internal static List<t_users> ConvertMultipleLocalUsersToDbType(List<User> localTypeUserList)
+        internal static List<DataCache.Models.User> ConvertMultipleLocalUsersToDbType(List<User> localTypeUserList)
         {
-            List<t_users> dbTypeUserList = new List<t_users>();
+            List<DataCache.Models.User> dbTypeUserList = new List<DataCache.Models.User>();
 
             foreach (User CurrUser in localTypeUserList)
             {
-                dbTypeUserList.Add(ConvertSingleLocalUserToDbType(CurrUser));
+                dbTypeUserList.Add((DataCache.Models.User)ConvertSingleLocalUserToDbType(CurrUser));
             }
 
             return dbTypeUserList;
         }
 
-        internal static t_users ConvertSingleLocalUserToDbType(User localTypeUser) => t_users.Createt_users(localTypeUser._Id, localTypeUser.UserName,
-            localTypeUser.Password, localTypeUser.Email.Address, localTypeUser.UserGroup._Id);
+        internal static User ConvertSingleLocalUserToDbType(User localTypeUser) => DataCache.Models.User.Createt_users(localTypeUser.ID, localTypeUser.UserName,
+            localTypeUser.Password, localTypeUser.Email, localTypeUser.PrivilegeGroup.ID);
 
-        internal static List<User> ConvertMultipleDbUsersToLocalType(List<t_users> dbTypeUserList)
+        internal static List<User> ConvertMultipleDbUsersToLocalType(List<DataCache.Models.User> dbTypeUserList)
         {
             if (dbTypeUserList == null)
             {
@@ -287,32 +286,31 @@ namespace DataAccess
             }
             List<User> localTypePhoneTypeList = new List<User>();
 
-            foreach (t_users CurrUser in dbTypeUserList)
+            foreach (DataCache.Models.User CurrUser in dbTypeUserList)
             {
-                localTypePhoneTypeList.Add(ConvertSingleDbUserToLocalType(CurrUser));
+                localTypePhoneTypeList.Add((User)ConvertSingleDbUserToLocalType(CurrUser));
             }
 
             return localTypePhoneTypeList;
         }
 
-        internal static User ConvertSingleDbUserToLocalType(t_users dbTypeUser)
+        internal static User ConvertSingleDbUserToLocalType(DataCache.Models.User dbTypeUser)
         {
             if (dbTypeUser == null)
             {
                 //LOG
                 return null;
             }
-            
+
             PrivilegesGroup userGroup = null;
 
             try
             {
-                userGroup = PrivilegeGroupAccess.ConvertSingleDbPrivilegesGroupToLocalType(dbTypeUser.t_privilege_groups);
+                userGroup = PrivilegeGroupAccess.ConvertSingleDbPrivilegesGroupToLocalType(dbTypeUser.PrivilegeGroup);
             }
             catch{/*LOG*/}
 
-            return new User(dbTypeUser.C_id, dbTypeUser.name, dbTypeUser.password,
-                                                    dbTypeUser.email, userGroup);
+            return new User();
         }
 
         #endregion

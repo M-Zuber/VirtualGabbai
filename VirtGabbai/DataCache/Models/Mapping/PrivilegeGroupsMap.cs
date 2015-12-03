@@ -3,27 +3,27 @@ using System.Data.Entity.ModelConfiguration;
 
 namespace DataCache.Models.Mapping
 {
-    public class t_privilege_groupsMap : EntityTypeConfiguration<t_privilege_groups>
+    public class PrivilegeGroupsMap : EntityTypeConfiguration<PrivilegesGroup>
     {
-        public t_privilege_groupsMap()
+        public PrivilegeGroupsMap()
         {
             // Primary Key
-            this.HasKey(t => t.C_id);
+            this.HasKey(t => t.ID);
 
             // Properties
-            this.Property(t => t.C_id);
+            this.Property(t => t.ID);
 
-            this.Property(t => t.group_name)
+            this.Property(t => t.GroupName)
                 .HasMaxLength(45);
 
             // Table & Column Mappings
             this.ToTable("privilege_groups", "zera_levi");
-            this.Property(t => t.C_id).HasColumnName("_id");
-            this.Property(t => t.group_name).HasColumnName("group_name");
+            this.Property(t => t.ID).HasColumnName("_id");
+            this.Property(t => t.GroupName).HasColumnName("GroupName");
 
             // Relationships
-            this.HasMany(t => t.t_privileges)
-                .WithMany(t => t.t_privilege_groups)
+            this.HasMany(t => t.Privileges)
+                .WithMany(t => t.PrivilegesGroup)
                 .Map(m =>
                     {
                         m.ToTable("privileges_per_group", "zera_levi");

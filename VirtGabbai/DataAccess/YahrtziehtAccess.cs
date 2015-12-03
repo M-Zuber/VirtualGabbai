@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using DataCache;
-using LocalTypes;
 using Framework;
 using DataCache.Models;
 
@@ -27,14 +26,14 @@ namespace DataAccess
 
         #region Db type return
 
-        private static t_yahrtziehts LookupSpecificYahrtzieht(int personId, DateTime yahrDate, string personName)
+        private static Yahrtzieht LookupSpecificYahrtzieht(int personId, DateTime yahrDate, string personName)
         {
             try
             {
                 return (from CurrYahr in Cache.CacheData.t_yahrtziehts
-                        where CurrYahr.person_id == personId &&
-                              CurrYahr.date == yahrDate &&
-                              CurrYahr.deceaseds_name == personName
+                        where CurrYahr.PersonID == personId &&
+                              CurrYahr.Date == yahrDate &&
+                              CurrYahr.Name == personName
                         select CurrYahr).First();
             }
             catch (Exception)
@@ -44,13 +43,13 @@ namespace DataAccess
             }
         }
 
-        private static List<t_yahrtziehts> LookupYahrtziehtsByDate(int personId, DateTime yahrDate)
+        private static List<DataCache.Models.Yahrtzieht> LookupYahrtziehtsByDate(int personId, DateTime yahrDate)
         {
             try
             {
                 return (from CurrYahr in Cache.CacheData.t_yahrtziehts
-                        where CurrYahr.date == yahrDate
-                        select CurrYahr).ToList<t_yahrtziehts>();
+                        where CurrYahr.Date == yahrDate
+                        select CurrYahr).ToList();
             }
             catch (Exception)
             {
@@ -59,13 +58,13 @@ namespace DataAccess
             }
         }
 
-        private static List<t_yahrtziehts> LookupAllYahrtziehts(int personId)
+        private static List<DataCache.Models.Yahrtzieht> LookupAllYahrtziehts(int personId)
         {
             try
             {
                 return (from CurrPerson in Cache.CacheData.t_people
                         where CurrPerson.ID == personId
-                        select CurrPerson).First().Yahrtziehts.ToList<t_yahrtziehts>();
+                        select CurrPerson).First().Yahrtziehts.ToList();
             }
             catch (Exception)
             {
@@ -74,12 +73,12 @@ namespace DataAccess
             }
         }
 
-        private static t_yahrtziehts LookupYahrtziehtById(int id)
+        private static Yahrtzieht LookupYahrtziehtById(int id)
         {
             try
             {
                 return (from CurrYahr in Cache.CacheData.t_yahrtziehts
-                        where CurrYahr.C_id == id
+                        where CurrYahr.ID == id
                         select CurrYahr).First();
             }
             catch (Exception)
@@ -101,7 +100,7 @@ namespace DataAccess
         {
             try
             {
-                t_yahrtziehts yahrToAdd = YahrtziehtAccess.ConvertSingleYahrtziehtToDbType(newYahr, personId);
+                DataCache.Models.Yahrtzieht yahrToAdd = YahrtziehtAccess.ConvertSingleYahrtziehtToDbType(newYahr, personId);
                 Cache.CacheData.t_yahrtziehts.Add(yahrToAdd);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.CREATE_SUCCESS;
@@ -134,7 +133,7 @@ namespace DataAccess
         {
             try
             {
-                t_yahrtziehts yahrUpdating = YahrtziehtAccess.LookupYahrtziehtById(updatedYahr._Id);
+                DataCache.Models.Yahrtzieht yahrUpdating = YahrtziehtAccess.LookupYahrtziehtById(updatedYahr.ID);
                 yahrUpdating = YahrtziehtAccess.ConvertSingleYahrtziehtToDbType(updatedYahr, personId);
                 Cache.CacheData.t_yahrtziehts.Attach(yahrUpdating);
                 Cache.CacheData.SaveChanges();
@@ -168,7 +167,7 @@ namespace DataAccess
         {
             try
             {
-                t_yahrtziehts yahrDeleting = Cache.CacheData.t_yahrtziehts.First(yahr => yahr.C_id == deletedYahr._Id);
+                DataCache.Models.Yahrtzieht yahrDeleting = Cache.CacheData.t_yahrtziehts.First(yahr => yahr.ID == deletedYahr.ID);
                 Cache.CacheData.t_yahrtziehts.Remove(yahrDeleting);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.DELETE_SUCCESS;
@@ -199,7 +198,7 @@ namespace DataAccess
 
         public static Enums.CRUDResults UpsertSingleYahrtzieht(Yahrtzieht upsertedYahrtzieht, int personId)
         {
-            Yahrtzieht currentYahrtzieht = GetYahrtziehtById(upsertedYahrtzieht._Id);
+            Yahrtzieht currentYahrtzieht = GetYahrtziehtById(upsertedYahrtzieht.ID);
 
             if (currentYahrtzieht == null)
             {
@@ -211,7 +210,7 @@ namespace DataAccess
             }
         }
 
-        public static void UpsertMultipleYahrtziehts(List<Yahrtzieht> upsertedList, int personId)
+        public static void UpsertMultipleYahrtziehts(IEnumerable<Yahrtzieht> upsertedList, int personId)
         {
             foreach (Yahrtzieht CurrYahrtzieht in upsertedList)
             {
@@ -225,27 +224,27 @@ namespace DataAccess
 
         #region Private Methods
 
-        internal static List<t_yahrtziehts> ConvertMultipleYahrtziehtsToDbType(List<Yahrtzieht> localTypeYahrList, int personId)
+        internal static List<DataCache.Models.Yahrtzieht> ConvertMultipleYahrtziehtsToDbType(List<Yahrtzieht> localTypeYahrList, int personId)
         {
-            List<t_yahrtziehts> dbTypeYahrList = new List<t_yahrtziehts>();
+            List<DataCache.Models.Yahrtzieht> dbTypeYahrList = new List<DataCache.Models.Yahrtzieht>();
 
             foreach (Yahrtzieht CurrYahr in localTypeYahrList)
             {
-                dbTypeYahrList.Add(YahrtziehtAccess.ConvertSingleYahrtziehtToDbType(CurrYahr, personId));
+                dbTypeYahrList.Add((DataCache.Models.Yahrtzieht)YahrtziehtAccess.ConvertSingleYahrtziehtToDbType(CurrYahr, personId));
             }
 
             return dbTypeYahrList;
         }
 
-        internal static t_yahrtziehts ConvertSingleYahrtziehtToDbType(Yahrtzieht localTypeYahr, int personId)
+        internal static Yahrtzieht ConvertSingleYahrtziehtToDbType(Yahrtzieht localTypeYahr, int personId)
         {
-            var dbTypeYahr = t_yahrtziehts.Createt_yahrtziehts(localTypeYahr._Id, personId,
+            var dbTypeYahr = DataCache.Models.Yahrtzieht.Createt_yahrtziehts(localTypeYahr.ID, personId,
                                                          localTypeYahr.Date, localTypeYahr.Name);
-            dbTypeYahr.relation = localTypeYahr.Relation;
+            dbTypeYahr.Relation = localTypeYahr.Relation;
             return dbTypeYahr;
         }
 
-        internal static List<Yahrtzieht> ConvertMultipleYahrtziehtsToLocalType(List<t_yahrtziehts> dbTypeYahrList)
+        internal static List<Yahrtzieht> ConvertMultipleYahrtziehtsToLocalType(List<DataCache.Models.Yahrtzieht> dbTypeYahrList)
         {
             if (dbTypeYahrList ==  null)
             {
@@ -254,22 +253,22 @@ namespace DataAccess
             }
             List<Yahrtzieht> localTypeYahrList = new List<Yahrtzieht>();
 
-            foreach (t_yahrtziehts Curryahr in dbTypeYahrList)
+            foreach (DataCache.Models.Yahrtzieht Curryahr in dbTypeYahrList)
             {
-                localTypeYahrList.Add(YahrtziehtAccess.ConvertSingleYahrtziehtToLocalType(Curryahr));
+                localTypeYahrList.Add((Yahrtzieht)YahrtziehtAccess.ConvertSingleYahrtziehtToLocalType(Curryahr));
             }
 
             return localTypeYahrList;
         }
 
-        internal static Yahrtzieht ConvertSingleYahrtziehtToLocalType(t_yahrtziehts dbTypeYahr)
+        internal static Yahrtzieht ConvertSingleYahrtziehtToLocalType(DataCache.Models.Yahrtzieht dbTypeYahr)
         {
             if (dbTypeYahr == null)
             {
                 //LOG
                 return null;
             }
-            Yahrtzieht localTypeYahr = new Yahrtzieht(dbTypeYahr.C_id, dbTypeYahr.date, dbTypeYahr.deceaseds_name, dbTypeYahr.relation);
+            Yahrtzieht localTypeYahr = new Yahrtzieht();
             return localTypeYahr;
         } 
 

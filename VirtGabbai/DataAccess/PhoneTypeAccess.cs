@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using DataCache;
-using LocalTypes;
 using Framework;
 using DataAccess.Infrastructure;
 using DataCache.Models;
 
 namespace DataAccess
 {
-    public class PhoneTypeAccess : BaseDataAccess<PhoneType, t_phone_types>
+    public class PhoneTypeAccess : BaseDataAccess<PhoneType, DataCache.Models.PhoneType>
     {
         #region Read Methods
 
@@ -25,7 +24,7 @@ namespace DataAccess
 
         #region Db type return
 
-        protected override IEnumerable<t_phone_types> LookupAll()
+        protected override IEnumerable<DataCache.Models.PhoneType> LookupAll()
         {
             try
             {
@@ -38,11 +37,11 @@ namespace DataAccess
             }
         }
 
-        protected override t_phone_types LookupByID(int id)
+        protected override PhoneType LookupByID(int id)
         {
             try
             {
-                return Cache.CacheData.t_phone_types.FirstOrDefault(pt => pt.C_id == id);
+                return Cache.CacheData.t_phone_types.FirstOrDefault(pt => pt.ID == id);
             }
             catch (Exception)
             {
@@ -51,11 +50,11 @@ namespace DataAccess
             }
         }
 
-        protected t_phone_types LookupByPhoneTypeName(string typeName)
+        protected PhoneType LookupByPhoneTypeName(string typeName)
         {
             try
             {
-                return Cache.CacheData.t_phone_types.FirstOrDefault(pt => pt.type_name.Equals(typeName, StringComparison.CurrentCultureIgnoreCase));
+                return Cache.CacheData.t_phone_types.FirstOrDefault(pt => pt.Name.Equals(typeName, StringComparison.CurrentCultureIgnoreCase));
             }
             catch (Exception)
             {
@@ -76,7 +75,7 @@ namespace DataAccess
         {
             try
             {
-                t_phone_types phoneTypeToAdd = this.ConvertSingleToDBType(objectToAdd);
+                DataCache.Models.PhoneType phoneTypeToAdd = this.ConvertSingleToDBType(objectToAdd);
                 Cache.CacheData.t_phone_types.Add(phoneTypeToAdd);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.CREATE_SUCCESS;
@@ -110,7 +109,7 @@ namespace DataAccess
         {
             try
             {
-                t_phone_types phoneTypeUpdating = this.LookupByID(objectToUpdate._Id);
+                DataCache.Models.PhoneType phoneTypeUpdating = this.LookupByID(objectToUpdate.ID);
                 phoneTypeUpdating = this.ConvertSingleToDBType(objectToUpdate);
                 Cache.CacheData.t_phone_types.Attach(phoneTypeUpdating);
                 Cache.CacheData.SaveChanges();
@@ -146,8 +145,8 @@ namespace DataAccess
         {
             try
             {
-                t_phone_types phoneTypeDeleting =
-                    Cache.CacheData.t_phone_types.FirstOrDefault(phoneType => phoneType.C_id == objectToDelete._Id);
+                DataCache.Models.PhoneType phoneTypeDeleting =
+                    Cache.CacheData.t_phone_types.FirstOrDefault(phoneType => phoneType.ID == objectToDelete.ID);
                 Cache.CacheData.t_phone_types.Remove(phoneTypeDeleting);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.DELETE_SUCCESS;
@@ -178,7 +177,7 @@ namespace DataAccess
 
         public override Enums.CRUDResults UpsertSingle(PhoneType objectToUpsert)
         {
-            PhoneType currentPhoneType = new PhoneTypeAccess().GetByID(objectToUpsert._Id);
+            PhoneType currentPhoneType = new PhoneTypeAccess().GetByID(objectToUpsert.ID);
 
             if (currentPhoneType == null)
             {
@@ -203,21 +202,21 @@ namespace DataAccess
 
         #region Private Methods
 
-        protected override IEnumerable<t_phone_types> ConvertMultipleToDBType(IEnumerable<PhoneType> localTypeObjects)
+        protected override IEnumerable<DataCache.Models.PhoneType> ConvertMultipleToDBType(IEnumerable<PhoneType> localTypeObjects)
         {
-            List<t_phone_types> dbTypePhoneTypeList = new List<t_phone_types>();
+            List<DataCache.Models.PhoneType> dbTypePhoneTypeList = new List<DataCache.Models.PhoneType>();
 
             foreach (PhoneType CurrPhoneType in localTypeObjects)
             {
-                dbTypePhoneTypeList.Add(this.ConvertSingleToDBType(CurrPhoneType));
+                dbTypePhoneTypeList.Add((DataCache.Models.PhoneType)this.ConvertSingleToDBType(CurrPhoneType));
             }
 
             return dbTypePhoneTypeList;
         }
 
-        protected override t_phone_types ConvertSingleToDBType(PhoneType localTypeObject) => t_phone_types.Createt_phone_types(localTypeObject._Id, localTypeObject.PhoneTypeName);
+        protected override PhoneType ConvertSingleToDBType(PhoneType localTypeObject) => DataCache.Models.PhoneType.Createt_phone_types(localTypeObject.ID, localTypeObject.Name);
 
-        protected override IEnumerable<PhoneType> ConvertMultipleToLocalType(IEnumerable<t_phone_types> dbTypeObjects)
+        protected override IEnumerable<PhoneType> ConvertMultipleToLocalType(IEnumerable<DataCache.Models.PhoneType> dbTypeObjects)
         {
             if (dbTypeObjects == null)
             {
@@ -227,29 +226,29 @@ namespace DataAccess
 
             List<PhoneType> localTypePhoneTypeList = new List<PhoneType>();
 
-            foreach (t_phone_types CurrPhoneType in dbTypeObjects)
+            foreach (DataCache.Models.PhoneType CurrPhoneType in dbTypeObjects)
             {
-                localTypePhoneTypeList.Add(this.ConvertSingleToLocalType(CurrPhoneType));
+                localTypePhoneTypeList.Add((PhoneType)this.ConvertSingleToLocalType(CurrPhoneType));
             }
 
             return localTypePhoneTypeList;
         }
 
-        protected override PhoneType ConvertSingleToLocalType(t_phone_types dbTypeObject)
+        protected override PhoneType ConvertSingleToLocalType(DataCache.Models.PhoneType dbTypeObject)
         {
             if (dbTypeObject == null)
             {
                 //LOG 
                 return null;
             }
-            return new PhoneType(dbTypeObject.C_id, dbTypeObject.type_name);
+            return new PhoneType();
         }
 
         #endregion
 
         #region HelperMethods
 
-        public override int GetMaxID() => Cache.CacheData.t_phone_types.Max(pt => pt.C_id);
+        public override int GetMaxID() => Cache.CacheData.t_phone_types.Max(pt => pt.ID);
 
         #endregion
     }

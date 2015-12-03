@@ -1,5 +1,4 @@
 ﻿using DataCache.Models;
-using LocalTypes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
