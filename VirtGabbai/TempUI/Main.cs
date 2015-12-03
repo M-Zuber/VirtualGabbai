@@ -13,7 +13,6 @@ namespace TempUI
         {
             try
             {
-                new IntegrationTwo().PrivilegesAndGroupsTest();
             }
             catch (Exception e)
             {

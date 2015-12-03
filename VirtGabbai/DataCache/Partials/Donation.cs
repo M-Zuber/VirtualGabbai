@@ -1,36 +1,9 @@
 ﻿using System;
 
-namespace LocalTypes
+namespace DataCache.Models
 {
-    public class Donation
+    public partial class Donation
     {
-        #region Properties
-
-        public int _Id { get; set; }
-
-        public string Reason { get; set; }
-
-        public double Amount { get; set; }
-
-        public DateTime DonationDate { get; set; }
-
-        public string Comments { get; set; }
-
-        #endregion
-
-        #region C'tor
-
-        public Donation(int id, string reason, double amount, DateTime donationDate, string comments)
-        {
-            this._Id = id;
-            this.Amount = amount;
-            this.Reason = reason;
-            this.DonationDate = donationDate;
-            this.Comments = comments;
-        }
-
-        #endregion
-
         #region Object Methods
 
         public override string ToString()
@@ -54,7 +27,7 @@ namespace LocalTypes
             {
                 return false;
             }
-            return ((this._Id == donationToCompare._Id) &&
+            return ((this.ID == donationToCompare.ID) &&
                     (this.Amount == donationToCompare.Amount) &&
                     (this.Comments == donationToCompare.Comments) &&
                     (this.DonationDate == donationToCompare.DonationDate) &&

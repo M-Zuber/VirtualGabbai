@@ -68,6 +68,10 @@
     <Compile Include="YahrtziehtTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\DataCache\DataCache.csproj">
+      <Project>{41c40f86-3faf-415e-bb93-725fd4e4df0f}</Project>
+      <Name>DataCache</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\DataTypes\LocalTypes.csproj">
       <Project>{9B2ABB56-D031-4753-ADD5-B5DCEB597E3C}</Project>
       <Name>LocalTypes</Name>

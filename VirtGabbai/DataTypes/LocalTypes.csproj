@@ -43,24 +43,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Account.cs" />
-    <Compile Include="Donation.cs" />
-    <Compile Include="PaidDonation.cs" />
-    <Compile Include="Person.cs" />
     <Compile Include="PhoneNumber.cs" />
     <Compile Include="PhoneType.cs" />
     <Compile Include="Privilege.cs" />
     <Compile Include="PrivilegesGroup.cs" />
-    <Compile Include="StreetAddress.cs" />
     <Compile Include="User.cs" />
     <Compile Include="Yahrtzieht.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DataCache\DataCache.csproj">
+      <Project>{41c40f86-3faf-415e-bb93-725fd4e4df0f}</Project>
+      <Name>DataCache</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Framework\Framework.csproj">
       <Project>{23F121B4-CA1D-4E7A-B72C-241A93886EAF}</Project>
       <Name>Framework</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

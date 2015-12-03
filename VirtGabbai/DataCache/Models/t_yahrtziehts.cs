@@ -10,7 +10,7 @@ namespace DataCache.Models
         public string relation { get; set; }
         public System.DateTime date { get; set; }
         public string deceaseds_name { get; set; }
-        public virtual t_people t_people { get; set; }
+        public virtual Person t_people { get; set; }
 
         public static t_yahrtziehts Createt_yahrtziehts(int _Id, int personId, DateTime date, string name) => new t_yahrtziehts { C_id = _Id, person_id = personId, date = date, deceaseds_name = name };
     }

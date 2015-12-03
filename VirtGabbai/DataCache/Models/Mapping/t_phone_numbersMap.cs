@@ -3,7 +3,7 @@ using System.Data.Entity.ModelConfiguration;
 
 namespace DataCache.Models.Mapping
 {
-    public class t_phone_numbersMap : EntityTypeConfiguration<t_phone_numbers>
+    public class t_phone_numbersMap : EntityTypeConfiguration<PhoneNumber>
     {
         public t_phone_numbersMap()
         {
@@ -26,7 +26,7 @@ namespace DataCache.Models.Mapping
 
             // Relationships
             this.HasRequired(t => t.t_people)
-                .WithMany(t => t.t_phone_numbers)
+                .WithMany(t => t.PhoneNumbers)
                 .HasForeignKey(d => d.person_id);
             this.HasRequired(t => t.t_phone_types)
                 .WithMany(t => t.t_phone_numbers)

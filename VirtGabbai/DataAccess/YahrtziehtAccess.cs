@@ -64,8 +64,8 @@ namespace DataAccess
             try
             {
                 return (from CurrPerson in Cache.CacheData.t_people
-                        where CurrPerson.C_id == personId
-                        select CurrPerson).First().t_yahrtziehts.ToList<t_yahrtziehts>();
+                        where CurrPerson.ID == personId
+                        select CurrPerson).First().Yahrtziehts.ToList<t_yahrtziehts>();
             }
             catch (Exception)
             {

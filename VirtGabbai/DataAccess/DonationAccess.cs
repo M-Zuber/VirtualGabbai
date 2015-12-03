@@ -30,12 +30,12 @@ namespace DataAccess
 
         #region Db type return
 
-        private static t_donations LookupDonationById(int id)
+        private static Donation LookupDonationById(int id)
         {
             try
             {
                 return (from CurrDonation in Cache.CacheData.t_donations
-                        where CurrDonation.C_id == id
+                        where CurrDonation.ID == id
                         select CurrDonation).First();
             }
             catch (Exception)
@@ -45,13 +45,13 @@ namespace DataAccess
             }
         }
 
-        private static List<t_donations> LookupByReason(string reason)
+        private static List<DataCache.Models.Donation> LookupByReason(string reason)
         {
             try
             {
                 return (from CurrDonation in Cache.CacheData.t_donations
-                        where CurrDonation.reason == reason
-                        select CurrDonation).ToList<t_donations>();
+                        where CurrDonation.Reason == reason
+                        select CurrDonation).ToList();
             }
             catch (Exception)
             {
@@ -60,13 +60,13 @@ namespace DataAccess
             }
         }
 
-        private static List<t_donations> LookupByDonationDate(DateTime donationDate)
+        private static List<DataCache.Models.Donation> LookupByDonationDate(DateTime donationDate)
         {
             try
             {
                 return (from CurrDonation in Cache.CacheData.t_donations
-                        where CurrDonation.date_donated == donationDate
-                        select CurrDonation).ToList<t_donations>();
+                        where CurrDonation.DonationDate == donationDate
+                        select CurrDonation).ToList();
             }
             catch (Exception)
             {
@@ -75,13 +75,13 @@ namespace DataAccess
             }
         }
 
-        private static List<t_donations> LookupByPaymentDate(DateTime paymentDate)
+        private static List<DataCache.Models.Donation> LookupByPaymentDate(DateTime paymentDate)
         {
             try
             {
                 return (from CurrDonation in Cache.CacheData.t_donations
-                        where CurrDonation.date_paid == paymentDate
-                        select CurrDonation).ToList<t_donations>();
+                        where CurrDonation.DatePaid == paymentDate
+                        select CurrDonation).ToList();
             }
             catch (Exception)
             {
@@ -90,14 +90,14 @@ namespace DataAccess
             }
         }
 
-        private static t_donations LookupSpecificDonation(string reason, double amount, DateTime donationDate)
+        private static Donation LookupSpecificDonation(string reason, double amount, DateTime donationDate)
         {
             try
             {
                 return (from CurrDonation in Cache.CacheData.t_donations
-                        where CurrDonation.reason == reason &&
-                              CurrDonation.amount == amount &&
-                              CurrDonation.date_donated == donationDate
+                        where CurrDonation.Reason == reason &&
+                              CurrDonation.Amount == amount &&
+                              CurrDonation.DonationDate == donationDate
                         select CurrDonation).First();
             }
             catch (Exception)
@@ -107,13 +107,13 @@ namespace DataAccess
             }
         }
 
-        private static List<t_donations> LookupAllDonations(int accountId)
+        private static List<DataCache.Models.Donation> LookupAllDonations(int accountId)
         {
             try
             {
                 return (from CurrAccount in Cache.CacheData.t_accounts
-                        where CurrAccount.C_id == accountId
-                        select CurrAccount).First().t_donations.ToList<t_donations>();
+                        where CurrAccount.ID == accountId
+                        select CurrAccount).First().Donations.ToList<DataCache.Models.Donation>();
             }
             catch (Exception)
             {
@@ -134,7 +134,7 @@ namespace DataAccess
         {
             try
             {
-                t_donations newDbDonation = ConvertSingleLocalDonationToDbType(newDonation, accountId);
+                DataCache.Models.Donation newDbDonation = ConvertSingleLocalDonationToDbType(newDonation, accountId);
                 Cache.CacheData.t_donations.Add(newDbDonation);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.CREATE_SUCCESS;
@@ -167,7 +167,7 @@ namespace DataAccess
         {
             try
             {
-                t_donations donationUpdating = LookupDonationById(updatedDonation._Id);
+                DataCache.Models.Donation donationUpdating = LookupDonationById(updatedDonation.ID);
                 donationUpdating = ConvertSingleLocalDonationToDbType(updatedDonation, accountId);
                 Cache.CacheData.t_donations.Attach(donationUpdating);
                 Cache.CacheData.SaveChanges();
@@ -201,8 +201,8 @@ namespace DataAccess
         {
             try
             {
-                t_donations donationDeleting =
-                    Cache.CacheData.t_donations.First(donation => donation.C_id == deleteDonation._Id);
+                DataCache.Models.Donation donationDeleting =
+                    Cache.CacheData.t_donations.First(donation => donation.ID == deleteDonation.ID);
                 Cache.CacheData.t_donations.Remove(donationDeleting);
                 Cache.CacheData.SaveChanges();
                 return Enums.CRUDResults.DELETE_SUCCESS;
@@ -233,7 +233,7 @@ namespace DataAccess
 
         public static Enums.CRUDResults UpsertSingleDonation(Donation upsertedDonation, int accountId)
         {
-            Donation currentDonation = GetDonationById(upsertedDonation._Id);
+            Donation currentDonation = GetDonationById(upsertedDonation.ID);
 
             if (currentDonation == null)
             {
@@ -259,37 +259,30 @@ namespace DataAccess
 
         #region Private Methods
 
-        internal static List<t_donations> ConvertMultipleLocalDonationssToDbType(List<Donation> localTypeDonationList, int accountNumber)
+        internal static List<DataCache.Models.Donation> ConvertMultipleLocalDonationssToDbType(List<Donation> localTypeDonationList, int accountNumber)
         {
-            List<t_donations> dbTypeDonationList = new List<t_donations>();
+            List<DataCache.Models.Donation> dbTypeDonationList = new List<DataCache.Models.Donation>();
 
             foreach (Donation CurrDonation in localTypeDonationList)
             {
-                dbTypeDonationList.Add(ConvertSingleLocalDonationToDbType(CurrDonation, accountNumber));
+                dbTypeDonationList.Add((DataCache.Models.Donation)ConvertSingleLocalDonationToDbType(CurrDonation, accountNumber));
             }
 
             return dbTypeDonationList;
         }
 
-        internal static t_donations ConvertSingleLocalDonationToDbType(Donation localTypeDonation, int accountNumber)
+        internal static Donation ConvertSingleLocalDonationToDbType(Donation localTypeDonation, int accountNumber)
         {
-            t_donations convertedDonation = t_donations.Createt_donations(
-                localTypeDonation._Id, accountNumber, localTypeDonation.Reason, localTypeDonation.Amount,
-                localTypeDonation.DonationDate, false);
-            convertedDonation.comments = localTypeDonation.Comments;
-            if (localTypeDonation is PaidDonation)
-            {
-                convertedDonation.paid = true;
-                convertedDonation.date_paid = (localTypeDonation as PaidDonation).PaymentDate; 
-            }
-            else
-            {
-                convertedDonation.date_paid = null;
-            }
+            DataCache.Models.Donation convertedDonation = DataCache.Models.Donation.Createt_donations(
+                localTypeDonation.ID, accountNumber, localTypeDonation.Reason, localTypeDonation.Amount,
+                localTypeDonation.DonationDate, localTypeDonation.Paid);
+            convertedDonation.Comments = localTypeDonation.Comments;
+            convertedDonation.DatePaid = localTypeDonation.DatePaid;
+
             return convertedDonation;
         }
 
-        internal static List<Donation> ConvertMultipleDbDonationsToLocalType(List<t_donations> dbTypeDonationList)
+        internal static List<Donation> ConvertMultipleDbDonationsToLocalType(List<DataCache.Models.Donation> dbTypeDonationList)
         {
             if (dbTypeDonationList == null)
             {
@@ -298,40 +291,41 @@ namespace DataAccess
             }
             List<Donation> localTypeDonationList = new List<Donation>();
 
-            foreach (t_donations CurrDonation in dbTypeDonationList)
+            foreach (DataCache.Models.Donation CurrDonation in dbTypeDonationList)
             {
-                localTypeDonationList.Add(ConvertSingleDbDonationToLocalType(CurrDonation));
+                localTypeDonationList.Add((Donation)ConvertSingleDbDonationToLocalType(CurrDonation));
             }
 
             return localTypeDonationList;
         }
 
-        internal static Donation ConvertSingleDbDonationToLocalType(t_donations dbTypeDonations)
+        internal static Donation ConvertSingleDbDonationToLocalType(DataCache.Models.Donation dbTypeDonations)
         {
             if (dbTypeDonations == null)
             {
                 //LOG
                 return null;
             }
-            if (dbTypeDonations.comments == null)
+            if (dbTypeDonations.Comments == null)
             {
-                dbTypeDonations.comments = "";
+                dbTypeDonations.Comments = "";
             }
-            Donation convertedDonation;
-            if (dbTypeDonations.paid)
+            Donation convertedDonation = null;
+            if (dbTypeDonations.Paid)
             {
                 DateTime paymentDate = DateTime.Today;
-                if (dbTypeDonations.date_paid.HasValue)
+                if (dbTypeDonations.DatePaid.HasValue)
                 {
-                    paymentDate = dbTypeDonations.date_paid.Value;
+                    paymentDate = dbTypeDonations.DatePaid.Value;
                 }
-                convertedDonation = new PaidDonation(dbTypeDonations.C_id, dbTypeDonations.reason, dbTypeDonations.amount,
-                    dbTypeDonations.date_donated, dbTypeDonations.comments, paymentDate);
+                //TODO fix this
+                //convertedDonation = new PaidDonation(dbTypeDonations.ID, dbTypeDonations.Reason, dbTypeDonations.Amount,
+                //    dbTypeDonations.DonationDate, dbTypeDonations.Comments, paymentDate);
             }
             else
             {
-                convertedDonation = new Donation(dbTypeDonations.C_id, dbTypeDonations.reason, dbTypeDonations.amount,
-                                    dbTypeDonations.date_donated, dbTypeDonations.comments);
+                //convertedDonation = new Donation(dbTypeDonations.ID, dbTypeDonations.Reason, dbTypeDonations.Amount,
+                //                    dbTypeDonations.DonationDate, dbTypeDonations.Comments);
             }
 
             return convertedDonation;

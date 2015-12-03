@@ -55,25 +55,29 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cache.cs" />
-    <Compile Include="Models\Mapping\t_accountsMap.cs" />
-    <Compile Include="Models\Mapping\t_donationsMap.cs" />
-    <Compile Include="Models\Mapping\t_peopleMap.cs" />
+    <Compile Include="Models\Mapping\AccountsMap.cs" />
+    <Compile Include="Models\Mapping\DonationsMap.cs" />
+    <Compile Include="Models\Mapping\PeopleMap.cs" />
     <Compile Include="Models\Mapping\t_phone_numbersMap.cs" />
     <Compile Include="Models\Mapping\t_phone_typesMap.cs" />
     <Compile Include="Models\Mapping\t_privilegesMap.cs" />
     <Compile Include="Models\Mapping\t_privilege_groupsMap.cs" />
     <Compile Include="Models\Mapping\t_usersMap.cs" />
     <Compile Include="Models\Mapping\t_yahrtziehtsMap.cs" />
-    <Compile Include="Models\t_accounts.cs" />
-    <Compile Include="Models\t_donations.cs" />
-    <Compile Include="Models\t_people.cs" />
-    <Compile Include="Models\t_phone_numbers.cs" />
+    <Compile Include="Models\Account.cs" />
+    <Compile Include="Models\Donation.cs" />
+    <Compile Include="Models\Person.cs" />
+    <Compile Include="Models\PhoneNumber.cs" />
     <Compile Include="Models\t_phone_types.cs" />
     <Compile Include="Models\t_privileges.cs" />
     <Compile Include="Models\t_privilege_groups.cs" />
     <Compile Include="Models\t_users.cs" />
     <Compile Include="Models\t_yahrtziehts.cs" />
     <Compile Include="Models\zera_leviContext.cs" />
+    <Compile Include="Partials\Account.cs" />
+    <Compile Include="Partials\Donation.cs" />
+    <Compile Include="Partials\Person.cs" />
+    <Compile Include="Partials\StreetAddress.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -82,7 +86,12 @@
     </None>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Framework\Framework.csproj">
+      <Project>{23f121b4-ca1d-4e7a-b72c-241a93886eaf}</Project>
+      <Name>Framework</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

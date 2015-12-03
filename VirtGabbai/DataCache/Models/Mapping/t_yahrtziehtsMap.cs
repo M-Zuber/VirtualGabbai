@@ -30,7 +30,7 @@ namespace DataCache.Models.Mapping
 
             // Relationships
             this.HasRequired(t => t.t_people)
-                .WithMany(t => t.t_yahrtziehts)
+                .WithMany(t => t.Yahrtziehts)
                 .HasForeignKey(d => d.person_id);
 
         }
