@@ -18,15 +18,15 @@ namespace DataCache.Models
         {
             User comparedUser = (User)obj;
 
-            return ((this.ID == comparedUser.ID) &&
-                    (this.UserName == comparedUser.UserName) &&
-                    (this.Password == comparedUser.Password) &&
-                    (this.Email.Equals(comparedUser.Email)) &&
-                    (this.PrivilegeGroup.Equals(comparedUser.PrivilegeGroup)));
+            return ((ID == comparedUser.ID) &&
+                    (UserName == comparedUser.UserName) &&
+                    (Password == comparedUser.Password) &&
+                    (Email.Equals(comparedUser.Email)) &&
+                    (PrivilegeGroup.Equals(comparedUser.PrivilegeGroup)));
         }
 
         public override int GetHashCode() => base.GetHashCode();
 
-        public override string ToString() => "User UserName: " + this.UserName + "\nEmail: " + this.Email + "\n" + this.PrivilegeGroup.ToString();
+        public override string ToString() => $"User UserName: {UserName}\nEmail: {Email}\n{PrivilegeGroup.ToString()}";
     }
 }

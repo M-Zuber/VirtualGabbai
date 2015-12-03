@@ -19,12 +19,12 @@ namespace DataCache.Models
 
         public override string ToString()
         {
-            string returnString = "Donated for: \"" + this.Reason +
-                                  "\" Amount donated: \"" + this.Amount +
-                                  "\" Date donated: \"" + this.DonationDate.ToString("dd/MM/yyyy") + "\"";
-            if (this.Comments != string.Empty)
+            string returnString = $"Donated for: \"{Reason}\"" +
+                                  $" Amount donated: \"{Amount}\"" +
+                                  $" Date donated: \"{DonationDate.ToString("dd/MM/yyyy")}\"";
+            if (Comments != string.Empty)
             {
-                returnString += " Comments: \"" + this.Comments + "\"";
+                returnString = $"{returnString} Comments: \"{Comments}\"";
 
             }
             return returnString;
@@ -34,15 +34,15 @@ namespace DataCache.Models
         {
             Donation donationToCompare = (Donation)obj;
 
-            if ((donationToCompare.Comments == null) && (this.Comments != null))
+            if ((donationToCompare.Comments == null) && (Comments != null))
             {
                 return false;
             }
-            return ((this.ID == donationToCompare.ID) &&
-                    (this.Amount == donationToCompare.Amount) &&
-                    (this.Comments == donationToCompare.Comments) &&
-                    (this.DonationDate == donationToCompare.DonationDate) &&
-                    (this.Reason == donationToCompare.Reason));
+            return ((ID == donationToCompare.ID) &&
+                    (Amount == donationToCompare.Amount) &&
+                    (Comments == donationToCompare.Comments) &&
+                    (DonationDate == donationToCompare.DonationDate) &&
+                    (Reason == donationToCompare.Reason));
         }
 
         public override int GetHashCode() => base.GetHashCode();

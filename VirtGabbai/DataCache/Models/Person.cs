@@ -65,10 +65,10 @@ namespace DataCache.Models
                 membership = "\nHas membership";
             }
 
-            return GivenName + " " + FamilyName + "\n" + Email + "\n" +
-                   "Lives at:\n" + Address.ToString() + membership + "\nAccount information:\n" +
-                   Account.ToString() + "\nPhone Numbers:\n\t" + phoneNumbersString +
-                   "\nYahrtziehts:\n\t" + yahrtziehtsString;
+            return $"{GivenName} {FamilyName}\n{Email}\n" +
+                   $"Lives at:\n{FullAddress.ToString()} {membership}\nAccount information:\n" +
+                   $"{Account.ToString()} \nPhone Numbers:\n\t{phoneNumbersString}" +
+                   $"\nYahrtziehts:\n\t{yahrtziehtsString}";
         }
 
         public override int GetHashCode() => base.GetHashCode();

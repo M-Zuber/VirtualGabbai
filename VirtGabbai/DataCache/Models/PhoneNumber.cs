@@ -23,7 +23,7 @@ namespace DataCache.Models
                     (Type.Equals(numberComparing.Type)));
         }
 
-        public override string ToString() => "Number:\"" + Number + "\" " + Type.ToString();
+        public override string ToString() => $"Number:\"{Number}\" {Type.ToString()}";
 
         public override int GetHashCode() => base.GetHashCode();
     }
