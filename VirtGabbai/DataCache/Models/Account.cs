@@ -28,14 +28,16 @@ namespace DataCache.Models
 
         public override bool Equals(object obj)
         {
-            Account accountToCompare = (Account)obj;
+            var o = obj as Account;
+            if (o == null)
+            {
+                return false;
+            }
 
-            bool allDonationsEqual = ((UnpaidDonations.SameAs(accountToCompare.UnpaidDonations)) &&
-                                      (PaidDonations.SameAs(accountToCompare.PaidDonations)));
-            return ((allDonationsEqual) &&
-                    (ID == accountToCompare.ID) &&
-                    (LastMonthlyPaymentDate == accountToCompare.LastMonthlyPaymentDate) &&
-                    (MonthlyPaymentTotal == accountToCompare.MonthlyPaymentTotal));
+            return ID == o.ID &&
+                   LastMonthlyPaymentDate.Equals(o.LastMonthlyPaymentDate) &&
+                   PersonID == o.PersonID &&
+                   Enumerable.SequenceEqual(Donations, o.Donations);
         }
 
         public override string ToString()
@@ -58,13 +60,17 @@ namespace DataCache.Models
             }
 
             // TODO string should represent whether LastMonthlyPaymentDate is null
+            // TODO string should relect the absence of any donations
             return $"Total owed for the monthly payment: \"{MonthlyPaymentTotal}\"\n" +
                               $"Last month the monthly payment was made: \"{LastMonthlyPaymentDate?.Month}\"\n" +
                               $"Donations:\n{donations}";
         }
 
         public override int GetHashCode() => base.GetHashCode();
+        // TODO can i use an anon obej to get smae hashcode - try it - test it
+        // the reason not to use tostring is the complication of it. - also it is prone to change
 
+        //TODO maybe these should also take into account the DatePaid prop. - does it make a diff if Paid prop becomes calculated?
         private static List<Donation> GetUnpaidDonations(IEnumerable<Donation> allDonations) => allDonations.Where(d => !d.Paid).ToList();
 
         private static List<Donation> GetPaidDonations(IEnumerable<Donation> allDonations) => allDonations.Where(d => d.Paid).ToList();
