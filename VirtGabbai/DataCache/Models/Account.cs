@@ -34,10 +34,11 @@ namespace DataCache.Models
                 return false;
             }
 
-            return ID == o.ID &&
-                   LastMonthlyPaymentDate.Equals(o.LastMonthlyPaymentDate) &&
-                   PersonID == o.PersonID &&
-                   Enumerable.SequenceEqual(Donations, o.Donations);
+            return ReferenceEquals(this, o) ||
+                   (ID == o.ID &&
+                    LastMonthlyPaymentDate.Equals(o.LastMonthlyPaymentDate) &&
+                    PersonID == o.PersonID &&
+                    Enumerable.SequenceEqual(Donations, o.Donations));
         }
 
         public override string ToString()

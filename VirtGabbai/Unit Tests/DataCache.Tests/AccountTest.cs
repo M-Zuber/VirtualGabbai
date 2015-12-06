@@ -52,20 +52,28 @@ namespace DataCache.Tests
         {
             Assert.IsFalse(targetAccount.Equals(1));
         }
+
+        [TestMethod]
+        public void Account_Equals_Same_Reference()
+        {
+            Assert.IsTrue(targetAccount.Equals(targetAccount));
+        }
+
         /// <summary>
         ///Comparing two accounts with a difference in the donations list
         ///</summary>
         [TestMethod()]
         public void Account_Equals_DifferenceInDonations()
         {
-            List<Donation> otherDonations = new List<Donation>();
-            otherDonations.AddRange(allDonations);
+            List<Donation> otherDonations = new List<Donation>(allDonations);
             otherDonations.Add(new Donation { ID = 34, Reason = "reason:6", Amount = 12.5, DonationDate = DateTime.Today, Comments = "comment", DatePaid = DateTime.Today, Paid = true });
             otherDonations.Add(new Donation { ID = 7, Reason = "reason:7", Amount = 12.5, DonationDate = DateTime.Today, Comments = "comment", DatePaid = DateTime.Today, Paid = true });
             otherDonations.Add(new Donation { ID = 56, Reason = "reason:8", Amount = 12.5, DonationDate = DateTime.Today, Comments = "comment", DatePaid = DateTime.Today, Paid = true });
+
             Account otherAccount = new Account { ID = id, LastMonthlyPaymentDate = lastMonthlyPaymentDate, Donations = otherDonations };
 
             Assert.IsFalse(targetAccount.Equals(otherAccount));
+            Assert.IsFalse(otherAccount.Equals(targetAccount));
         }
 
         /// <summary>
@@ -75,7 +83,9 @@ namespace DataCache.Tests
         public void Account_Equals_DifferenceInLastMonthlyPayment()
         {
             Account otherAccount = new Account { ID = id, LastMonthlyPaymentDate = DateTime.MaxValue, Donations = allDonations };
+
             Assert.IsFalse(targetAccount.Equals(otherAccount));
+            Assert.IsFalse(otherAccount.Equals(targetAccount));
         }
 
         /// <summary>
@@ -96,7 +106,9 @@ namespace DataCache.Tests
         public void Account_Equals_DifferenceInId()
         {
             Account otherAccount = new Account { ID = (id * 2), LastMonthlyPaymentDate = lastMonthlyPaymentDate, Donations = allDonations };
+
             Assert.IsFalse(targetAccount.Equals(otherAccount));
+            Assert.IsFalse(otherAccount.Equals(targetAccount));
         }
 
         /// <summary>
@@ -106,7 +118,9 @@ namespace DataCache.Tests
         public void Account_Equals_NoDifferences()
         {
             Account otherAccount = new Account { ID = id, LastMonthlyPaymentDate = lastMonthlyPaymentDate, Donations = allDonations };
+
             Assert.IsTrue(targetAccount.Equals(otherAccount));
+            Assert.IsTrue(otherAccount.Equals(targetAccount));
         }
 
         /// <summary>
@@ -115,13 +129,15 @@ namespace DataCache.Tests
         [TestMethod()]
         public void Account_Equals_DifferenceInEveryField()
         {
-            List<Donation> otherDonation = new List<Donation>();
-            otherDonation.AddRange(allDonations);
+            List<Donation> otherDonation = new List<Donation>(allDonations);
             otherDonation.Add(new Donation { ID = 6, Reason = "reason:6", Amount = 12.5, DonationDate = DateTime.Today, Comments = "comment", DatePaid = DateTime.Today, Paid = true });
             otherDonation.Add(new Donation { ID = 7, Reason = "reason:7", Amount = 12.5, DonationDate = DateTime.Today, Comments = "comment", DatePaid = DateTime.Today, Paid = true });
             otherDonation.Add(new Donation { ID = 8, Reason = "reason:8", Amount = 12.5, DonationDate = DateTime.Today, Comments = "comment", DatePaid = DateTime.Today, Paid = true });
+
             Account otherAccount = new Account { ID = (id * 2), LastMonthlyPaymentDate = DateTime.MaxValue, Donations = otherDonation };
+
             Assert.IsFalse(targetAccount.Equals(otherAccount));
+            Assert.IsFalse(otherAccount.Equals(targetAccount));
         }
 
         #endregion
