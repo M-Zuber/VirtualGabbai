@@ -142,6 +142,14 @@ namespace DataCache.Tests
 
         #endregion
 
+        [TestMethod]
+        public void Account_GetHashCode_Same_Properties_Returns_Same_Value()
+        {
+            var otherAccount = new Account { ID = id, LastMonthlyPaymentDate = lastMonthlyPaymentDate, Donations = allDonations };
+
+            Assert.AreEqual(targetAccount.GetHashCode(), otherAccount.GetHashCode());
+        }
+
         #region ToString Tests
 
         /// <summary>
