@@ -11,6 +11,7 @@ namespace DataCache.Models
         public double Amount { get; set; }
         public DateTime DonationDate { get; set; }
         public DateTime? DatePaid { get; set; }
+        //TODO should this be a calculated property? if paidDate has value && earlier or equal to today && ((after dontaiondate)??)
         public bool Paid { get; set; }
         public string Comments { get; set; }
         public virtual Account Accounts { get; set; }
