@@ -24,8 +24,8 @@ namespace DataCache.Models
                 return monthesOwedFor * MonthlyPaymentAmount;
             }
         }
-        public List<Donation> UnpaidDonations => GetUnpaidDonations(Donations);
-        public List<Donation> PaidDonations => GetPaidDonations(Donations);
+        public List<Donation> UnpaidDonations => GetUnpaidDonations();
+        public List<Donation> PaidDonations => GetPaidDonations();
 
         public override bool Equals(object obj)
         {
@@ -72,12 +72,10 @@ namespace DataCache.Models
         }
 
         public override int GetHashCode() => new {ID, MonthlyPaymentAmount, LastMonthlyPaymentDate, PaidDonations, UnpaidDonations, PersonID}.ToString().GetHashCode();
-        // TODO can i use an anon obej to get smae hashcode - try it - test it
-        // the reason not to use tostring is the complication of it. - also it is prone to change
 
         //TODO maybe these should also take into account the DatePaid prop. - does it make a diff if Paid prop becomes calculated?
-        private static List<Donation> GetUnpaidDonations(IEnumerable<Donation> allDonations) => allDonations.Where(d => !d.Paid).ToList();
+        private List<Donation> GetUnpaidDonations() => Donations.Where(d => !d.Paid).ToList();
 
-        private static List<Donation> GetPaidDonations(IEnumerable<Donation> allDonations) => allDonations.Where(d => d.Paid).ToList();
+        private List<Donation> GetPaidDonations() => Donations.Where(d => d.Paid).ToList();
     }
 }
