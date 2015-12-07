@@ -5,6 +5,17 @@ namespace DataCache.Models
 {
     public partial class PhoneNumber
     {
+        public PhoneNumber()
+        {
+
+        }
+        public PhoneNumber(int id, string number, PhoneType type)
+        {
+            ID = id;
+            Number = number;
+            Type = type;
+        }
+
         public int PersonID { get; set; }
         public string Number { get; set; }
         public int NumberTypeID { get; set; }

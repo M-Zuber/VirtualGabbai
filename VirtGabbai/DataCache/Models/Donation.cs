@@ -5,6 +5,22 @@ namespace DataCache.Models
 {
     public partial class Donation
     {
+        public Donation()
+        {
+
+        }
+
+        public Donation(int id, string reason, double amount, DateTime donationDate, string comments, DateTime? datePaid = null, bool paid = false)
+        {
+            ID = id;
+            Reason = reason;
+            Amount = amount;
+            DonationDate = donationDate;
+            Comments = comments;
+            DatePaid = datePaid;
+            Paid = paid;
+        }
+
         public int ID { get; set; }
         public int AccountID { get; set; }
         public string Reason { get; set; }

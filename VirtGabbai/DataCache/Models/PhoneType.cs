@@ -5,6 +5,16 @@ namespace DataCache.Models
 {
     public partial class PhoneType
     {
+        public PhoneType()
+        {
+
+        }
+        public PhoneType(int id, string name)
+        {
+            ID = id;
+            Name = name;
+        }
+
         public int ID { get; set; }
         public string Name { get; set; }
         public virtual ICollection<PhoneNumber> PhoneNumbers { get; set; } = new List<PhoneNumber>();

@@ -7,6 +7,19 @@ namespace DataCache.Models
 {
     public partial class Account
     {
+        public Account()
+        {
+
+        }
+
+        public Account(int id, decimal monthlyPaymentAmount, DateTime? lastMonthlyPaymentDate, IEnumerable<Donation> donations)
+        {
+            ID = id;
+            MonthlyPaymentAmount = monthlyPaymentAmount;
+            LastMonthlyPaymentDate = lastMonthlyPaymentDate;
+            Donations = donations.ToList();
+        }
+
         public int ID { get; set; }
         public int PersonID { get; set; }
         public decimal MonthlyPaymentAmount { get; set; }

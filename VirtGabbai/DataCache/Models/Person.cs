@@ -8,6 +8,24 @@ namespace DataCache.Models
 {
     public partial class Person
     {
+        public Person()
+        {
+
+        }
+
+        public Person(int id, string email, string givenName, string familyName, bool member, string address, Account account, IEnumerable<PhoneNumber> phoneNumbers, IEnumerable<Yahrtzieht> yahrtziehts)
+        {
+            ID = id;
+            Email = email;
+            GivenName = givenName;
+            FamilyName = familyName;
+            Member = member;
+            Address = address;
+            Account = account;
+            PhoneNumbers = phoneNumbers.ToList();
+            Yahrtziehts = yahrtziehts.ToList();
+        }
+
         public int ID { get; set; }
         public string Email { get; set; }
         public string GivenName { get; set; }

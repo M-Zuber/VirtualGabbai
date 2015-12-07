@@ -5,6 +5,18 @@ namespace DataCache.Models
 {
     public partial class Yahrtzieht
     {
+        public Yahrtzieht()
+        {
+
+        }
+        public Yahrtzieht(int id, DateTime date, string name, string relation)
+        {
+            ID = id;
+            Date = date;
+            Name = name;
+            Relation = relation;
+        }
+
         public int ID { get; set; }
         public int PersonID { get; set; }
         public string Relation { get; set; }
