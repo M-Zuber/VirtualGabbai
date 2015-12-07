@@ -61,14 +61,20 @@ namespace DataCache.Models
 
         public override bool Equals(object obj)
         {
-            StreetAddress comparingAddress = (StreetAddress)obj;
-            return ((ApartmentNumber == comparingAddress.ApartmentNumber) &&
-                    (House == comparingAddress.House) &&
-                    (Street == comparingAddress.Street) &&
-                    (City == comparingAddress.City) &&
-                    (State == comparingAddress.State) &&
-                    (Country == comparingAddress.Country) &&
-                    (Zipcode == comparingAddress.Zipcode));
+            var other = obj as StreetAddress;
+            if (other == null)
+            {
+                return false;
+            }
+
+            return ReferenceEquals(this, other) ||
+                    (ApartmentNumber == other.ApartmentNumber &&
+                     House == other.House &&
+                     Street == other.Street &&
+                     City == other.City &&
+                     State == other.State &&
+                     Country == other.Country &&
+                     Zipcode == other.Zipcode);
         }
 
         public override int GetHashCode() => base.GetHashCode();
@@ -76,12 +82,12 @@ namespace DataCache.Models
         public override string ToString()
         {
             string addressToString = House + " " + Street;
-            if (ApartmentNumber != "")
+            if (!string.IsNullOrWhiteSpace(ApartmentNumber))
             {
                 addressToString += "\tApartment #" + ApartmentNumber;
             }
             addressToString += "\n" + City + " ";
-            if (State != "")
+            if (!string.IsNullOrWhiteSpace(State))
             {
                 addressToString += State + " ";
             }

@@ -165,6 +165,23 @@ namespace DataCache.Tests
             Assert.IsFalse(obj.Equals(target));
         }
 
+        [TestMethod]
+        public void StreetAddress_Equals_Null_Returns_False()
+        {
+            StreetAddress target = new StreetAddress("1;1894;beacon st;brookline;ma;usa;02445");
+
+            Assert.IsFalse(target.Equals(null));
+        }
+
+        [TestMethod]
+        public void StreetAddress_Equals_Same_Ref_Returns_True()
+        {
+            StreetAddress target = new StreetAddress("1;1894;beacon st;brookline;ma;usa;02445");
+            var other = target;
+
+            Assert.IsTrue(target.Equals(other));
+            Assert.IsTrue(other.Equals(target));
+        }
         #endregion
 
         #region ToString Tests
