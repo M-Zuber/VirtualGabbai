@@ -19,6 +19,7 @@ namespace DataCache.Mapping
             Property(t => t.ID).HasColumnName("ID");
             Property(t => t.PersonID).HasColumnName("PersonID");
             Property(t => t.LastMonthlyPaymentDate).HasColumnName("LastMonthlyPaymentDate");
+            Property(t => t.MonthlyPaymentAmount).HasColumnName("MonthlyPaymentAmount");
 
             // Relationships
             HasRequired(t => t.Person)
