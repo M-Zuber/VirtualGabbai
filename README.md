@@ -1,5 +1,6 @@
 VirtualGabbai
 =============
+[![Build status](https://ci.appveyor.com/api/projects/status/xjbccma7a5yar60h/branch/master?svg=true)](https://ci.appveyor.com/project/M-Zuber/virtualgabbai/branch/master)
 
 Donation management for organizations
 
