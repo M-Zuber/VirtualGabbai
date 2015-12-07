@@ -71,7 +71,7 @@ namespace DataCache.Models
             if (Yahrtziehts.Count > 0)
             {
                 yahrtziehtsString += Yahrtziehts.First().ToString();
-                foreach (var y in Yahrtziehts)
+                foreach (var y in Yahrtziehts.Skip(1))
                 {
                     yahrtziehtsString += "\n" + y.ToString();
                 }
@@ -84,8 +84,8 @@ namespace DataCache.Models
             }
 
             return $"{GivenName} {FamilyName}\n{Email}\n" +
-                   $"Lives at:\n{FullAddress.ToString()} {membership}\nAccount information:\n" +
-                   $"{Account.ToString()} \nPhone Numbers:\n\t{phoneNumbersString}" +
+                   $"Lives at:\n{FullAddress.ToString()}{membership}\nAccount information:\n" +
+                   $"{Account.ToString()}\nPhone Numbers:\n\t{phoneNumbersString}" +
                    $"\nYahrtziehts:\n\t{yahrtziehtsString}";
         }
 
