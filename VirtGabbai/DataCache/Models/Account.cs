@@ -66,8 +66,8 @@ namespace DataCache.Models
             // TODO string should relect the absence of any donations
             //TODO should include information on amount paying every month
 
-            return $"Total owed for the monthly payment: \"{MonthlyPaymentTotal}\"\n" +
-                              $"Last month the monthly payment was made: \"{LastMonthlyPaymentDate?.Month}\"\n" +
+            return $"Total owed for the monthly payment: '{MonthlyPaymentTotal}'\n" +
+                              $"Last month the monthly payment was made: '{LastMonthlyPaymentDate?.Month}'\n" +
                               $"Donations:\n{donations}";
         }
 

@@ -23,7 +23,7 @@ namespace DataCache.Models
             string returnString = $"Donated for: \"{Reason}\"" +
                                   $" Amount donated: \"{Amount}\"" +
                                   $" Date donated: \"{DonationDate.ToString("dd/MM/yyyy")}\"";
-            if (Comments != string.Empty)
+            if (!string.IsNullOrWhiteSpace(Comments))
             {
                 returnString = $"{returnString} Comments: \"{Comments}\"";
 
