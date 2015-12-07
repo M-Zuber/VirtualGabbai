@@ -324,8 +324,7 @@ namespace DataAccess
                 lastMonthlyPaymentDate = dbTypeAccount.LastMonthlyPaymentDate.Value;
             }
 
-            int monthlyTotal = 0;
-                monthlyTotal = dbTypeAccount.MonthlyPaymentTotal;
+            decimal monthlyTotal = dbTypeAccount.MonthlyPaymentTotal;
             //TODO fix
             return null;
             //return new Account(dbTypeAccount.ID, monthlyTotal, lastMonthlyPaymentDate, accountDonations);

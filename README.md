@@ -1,5 +1,6 @@
 VirtualGabbai
 =============
+[![Build status](https://ci.appveyor.com/api/projects/status/xjbccma7a5yar60h/branch/master?svg=true)](https://ci.appveyor.com/project/M-Zuber/virtualgabbai/branch/master)
 
 [![Join the chat at https://gitter.im/M-Zuber/VirtualGabbai](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/M-Zuber/VirtualGabbai?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 

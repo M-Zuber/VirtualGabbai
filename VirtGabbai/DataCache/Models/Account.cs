@@ -9,10 +9,11 @@ namespace DataCache.Models
     {
         public int ID { get; set; }
         public int PersonID { get; set; }
+        public decimal MonthlyPaymentAmount { get; set; }
         public DateTime? LastMonthlyPaymentDate { get; set; }
         public virtual Person Person { get; set; }
         public virtual ICollection<Donation> Donations { get; set; } = new List<Donation>();
-        public int MonthlyPaymentTotal
+        public decimal MonthlyPaymentTotal
         {
             get
             {
@@ -20,11 +21,11 @@ namespace DataCache.Models
                 //TODO null check this thing
                 var monthesOwedFor = (int)(DateTime.Now - LastMonthlyPaymentDate)?.TotalDays / 30;
 
-                return monthesOwedFor * Globals.MONTHLY_PAYMENT_AMOUNT;
+                return monthesOwedFor * MonthlyPaymentAmount;
             }
         }
-        public List<Donation> UnpaidDonations => GetUnpaidDonations(Donations);
-        public List<Donation> PaidDonations => GetPaidDonations(Donations);
+        public List<Donation> UnpaidDonations => GetUnpaidDonations();
+        public List<Donation> PaidDonations => GetPaidDonations();
 
         public override bool Equals(object obj)
         {
@@ -34,10 +35,12 @@ namespace DataCache.Models
                 return false;
             }
 
-            return ID == o.ID &&
-                   LastMonthlyPaymentDate.Equals(o.LastMonthlyPaymentDate) &&
-                   PersonID == o.PersonID &&
-                   Enumerable.SequenceEqual(Donations, o.Donations);
+            return ReferenceEquals(this, o) ||
+                   (ID == o.ID &&
+                    LastMonthlyPaymentDate.Equals(o.LastMonthlyPaymentDate) &&
+                    PersonID == o.PersonID &&
+                    MonthlyPaymentAmount == o.MonthlyPaymentAmount &&
+                    Enumerable.SequenceEqual(Donations, o.Donations));
         }
 
         public override string ToString()
@@ -61,18 +64,18 @@ namespace DataCache.Models
 
             // TODO string should represent whether LastMonthlyPaymentDate is null
             // TODO string should relect the absence of any donations
+            //TODO should include information on amount paying every month
+
             return $"Total owed for the monthly payment: \"{MonthlyPaymentTotal}\"\n" +
                               $"Last month the monthly payment was made: \"{LastMonthlyPaymentDate?.Month}\"\n" +
                               $"Donations:\n{donations}";
         }
 
-        public override int GetHashCode() => base.GetHashCode();
-        // TODO can i use an anon obej to get smae hashcode - try it - test it
-        // the reason not to use tostring is the complication of it. - also it is prone to change
+        public override int GetHashCode() => new {ID, MonthlyPaymentAmount, LastMonthlyPaymentDate, PaidDonations, UnpaidDonations, PersonID}.ToString().GetHashCode();
 
         //TODO maybe these should also take into account the DatePaid prop. - does it make a diff if Paid prop becomes calculated?
-        private static List<Donation> GetUnpaidDonations(IEnumerable<Donation> allDonations) => allDonations.Where(d => !d.Paid).ToList();
+        private List<Donation> GetUnpaidDonations() => Donations.Where(d => !d.Paid).ToList();
 
-        private static List<Donation> GetPaidDonations(IEnumerable<Donation> allDonations) => allDonations.Where(d => d.Paid).ToList();
+        private List<Donation> GetPaidDonations() => Donations.Where(d => d.Paid).ToList();
     }
 }
