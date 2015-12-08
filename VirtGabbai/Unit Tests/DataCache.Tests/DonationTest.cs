@@ -159,7 +159,10 @@ namespace DataCache.Tests
         [TestMethod]
         public void Donation_Equals_Same_Ref_Returns_True()
         {
-            Assert.IsTrue(targetDonation.Equals(targetDonation));
+            var other = targetDonation;
+
+            Assert.IsTrue(targetDonation.Equals(other));
+            Assert.IsTrue(other.Equals(targetDonation));
         }
 
         [TestMethod]

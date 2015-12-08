@@ -231,7 +231,10 @@ namespace DataCache.Tests
         [TestMethod]
         public void Person_Equals_Same_Ref_Returns_True()
         {
-            Assert.IsTrue(targetPerson.Equals(targetPerson));
+            var other = targetPerson;
+
+            Assert.IsTrue(targetPerson.Equals(other));
+            Assert.IsTrue(other.Equals(targetPerson));
         }
 
         #endregion

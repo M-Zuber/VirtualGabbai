@@ -8,11 +8,6 @@ namespace LocalTypesTest
     public class PhoneTypeTest
     {
         private PhoneType targetPhoneType = null;
-        #region Test Data Members
-
-        //Target Data Members
-
-        #endregion
 
         [TestInitialize()]
         public void MyTestInitialize()
@@ -89,7 +84,10 @@ namespace LocalTypesTest
         [TestMethod]
         public void PhoneType_Equals_Same_Ref_Returns_True()
         {
-            Assert.IsTrue(targetPhoneType.Equals(targetPhoneType));
+            var other = targetPhoneType;
+
+            Assert.IsTrue(other.Equals(targetPhoneType));
+            Assert.IsTrue(targetPhoneType.Equals(other));
         }
 
         #endregion

@@ -88,7 +88,10 @@ namespace DataAccessTest
         [TestMethod]
         public void PhoneNumber_Equals_Same_Ref_Returns_True()
         {
-            Assert.IsTrue(targetPhoneNumber.Equals(targetPhoneNumber));
+            var other = targetPhoneNumber;
+
+            Assert.IsTrue(targetPhoneNumber.Equals(other));
+            Assert.IsTrue(other.Equals(targetPhoneNumber));
         }
 
         #endregion

@@ -1,210 +1,169 @@
-﻿//using DataCache.Models;
-//using LocalTypes;
-//using Microsoft.VisualStudio.TestTools.UnitTesting;
-//using System;
-//using System.Collections.Generic;
+﻿using DataCache.Models;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections.Generic;
 
-//namespace LocalTypesTest
-//{
-    
-    
-//    /// <summary>
-//    ///This is a test class for PrivilegesGroupTest and is intended
-//    ///to contain all PrivilegesGroupTest Unit Tests
-//    ///</summary>
-//    [TestClass()]
-//    public class PrivilegesGroupTest
-//    {
+namespace LocalTypesTest
+{
+    [TestClass()]
+    public class PrivilegesGroupTest
+    {
+        private PrivilegesGroup target;
 
+        [TestInitialize()]
+        public void Setup()
+        {
+            int id = 1;
+            List<Privilege> privileges = new List<Privilege>()
+            {
+                new Privilege(1,"privilege:1"),
+                new Privilege(2, "privilege:2")
+            };
+            string groupName = "firstGroup";
+            target = new PrivilegesGroup(id, groupName, privileges);
+        }
 
-//        private TestContext testContextInstance;
+        [TestCleanup()]
+        public void Cleanup()
+        {
+            target = null;
+        }
 
-//        /// <summary>
-//        ///Gets or sets the test context which provides
-//        ///information about and functionality for the current test run.
-//        ///</summary>
-//        public TestContext TestContext
-//        {
-//            get
-//            {
-//                return testContextInstance;
-//            }
-//            set
-//            {
-//                testContextInstance = value;
-//            }
-//        }
+        #region Equals Test
 
-//        #region Additional test attributes
-//        // 
-//        //You can use the following additional attributes as you write your tests:
-//        //
-//        //Use ClassInitialize to run code before running the first test in the class
-//        //[ClassInitialize()]
-//        //public static void MyClassInitialize(TestContext testContext)
-//        //{
-//        //}
-//        //
-//        //Use ClassCleanup to run code after all tests in a class have run
-//        //[ClassCleanup()]
-//        //public static void MyClassCleanup()
-//        //{
-//        //}
-//        //
-//        //Use TestInitialize to run code before running each test
-//        //[TestInitialize()]
-//        //public void MyTestInitialize()
-//        //{
-//        //}
-//        //
-//        //Use TestCleanup to run code after each test has run
-//        //[TestCleanup()]
-//        //public void MyTestCleanup()
-//        //{
-//        //}
-//        //
-//        #endregion
+        /// <summary>
+        ///A test for Equals
+        ///</summary>
+        [TestMethod()]
+        public void AllSameEqualsTest()
+        {
+            int id = 1;
+            List<Privilege> privileges = new List<Privilege>()
+            {
+                new Privilege(1,"privilege:1"),
+                new Privilege(2, "privilege:2")
+            };
+            string groupName = "firstGroup";
+            var obj = new PrivilegesGroup(id, groupName, privileges);
 
-//        #region Equals Test
+            Assert.IsTrue(target.Equals(obj));
+            Assert.IsTrue(obj.Equals(target));
+        }
 
-//        /// <summary>
-//        ///A test for Equals
-//        ///</summary>
-//        [TestMethod()]
-//        public void AllSameEqualsTest()
-//        {
-//            int id = 1;
-//            List<Privilege> privileges = new List<Privilege>()
-//            {
-//                new Privilege(1, "privilege:1"),
-//                new Privilege(2, "privilege:2")
-//            };
-//            string groupName = "firstGroup";
-//            PrivilegesGroup target = new PrivilegesGroup(id, groupName, privileges);
-//            object obj = new PrivilegesGroup(id, groupName, privileges);
-//            bool expected = true;
-//            bool actual;
-//            actual = target.Equals(obj);
-//            Assert.AreEqual(expected, actual);
-//        }
+        /// <summary>
+        ///A test for Equals
+        ///</summary>
+        [TestMethod()]
+        public void AllDiffEqualsTest()
+        {
+            var obj = new PrivilegesGroup(2, "OtherGroup", new List<Privilege>() {
+                                new Privilege(4, "privilege:4")});
 
-//        /// <summary>
-//        ///A test for Equals
-//        ///</summary>
-//        [TestMethod()]
-//        public void AllDiffEqualsTest()
-//        {
-//            int id = 1;
-//            List<Privilege> privileges = new List<Privilege>()
-//            {
-//                new Privilege(1, "privilege:1"),
-//                new Privilege(2, "privilege:2")
-//            };
-//            string groupName = "firstGroup";
-//            PrivilegesGroup target = new PrivilegesGroup(id, groupName, privileges);
-//            object obj = new PrivilegesGroup(2, "OtherGroup" ,new List<Privilege>() { 
-//                                new Privilege(4, "privilege:4")});
-//            bool expected = false;
-//            bool actual;
-//            actual = target.Equals(obj);
-//            Assert.AreEqual(expected, actual);
-//        }
+            Assert.IsFalse(target.Equals(obj));
+            Assert.IsFalse(obj.Equals(target));
+        }
 
-//        /// <summary>
-//        ///A test for Equals
-//        ///</summary>
-//        [TestMethod()]
-//        public void DiffGroupNameEqualsTest()
-//        {
-//            int id = 1;
-//            List<Privilege> privileges = new List<Privilege>()
-//            {
-//                new Privilege(1, "privilege:1"),
-//                new Privilege(2, "privilege:2")
-//            };
-//            string groupName = "firstGroup";
-//            PrivilegesGroup target = new PrivilegesGroup(id, groupName, privileges);
-//            object obj = new PrivilegesGroup(id, "OtherGroup", privileges);
-//            bool expected = false;
-//            bool actual;
-//            actual = target.Equals(obj);
-//            Assert.AreEqual(expected, actual);
-//        }
+        /// <summary>
+        ///A test for Equals
+        ///</summary>
+        [TestMethod()]
+        public void DiffGroupNameEqualsTest()
+        {
+            int id = 1;
+            List<Privilege> privileges = new List<Privilege>()
+            {
+                new Privilege(1, "privilege:1"),
+                new Privilege(2, "privilege:2")
+            };
+            var obj = new PrivilegesGroup(id, "OtherGroup", privileges);
 
-//        /// <summary>
-//        ///A test for Equals
-//        ///</summary>
-//        [TestMethod()]
-//        public void DiffIdEqualsTest()
-//        {
-//            int id = 1;
-//            List<Privilege> privileges = new List<Privilege>()
-//            {
-//                new Privilege(1, "privilege:1"),
-//                new Privilege(2, "privilege:2")
-//            };
-//            string groupName = "firstGroup";
-//            PrivilegesGroup target = new PrivilegesGroup(id, groupName, privileges);
-//            object obj = new PrivilegesGroup(2, groupName, privileges);
-//            bool expected = false;
-//            bool actual;
-//            actual = target.Equals(obj);
-//            Assert.AreEqual(expected, actual);
-//        }
+            Assert.IsFalse(target.Equals(obj));
+            Assert.IsFalse(obj.Equals(target));
+        }
+
+        /// <summary>
+        ///A test for Equals
+        ///</summary>
+        [TestMethod()]
+        public void DiffIdEqualsTest()
+        {
+            List<Privilege> privileges = new List<Privilege>()
+            {
+                new Privilege(1, "privilege:1"),
+                new Privilege(2, "privilege:2")
+            };
+            string groupName = "firstGroup";
+            var obj = new PrivilegesGroup(2, groupName, privileges);
+
+            Assert.IsFalse(target.Equals(obj));
+            Assert.IsFalse(obj.Equals(target));
+        }
 
 
-//        /// <summary>
-//        ///A test for Equals
-//        ///</summary>
-//        [TestMethod()]
-//        public void DiffPrivilegesEqualsTest()
-//        {
-//            int id = 1;
-//            List<Privilege> privileges = new List<Privilege>()
-//            {
-//                new Privilege(1, "privilege:1"),
-//                new Privilege(2, "privilege:2")
-//            };
-//            string groupName = "firstGroup";
-//            PrivilegesGroup target = new PrivilegesGroup(id, groupName, privileges);
-//            object obj = new PrivilegesGroup(id, groupName, new List<Privilege>() { 
-//                                new Privilege(4, "privilege:4")});
-//            bool expected = false;
-//            bool actual;
-//            actual = target.Equals(obj);
-//            Assert.AreEqual(expected, actual);
-//        }
-        
-//        #endregion
+        /// <summary>
+        ///A test for Equals
+        ///</summary>
+        [TestMethod()]
+        public void DiffPrivilegesEqualsTest()
+        {
+            int id = 1;
+            string groupName = "firstGroup";
+            var obj = new PrivilegesGroup(id, groupName, new List<Privilege>() {
+                                new Privilege(4, "privilege:4")});
 
-//        #region ToString Tests
+            Assert.IsFalse(target.Equals(obj));
+            Assert.IsFalse(obj.Equals(target));
+        }
 
-//        /// <summary>
-//        ///A test for ToString
-//        ///</summary>
-//        [TestMethod()]
-//        public void ToStringTest()
-//        {
-//            int id = 1;
-//            List<Privilege> privileges = new List<Privilege>()
-//            {
-//                new Privilege(1, "privilege:1"),
-//                new Privilege(2, "privilege:2")
-//            };
-//            string groupName = "firstGroup";
-//            PrivilegesGroup target = new PrivilegesGroup(id, groupName, privileges);
-//            string expected = target.GroupName;
+        [TestMethod]
+        public void PrivilegesGroup_Equals_Null_Returns_False()
+        {
+            Assert.IsFalse(target.Equals(null));
+        }
 
-//            foreach (Privilege item in target.Privileges)
-//            {
-//                expected += "\n" + item.ToString();
-//            }
+        [TestMethod]
+        public void PrivilegesGroup_Equals_Non_PrivilegesGroup_Returns_False()
+        {
+            Assert.IsFalse(target.Equals(0));
+        }
 
-//            string actual;
-//            actual = target.ToString();
-//            Assert.AreEqual(expected, actual);
-//        }
-        
-//        #endregion
-//    }
-//}
+        [TestMethod]
+        public void PrivilegesGroup_Equals_Same_Ref_Returns_True()
+        {
+            var other = target;
+
+            Assert.IsTrue(target.Equals(other));
+            Assert.IsTrue(other.Equals(target));
+        }
+
+        #endregion
+
+        #region ToString Tests
+
+        /// <summary>
+        ///A test for ToString
+        ///</summary>
+        [TestMethod()]
+        public void ToStringTest()
+        {
+            int id = 1;
+            List<Privilege> privileges = new List<Privilege>()
+            {
+                new Privilege(1, "privilege:1"),
+                new Privilege(2, "privilege:2")
+            };
+            string groupName = "firstGroup";
+            PrivilegesGroup target = new PrivilegesGroup(id, groupName, privileges);
+            string expected = target.GroupName;
+
+            foreach (Privilege item in target.Privileges)
+            {
+                expected += "\n" + item.ToString();
+            }
+
+            Assert.AreEqual(expected, target.ToString());
+        }
+
+        #endregion
+    }
+}
