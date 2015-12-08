@@ -23,9 +23,16 @@ namespace DataCache.Models
 
         public override bool Equals(object obj)
         {
-            PhoneType comparingPhoneType = (PhoneType)obj;
-            return ((ID == comparingPhoneType.ID) &&
-                    (Name == comparingPhoneType.Name));
+            PhoneType other = obj as PhoneType;
+
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            return ReferenceEquals(this, other) ||
+                   (ID == other.ID &&
+                    Name == other.Name);
         }
 
         public override int GetHashCode() => base.GetHashCode();

@@ -7,7 +7,6 @@ namespace DataAccessTest
     [TestClass()]
     public class PhoneNumberTest
     {
-
         private PhoneNumber targetPhoneNumber = null;
 
         [TestInitialize()]
