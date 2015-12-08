@@ -174,6 +174,14 @@ namespace DataCache.Tests
         }
 
         [TestMethod]
+        public void StreetAddress_Equals_Non_StreetAddress_Returns_False()
+        {
+            StreetAddress target = new StreetAddress("1;1894;beacon st;brookline;ma;usa;02445");
+
+            Assert.IsFalse(target.Equals(0));
+        }
+
+        [TestMethod]
         public void StreetAddress_Equals_Same_Ref_Returns_True()
         {
             StreetAddress target = new StreetAddress("1;1894;beacon st;brookline;ma;usa;02445");

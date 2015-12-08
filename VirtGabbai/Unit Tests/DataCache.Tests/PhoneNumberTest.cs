@@ -74,6 +74,24 @@ namespace DataAccessTest
             Assert.IsFalse(targetPhoneNumber.Equals(comparedNumber));
         }
 
+        [TestMethod]
+        public void PhoneNumber_Equals_Null_Returns_False()
+        {
+            Assert.IsFalse(targetPhoneNumber.Equals(null));
+        }
+
+        [TestMethod]
+        public void PhoneNumber_Equals_Non_PhoneNumber_Returns_False()
+        {
+            Assert.IsFalse(targetPhoneNumber.Equals(0));
+        }
+
+        [TestMethod]
+        public void PhoneNumber_Equals_Same_Ref_Returns_True()
+        {
+            Assert.IsTrue(targetPhoneNumber.Equals(targetPhoneNumber));
+        }
+
         #endregion
 
         #region ToStringTest

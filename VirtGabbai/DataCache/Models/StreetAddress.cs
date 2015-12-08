@@ -62,7 +62,7 @@ namespace DataCache.Models
         public override bool Equals(object obj)
         {
             var other = obj as StreetAddress;
-            if (other == null)
+            if (ReferenceEquals(null, other))
             {
                 return false;
             }
