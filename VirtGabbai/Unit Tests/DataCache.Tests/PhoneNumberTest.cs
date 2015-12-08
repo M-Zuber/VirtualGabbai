@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
-namespace DataAccessTest
+namespace DataCache.Tests
 {
     [TestClass()]
     public class PhoneNumberTest

@@ -3,7 +3,7 @@
 //using Microsoft.VisualStudio.TestTools.UnitTesting;
 //using System;
 
-//namespace LocalTypesTest
+//namespace DataCache.Tests
 //{
     
     

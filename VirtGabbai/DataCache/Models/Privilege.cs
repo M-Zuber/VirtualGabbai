@@ -23,9 +23,16 @@ namespace DataCache.Models
 
         public override bool Equals(object obj)
         {
-            Privilege comparedPrivilege = (Privilege)obj;
-            return ((ID == comparedPrivilege.ID) &&
-                    (Name == comparedPrivilege.Name));
+            Privilege other = obj as Privilege;
+
+            if(ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            return ReferenceEquals(this, other) ||
+                   (ID == other.ID &&
+                    Name == other.Name);
         }
 
         public override int GetHashCode() => base.GetHashCode();
