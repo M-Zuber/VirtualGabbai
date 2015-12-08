@@ -49,19 +49,20 @@ namespace DataCache.Models
 
         public override bool Equals(object obj)
         {
-            Donation donationToCompare = (Donation)obj;
+            Donation other = obj as Donation;
 
-            if ((donationToCompare.Comments == null) && (Comments != null))
+            if (ReferenceEquals(null, other))
             {
                 return false;
             }
-            return ((ID == donationToCompare.ID) &&
-                    (Amount == donationToCompare.Amount) &&
-                    (Comments == donationToCompare.Comments) &&
-                    (DonationDate == donationToCompare.DonationDate) &&
-                    (Reason == donationToCompare.Reason));
+            return ReferenceEquals(this, other) ||
+                   (ID == other.ID &&
+                    Amount == other.Amount &&
+                    Comments == other.Comments &&
+                    DonationDate == other.DonationDate &&
+                    Reason == other.Reason);
         }
 
-        public override int GetHashCode() => base.GetHashCode();
+        public override int GetHashCode() => ID.GetHashCode();
     }
 }

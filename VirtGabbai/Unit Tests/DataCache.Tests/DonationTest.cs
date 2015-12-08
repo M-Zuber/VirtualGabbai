@@ -150,6 +150,24 @@ namespace DataCache.Tests
             Assert.IsFalse(otherDonation.Equals(targetDonation));
         }
 
+        [TestMethod]
+        public void Donation_Equals_Null_Returns_False()
+        {
+            Assert.IsFalse(targetDonation.Equals(null));
+        }
+
+        [TestMethod]
+        public void Donation_Equals_Same_Ref_Returns_True()
+        {
+            Assert.IsTrue(targetDonation.Equals(targetDonation));
+        }
+
+        [TestMethod]
+        public void Donation_Equals_Non_Donation_Returns_True()
+        {
+            Assert.IsFalse(targetDonation.Equals(3));
+        }
+
         #endregion
     }
 }

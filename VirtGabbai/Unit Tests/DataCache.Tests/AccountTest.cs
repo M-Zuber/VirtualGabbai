@@ -54,7 +54,7 @@ namespace DataCache.Tests
         }
 
         [TestMethod]
-        public void Account_Equals_Same_Reference()
+        public void Account_Equals_Same_Reference_Returns_True()
         {
             Assert.IsTrue(targetAccount.Equals(targetAccount));
         }

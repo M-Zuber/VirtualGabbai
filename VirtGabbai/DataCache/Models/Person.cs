@@ -41,17 +41,23 @@ namespace DataCache.Models
 
         public override bool Equals(object obj)
         {
-            Person comparedPerson = (Person)obj;
+            Person other = obj as Person;
 
-            return ((ID == comparedPerson.ID) &&
-                    (Email.Equals(comparedPerson.Email)) &&
-                    (GivenName == comparedPerson.GivenName) &&
-                    (FamilyName == comparedPerson.FamilyName) &&
-                    (Member == comparedPerson.Member) &&
-                    (Address.Equals(comparedPerson.Address)) &&
-                    (Account.Equals(comparedPerson.Account)) &&
-                    (PhoneNumbers.SameAs(comparedPerson.PhoneNumbers)) &&
-                    (Yahrtziehts.SameAs(comparedPerson.Yahrtziehts)));
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            return ReferenceEquals(this, other) ||
+                    (ID == other.ID &&
+                    Email.Equals(other.Email) &&
+                    GivenName == other.GivenName &&
+                    FamilyName == other.FamilyName &&
+                    Member == other.Member &&
+                    Address.Equals(other.Address) &&
+                    Account.Equals(other.Account) &&
+                    PhoneNumbers.SameAs(other.PhoneNumbers) &&
+                    Yahrtziehts.SameAs(other.Yahrtziehts));
         }
 
         public override string ToString()
@@ -89,6 +95,6 @@ namespace DataCache.Models
                    $"\nYahrtziehts:\n\t{yahrtziehtsString}";
         }
 
-        public override int GetHashCode() => base.GetHashCode();
+        public override int GetHashCode() => ID.GetHashCode();
     }
 }

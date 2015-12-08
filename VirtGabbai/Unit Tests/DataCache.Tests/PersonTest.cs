@@ -216,6 +216,24 @@ namespace DataCache.Tests
             Assert.IsFalse(targetPerson.Equals(otherPerson));
         }
 
+        [TestMethod]
+        public void Person_Equals_Null_Returns_False()
+        {
+            Assert.IsFalse(targetPerson.Equals(null));
+        }
+
+        [TestMethod]
+        public void Person_Equals_Non_Person_Returns_False()
+        {
+            Assert.IsFalse(targetPerson.Equals(0));
+        }
+
+        [TestMethod]
+        public void Person_Equals_Same_Ref_Returns_True()
+        {
+            Assert.IsTrue(targetPerson.Equals(targetPerson));
+        }
+
         #endregion
 
         #region ToStringTests
