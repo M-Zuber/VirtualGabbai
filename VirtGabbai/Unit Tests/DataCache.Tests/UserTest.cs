@@ -1,212 +1,185 @@
-﻿//using LocalTypes;
-//using Microsoft.VisualStudio.TestTools.UnitTesting;
-//using System;
-//using System.Collections.Generic;
+﻿using DataCache.Models;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections.Generic;
 
-//namespace DataCache.Tests
-//{
-    
-    
-//    /// <summary>
-//    ///This is a test class for UserTest and is intended
-//    ///to contain all UserTest Unit Tests
-//    ///</summary>
-//    [TestClass()]
-//    public class UserTest
-//    {
+namespace DataCache.Tests
+{
+    [TestClass()]
+    public class UserTest
+    {
+        private int id = 1;
+        private string userName = "mez613";
+        private string password = "*******";
+        private string email = "jack@jingle.high";
+        private PrivilegesGroup privilegeGroup;
+
+        private User target;
+
+        [TestInitialize()]
+        public void MyTestInitialize()
+        {
+            privilegeGroup = new PrivilegesGroup(1, "admin",
+                new List<Privilege>()
+                {
+                    new Privilege(1,"privilege:1"),
+                    new Privilege(2,"privilege:2")
+                });
+
+            target = new User(id, userName, password, email, privilegeGroup);
+        }
+
+        [TestCleanup()]
+        public void MyTestCleanup()
+        {
+            privilegeGroup = null;
+            target = null;
+        }
+
+        #region Setup
 
 
-//        private TestContext testContextInstance;
+        #endregion
 
-//        /// <summary>
-//        ///Gets or sets the test context which provides
-//        ///information about and functionality for the current test run.
-//        ///</summary>
-//        public TestContext TestContext
-//        {
-//            get
-//            {
-//                return testContextInstance;
-//            }
-//            set
-//            {
-//                testContextInstance = value;
-//            }
-//        }
+        #region Equals Tests
 
-//        #region Additional test attributes
-//        // 
-//        //You can use the following additional attributes as you write your tests:
-//        //
-//        //Use ClassInitialize to run code before running the first test in the class
-//        //[ClassInitialize()]
-//        //public static void MyClassInitialize(TestContext testContext)
-//        //{
-//        //}
-//        //
-//        //Use ClassCleanup to run code after all tests in a class have run
-//        //[ClassCleanup()]
-//        //public static void MyClassCleanup()
-//        //{
-//        //}
-//        //
-//        //Use TestInitialize to run code before running each test
-//        //[TestInitialize()]
-//        //public void MyTestInitialize()
-//        //{
-//        //}
-//        //
-//        //Use TestCleanup to run code after each test has run
-//        //[TestCleanup()]
-//        //public void MyTestCleanup()
-//        //{
-//        //}
-//        //
-//        #endregion
+        /// <summary>
+        ///A test for Equals
+        ///</summary>
+        [TestMethod()]
+        public void AllSameEqualsTest()
+        {
+            var other = new User(id, userName, password, email, privilegeGroup);
 
-//        #region Setup
+            Assert.IsTrue(target.Equals(other));
+            Assert.IsTrue(other.Equals(target));
+        }
 
-//        private static int id = 1;
-//        private static string userName = "mez613";
-//        private static string password = "*******";
-//        private static string email = "jack@jingle.high";
-//        private static PrivilegesGroup userGroup = new PrivilegesGroup(1, "admin",
-//            new List<Privilege>()
-//            {
-//                new Privilege(1,"privilege:1"),
-//                new Privilege(2,"privilege:2")
-//            }
-//        );
+        /// <summary>
+        ///A test for Equals
+        ///</summary>
+        [TestMethod()]
+        public void AllDiffEqualsTest()
+        {
+            int diff_id = 0;
+            string diiUserName = "different";
+            string diffPassword = "different";
+            string diffEmail = "blah@maz.blah";
+            PrivilegesGroup diffUserGroup = new PrivilegesGroup(325, "DSATGE", new List<Privilege>()
+                {
+                    new Privilege(456, "3254235")
+                });
+            var  other = new User(diff_id, diiUserName, diffPassword, diffEmail, diffUserGroup); ;
 
-//        private User target = new User(id, userName, password, email, userGroup);
+            Assert.IsFalse(target.Equals(other));
+            Assert.IsFalse(other.Equals(target));
+        }
 
-//        #endregion
+        /// <summary>
+        ///A test for Equals
+        ///</summary>
+        [TestMethod()]
+        public void DiffIdEqualsTest()
+        {
+            int _id = 0;
+            var  other = new User(_id, userName, password, email, privilegeGroup);
 
-//        #region Equals Tests
+            Assert.IsFalse(target.Equals(other));
+            Assert.IsFalse(other.Equals(target));
+        }
 
-//        /// <summary>
-//        ///A test for Equals
-//        ///</summary>
-//        [TestMethod()]
-//        public void AllSameEqualsTest()
-//        {
-//            object obj = new User(id, userName, password, email, userGroup);
-//            bool expected = true;
-//            bool actual;
-//            actual = target.Equals(obj);
-//            Assert.AreEqual(expected, actual);
-//        }
+        /// <summary>
+        ///A test for Equals
+        ///</summary>
+        [TestMethod()]
+        public void DiffUserNameEqualsTest()
+        {
+            string diffUserName = "blah";
+            var  other = new User(id, diffUserName, password, email, privilegeGroup);
 
-//        /// <summary>
-//        ///A test for Equals
-//        ///</summary>
-//        [TestMethod()]
-//        public void AllDiffEqualsTest()
-//        {
-//            int diff_id = 0;
-//            string diiUserName = "different";
-//            string diffPassword = "different";
-//            string diffEmail = "blah@maz.blah";
-//            PrivilegesGroup diffUserGroup = new PrivilegesGroup(325, "DSATGE", new List<Privilege>()
-//                {
-//                    new Privilege(456, "3254235")
-//                });
-//            object obj = new User(diff_id, diiUserName, diffPassword, diffEmail, diffUserGroup);;
-//            bool expected = false;
-//            bool actual;
-//            actual = target.Equals(obj);
-//            Assert.AreEqual(expected, actual);
-//        }
+            Assert.IsFalse(target.Equals(other));
+            Assert.IsFalse(other.Equals(target));
+        }
 
-//        /// <summary>
-//        ///A test for Equals
-//        ///</summary>
-//        [TestMethod()]
-//        public void DiffIdEqualsTest()
-//        {
-//            int _id = 0;
-//            object obj = new User(_id, userName, password, email, userGroup);
-//            bool expected = false;
-//            bool actual;
-//            actual = target.Equals(obj);
-//            Assert.AreEqual(expected, actual);
-//        }
+        /// <summary>
+        ///A test for Equals
+        ///</summary>
+        [TestMethod()]
+        public void DiffPasswordEqualsTest()
+        {
+            string diffPassword = "123432";
+            var  other = new User(id, userName, diffPassword, email, privilegeGroup);
 
-//        /// <summary>
-//        ///A test for Equals
-//        ///</summary>
-//        [TestMethod()]
-//        public void DiffUserNameEqualsTest()
-//        {
-//            string diffUserName = "blah";
-//            object obj = new User(id, diffUserName, password, email, userGroup);
-//            bool expected = false;
-//            bool actual;
-//            actual = target.Equals(obj);
-//            Assert.AreEqual(expected, actual);
-//        }
+            Assert.IsFalse(target.Equals(other));
+            Assert.IsFalse(other.Equals(target));
+        }
 
-//        /// <summary>
-//        ///A test for Equals
-//        ///</summary>
-//        [TestMethod()]
-//        public void DiffPasswordEqualsTest()
-//        {
-//            string diffPassword = "123432";
-//            object obj = new User(id, userName, diffPassword, email, userGroup);
-//            bool expected = false;
-//            bool actual;
-//            actual = target.Equals(obj);
-//            Assert.AreEqual(expected, actual);
-//        }
+        /// <summary>
+        ///A test for Equals
+        ///</summary>
+        [TestMethod()]
+        public void DiffEmailEqualsTest()
+        {
+            string diffEmail = "blah@blah.iter";
+            var  other = new User(id, userName, password, diffEmail, privilegeGroup);
 
-//        /// <summary>
-//        ///A test for Equals
-//        ///</summary>
-//        [TestMethod()]
-//        public void DiffEmailEqualsTest()
-//        {
-//            string diffEmail = "blah@blah.iter";
-//            object obj = new User(id, userName, password, diffEmail, userGroup);
-//            bool expected = false;
-//            bool actual;
-//            actual = target.Equals(obj);
-//            Assert.AreEqual(expected, actual);
-//        }
+            Assert.IsFalse(target.Equals(other));
+            Assert.IsFalse(other.Equals(target));
+        }
 
-//        /// <summary>
-//        ///A test for Equals
-//        ///</summary>
-//        [TestMethod()]
-//        public void DiffUserGroupEqualsTest()
-//        {
-//            PrivilegesGroup diffUserGroup = new PrivilegesGroup(325, "DSATGE", new List<Privilege>()
-//                {
-//                    new Privilege(456, "3254235")
-//                });
-//            object obj = new User(id, userName, password, email, diffUserGroup);
-//            bool expected = false;
-//            bool actual;
-//            actual = target.Equals(obj);
-//            Assert.AreEqual(expected, actual);
-//        }
-//        #endregion
+        /// <summary>
+        ///A test for Equals
+        ///</summary>
+        [TestMethod()]
+        public void DiffUserGroupEqualsTest()
+        {
+            PrivilegesGroup diffUserGroup = new PrivilegesGroup(325, "DSATGE", new List<Privilege>()
+                {
+                    new Privilege(456, "3254235")
+                });
+            var  other = new User(id, userName, password, email, diffUserGroup);
 
-//        #region ToString Tests
+            Assert.IsFalse(target.Equals(other));
+            Assert.IsFalse(other.Equals(target));
+        }
 
-//        /// <summary>
-//        ///A test for ToString
-//        ///</summary>
-//        [TestMethod()]
-//        public void ToStringTest()
-//        {
-//            string expected = "User name: mez613\nEmail: jack@jingle.high\n";
-//            expected += userGroup.ToString();
+        [TestMethod]
+        public void User_Equals_Null_Returns_False()
+        {
+            Assert.IsFalse(target.Equals(null));
+        }
 
-//            string actual = target.ToString();
-//            Assert.AreEqual(expected, actual);
-//        }
-        
-//        #endregion
-//    }
-//}
+        [TestMethod]
+        public void User_Equals_Non_User_Returns_False()
+        {
+            Assert.IsFalse(target.Equals(0));
+        }
+
+        [TestMethod]
+        public void User_Equals_Same_Ref_Returns_True()
+        {
+            var other = target;
+
+            Assert.IsTrue(other.Equals(target));
+            Assert.IsTrue(target.Equals(other));
+        }
+
+        #endregion
+
+        #region ToString Tests
+
+        /// <summary>
+        ///A test for ToString
+        ///</summary>
+        [TestMethod()]
+        public void ToStringTest()
+        {
+            string expected = "UserName: mez613\nEmail: jack@jingle.high\n";
+            expected += privilegeGroup.ToString();
+
+            Assert.AreEqual(expected, target.ToString());
+        }
+
+        #endregion
+    }
+}
