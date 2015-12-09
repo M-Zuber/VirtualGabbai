@@ -8,6 +8,24 @@ namespace DataCache.Models
 {
     public partial class Person
     {
+        public Person()
+        {
+
+        }
+
+        public Person(int id, string email, string givenName, string familyName, bool member, string address, Account account, IEnumerable<PhoneNumber> phoneNumbers, IEnumerable<Yahrtzieht> yahrtziehts)
+        {
+            ID = id;
+            Email = email;
+            GivenName = givenName;
+            FamilyName = familyName;
+            Member = member;
+            Address = address;
+            Account = account;
+            PhoneNumbers = phoneNumbers.ToList();
+            Yahrtziehts = yahrtziehts.ToList();
+        }
+
         public int ID { get; set; }
         public string Email { get; set; }
         public string GivenName { get; set; }
@@ -23,17 +41,23 @@ namespace DataCache.Models
 
         public override bool Equals(object obj)
         {
-            Person comparedPerson = (Person)obj;
+            Person other = obj as Person;
 
-            return ((ID == comparedPerson.ID) &&
-                    (Email.Equals(comparedPerson.Email)) &&
-                    (GivenName == comparedPerson.GivenName) &&
-                    (FamilyName == comparedPerson.FamilyName) &&
-                    (Member == comparedPerson.Member) &&
-                    (Address.Equals(comparedPerson.Address)) &&
-                    (Account.Equals(comparedPerson.Account)) &&
-                    (PhoneNumbers.SameAs(comparedPerson.PhoneNumbers)) &&
-                    (Yahrtziehts.SameAs(comparedPerson.Yahrtziehts)));
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            return ReferenceEquals(this, other) ||
+                    (ID == other.ID &&
+                    Email.Equals(other.Email) &&
+                    GivenName == other.GivenName &&
+                    FamilyName == other.FamilyName &&
+                    Member == other.Member &&
+                    Address.Equals(other.Address) &&
+                    Account.Equals(other.Account) &&
+                    PhoneNumbers.SameAs(other.PhoneNumbers) &&
+                    Yahrtziehts.SameAs(other.Yahrtziehts));
         }
 
         public override string ToString()
@@ -53,7 +77,7 @@ namespace DataCache.Models
             if (Yahrtziehts.Count > 0)
             {
                 yahrtziehtsString += Yahrtziehts.First().ToString();
-                foreach (var y in Yahrtziehts)
+                foreach (var y in Yahrtziehts.Skip(1))
                 {
                     yahrtziehtsString += "\n" + y.ToString();
                 }
@@ -66,11 +90,11 @@ namespace DataCache.Models
             }
 
             return $"{GivenName} {FamilyName}\n{Email}\n" +
-                   $"Lives at:\n{FullAddress.ToString()} {membership}\nAccount information:\n" +
-                   $"{Account.ToString()} \nPhone Numbers:\n\t{phoneNumbersString}" +
+                   $"Lives at:\n{FullAddress.ToString()}{membership}\nAccount information:\n" +
+                   $"{Account.ToString()}\nPhone Numbers:\n\t{phoneNumbersString}" +
                    $"\nYahrtziehts:\n\t{yahrtziehtsString}";
         }
 
-        public override int GetHashCode() => base.GetHashCode();
+        public override int GetHashCode() => ID.GetHashCode();
     }
 }

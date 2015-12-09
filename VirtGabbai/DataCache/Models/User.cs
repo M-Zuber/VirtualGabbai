@@ -5,6 +5,19 @@ namespace DataCache.Models
 {
     public partial class User
     {
+        public User()
+        {
+
+        }
+        public User(int id, string userName, string password, string email, PrivilegesGroup privilegeGroup)
+        {
+            ID = id;
+            UserName = userName;
+            Password = password;
+            Email = email;
+            PrivilegeGroup = privilegeGroup;
+        }
+
         public int ID { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
@@ -16,17 +29,23 @@ namespace DataCache.Models
 
         public override bool Equals(object obj)
         {
-            User comparedUser = (User)obj;
+            User other = obj as User;
 
-            return ((ID == comparedUser.ID) &&
-                    (UserName == comparedUser.UserName) &&
-                    (Password == comparedUser.Password) &&
-                    (Email.Equals(comparedUser.Email)) &&
-                    (PrivilegeGroup.Equals(comparedUser.PrivilegeGroup)));
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            return ReferenceEquals(this, other) ||
+                   (ID == other.ID &&
+                    UserName == other.UserName &&
+                    Password == other.Password &&
+                    Email.Equals(other.Email) &&
+                    PrivilegeGroup.Equals(other.PrivilegeGroup));
         }
 
         public override int GetHashCode() => base.GetHashCode();
 
-        public override string ToString() => $"User UserName: {UserName}\nEmail: {Email}\n{PrivilegeGroup.ToString()}";
+        public override string ToString() => $"UserName: {UserName}\nEmail: {Email}\n{PrivilegeGroup.ToString()}";
     }
 }

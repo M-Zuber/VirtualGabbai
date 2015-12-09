@@ -5,6 +5,18 @@ namespace DataCache.Models
 {
     public partial class Yahrtzieht
     {
+        public Yahrtzieht()
+        {
+
+        }
+        public Yahrtzieht(int id, DateTime date, string name, string relation)
+        {
+            ID = id;
+            Date = date;
+            Name = name;
+            Relation = relation;
+        }
+
         public int ID { get; set; }
         public int PersonID { get; set; }
         public string Relation { get; set; }
@@ -14,13 +26,20 @@ namespace DataCache.Models
 
         public static Yahrtzieht Createt_yahrtziehts(int _Id, int personId, DateTime date, string name) => new Yahrtzieht { ID = _Id, PersonID = personId, Date = date, Name = name };
 
-        public override bool Equals(object yahrComparingObj)
+        public override bool Equals(object obj)
         {
-            Yahrtzieht yahrComparing = (Yahrtzieht)yahrComparingObj;
-            return ((ID == yahrComparing.ID) &&
-                    (Date.Date == yahrComparing.Date.Date) &&
-                    (Name == yahrComparing.Name) &&
-                    (Relation == yahrComparing.Relation));
+            Yahrtzieht other = obj as Yahrtzieht;
+
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            return ReferenceEquals(this, other) ||
+                   (ID == other.ID &&
+                    Date.Date == other.Date.Date &&
+                    Name == other.Name &&
+                    Relation == other.Relation);
         }
 
         public override string ToString() => 

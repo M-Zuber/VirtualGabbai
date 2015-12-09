@@ -7,6 +7,19 @@ namespace DataCache.Models
 {
     public partial class Account
     {
+        public Account()
+        {
+
+        }
+
+        public Account(int id, decimal monthlyPaymentAmount, DateTime? lastMonthlyPaymentDate, IEnumerable<Donation> donations)
+        {
+            ID = id;
+            MonthlyPaymentAmount = monthlyPaymentAmount;
+            LastMonthlyPaymentDate = lastMonthlyPaymentDate;
+            Donations = donations.ToList();
+        }
+
         public int ID { get; set; }
         public int PersonID { get; set; }
         public decimal MonthlyPaymentAmount { get; set; }
@@ -29,18 +42,18 @@ namespace DataCache.Models
 
         public override bool Equals(object obj)
         {
-            var o = obj as Account;
-            if (o == null)
+            var other = obj as Account;
+            if (ReferenceEquals(null, other))
             {
                 return false;
             }
 
-            return ReferenceEquals(this, o) ||
-                   (ID == o.ID &&
-                    LastMonthlyPaymentDate.Equals(o.LastMonthlyPaymentDate) &&
-                    PersonID == o.PersonID &&
-                    MonthlyPaymentAmount == o.MonthlyPaymentAmount &&
-                    Enumerable.SequenceEqual(Donations, o.Donations));
+            return ReferenceEquals(this, other) ||
+                   (ID == other.ID &&
+                    LastMonthlyPaymentDate.Equals(other.LastMonthlyPaymentDate) &&
+                    PersonID == other.PersonID &&
+                    MonthlyPaymentAmount == other.MonthlyPaymentAmount &&
+                    Enumerable.SequenceEqual(Donations, other.Donations));
         }
 
         public override string ToString()
@@ -66,12 +79,12 @@ namespace DataCache.Models
             // TODO string should relect the absence of any donations
             //TODO should include information on amount paying every month
 
-            return $"Total owed for the monthly payment: \"{MonthlyPaymentTotal}\"\n" +
-                              $"Last month the monthly payment was made: \"{LastMonthlyPaymentDate?.Month}\"\n" +
+            return $"Total owed for the monthly payment: '{MonthlyPaymentTotal}'\n" +
+                              $"Last month the monthly payment was made: '{LastMonthlyPaymentDate?.Month}'\n" +
                               $"Donations:\n{donations}";
         }
 
-        public override int GetHashCode() => new {ID, MonthlyPaymentAmount, LastMonthlyPaymentDate, PaidDonations, UnpaidDonations, PersonID}.ToString().GetHashCode();
+        public override int GetHashCode() => ToString().GetHashCode();
 
         //TODO maybe these should also take into account the DatePaid prop. - does it make a diff if Paid prop becomes calculated?
         private List<Donation> GetUnpaidDonations() => Donations.Where(d => !d.Paid).ToList();

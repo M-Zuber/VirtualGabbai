@@ -54,9 +54,12 @@ namespace DataCache.Tests
         }
 
         [TestMethod]
-        public void Account_Equals_Same_Reference()
+        public void Account_Equals_Same_Reference_Returns_True()
         {
-            Assert.IsTrue(targetAccount.Equals(targetAccount));
+            var other = targetAccount;
+
+            Assert.IsTrue(targetAccount.Equals(other));
+            Assert.IsTrue(other.Equals(targetAccount));
         }
 
         /// <summary>
@@ -94,9 +97,10 @@ namespace DataCache.Tests
         [TestMethod()]
         public void Account_Equals_DifferenceInMonthlyPaymentTotal()
         {
-            //TODO add monthlyPaymentTotal to account - it is a property that is stored in the database
-            //   Account otherAccount = new Account(id, (2 * monthlyPaymentTotal), lastMonthlyPaymentDate, allDonations);
-            // Assert.IsFalse(targetAccount.Equals(otherAccount));
+            Account otherAccount = new Account { ID = id, MonthlyPaymentAmount = 2, LastMonthlyPaymentDate = lastMonthlyPaymentDate, Donations = allDonations };
+
+            Assert.IsFalse(targetAccount.Equals(otherAccount));
+            Assert.IsFalse(otherAccount.Equals(targetAccount));
         }
 
         /// <summary>
@@ -150,8 +154,6 @@ namespace DataCache.Tests
             Assert.AreEqual(targetAccount.GetHashCode(), otherAccount.GetHashCode());
         }
 
-        #region ToString Tests
-
         /// <summary>
         ///Account.ToString() test
         ///</summary>
@@ -171,13 +173,12 @@ namespace DataCache.Tests
                 donations += "\n";
             }
             donations = donations.Remove(donations.Length - 1);
-            string expected = "Total owed for the monthly payment: \"" + targetAccount.MonthlyPaymentTotal + "\"\n" +
-                              "Last month the monthly payment was made: \"" + targetAccount.LastMonthlyPaymentDate?.Month + "\"\n" +
+            string expected = "Total owed for the monthly payment: '" + targetAccount.MonthlyPaymentTotal + "'\n" +
+                              "Last month the monthly payment was made: '" + targetAccount.LastMonthlyPaymentDate?.Month + "'\n" +
                               "Donations:\n" + donations;
             string actual = targetAccount.ToString();
+
             Assert.AreEqual(expected, actual);
         }
-
-        #endregion
     }
 }
