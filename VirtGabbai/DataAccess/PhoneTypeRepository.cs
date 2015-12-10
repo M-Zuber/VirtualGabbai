@@ -27,24 +27,22 @@ namespace DataAccess
 
         public void Add(PhoneType item)
         {
-            if (item == null)
+            if (item != null)
             {
-                return;
+                _context.PhoneTypes.Add(item);
+                _context.SaveChanges();
             }
-            _context.PhoneTypes.Add(item);
-            _context.SaveChanges();
         }
 
         public void Delete(PhoneType item)
         {
             var current = _context.PhoneTypes.FirstOrDefault(pt => pt.ID == item.ID);
 
-            if (current == null)
+            if (current != null)
             {
-                return;
+                _context.PhoneTypes.Remove(current);
+                _context.SaveChanges();
             }
-            _context.PhoneTypes.Remove(current);
-            _context.SaveChanges();
         }
 
         public void Save(PhoneType item)
