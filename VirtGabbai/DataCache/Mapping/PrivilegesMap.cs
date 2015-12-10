@@ -1,5 +1,6 @@
 using DataCache.Models;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity.Infrastructure.Annotations;
 using System.Data.Entity.ModelConfiguration;
 
 namespace DataCache.Mapping
@@ -20,7 +21,10 @@ namespace DataCache.Mapping
             // Table & Column Mappings
             this.ToTable("Privileges", "ZeraLevi");
             this.Property(t => t.ID).HasColumnName("ID");
-            this.Property(t => t.Name).HasColumnName("Name");
+            this.Property(t => t.Name)
+                .HasColumnName("Name")
+                .HasColumnAnnotation(IndexAnnotation.AnnotationName,
+                            new IndexAnnotation(new IndexAttribute("IX_Privileges_Name") { IsUnique = true }));
         }
     }
 }
