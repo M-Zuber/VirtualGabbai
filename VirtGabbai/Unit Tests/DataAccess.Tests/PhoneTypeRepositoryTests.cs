@@ -12,7 +12,7 @@ namespace DataAccess.Tests
     public class PhoneTypeRepositoryTests
     {
         [TestMethod]
-        public void PhoneTypeRepository_Get_Nothing_In_Database_Returns_Empty_List()
+        public void Get_Nothing_In_Database_Returns_Empty_List()
         {
             var mock = RepositoryMocks.GetMockPhoneTypeRepository();
 
@@ -23,7 +23,7 @@ namespace DataAccess.Tests
         }
 
         [TestMethod]
-        public void PhoneTypeRepository_Get_Returns_All_Data()
+        public void Get_Returns_All_Data()
         {
             var expected = new List<PhoneType> { new PhoneType { Name = "first" }, new PhoneType { Name = "second" } };
             var mock = RepositoryMocks.GetMockPhoneTypeRepository(expected);
@@ -35,7 +35,7 @@ namespace DataAccess.Tests
         }
 
         [TestMethod]
-        public void PhoneTypeRepository_GetByID_No_Data_Returns_Null()
+        public void GetByID_No_Data_Returns_Null()
         {
             var mock = RepositoryMocks.GetMockPhoneTypeRepository();
 
@@ -45,7 +45,7 @@ namespace DataAccess.Tests
         }
 
         [TestMethod]
-        public void PhoneTypeRepository_GetByID_No_Match_Returns_Null()
+        public void GetByID_No_Match_Returns_Null()
         {
             var mock = RepositoryMocks.GetMockPhoneTypeRepository(new List<PhoneType> { new PhoneType(2, "second") });
 
@@ -55,7 +55,7 @@ namespace DataAccess.Tests
         }
 
         [TestMethod]
-        public void PhoneTypeRepository_GetByID_Returns_The_Item_With_The_Given_ID()
+        public void GetByID_Returns_The_Item_With_The_Given_ID()
         {
             var expected = new PhoneType(1, "First");
             var mock = RepositoryMocks.GetMockPhoneTypeRepository(new List<PhoneType> { expected });
@@ -67,7 +67,7 @@ namespace DataAccess.Tests
         }
 
         [TestMethod]
-        public void PhoneTypeRepository_GetByName_No_Data_Returns_Null()
+        public void GetByName_No_Data_Returns_Null()
         {
             var mock = RepositoryMocks.GetMockPhoneTypeRepository();
 
@@ -77,7 +77,7 @@ namespace DataAccess.Tests
         }
 
         [TestMethod]
-        public void PhoneTypeRepository_GetByName_No_Match_Returns_Null()
+        public void GetByName_No_Match_Returns_Null()
         {
             var mock = RepositoryMocks.GetMockPhoneTypeRepository(new List<PhoneType> { new PhoneType(2, "second") });
 
@@ -87,7 +87,7 @@ namespace DataAccess.Tests
         }
 
         [TestMethod]
-        public void PhoneTypeRepository_GetByName_Returns_The_Item_With_The_Given_ID()
+        public void GetByName_Returns_The_Item_With_The_Given_ID()
         {
             var expected = new PhoneType(1, "First");
             var mock = RepositoryMocks.GetMockPhoneTypeRepository(new List<PhoneType> { expected });
@@ -99,7 +99,7 @@ namespace DataAccess.Tests
         }
 
         [TestMethod]
-        public void PhoneTypeRepository_NameExists_Match_Found_Returns_True()
+        public void NameExists_Match_Found_Returns_True()
         {
             var mock = RepositoryMocks.GetMockPhoneTypeRepository(new List<PhoneType> { new PhoneType(1, "First") });
 
@@ -107,7 +107,7 @@ namespace DataAccess.Tests
         }
 
         [TestMethod]
-        public void PhoneTypeRepository_NameExists_No_Match_Found_Returns_False()
+        public void NameExists_No_Match_Found_Returns_False()
         {
             var mock = RepositoryMocks.GetMockPhoneTypeRepository(new List<PhoneType> { new PhoneType(1, "First") });
 
@@ -115,7 +115,7 @@ namespace DataAccess.Tests
         }
 
         [TestMethod]
-        public void PhoneTypeRepository_NameExists_No_Data_Found_Returns_False()
+        public void NameExists_No_Data_Found_Returns_False()
         {
             var mock = RepositoryMocks.GetMockPhoneTypeRepository();
 

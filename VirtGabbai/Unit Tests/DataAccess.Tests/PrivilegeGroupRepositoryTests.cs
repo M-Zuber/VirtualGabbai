@@ -12,7 +12,7 @@ namespace DataAccess.Tests
     public class PrivilegesGroupRepositoryTests
     {
         [TestMethod]
-        public void PrivilegesGroupRepository_Get_Nothing_In_Database_Returns_Empty_List()
+        public void Get_Nothing_In_Database_Returns_Empty_List()
         {
             var mock = RepositoryMocks.GetMockPrivilegesGroupRepository();
 
@@ -23,7 +23,7 @@ namespace DataAccess.Tests
         }
 
         [TestMethod]
-        public void PrivilegesGroupRepository_Get_Returns_All_Data()
+        public void Get_Returns_All_Data()
         {
             var expected = new List<PrivilegesGroup> { new PrivilegesGroup { GroupName = "first" }, new PrivilegesGroup { GroupName = "second" } };
             var mock = RepositoryMocks.GetMockPrivilegesGroupRepository(expected);
@@ -35,7 +35,7 @@ namespace DataAccess.Tests
         }
 
         [TestMethod]
-        public void PrivilegesGroupRepository_GetByID_No_Data_Returns_Null()
+        public void GetByID_No_Data_Returns_Null()
         {
             var mock = RepositoryMocks.GetMockPrivilegesGroupRepository();
 
@@ -45,7 +45,7 @@ namespace DataAccess.Tests
         }
 
         [TestMethod]
-        public void PrivilegesGroupRepository_GetByID_No_Match_Returns_Null()
+        public void GetByID_No_Match_Returns_Null()
         {
             var mock = RepositoryMocks.GetMockPrivilegesGroupRepository(new List<PrivilegesGroup> { new PrivilegesGroup(2, "second", new List<Privilege> { new Privilege(1, "admin")}) });
 
@@ -55,7 +55,7 @@ namespace DataAccess.Tests
         }
 
         [TestMethod]
-        public void PrivilegesGroupRepository_GetByID_Returns_The_Item_With_The_Given_ID()
+        public void GetByID_Returns_The_Item_With_The_Given_ID()
         {
             var expected = new PrivilegesGroup(1, "First", new List<Privilege> { new Privilege(1, "admin") });
             var mock = RepositoryMocks.GetMockPrivilegesGroupRepository(new List<PrivilegesGroup> { expected });
@@ -67,7 +67,7 @@ namespace DataAccess.Tests
         }
 
         [TestMethod]
-        public void PrivilegesGroupRepository_GetByGroupName_No_Data_Returns_Null()
+        public void GetByGroupName_No_Data_Returns_Null()
         {
             var mock = RepositoryMocks.GetMockPrivilegesGroupRepository();
 
@@ -77,7 +77,7 @@ namespace DataAccess.Tests
         }
 
         [TestMethod]
-        public void PrivilegesGroupRepository_GetByGroupName_No_Match_Returns_Null()
+        public void GetByGroupName_No_Match_Returns_Null()
         {
             var mock = RepositoryMocks.GetMockPrivilegesGroupRepository(new List<PrivilegesGroup> { new PrivilegesGroup(2, "second", new List<Privilege> { new Privilege(1, "admin") }) });
 
@@ -87,7 +87,7 @@ namespace DataAccess.Tests
         }
 
         [TestMethod]
-        public void PrivilegesGroupRepository_GetByGroupName_Returns_The_Item_With_The_Given_ID()
+        public void GetByGroupName_Returns_The_Item_With_The_Given_ID()
         {
             var expected = new PrivilegesGroup(1, "First", new List<Privilege> { new Privilege(1, "admin") });
             var mock = RepositoryMocks.GetMockPrivilegesGroupRepository(new List<PrivilegesGroup> { expected });
@@ -99,7 +99,7 @@ namespace DataAccess.Tests
         }
 
         [TestMethod]
-        public void PrivilegesGroupRepository_GroupNameExists_Match_Found_Returns_True()
+        public void GroupNameExists_Match_Found_Returns_True()
         {
             var mock = RepositoryMocks.GetMockPrivilegesGroupRepository(new List<PrivilegesGroup> { new PrivilegesGroup(1, "First", new List<Privilege> { new Privilege(1, "admin") }) });
 
@@ -107,7 +107,7 @@ namespace DataAccess.Tests
         }
 
         [TestMethod]
-        public void PrivilegesGroupRepository_GroupNameExists_No_Match_Found_Returns_False()
+        public void GroupNameExists_No_Match_Found_Returns_False()
         {
             var mock = RepositoryMocks.GetMockPrivilegesGroupRepository(new List<PrivilegesGroup> { new PrivilegesGroup(1, "First", new List<Privilege> { new Privilege(1, "admin") }) });
 
@@ -115,7 +115,7 @@ namespace DataAccess.Tests
         }
 
         [TestMethod]
-        public void PrivilegesGroupRepository_GroupNameExists_No_Data_Found_Returns_False()
+        public void GroupNameExists_No_Data_Found_Returns_False()
         {
             var mock = RepositoryMocks.GetMockPrivilegesGroupRepository();
 

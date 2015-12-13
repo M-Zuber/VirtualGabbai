@@ -12,7 +12,7 @@ namespace DataAccess.Tests
     public class PrivilegeRepositoryTests
     {
         [TestMethod]
-        public void PrivilegeRepository_Get_Nothing_In_Database_Returns_Empty_List()
+        public void Get_Nothing_In_Database_Returns_Empty_List()
         {
             var mock = RepositoryMocks.GetMockPrivilegeRepository();
 
@@ -23,7 +23,7 @@ namespace DataAccess.Tests
         }
 
         [TestMethod]
-        public void PrivilegeRepository_Get_Returns_All_Data()
+        public void Get_Returns_All_Data()
         {
             var expected = new List<Privilege> { new Privilege { Name = "first" }, new Privilege { Name = "second" } };
             var mock = RepositoryMocks.GetMockPrivilegeRepository(expected);
@@ -35,7 +35,7 @@ namespace DataAccess.Tests
         }
 
         [TestMethod]
-        public void PrivilegeRepository_GetByID_No_Data_Returns_Null()
+        public void GetByID_No_Data_Returns_Null()
         {
             var mock = RepositoryMocks.GetMockPrivilegeRepository();
 
@@ -45,7 +45,7 @@ namespace DataAccess.Tests
         }
 
         [TestMethod]
-        public void PrivilegeRepository_GetByID_No_Match_Returns_Null()
+        public void GetByID_No_Match_Returns_Null()
         {
             var mock = RepositoryMocks.GetMockPrivilegeRepository(new List<Privilege> { new Privilege(2, "second") });
 
@@ -55,7 +55,7 @@ namespace DataAccess.Tests
         }
 
         [TestMethod]
-        public void PrivilegeRepository_GetByID_Returns_The_Item_With_The_Given_ID()
+        public void GetByID_Returns_The_Item_With_The_Given_ID()
         {
             var expected = new Privilege(1, "First");
             var mock = RepositoryMocks.GetMockPrivilegeRepository(new List<Privilege> { expected });
@@ -67,7 +67,7 @@ namespace DataAccess.Tests
         }
 
         [TestMethod]
-        public void PrivilegeRepository_GetByName_No_Data_Returns_Null()
+        public void GetByName_No_Data_Returns_Null()
         {
             var mock = RepositoryMocks.GetMockPrivilegeRepository();
 
@@ -77,7 +77,7 @@ namespace DataAccess.Tests
         }
 
         [TestMethod]
-        public void PrivilegeRepository_GetByName_No_Match_Returns_Null()
+        public void GetByName_No_Match_Returns_Null()
         {
             var mock = RepositoryMocks.GetMockPrivilegeRepository(new List<Privilege> { new Privilege(2, "second") });
 
@@ -87,7 +87,7 @@ namespace DataAccess.Tests
         }
 
         [TestMethod]
-        public void PrivilegeRepository_GetByName_Returns_The_Item_With_The_Given_ID()
+        public void GetByName_Returns_The_Item_With_The_Given_ID()
         {
             var expected = new Privilege(1, "First");
             var mock = RepositoryMocks.GetMockPrivilegeRepository(new List<Privilege> { expected });
@@ -99,7 +99,7 @@ namespace DataAccess.Tests
         }
 
         [TestMethod]
-        public void PrivilegeRepository_NameExists_Match_Found_Returns_True()
+        public void NameExists_Match_Found_Returns_True()
         {
             var mock = RepositoryMocks.GetMockPrivilegeRepository(new List<Privilege> { new Privilege(1, "First") });
 
@@ -107,7 +107,7 @@ namespace DataAccess.Tests
         }
 
         [TestMethod]
-        public void PrivilegeRepository_NameExists_No_Match_Found_Returns_False()
+        public void NameExists_No_Match_Found_Returns_False()
         {
             var mock = RepositoryMocks.GetMockPrivilegeRepository(new List<Privilege> { new Privilege(1, "First") });
 
@@ -115,7 +115,7 @@ namespace DataAccess.Tests
         }
 
         [TestMethod]
-        public void PrivilegeRepository_NameExists_No_Data_Found_Returns_False()
+        public void NameExists_No_Data_Found_Returns_False()
         {
             var mock = RepositoryMocks.GetMockPrivilegeRepository();
 
