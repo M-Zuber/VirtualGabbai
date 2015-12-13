@@ -68,6 +68,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="DonationRepositoryTests.cs" />
     <Compile Include="PhoneTypeRepositoryTests.cs" />
     <Compile Include="PrivilegeGroupRepositoryTests.cs" />
     <Compile Include="PrivilegeRepositoryTests.cs" />

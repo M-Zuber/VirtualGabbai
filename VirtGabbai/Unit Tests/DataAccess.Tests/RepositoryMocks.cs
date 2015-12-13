@@ -10,14 +10,22 @@ using System.Threading.Tasks;
 namespace DataAccess.Tests
 {
     //TODO move this into a seperate project
-    public static class RepositoryMocks
+    internal static class RepositoryMocks
     {
-        public static PhoneTypeRepository GetMockPhoneTypeRepository(List<PhoneType> data = null)
+        internal static PhoneTypeRepository GetMockPhoneTypeRepository(List<PhoneType> data = null)
         {
             var mockContext = new Mock<ZeraLeviContext>();
             var mockSet = new Mock<DbSet<PhoneType>>().SetupData(data ?? new List<PhoneType>());
             mockContext.Setup(c => c.PhoneTypes).Returns(mockSet.Object);
             return new PhoneTypeRepository(mockContext.Object);
+        }
+
+        internal static DonationRepository GetMockDonationRepository(List<Donation> data = null)
+        {
+            var mockContext = new Mock<ZeraLeviContext>();
+            var mockSet = new Mock<DbSet<Donation>>().SetupData(data ?? new List<Donation>());
+            mockContext.Setup(c => c.Donations).Returns(mockSet.Object);
+            return new DonationRepository(mockContext.Object);
         }
 
         internal static PrivilegeGroupRepository GetMockPrivilegesGroupRepository(List<PrivilegesGroup> data = null)
@@ -28,7 +36,7 @@ namespace DataAccess.Tests
             return new PrivilegeGroupRepository(mockContext.Object);
         }
 
-        public static PrivilegeRepository GetMockPrivilegeRepository(List<Privilege> data = null)
+        internal static PrivilegeRepository GetMockPrivilegeRepository(List<Privilege> data = null)
         {
             var mockContext = new Mock<ZeraLeviContext>();
             var mockSet = new Mock<DbSet<Privilege>>().SetupData(data ?? new List<Privilege>());
