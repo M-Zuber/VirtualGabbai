@@ -48,22 +48,25 @@ namespace DataAccess
 
         public void Save(Donation item)
         {
-            var current = GetByID(item.ID);
-
-            if (current == null)
+            if (item != null)
             {
-                current = new Donation();
-                Entities.Add(current);
+                var current = GetByID(item.ID);
+
+                if (current == null)
+                {
+                    current = new Donation();
+                    Entities.Add(current);
+                }
+
+                current.Amount = item.Amount;
+                current.Comments = item.Comments;
+                current.DatePaid = item.DatePaid;
+                current.DonationDate = item.DonationDate;
+                current.Paid = item.Paid;
+                current.Reason = item.Reason;
+
+                _context.SaveChanges();
             }
-
-            current.Amount = item.Amount;
-            current.Comments = item.Comments;
-            current.DatePaid = item.DatePaid;
-            current.DonationDate = item.DonationDate;
-            current.Paid = item.Paid;
-            current.Reason = item.Reason;
-
-            _context.SaveChanges(); 
         }
     }
 }

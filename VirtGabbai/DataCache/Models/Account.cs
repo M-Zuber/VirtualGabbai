@@ -32,9 +32,9 @@ namespace DataCache.Models
             {
                 //TODO help-wanted/first-timers-only make this calculation more accurate.
                 //TODO null check this thing
-                var monthesOwedFor = (int)(DateTime.Now - LastMonthlyPaymentDate)?.TotalDays / 30;
+                decimal? monthesOwedFor = (decimal?)(DateTime.Today - LastMonthlyPaymentDate)?.TotalDays / 30;
 
-                return monthesOwedFor * MonthlyPaymentAmount;
+                return !monthesOwedFor.HasValue ? 0 : monthesOwedFor.Value * MonthlyPaymentAmount;
             }
         }
         public List<Donation> UnpaidDonations => GetUnpaidDonations();

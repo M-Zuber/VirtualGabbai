@@ -52,16 +52,19 @@ namespace DataAccess
 
         public void Save(PhoneType item)
         {
-            var current = GetByID(item.ID);
-
-            if (current == null)
+            if (item != null)
             {
-                current = new PhoneType();
-                Entities.Add(current);
-            }
+                var current = GetByID(item.ID);
 
-            current.Name = item.Name;
-            _context.SaveChanges();
+                if (current == null)
+                {
+                    current = new PhoneType();
+                    Entities.Add(current);
+                }
+
+                current.Name = item.Name;
+                _context.SaveChanges();
+            }
         }
     }
 }

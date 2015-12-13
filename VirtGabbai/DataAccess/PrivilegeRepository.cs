@@ -53,16 +53,19 @@ namespace DataAccess
 
         public void Save(Privilege item)
         {
-            var current = GetByID(item.ID);
-
-            if (current == null)
+            if (item != null)
             {
-                current = new Privilege();
-                Entities.Add(current);
-            }
+                var current = GetByID(item.ID);
 
-            current.Name = item.Name;
-            _context.SaveChanges();
+                if (current == null)
+                {
+                    current = new Privilege();
+                    Entities.Add(current);
+                }
+
+                current.Name = item.Name;
+                _context.SaveChanges();
+            }
         }
     }
 }
