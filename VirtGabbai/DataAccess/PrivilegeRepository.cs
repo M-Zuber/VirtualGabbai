@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.Entity;
 
 namespace DataAccess
 {
@@ -12,20 +13,22 @@ namespace DataAccess
     {
         private ZeraLeviContext _context;
 
+        public DbSet<Privilege> Entities => _context.Privileges;
+
         public PrivilegeRepository(ZeraLeviContext context)
         {
             _context = context;
         }
 
-        public IEnumerable<Privilege> Get() => _context.Privileges;
+        public IEnumerable<Privilege> Get() => Entities;
 
-        public Privilege GetByID(int id) => _context.Privileges.FirstOrDefault(p => p.ID == id);
+        public Privilege GetByID(int id) => Entities.FirstOrDefault(p => p.ID == id);
 
-        public Privilege GetByName(string name) => _context.Privileges.FirstOrDefault(p => p.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
+        public Privilege GetByName(string name) => Entities.FirstOrDefault(p => p.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
 
         public bool NameExists(string name) => GetByName(name) != null;
 
-        public bool Exists(int id) => _context.Privileges.Any(p => p.ID == id);
+        public bool Exists(int id) => Entities.Any(p => p.ID == id);
 
         public bool Exists(Privilege item) => item != null && Exists(item.ID);
 
@@ -33,7 +36,7 @@ namespace DataAccess
         {
             if (item != null)
             {
-                _context.Privileges.Add(item);
+                Entities.Add(item);
                 _context.SaveChanges();
             }
         }
@@ -42,7 +45,7 @@ namespace DataAccess
         {
             if (Exists(item))
             {
-                _context.Privileges.Remove(item);
+                Entities.Remove(item);
                 _context.SaveChanges();
             }
         }
@@ -55,7 +58,7 @@ namespace DataAccess
             if (current == null)
             {
                 current = new Privilege();
-                _context.Privileges.Add(current);
+                Entities.Add(current);
             }
 
             current.Name = item.Name;

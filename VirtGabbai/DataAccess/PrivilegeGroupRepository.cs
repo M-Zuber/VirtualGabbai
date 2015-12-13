@@ -6,6 +6,7 @@ using DataCache;
 using System.Data;
 using DataCache.Models;
 using DataAccess.Interfaces;
+using System.Data.Entity;
 
 namespace DataAccess
 {
@@ -13,20 +14,22 @@ namespace DataAccess
     {
         private ZeraLeviContext _context;
 
+        public DbSet<PrivilegesGroup> Entities => _context.PrivilegesGroups;
+
         public PrivilegeGroupRepository(ZeraLeviContext context)
         {
             _context = context;
         }
 
-        public IEnumerable<PrivilegesGroup> Get() => _context.PrivilegesGroups;
+        public IEnumerable<PrivilegesGroup> Get() => Entities;
 
-        public PrivilegesGroup GetByID(int id) => _context.PrivilegesGroups.FirstOrDefault(pg => pg.ID == id);
+        public PrivilegesGroup GetByID(int id) => Entities.FirstOrDefault(pg => pg.ID == id);
 
-        public PrivilegesGroup GetByGroupName(string name) => _context.PrivilegesGroups.FirstOrDefault(pg => pg.GroupName.Equals(name, StringComparison.InvariantCultureIgnoreCase));
+        public PrivilegesGroup GetByGroupName(string name) => Entities.FirstOrDefault(pg => pg.GroupName.Equals(name, StringComparison.InvariantCultureIgnoreCase));
 
         public bool GroupNameExists(string name) => GetByGroupName(name) != null;
 
-        public bool Exists(int id) => _context.PrivilegesGroups.Any(pg => pg.ID == id);
+        public bool Exists(int id) => Entities.Any(pg => pg.ID == id);
 
         public bool Exists(PrivilegesGroup item) => item != null && Exists(item.ID);
 
@@ -34,7 +37,7 @@ namespace DataAccess
         {
             if (item != null)
             {
-                _context.PrivilegesGroups.Add(item);
+                Entities.Add(item);
                 _context.SaveChanges();
             }
         }
@@ -43,7 +46,7 @@ namespace DataAccess
         {
             if (Exists(item))
             {
-                _context.PrivilegesGroups.Remove(item);
+                Entities.Remove(item);
                 _context.SaveChanges();
             }
         }
@@ -55,7 +58,7 @@ namespace DataAccess
             if (current == null)
             {
                 current = new PrivilegesGroup();
-                _context.PrivilegesGroups.Add(current);
+                Entities.Add(current);
             }
 
             current.GroupName = item.GroupName;

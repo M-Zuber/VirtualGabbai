@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.Entity;
 
 namespace DataAccess
 {
@@ -12,20 +13,22 @@ namespace DataAccess
     {
         private ZeraLeviContext _context;
 
+        public DbSet<PhoneType> Entities => _context.PhoneTypes;
+
         public PhoneTypeRepository(ZeraLeviContext context)
         {
             _context = context;
         }
 
-        public IEnumerable<PhoneType> Get() => _context.PhoneTypes;
+        public IEnumerable<PhoneType> Get() => Entities;
 
-        public PhoneType GetByID(int id) => _context.PhoneTypes.FirstOrDefault(pt => pt.ID == id);
+        public PhoneType GetByID(int id) => Entities.FirstOrDefault(pt => pt.ID == id);
 
-        public PhoneType GetByName(string name) => _context.PhoneTypes.FirstOrDefault(pt => pt.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
+        public PhoneType GetByName(string name) => Entities.FirstOrDefault(pt => pt.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
 
         public bool NameExists(string name) => GetByName(name) != null;
 
-        public bool Exists(int id) => _context.PhoneTypes.Any(pt => pt.ID == id);
+        public bool Exists(int id) => Entities.Any(pt => pt.ID == id);
 
         public bool Exists(PhoneType item) => item != null && Exists(item.ID);
 
@@ -33,7 +36,7 @@ namespace DataAccess
         {
             if (item != null)
             {
-                _context.PhoneTypes.Add(item);
+                Entities.Add(item);
                 _context.SaveChanges();
             }
         }
@@ -42,7 +45,7 @@ namespace DataAccess
         {
             if (Exists(item))
             {
-                _context.PhoneTypes.Remove(item);
+                Entities.Remove(item);
                 _context.SaveChanges();
             }
         }
@@ -54,7 +57,7 @@ namespace DataAccess
             if (current == null)
             {
                 current = new PhoneType();
-                _context.PhoneTypes.Add(current);
+                Entities.Add(current);
             }
 
             current.Name = item.Name;
