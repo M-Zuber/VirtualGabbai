@@ -14,5 +14,8 @@ namespace DataAccess.Interfaces
         void Add(TEntity item);
         void Save(TEntity item);
         void Delete(TEntity item);
+
+        bool Exists(int id);
+        bool Exists(TEntity item);
     }
 }

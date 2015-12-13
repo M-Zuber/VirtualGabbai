@@ -20,6 +20,14 @@ namespace DataAccess.Tests
             return new PhoneTypeRepository(mockContext.Object);
         }
 
+        internal static PrivilegeGroupRepository GetMockPrivilegesGroupRepository(List<PrivilegesGroup> data = null)
+        {
+            var mockContext = new Mock<ZeraLeviContext>();
+            var mockSet = new Mock<DbSet<PrivilegesGroup>>().SetupData(data ?? new List<PrivilegesGroup>());
+            mockContext.Setup(c => c.PrivilegesGroups).Returns(mockSet.Object);
+            return new PrivilegeGroupRepository(mockContext.Object);
+        }
+
         public static PrivilegeRepository GetMockPrivilegeRepository(List<Privilege> data = null)
         {
             var mockContext = new Mock<ZeraLeviContext>();

@@ -62,7 +62,7 @@
     <Compile Include="PhoneTypeAccess.cs" />
     <Compile Include="PhoneTypeRepository.cs" />
     <Compile Include="PrivilegeAccess.cs" />
-    <Compile Include="PrivilegeGroupAccess.cs" />
+    <Compile Include="PrivilegeGroupRepository.cs" />
     <Compile Include="PrivilegeRepository.cs" />
     <Compile Include="UserAccess.cs" />
     <Compile Include="YahrtziehtAccess.cs" />

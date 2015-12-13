@@ -23,7 +23,11 @@ namespace DataAccess
 
         public PhoneType GetByName(string name) => _context.PhoneTypes.FirstOrDefault(pt => pt.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
 
-        public bool NameExists(string name) => _context.PhoneTypes.FirstOrDefault(pt => pt.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase)) != null;
+        public bool NameExists(string name) => GetByName(name) != null;
+
+        public bool Exists(int id) => _context.PhoneTypes.Any(pt => pt.ID == id);
+
+        public bool Exists(PhoneType item) => item != null && Exists(item.ID);
 
         public void Add(PhoneType item)
         {
@@ -36,18 +40,16 @@ namespace DataAccess
 
         public void Delete(PhoneType item)
         {
-            var current = _context.PhoneTypes.FirstOrDefault(pt => pt.ID == item.ID);
-
-            if (current != null)
+            if (Exists(item))
             {
-                _context.PhoneTypes.Remove(current);
+                _context.PhoneTypes.Remove(item);
                 _context.SaveChanges();
             }
         }
 
         public void Save(PhoneType item)
         {
-            var current = _context.PhoneTypes.FirstOrDefault(pt => pt.ID == item.ID);
+            var current = GetByID(item.ID);
 
             if (current == null)
             {

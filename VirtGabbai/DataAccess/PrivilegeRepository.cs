@@ -23,7 +23,11 @@ namespace DataAccess
 
         public Privilege GetByName(string name) => _context.Privileges.FirstOrDefault(p => p.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
 
-        public bool NameExists(string name) => _context.Privileges.FirstOrDefault(p => p.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase)) != null;
+        public bool NameExists(string name) => GetByName(name) != null;
+
+        public bool Exists(int id) => _context.Privileges.Any(p => p.ID == id);
+
+        public bool Exists(Privilege item) => item != null && Exists(item.ID);
 
         public void Add(Privilege item)
         {
@@ -36,11 +40,9 @@ namespace DataAccess
 
         public void Delete(Privilege item)
         {
-            var current = _context.Privileges.FirstOrDefault(p => p.ID == item.ID);
-
-            if (current != null)
+            if (Exists(item))
             {
-                _context.Privileges.Remove(current);
+                _context.Privileges.Remove(item);
                 _context.SaveChanges();
             }
         }
@@ -48,7 +50,7 @@ namespace DataAccess
 
         public void Save(Privilege item)
         {
-            var current = _context.Privileges.FirstOrDefault(p => p.ID == item.ID);
+            var current = GetByID(item.ID);
 
             if (current == null)
             {
