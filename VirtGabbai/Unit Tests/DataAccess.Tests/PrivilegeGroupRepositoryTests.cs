@@ -121,5 +121,45 @@ namespace DataAccess.Tests
 
             Assert.IsFalse(mock.GroupNameExists("first"));
         }
+
+        [TestMethod]
+        public void Exists_No_Match_Returns_False()
+        {
+            var mock = RepositoryMocks.GetMockPrivilegesGroupRepository();
+
+            Assert.IsFalse(mock.Exists(1));
+        }
+
+        [TestMethod]
+        public void Exists_Match_Found_Returns_True()
+        {
+            var mock = RepositoryMocks.GetMockPrivilegesGroupRepository(new List<PrivilegesGroup> { new PrivilegesGroup(1, "Admin", new List<Privilege>()) });
+
+            Assert.IsTrue(mock.Exists(1));
+        }
+
+        [TestMethod]
+        public void Exists_Item_Is_Null_Returns_False()
+        {
+            var mock = RepositoryMocks.GetMockPrivilegesGroupRepository(new List<PrivilegesGroup> { new PrivilegesGroup(1, "Admin", new List<Privilege>()) });
+
+            Assert.IsFalse(mock.Exists(null));
+        }
+
+        [TestMethod]
+        public void Exists_Item_No_Match_Returns_False()
+        {
+            var mock = RepositoryMocks.GetMockPrivilegesGroupRepository(new List<PrivilegesGroup> { new PrivilegesGroup(1, "Admin", new List<Privilege>()) });
+
+            Assert.IsFalse(mock.Exists(new PrivilegesGroup { ID = 2}));
+        }
+
+        [TestMethod]
+        public void Exists_Item_Match_Found_Returns_True()
+        {
+            var mock = RepositoryMocks.GetMockPrivilegesGroupRepository(new List<PrivilegesGroup> { new PrivilegesGroup(1, "Admin", new List<Privilege>()) });
+
+            Assert.IsTrue(mock.Exists(new PrivilegesGroup { ID = 1}));
+        }
     }
 }

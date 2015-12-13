@@ -121,5 +121,45 @@ namespace DataAccess.Tests
 
             Assert.IsFalse(mock.NameExists("first"));
         }
+
+        [TestMethod]
+        public void Exists_No_Match_Returns_False()
+        {
+            var mock = RepositoryMocks.GetMockPhoneTypeRepository();
+
+            Assert.IsFalse(mock.Exists(1));
+        }
+
+        [TestMethod]
+        public void Exists_Match_Found_Returns_True()
+        {
+            var mock = RepositoryMocks.GetMockPhoneTypeRepository(new List<PhoneType> { new PhoneType(1, "house")});
+
+            Assert.IsTrue(mock.Exists(1));
+        }
+
+        [TestMethod]
+        public void Exists_Item_Is_Null_Returns_False()
+        {
+            var mock = RepositoryMocks.GetMockPhoneTypeRepository(new List<PhoneType> { new PhoneType(1, "house") });
+
+            Assert.IsFalse(mock.Exists(null));
+        }
+
+        [TestMethod]
+        public void Exists_Item_No_Match_Returns_False()
+        {
+            var mock = RepositoryMocks.GetMockPhoneTypeRepository(new List<PhoneType> { new PhoneType(1, "house") });
+
+            Assert.IsFalse(mock.Exists(new PhoneType(2, "cell")));
+        }
+
+        [TestMethod]
+        public void Exists_Item_Match_Found_Returns_True()
+        {
+            var mock = RepositoryMocks.GetMockPhoneTypeRepository(new List<PhoneType> { new PhoneType(1, "house") });
+
+            Assert.IsTrue(mock.Exists(new PhoneType(1, "house")));
+        }
     }
 }
