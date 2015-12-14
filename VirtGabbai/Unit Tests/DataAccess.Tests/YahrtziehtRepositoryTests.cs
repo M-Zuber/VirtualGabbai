@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace DataAccess.Tests
 {
     [TestClass()]
-    public class YahrtiehtRepositoryTests
+    public class YahrtziehtRepositoryTests
     {
         [TestMethod]
         public void Get_Nothing_In_Database_Returns_Empty_List()
