@@ -10,26 +10,26 @@ using System.Data.Entity;
 
 namespace DataAccess
 {
-    public class PersonRepository : IRepository<Person>
+    public class UserRepository : IRepository<User>
     {
         private ZeraLeviContext _context;
 
-        public DbSet<Person> Entities => _context.People;
+        public DbSet<User> Entities => _context.Users;
 
-        public PersonRepository(ZeraLeviContext context)
+        public UserRepository(ZeraLeviContext context)
         {
             _context = context;
         }
 
-        public bool Exists(Person item) => item != null && Exists(item.ID);
+        public bool Exists(User item) => item != null && Exists(item.ID);
 
-        public bool Exists(int id) => Entities.Any(p => p.ID == id);
+        public bool Exists(int id) => Entities.Any(u => u.ID == id);
 
-        public IEnumerable<Person> Get() => Entities;
+        public IEnumerable<User> Get() => Entities;
 
-        public Person GetByID(int id) => Entities.FirstOrDefault(p => p.ID == id);
+        public User GetByID(int id) => Entities.FirstOrDefault(u => u.ID == id);
 
-        public void Add(Person item)
+        public void Add(User item)
         {
             if (item != null)
             {
@@ -38,7 +38,7 @@ namespace DataAccess
             }
         }
 
-        public void Delete(Person item)
+        public void Delete(User item)
         {
             if (Exists(item))
             {
@@ -47,7 +47,7 @@ namespace DataAccess
             }
         }
 
-        public void Save(Person item)
+        public void Save(User item)
         {
             if (item != null)
             {
@@ -55,18 +55,14 @@ namespace DataAccess
 
                 if (current == null)
                 {
-                    current = new Person();
+                    current = new User();
                     Entities.Add(current);
                 }
 
-                current.Account = item.Account;
-                current.Address = item.Address;
                 current.Email = item.Email;
-                current.FamilyName = item.FamilyName;
-                current.GivenName = item.GivenName;
-                current.Member = item.Member;
-                current.PhoneNumbers = item.PhoneNumbers;
-                current.Yahrtziehts = item.Yahrtziehts;
+                current.Password = item.Password;
+                current.PrivilegeGroup = item.PrivilegeGroup;
+                current.UserName = item.UserName;
                 _context.SaveChanges();
             }
         }

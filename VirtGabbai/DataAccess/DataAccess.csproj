@@ -59,12 +59,10 @@
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="PersonRepository.cs" />
     <Compile Include="PhoneNumberRepository.cs" />
-    <Compile Include="PhoneTypeAccess.cs" />
     <Compile Include="PhoneTypeRepository.cs" />
-    <Compile Include="PrivilegeAccess.cs" />
     <Compile Include="PrivilegeGroupRepository.cs" />
     <Compile Include="PrivilegeRepository.cs" />
-    <Compile Include="UserAccess.cs" />
+    <Compile Include="UserRepository.cs" />
     <Compile Include="YahrtziehtAccess.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
