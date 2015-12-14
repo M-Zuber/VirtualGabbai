@@ -50,11 +50,11 @@ namespace DataCache.Models
 
             return ReferenceEquals(this, other) ||
                     (ID == other.ID &&
-                    Email.Equals(other.Email) &&
+                    Email == other.Email &&
                     GivenName == other.GivenName &&
                     FamilyName == other.FamilyName &&
                     Member == other.Member &&
-                    Address.Equals(other.Address) &&
+                    Address == other.Address &&
                     Account.Equals(other.Account) &&
                     PhoneNumbers.SameAs(other.PhoneNumbers) &&
                     Yahrtziehts.SameAs(other.Yahrtziehts));

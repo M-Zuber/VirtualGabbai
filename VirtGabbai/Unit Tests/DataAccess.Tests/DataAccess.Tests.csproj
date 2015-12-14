@@ -70,6 +70,7 @@
   <ItemGroup>
     <Compile Include="AccountRepositoryTests.cs" />
     <Compile Include="DonationRepositoryTests.cs" />
+    <Compile Include="PersonRepositoryTests.cs" />
     <Compile Include="PhoneNumberRepositoryTests.cs" />
     <Compile Include="PhoneTypeRepositoryTests.cs" />
     <Compile Include="PrivilegeGroupRepositoryTests.cs" />

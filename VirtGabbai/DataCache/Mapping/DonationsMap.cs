@@ -33,7 +33,7 @@ namespace DataCache.Mapping
             Property(t => t.Comments).HasColumnName("Comments");
 
             // Relationships
-            HasRequired(t => t.Accounts)
+            HasRequired(t => t.Account)
                 .WithMany(t => t.Donations)
                 .HasForeignKey(d => d.AccountID);
 
