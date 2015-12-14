@@ -32,7 +32,7 @@ namespace DataCache.Models
         public string FamilyName { get; set; }
         public string Address { get; set; }
         public bool Member { get; set; }
-        public virtual Account Account { get; set; }
+        public virtual Account Account { get; set; } = new Account();
         public virtual ICollection<PhoneNumber> PhoneNumbers { get; set; } = new List<PhoneNumber>();
         public virtual ICollection<Yahrtzieht> Yahrtziehts { get; set; } = new List<Yahrtzieht>();
         public static Person Createt_people(int _Id) => new Person { ID = _Id };
