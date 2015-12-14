@@ -28,6 +28,14 @@ namespace DataAccess.Tests
             return new DonationRepository(mockContext.Object);
         }
 
+        internal static YahrtziehtRepository GetMockYahrtziehtRepository(List<Yahrtzieht> data = null)
+        {
+            var mockContext = new Mock<ZeraLeviContext>();
+            var mockSet = new Mock<DbSet<Yahrtzieht>>().SetupData(data ?? new List<Yahrtzieht>());
+            mockContext.Setup(c => c.Yahrtziehts).Returns(mockSet.Object);
+            return new YahrtziehtRepository(mockContext.Object);
+        }
+
         internal static UserRepository GetMockUserRepository(List<User> data = null)
         {
             var mockContext = new Mock<ZeraLeviContext>();

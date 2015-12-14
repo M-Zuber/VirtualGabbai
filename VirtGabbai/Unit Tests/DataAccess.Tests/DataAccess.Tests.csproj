@@ -78,6 +78,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RepositoryMocks.cs" />
     <Compile Include="UserRepositoryTests.cs" />
+    <Compile Include="YahrtiehtRepositoryTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

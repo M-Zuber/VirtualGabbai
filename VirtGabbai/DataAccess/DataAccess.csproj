@@ -63,7 +63,7 @@
     <Compile Include="PrivilegeGroupRepository.cs" />
     <Compile Include="PrivilegeRepository.cs" />
     <Compile Include="UserRepository.cs" />
-    <Compile Include="YahrtziehtAccess.cs" />
+    <Compile Include="YahrtziehtRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
