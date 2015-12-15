@@ -5,6 +5,17 @@ namespace DataCache.Models
 {
     public partial class PhoneNumber
     {
+        public PhoneNumber()
+        {
+
+        }
+        public PhoneNumber(int id, string number, PhoneType type)
+        {
+            ID = id;
+            Number = number;
+            Type = type;
+        }
+
         public int PersonID { get; set; }
         public string Number { get; set; }
         public int NumberTypeID { get; set; }
@@ -16,11 +27,17 @@ namespace DataCache.Models
 
         public override bool Equals(object obj)
         {
-            PhoneNumber numberComparing = (PhoneNumber)obj;
+            PhoneNumber other = obj as PhoneNumber;
 
-            return ((ID == numberComparing.ID) &&
-                    (Number == numberComparing.Number) &&
-                    (Type.Equals(numberComparing.Type)));
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            return ReferenceEquals(this, other) ||
+                   (ID == other.ID &&
+                    Number == other.Number &&
+                    Type.Equals(other.Type));
         }
 
         public override string ToString() => $"Number:\"{Number}\" {Type.ToString()}";

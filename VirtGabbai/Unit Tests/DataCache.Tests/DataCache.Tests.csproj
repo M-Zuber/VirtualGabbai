@@ -56,7 +56,6 @@
   <ItemGroup>
     <Compile Include="AccountTest.cs" />
     <Compile Include="DonationTest.cs" />
-    <Compile Include="PaidDonationTest.cs" />
     <Compile Include="PersonTest.cs" />
     <Compile Include="PhoneNumberTest.cs" />
     <Compile Include="PhoneTypeTest.cs" />

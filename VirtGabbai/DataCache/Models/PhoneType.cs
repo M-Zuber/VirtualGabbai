@@ -5,6 +5,16 @@ namespace DataCache.Models
 {
     public partial class PhoneType
     {
+        public PhoneType()
+        {
+
+        }
+        public PhoneType(int id, string name)
+        {
+            ID = id;
+            Name = name;
+        }
+
         public int ID { get; set; }
         public string Name { get; set; }
         public virtual ICollection<PhoneNumber> PhoneNumbers { get; set; } = new List<PhoneNumber>();
@@ -13,9 +23,16 @@ namespace DataCache.Models
 
         public override bool Equals(object obj)
         {
-            PhoneType comparingPhoneType = (PhoneType)obj;
-            return ((ID == comparingPhoneType.ID) &&
-                    (Name == comparingPhoneType.Name));
+            PhoneType other = obj as PhoneType;
+
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            return ReferenceEquals(this, other) ||
+                   (ID == other.ID &&
+                    Name == other.Name);
         }
 
         public override int GetHashCode() => base.GetHashCode();

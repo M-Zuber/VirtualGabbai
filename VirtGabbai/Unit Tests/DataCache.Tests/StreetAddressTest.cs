@@ -2,68 +2,11 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
-namespace LocalTypesTest
+namespace DataCache.Tests
 {
-    
-    
-    /// <summary>
-    ///This is a test class for StreetAddressTest and is intended
-    ///to contain all StreetAddressTest Unit Tests
-    ///</summary>
     [TestClass()]
     public class StreetAddressTest
     {
-
-
-        private TestContext testContextInstance;
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
-
-
         #region C'tor Tests
 
         /// <summary>
@@ -110,12 +53,12 @@ namespace LocalTypesTest
         public void AllSameEqualsTest()
         {
             string address = "1;1894;beacon st;brookline;ma;usa;02445";
+
             StreetAddress target = new StreetAddress(address);
-            object obj = new StreetAddress(address);
-            bool expected = true;
-            bool actual;
-            actual = target.Equals(obj);
-            Assert.AreEqual(expected, actual);
+            StreetAddress obj = new StreetAddress(address);
+
+            Assert.IsTrue(target.Equals(obj));
+            Assert.IsTrue(obj.Equals(target));
         }
 
         /// <summary>
@@ -124,14 +67,11 @@ namespace LocalTypesTest
         [TestMethod()]
         public void DiffStateEqualsTest()
         {
-            string address = "1;1894;beacon st;brookline;ma;usa;02445";
-            StreetAddress target = new StreetAddress(address);
-            string otherAddress = "1;1894;beacon st;brookline;;usa;02445";
-            object obj = new StreetAddress(otherAddress);
-            bool expected = false;
-            bool actual;
-            actual = target.Equals(obj);
-            Assert.AreEqual(expected, actual);
+            StreetAddress target = new StreetAddress("1;1894;beacon st;brookline;ma;usa;02445");
+            StreetAddress obj = new StreetAddress("1;1894;beacon st;brookline;;usa;02445");
+
+            Assert.IsFalse(target.Equals(obj));
+            Assert.IsFalse(obj.Equals(target));
         }
 
         /// <summary>
@@ -140,14 +80,11 @@ namespace LocalTypesTest
         [TestMethod()]
         public void AllDiffEqualsTest()
         {
-            string address = "1;1894;beacon st;brookline;ma;usa;02445";
-            StreetAddress target = new StreetAddress(address);
-            string otherAddress = ";;;;;;";
-            object obj = new StreetAddress(otherAddress);
-            bool expected = false;
-            bool actual;
-            actual = target.Equals(obj);
-            Assert.AreEqual(expected, actual);
+            StreetAddress target = new StreetAddress("1;1894;beacon st;brookline;ma;usa;02445");
+            StreetAddress obj = new StreetAddress(";;;;;;");
+
+            Assert.IsFalse(target.Equals(obj));
+            Assert.IsFalse(obj.Equals(target));
         }
 
         /// <summary>
@@ -156,14 +93,11 @@ namespace LocalTypesTest
         [TestMethod()]
         public void DiffAptNoEqualsTest()
         {
-            string address = "1;1894;beacon st;brookline;ma;usa;02445";
-            StreetAddress target = new StreetAddress(address);
-            string otherAddress = ";1894;beacon st;brookline;ma;usa;02445";
-            object obj = new StreetAddress(otherAddress);
-            bool expected = false;
-            bool actual;
-            actual = target.Equals(obj);
-            Assert.AreEqual(expected, actual);
+            StreetAddress target = new StreetAddress("1;1894;beacon st;brookline;ma;usa;02445");
+            StreetAddress obj = new StreetAddress(";1894;beacon st;brookline;ma;usa;02445");
+
+            Assert.IsFalse(target.Equals(obj));
+            Assert.IsFalse(obj.Equals(target));
         }
 
         /// <summary>
@@ -172,14 +106,11 @@ namespace LocalTypesTest
         [TestMethod()]
         public void DiffHouseNoEqualsTest()
         {
-            string address = "1;1894;beacon st;brookline;ma;usa;02445";
-            StreetAddress target = new StreetAddress(address);
-            string otherAddress = "1;;beacon st;brookline;ma;usa;02445";
-            object obj = new StreetAddress(otherAddress);
-            bool expected = false;
-            bool actual;
-            actual = target.Equals(obj);
-            Assert.AreEqual(expected, actual);
+            StreetAddress target = new StreetAddress("1;1894;beacon st;brookline;ma;usa;02445");
+            StreetAddress obj = new StreetAddress("1;;beacon st;brookline;ma;usa;02445");
+
+            Assert.IsFalse(target.Equals(obj));
+            Assert.IsFalse(obj.Equals(target));
         }
 
         /// <summary>
@@ -188,14 +119,11 @@ namespace LocalTypesTest
         [TestMethod()]
         public void DiffStreetEqualsTest()
         {
-            string address = "1;1894;beacon st;brookline;ma;usa;02445";
-            StreetAddress target = new StreetAddress(address);
-            string otherAddress = "1;1894;;brookline;ma;usa;02445";
-            object obj = new StreetAddress(otherAddress);
-            bool expected = false;
-            bool actual;
-            actual = target.Equals(obj);
-            Assert.AreEqual(expected, actual);
+            StreetAddress target = new StreetAddress("1;1894;beacon st;brookline;ma;usa;02445");
+            StreetAddress obj = new StreetAddress("1;1894;;brookline;ma;usa;02445");
+
+            Assert.IsFalse(target.Equals(obj));
+            Assert.IsFalse(obj.Equals(target));
         }
 
         /// <summary>
@@ -204,14 +132,11 @@ namespace LocalTypesTest
         [TestMethod()]
         public void DiffCityEqualsTest()
         {
-            string address = "1;1894;beacon st;brookline;ma;usa;02445";
-            StreetAddress target = new StreetAddress(address);
-            string otherAddress = "1;1894;beacon st;;ma;usa;02445";
-            object obj = new StreetAddress(otherAddress);
-            bool expected = false;
-            bool actual;
-            actual = target.Equals(obj);
-            Assert.AreEqual(expected, actual);
+            StreetAddress target = new StreetAddress("1;1894;beacon st;brookline;ma;usa;02445");
+            StreetAddress obj = new StreetAddress("1;1894;beacon st;;ma;usa;02445");
+
+            Assert.IsFalse(target.Equals(obj));
+            Assert.IsFalse(obj.Equals(target));
         }
 
         /// <summary>
@@ -220,14 +145,11 @@ namespace LocalTypesTest
         [TestMethod()]
         public void DiffCountryEqualsTest()
         {
-            string address = "1;1894;beacon st;brookline;ma;usa;02445";
-            StreetAddress target = new StreetAddress(address);
-            string otherAddress = "1;1894;beacon st;brookline;ma;;02445";
-            object obj = new StreetAddress(otherAddress);
-            bool expected = false;
-            bool actual;
-            actual = target.Equals(obj);
-            Assert.AreEqual(expected, actual);
+            StreetAddress target = new StreetAddress("1;1894;beacon st;brookline;ma;usa;02445");
+            StreetAddress obj = new StreetAddress("1;1894;beacon st;brookline;ma;;02445");
+
+            Assert.IsFalse(target.Equals(obj));
+            Assert.IsFalse(obj.Equals(target));
         }
 
         /// <summary>
@@ -236,16 +158,38 @@ namespace LocalTypesTest
         [TestMethod()]
         public void ZipcodeDiffEqualsTest()
         {
-            string address = "1;1894;beacon st;brookline;ma;usa;02445";
-            StreetAddress target = new StreetAddress(address);
-            string otherAddress = "1;1894;beacon st;brookline;ma;usa;";
-            object obj = new StreetAddress(otherAddress);
-            bool expected = false;
-            bool actual;
-            actual = target.Equals(obj);
-            Assert.AreEqual(expected, actual);
+            StreetAddress target = new StreetAddress("1;1894;beacon st;brookline;ma;usa;02445");
+            StreetAddress obj = new StreetAddress("1;1894;beacon st;brookline;ma;usa;");
+
+            Assert.IsFalse(target.Equals(obj));
+            Assert.IsFalse(obj.Equals(target));
         }
 
+        [TestMethod]
+        public void StreetAddress_Equals_Null_Returns_False()
+        {
+            StreetAddress target = new StreetAddress("1;1894;beacon st;brookline;ma;usa;02445");
+
+            Assert.IsFalse(target.Equals(null));
+        }
+
+        [TestMethod]
+        public void StreetAddress_Equals_Non_StreetAddress_Returns_False()
+        {
+            StreetAddress target = new StreetAddress("1;1894;beacon st;brookline;ma;usa;02445");
+
+            Assert.IsFalse(target.Equals(0));
+        }
+
+        [TestMethod]
+        public void StreetAddress_Equals_Same_Ref_Returns_True()
+        {
+            StreetAddress target = new StreetAddress("1;1894;beacon st;brookline;ma;usa;02445");
+            var other = target;
+
+            Assert.IsTrue(target.Equals(other));
+            Assert.IsTrue(other.Equals(target));
+        }
         #endregion
 
         #region ToString Tests
@@ -256,13 +200,11 @@ namespace LocalTypesTest
         [TestMethod()]
         public void ApartmentAndStateToStringTest()
         {
-            string address = "1;1894;beacon st;brookline;ma;usa;02445";
-            StreetAddress target = new StreetAddress(address);
+            StreetAddress target = new StreetAddress("1;1894;beacon st;brookline;ma;usa;02445");
             string expected = "1894 beacon st\tApartment #1\n" +
                               "brookline MA USA\n02445";
-            string actual;
-            actual = target.ToString();
-            Assert.AreEqual(expected, actual);
+
+            Assert.AreEqual(expected, target.ToString());
         }
 
 
@@ -272,13 +214,11 @@ namespace LocalTypesTest
         [TestMethod()]
         public void ApartmentNoStateToStringTest()
         {
-            string address = "1;1894;beacon st;brookline;;usa;02445";
-            StreetAddress target = new StreetAddress(address);
+            StreetAddress target = new StreetAddress("1;1894;beacon st;brookline;;usa;02445");
             string expected = "1894 beacon st\tApartment #1\n" +
                               "brookline USA\n02445";
-            string actual;
-            actual = target.ToString();
-            Assert.AreEqual(expected, actual);
+
+            Assert.AreEqual(expected, target.ToString());
         }
 
         /// <summary>
@@ -287,13 +227,11 @@ namespace LocalTypesTest
         [TestMethod()]
         public void StateNoApartmentToStringTest()
         {
-            string address = ";1894;beacon st;brookline;ma;usa;02445";
-            StreetAddress target = new StreetAddress(address);
+            StreetAddress target = new StreetAddress(";1894;beacon st;brookline;ma;usa;02445");
             string expected = "1894 beacon st\n" +
                               "brookline MA USA\n02445";
-            string actual;
-            actual = target.ToString();
-            Assert.AreEqual(expected, actual);
+
+            Assert.AreEqual(expected, target.ToString());
         }
 
         /// <summary>
@@ -302,13 +240,11 @@ namespace LocalTypesTest
         [TestMethod()]
         public void NoStateOrApartmentToStringTest()
         {
-            string address = ";1894;beacon st;brookline;;usa;02445";
-            StreetAddress target = new StreetAddress(address);
+            StreetAddress target = new StreetAddress(";1894;beacon st;brookline;;usa;02445");
             string expected = "1894 beacon st\n" +
                               "brookline USA\n02445";
-            string actual;
-            actual = target.ToString();
-            Assert.AreEqual(expected, actual);
+
+            Assert.AreEqual(expected, target.ToString());
         }
 
         #endregion
@@ -322,10 +258,10 @@ namespace LocalTypesTest
         public void AptAndStateToDbStringTest()
         {
             string address = "1;1894;beacon st;brookline;ma;usa;02445";
+
             StreetAddress target = new StreetAddress(address);
-            string actual;
-            actual = target.ToDbString();
-            Assert.AreEqual(address, actual, true);
+
+            Assert.AreEqual(address, target.ToDbString(), true);
         }
 
         /// <summary>
@@ -335,10 +271,10 @@ namespace LocalTypesTest
         public void NoAptYesStateToDbStringTest()
         {
             string address = ";1894;beacon st;brookline;ma;usa;02445";
+
             StreetAddress target = new StreetAddress(address);
-            string actual;
-            actual = target.ToDbString();
-            Assert.AreEqual(address, actual, true);
+
+            Assert.AreEqual(address, target.ToDbString(), true);
         }
 
         /// <summary>
@@ -348,10 +284,10 @@ namespace LocalTypesTest
         public void NoStateYesAptToDbStringTest()
         {
             string address = "1;1894;beacon st;brookline;;usa;02445";
+
             StreetAddress target = new StreetAddress(address);
-            string actual;
-            actual = target.ToDbString();
-            Assert.AreEqual(address, actual, true);
+
+            Assert.AreEqual(address, target.ToDbString(), true);
         }
 
         /// <summary>
@@ -361,10 +297,10 @@ namespace LocalTypesTest
         public void NoStateNoAptToDbStringTest()
         {
             string address = ";1894;beacon st;brookline;;usa;02445";
+
             StreetAddress target = new StreetAddress(address);
-            string actual;
-            actual = target.ToDbString();
-            Assert.AreEqual(address, actual, true);
+
+            Assert.AreEqual(address, target.ToDbString(), true);
         }
         
         #endregion

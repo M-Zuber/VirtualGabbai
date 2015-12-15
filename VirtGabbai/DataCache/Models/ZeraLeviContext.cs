@@ -7,19 +7,24 @@ namespace DataCache.Models
     public partial class ZeraLeviContext : DbContext
     {
         public ZeraLeviContext()
-            : base("Name=VGContext")
+            : this("Name=VGContext")
         {
         }
 
-        public DbSet<Account> Accounts { get; set; }
-        public DbSet<Donation> Donations { get; set; }
-        public DbSet<Person> People { get; set; }
-        public DbSet<PhoneNumber> PhoneNumbers { get; set; }
-        public DbSet<PhoneType> PhoneTypes { get; set; }
-        public DbSet<PrivilegesGroup> PrivilegesGroups { get; set; }
-        public DbSet<Privilege> Privileges { get; set; }
-        public DbSet<User> Users { get; set; }
-        public DbSet<Yahrtzieht> Yahrtziehts { get; set; }
+        public ZeraLeviContext(string nameOrConnectionString)
+            : base(nameOrConnectionString)
+        {
+        }
+
+        public virtual DbSet<Account> Accounts { get; set; }
+        public virtual DbSet<Donation> Donations { get; set; }
+        public virtual DbSet<Person> People { get; set; }
+        public virtual DbSet<PhoneNumber> PhoneNumbers { get; set; }
+        public virtual DbSet<PhoneType> PhoneTypes { get; set; }
+        public virtual DbSet<PrivilegesGroup> PrivilegesGroups { get; set; }
+        public virtual DbSet<Privilege> Privileges { get; set; }
+        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Yahrtzieht> Yahrtziehts { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

@@ -5,6 +5,22 @@ namespace DataCache.Models
 {
     public partial class Donation
     {
+        public Donation()
+        {
+
+        }
+
+        public Donation(int id, string reason, double amount, DateTime donationDate, string comments, DateTime? datePaid = null, bool paid = false)
+        {
+            ID = id;
+            Reason = reason;
+            Amount = amount;
+            DonationDate = donationDate;
+            Comments = comments;
+            DatePaid = datePaid;
+            Paid = paid;
+        }
+
         public int ID { get; set; }
         public int AccountID { get; set; }
         public string Reason { get; set; }
@@ -14,7 +30,7 @@ namespace DataCache.Models
         //TODO should this be a calculated property? if paidDate has value && earlier or equal to today && ((after dontaiondate)??)
         public bool Paid { get; set; }
         public string Comments { get; set; }
-        public virtual Account Accounts { get; set; }
+        public virtual Account Account { get; set; }
 
         public static Donation Createt_donations(int _Id, int accountNumber, string reason, double amount, DateTime donationDate, bool v) => new Donation { ID = _Id, AccountID = accountNumber, Reason = reason, Amount = amount, DonationDate = donationDate, Paid = v};
 
@@ -23,7 +39,7 @@ namespace DataCache.Models
             string returnString = $"Donated for: \"{Reason}\"" +
                                   $" Amount donated: \"{Amount}\"" +
                                   $" Date donated: \"{DonationDate.ToString("dd/MM/yyyy")}\"";
-            if (Comments != string.Empty)
+            if (!string.IsNullOrWhiteSpace(Comments))
             {
                 returnString = $"{returnString} Comments: \"{Comments}\"";
 
@@ -33,19 +49,20 @@ namespace DataCache.Models
 
         public override bool Equals(object obj)
         {
-            Donation donationToCompare = (Donation)obj;
+            Donation other = obj as Donation;
 
-            if ((donationToCompare.Comments == null) && (Comments != null))
+            if (ReferenceEquals(null, other))
             {
                 return false;
             }
-            return ((ID == donationToCompare.ID) &&
-                    (Amount == donationToCompare.Amount) &&
-                    (Comments == donationToCompare.Comments) &&
-                    (DonationDate == donationToCompare.DonationDate) &&
-                    (Reason == donationToCompare.Reason));
+            return ReferenceEquals(this, other) ||
+                   (ID == other.ID &&
+                    Amount == other.Amount &&
+                    Comments == other.Comments &&
+                    DonationDate == other.DonationDate &&
+                    Reason == other.Reason);
         }
 
-        public override int GetHashCode() => base.GetHashCode();
+        public override int GetHashCode() => ID.GetHashCode();
     }
 }

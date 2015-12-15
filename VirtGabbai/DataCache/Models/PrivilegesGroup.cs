@@ -6,6 +6,17 @@ namespace DataCache.Models
 {
     public partial class PrivilegesGroup
     {
+        public PrivilegesGroup()
+        {
+
+        }
+        public PrivilegesGroup(int id, string groupName, List<Privilege> privileges)
+        {
+            ID = id;
+            GroupName = groupName;
+            Privileges = privileges;
+        }
+
         public int ID { get; set; }
         public string GroupName { get; set; }
         public virtual ICollection<User> Users { get; set; }
@@ -15,19 +26,26 @@ namespace DataCache.Models
 
         public override bool Equals(object obj)
         {
-            PrivilegesGroup groupComparing = (PrivilegesGroup)obj;
-            return ((this.ID == groupComparing.ID) &&
-                    (this.GroupName == groupComparing.GroupName) &&
-                    (this.Privileges.SameAs(groupComparing.Privileges)));
+            PrivilegesGroup other = obj as PrivilegesGroup;
+
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            return ReferenceEquals(this, other) ||
+                   (ID == other.ID &&
+                    GroupName == other.GroupName &&
+                    Privileges.SameAs(other.Privileges));
         }
 
-        public override int GetHashCode() => base.GetHashCode();
+        public override int GetHashCode() => ID.GetHashCode();
 
         public override string ToString()
         {
-            string privilegeGroupString = this.GroupName;
+            string privilegeGroupString = GroupName;
 
-            foreach (Privilege CurrPrivilege in this.Privileges)
+            foreach (Privilege CurrPrivilege in Privileges)
             {
                 privilegeGroupString += "\n" + CurrPrivilege.ToString();
             }

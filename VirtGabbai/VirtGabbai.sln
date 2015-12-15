@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Framework", "Framework\Fram
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataCache.Tests", "Unit Tests\DataCache.Tests\DataCache.Tests.csproj", "{4E1C4A0B-71CB-439D-94E9-452DC5740CF1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess.Tests", "Unit Tests\DataAccess.Tests\DataAccess.Tests.csproj", "{0CACDD5B-2382-48FD-9407-B0F11825517C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -105,6 +107,18 @@ Global
 		{4E1C4A0B-71CB-439D-94E9-452DC5740CF1}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{4E1C4A0B-71CB-439D-94E9-452DC5740CF1}.Release|x86.ActiveCfg = Release|Any CPU
 		{4E1C4A0B-71CB-439D-94E9-452DC5740CF1}.Release|x86.Build.0 = Release|Any CPU
+		{0CACDD5B-2382-48FD-9407-B0F11825517C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CACDD5B-2382-48FD-9407-B0F11825517C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CACDD5B-2382-48FD-9407-B0F11825517C}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{0CACDD5B-2382-48FD-9407-B0F11825517C}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{0CACDD5B-2382-48FD-9407-B0F11825517C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0CACDD5B-2382-48FD-9407-B0F11825517C}.Debug|x86.Build.0 = Debug|Any CPU
+		{0CACDD5B-2382-48FD-9407-B0F11825517C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CACDD5B-2382-48FD-9407-B0F11825517C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CACDD5B-2382-48FD-9407-B0F11825517C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{0CACDD5B-2382-48FD-9407-B0F11825517C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{0CACDD5B-2382-48FD-9407-B0F11825517C}.Release|x86.ActiveCfg = Release|Any CPU
+		{0CACDD5B-2382-48FD-9407-B0F11825517C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -112,6 +126,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{18317582-60D4-4BBE-913B-2F1F8FC3199C} = {B4EEEB75-B40C-4B25-B754-176FDC7371FA}
 		{4E1C4A0B-71CB-439D-94E9-452DC5740CF1} = {B4EEEB75-B40C-4B25-B754-176FDC7371FA}
+		{0CACDD5B-2382-48FD-9407-B0F11825517C} = {B4EEEB75-B40C-4B25-B754-176FDC7371FA}
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = VirtGabbai.vsmdi

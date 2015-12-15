@@ -1,5 +1,6 @@
 using DataCache.Models;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity.Infrastructure.Annotations;
 using System.Data.Entity.ModelConfiguration;
 
 namespace DataCache.Mapping
@@ -21,7 +22,10 @@ namespace DataCache.Mapping
             // Table & Column Mappings
             ToTable("PhoneTypes", "ZeraLevi");
             Property(t => t.ID).HasColumnName("ID");
-            Property(t => t.Name).HasColumnName("Name");
+            Property(t => t.Name)
+                .HasColumnName("Name")
+                .HasColumnAnnotation(IndexAnnotation.AnnotationName,
+                            new IndexAnnotation(new IndexAttribute("IX_PhoneType_Name") { IsUnique = true }));
         }
     }
 }
