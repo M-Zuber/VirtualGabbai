@@ -33,7 +33,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess.Tests", "Unit Te
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integration Tests", "Integration Tests", "{64F6B683-1D50-4F46-90A3-461C998895F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess.Integration.Tests", "Integration Tests\DataAccess.Integration.Tests\DataAccess.Integration.Tests.csproj", "{CD782925-1500-49BD-BDA4-5EFD11BA460D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess.IntegrationTests", "Integration Tests\DataAccess.IntegrationTests\DataAccess.IntegrationTests.csproj", "{CD782925-1500-49BD-BDA4-5EFD11BA460D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
