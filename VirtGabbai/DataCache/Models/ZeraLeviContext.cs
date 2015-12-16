@@ -28,8 +28,8 @@ namespace DataCache.Models
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Configurations.Add(new AccountsMap());
             modelBuilder.Configurations.Add(new DonationsMap());
+            modelBuilder.Configurations.Add(new AccountsMap());
             modelBuilder.Configurations.Add(new PeopleMap());
             modelBuilder.Configurations.Add(new PhoneNumbersMap());
             modelBuilder.Configurations.Add(new PhoneTypesMap());
