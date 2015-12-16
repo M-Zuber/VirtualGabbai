@@ -93,10 +93,6 @@
       <Project>{41c40f86-3faf-415e-bb93-725fd4e4df0f}</Project>
       <Name>DataCache</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Helpers.UnitTests\Helpers.UnitTests.csproj">
-      <Project>{18317582-60d4-4bbe-913b-2f1f8fc3199c}</Project>
-      <Name>Helpers.UnitTests</Name>
-    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
