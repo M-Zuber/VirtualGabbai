@@ -54,8 +54,6 @@
   <ItemGroup>
     <Compile Include="AccountRepository.cs" />
     <Compile Include="DonationRepository.cs" />
-    <Compile Include="Infrastructure\BaseDataAccess.cs" />
-    <Compile Include="Infrastructure\IDataAccess.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="PersonRepository.cs" />
     <Compile Include="PhoneNumberRepository.cs" />
