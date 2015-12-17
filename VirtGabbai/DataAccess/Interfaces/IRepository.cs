@@ -20,5 +20,7 @@ namespace DataAccess.Interfaces
 
         bool Exists(int id);
         bool Exists(TEntity item);
+
+        //bool ValidateItem(TEntity item);
     }
 }

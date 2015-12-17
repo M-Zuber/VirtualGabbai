@@ -50,10 +50,10 @@ namespace DataCache.Models
 
             return ReferenceEquals(this, other) ||
                    (ID == other.ID &&
-                    LastMonthlyPaymentDate.Equals(other.LastMonthlyPaymentDate) &&
+                   (LastMonthlyPaymentDate == null || LastMonthlyPaymentDate.Equals(other.LastMonthlyPaymentDate)) &&
                     PersonID == other.PersonID &&
                     MonthlyPaymentAmount == other.MonthlyPaymentAmount &&
-                    Enumerable.SequenceEqual(Donations, other.Donations));
+                    Enumerable.SequenceEqual(Donations ?? new List<Donation>(), other.Donations ?? new List<Donation>()));
         }
 
         public override string ToString()
