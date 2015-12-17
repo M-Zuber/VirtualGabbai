@@ -9,7 +9,7 @@ using System.Data.Entity;
 
 namespace DataAccess
 {
-    public class PrivilegeRepository : IRepository<Privilege>
+    public class PrivilegeRepository : IFullAccessRepository<Privilege>
     {
         private ZeraLeviContext _context;
 

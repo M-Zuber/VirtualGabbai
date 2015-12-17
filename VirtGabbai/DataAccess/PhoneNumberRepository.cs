@@ -9,7 +9,7 @@ using System.Data.Entity;
 
 namespace DataAccess
 {
-    public class PhoneNumberRepository : IRepository<PhoneNumber>
+    public class PhoneNumberRepository : IFullAccessRepository<PhoneNumber>
     {
         private ZeraLeviContext _context;
 

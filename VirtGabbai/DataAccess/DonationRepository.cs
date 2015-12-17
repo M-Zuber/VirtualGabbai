@@ -9,7 +9,7 @@ using System.Data.Entity;
 
 namespace DataAccess
 {
-    public class DonationRepository : IRepository<Donation>
+    public class DonationRepository : IFullAccessRepository<Donation>
     {
         private ZeraLeviContext _context;
 
