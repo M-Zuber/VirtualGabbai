@@ -71,6 +71,7 @@
     <Compile Include="PersonRepositoryTests.cs" />
     <Compile Include="PhoneNumberRepositoryTests.cs" />
     <Compile Include="PhoneTypeRepositoryTests.cs" />
+    <Compile Include="PrivilegeRepositoryTests.cs" />
     <Compile Include="PrivilegesGroupRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

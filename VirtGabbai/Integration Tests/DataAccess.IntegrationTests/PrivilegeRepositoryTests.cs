@@ -11,15 +11,15 @@ using System.Threading.Tasks;
 namespace DataAccess.IntegrationTests
 {
     [TestClass()]
-    public class DonationRepositoryTests
+    public class PrivilegeRepositoryTests
     {
         VGTestContext _ctx = new VGTestContext();
-        DonationRepository repository;
+        PrivilegeRepository repository;
 
         [TestInitialize()]
         public void Setup()
         {
-            repository = new DonationRepository(_ctx);
+            repository = new PrivilegeRepository(_ctx);
         }
 
         [TestCleanup()]
@@ -37,16 +37,16 @@ namespace DataAccess.IntegrationTests
         [TestMethod]
         public void Exists_Item_No_Match_Returns_False()
         {
-            var item = A.New<Donation>();
+            var item = A.New<Privilege>();
             Assert.IsFalse(repository.Exists(item));
         }
 
         [TestMethod]
         public void Exists_Item_Match_Found_Returns_True()
         {
-            var donation = Helper.SetupData(_ctx);
+            var item = Helper.SetupData(_ctx);
 
-            Assert.IsTrue(repository.Exists(donation));
+            Assert.IsTrue(repository.Exists(item));
         }
 
         [TestMethod]
@@ -58,17 +58,17 @@ namespace DataAccess.IntegrationTests
         [TestMethod]
         public void Exists_ID_Match_Returns_True()
         {
-            var donation = Helper.SetupData(_ctx);
+            var item = Helper.SetupData(_ctx);
 
-            Assert.IsTrue(repository.Exists(donation.ID));
+            Assert.IsTrue(repository.Exists(item.ID));
         }
 
         [TestMethod]
         public void Get_Returns_All_items()
         {
-            var donations = Helper.SetupData(_ctx, 5);
+            var items = Helper.SetupData(_ctx, 5);
 
-            CollectionAssert.AreEquivalent(donations, repository.Get().ToList());
+            CollectionAssert.AreEquivalent(items, repository.Get().ToList());
         }
 
         [TestMethod]
@@ -80,9 +80,9 @@ namespace DataAccess.IntegrationTests
         [TestMethod]
         public void GetByID_No_Match_Returns_Null()
         {
-            var donations = Helper.SetupData(_ctx, 1);
+            var items = Helper.SetupData(_ctx, 1);
 
-            Assert.IsNull(repository.GetByID(donations.Max(d => d.ID) + 1));
+            Assert.IsNull(repository.GetByID(items.Max(d => d.ID) + 1));
         }
 
         [TestMethod]
@@ -95,36 +95,18 @@ namespace DataAccess.IntegrationTests
 
         class Helper
         {
-            public static Donation SetupData(VGTestContext ctx)
+            public static Privilege SetupData(VGTestContext ctx) => SetupData(ctx, 1).First();
+
+            public static List<Privilege> SetupData(VGTestContext ctx, int count)
             {
-                var person = A.New<Person>();
-                person.Account = A.New<Account>();
-                person.Account.Donations = A.ListOf<Donation>();
-                ctx.People.Add(person);
+                var privilegeGroup = A.New<PrivilegesGroup>();
+                var privileges = A.ListOf<Privilege>(count);
+                privilegeGroup.Privileges = privileges;
+                ctx.PrivilegesGroups.Add(privilegeGroup);
 
                 ctx.SaveChanges();
 
-                return person.Account.Donations.First();
-            }
-
-            public static List<Donation> SetupData(VGTestContext ctx, int count)
-            {
-                var people = A.ListOf<Person>(count);
-                List<Donation> allDonations = new List<Donation>();
-
-                foreach (var person in people)
-                {
-                    person.Account = A.New<Account>();
-
-                    var donations = A.ListOf<Donation>(count);
-                    person.Account.Donations = donations;
-                    allDonations.AddRange(donations);
-                }
-
-                ctx.People.AddRange(people);
-                ctx.SaveChanges();
-
-                return allDonations;
+                return privilegeGroup.Privileges.ToList();
             }
         }
     }
