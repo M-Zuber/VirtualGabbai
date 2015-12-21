@@ -17,18 +17,25 @@ namespace Framework
         /// <returns>True on a full 1:1 match, otherwise false</returns>
         public static bool SameAs<TSource>(this IEnumerable<TSource> source, IEnumerable<TSource> value)
         {
+            if (source == null && value == null)
+            {
+                return true;
+            }
+
+            if ((source == null && value != null) || (source != null && value == null))
+            {
+                return false;
+            }
             if (source.Count() != value.Count())
             {
                 return false;
             }
-            else
+            
+            for (int i = 0; i < source.Count(); i++)
             {
-                for (int i = 0; i < source.Count(); i++)
+                if ((!source.Contains(value.ElementAt(i))) || (!value.Contains(source.ElementAt(i))))
                 {
-                    if ((!source.Contains(value.ElementAt(i))) || (!value.Contains(source.ElementAt(i))))
-                    {
-                        return false;
-                    }
+                    return false;
                 }
             }
 

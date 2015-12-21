@@ -60,12 +60,14 @@ namespace DataAccess
                 if (current == null)
                 {
                     current = new PrivilegesGroup();
+                    current.GroupName = item.GroupName;
+                    current.Privileges = item.Privileges;
                     Entities.Add(current);
                 }
 
-                current.GroupName = item.GroupName;
-                current.Privileges = item.Privileges;
                 _context.SaveChanges();
+
+                item.ID = current.ID;
             }
         }
     }
