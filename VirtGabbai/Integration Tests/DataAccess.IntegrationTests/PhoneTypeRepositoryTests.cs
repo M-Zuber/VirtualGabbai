@@ -112,7 +112,8 @@ namespace DataAccess.IntegrationTests
 
             var before = repository.Get().ToList();
 
-            var item = Helper.GenFuSetup(1).First();
+            var item = Helper.GenFuSetup(1, before.Select(pt => pt.Name))
+                             .First();
             repository.Add(item);
 
             var after = repository.Get();
@@ -138,7 +139,8 @@ namespace DataAccess.IntegrationTests
         {
             var before = Helper.SetupData(_ctx, 5);
 
-            var iten = Helper.GenFuSetup(1).First();
+            var iten = Helper.GenFuSetup(1, before.Select(pt => pt.Name))
+                             .First();
             iten.ID = before.Max(p => p.ID) + 1;
 
             repository.Delete(iten);
@@ -179,11 +181,16 @@ namespace DataAccess.IntegrationTests
         {
             var before = Helper.SetupData(_ctx, 3);
 
-            var item = Helper.GenFuSetup(1).First();
+            var item = Helper.GenFuSetup(1, before.Select(pt =>pt.Name))
+                             .First();
 
             Assert.IsFalse(before.Contains(item));
 
             repository.Save(item);
+
+            var expected = repository.GetByID(item.ID);
+            Assert.IsNotNull(expected);
+            Assert.AreEqual(expected, item);
 
             var after = repository.Get().ToList();
 
@@ -206,14 +213,15 @@ namespace DataAccess.IntegrationTests
 
         class Helper
         {
-            public static List<PhoneType> GenFuSetup(int count)
+            public static List<PhoneType> GenFuSetup(int count, IEnumerable<string> currentTypes)
             {
                 var generatedPhoneTypes = A.ListOf<PhoneType>(count);
                 var phoneTypes = new List<PhoneType>();
 
                 foreach (var gPT in generatedPhoneTypes)
                 {
-                    if (phoneTypes.FirstOrDefault(pt => pt.Name.Equals(gPT.Name, StringComparison.CurrentCultureIgnoreCase)) == null)
+                    if ((phoneTypes.FirstOrDefault(pt => pt.Name.Equals(gPT.Name, StringComparison.CurrentCultureIgnoreCase)) == null) &&
+                        (!currentTypes.Any() || !currentTypes.Contains(gPT.Name, StringComparer.CurrentCultureIgnoreCase)))
                     {
                         phoneTypes.Add(gPT);
                     }
@@ -225,7 +233,8 @@ namespace DataAccess.IntegrationTests
 
                     foreach (var gPT in generatedPhoneTypes)
                     {
-                        if (phoneTypes.FirstOrDefault(pt => pt.Name.Equals(gPT.Name, StringComparison.CurrentCultureIgnoreCase)) == null)
+                        if ((phoneTypes.FirstOrDefault(pt => pt.Name.Equals(gPT.Name, StringComparison.CurrentCultureIgnoreCase)) == null) &&
+                            (!currentTypes.Any() || !currentTypes.Contains(gPT.Name, StringComparer.CurrentCultureIgnoreCase)))
                         {
                             phoneTypes.Add(gPT);
                         }
@@ -237,7 +246,7 @@ namespace DataAccess.IntegrationTests
 
             public static PhoneType SetupData(VGTestContext ctx)
             {
-                var phoneType = GenFuSetup(1).First();
+                var phoneType = GenFuSetup(1, Enumerable.Empty<string>()).First();
                 ctx.PhoneTypes.Add(phoneType);
                 ctx.SaveChanges();
 
@@ -246,7 +255,7 @@ namespace DataAccess.IntegrationTests
 
             public static List<PhoneType> SetupData(VGTestContext ctx, int count)
             {
-                var items = GenFuSetup(count);
+                var items = GenFuSetup(count, Enumerable.Empty<string>());
                 ctx.PhoneTypes.AddRange(items);
                 ctx.SaveChanges();
 

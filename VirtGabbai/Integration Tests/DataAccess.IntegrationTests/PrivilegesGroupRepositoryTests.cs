@@ -2,6 +2,7 @@
 using DataCache.Models;
 using GenFu;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MoreLinq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -216,39 +217,27 @@ namespace DataAccess.IntegrationTests
         {
             public static List<PrivilegesGroup> GenFuSetup(int count)
             {
-                var generatedPrivileges = A.ListOf<Privilege>();
-                var privileges = new List<Privilege>();
-                foreach (var gP in generatedPrivileges)
-                {
-                    if (privileges.FirstOrDefault(pt => pt.Name.Equals(gP.Name, StringComparison.CurrentCultureIgnoreCase)) == null)
-                    {
-                        privileges.Add(gP);
-                    }
-                }
+                var generatedPrivileges = A.ListOf<Privilege>().DistinctBy(p => p.Name, StringComparer.CurrentCultureIgnoreCase);
+                var privileges = new List<Privilege>(generatedPrivileges);
 
                 A.Configure<PrivilegesGroup>()
                     .Fill(pg => pg.Privileges, privileges.Skip(A.Random.Next() % privileges.Count).Take(A.Random.Next() % privileges.Count));
 
-                var generatedPrivilegeGroups = A.ListOf<PrivilegesGroup>(count);
-                var privilegeGroups = new List<PrivilegesGroup>();
+                var privilegeGroups = A.ListOf<PrivilegesGroup>(count).DistinctBy(pg => pg.GroupName, StringComparer.CurrentCultureIgnoreCase).ToList();
 
-                foreach (var gPG in generatedPrivilegeGroups)
+                // Try 3 times to make sure that we reached the amount wanted
+                if (privilegeGroups.Count < count)
                 {
-                    if (privilegeGroups.FirstOrDefault(pg => pg.GroupName.Equals(gPG.GroupName, StringComparison.CurrentCultureIgnoreCase)) == null)
+                    for (int i = 0; i < 3; i++)
                     {
-                        privilegeGroups.Add(gPG);
-                    }
-                }
+                        privilegeGroups = A.ListOf<PrivilegesGroup>(count)
+                                           .Concat(privilegeGroups)
+                                           .DistinctBy(pg => pg.GroupName, StringComparer.CurrentCultureIgnoreCase)
+                                           .ToList();
 
-                while (privilegeGroups.Count < count)
-                {
-                    generatedPrivilegeGroups = A.ListOf<PrivilegesGroup>(count);
-
-                    foreach (var gPG in generatedPrivilegeGroups)
-                    {
-                        if (privilegeGroups.FirstOrDefault(pg => pg.GroupName.Equals(gPG.GroupName, StringComparison.CurrentCultureIgnoreCase)) == null)
+                        if (privilegeGroups.Count >= count)
                         {
-                            privilegeGroups.Add(gPG);
+                            break;
                         }
                     }
                 }

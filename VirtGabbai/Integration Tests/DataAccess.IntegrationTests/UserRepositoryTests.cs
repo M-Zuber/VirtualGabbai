@@ -2,6 +2,7 @@
 using DataCache.Models;
 using GenFu;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MoreLinq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -112,7 +113,7 @@ namespace DataAccess.IntegrationTests
 
             var before = repository.Get().ToList();
 
-            var item = Helper.GenFuSetup(1, before.Select(u => u.PrivilegeGroup.GroupName), before.SelectMany(u => u.PrivilegeGroup.Privileges).Select(p => p.Name))
+            var item = Helper.GenFuSetup(1, before.Select(u => u.PrivilegeGroup.GroupName), before.SelectMany(u => u.PrivilegeGroup.Privileges))
                              .First();
             repository.Add(item);
 
@@ -139,7 +140,7 @@ namespace DataAccess.IntegrationTests
         {
             var before = Helper.SetupData(_ctx, 5);
 
-            var item = Helper.GenFuSetup(1, before.Select(u => u.PrivilegeGroup.GroupName), before.SelectMany(u => u.PrivilegeGroup.Privileges).Select(p => p.Name))
+            var item = Helper.GenFuSetup(1, before.Select(u => u.PrivilegeGroup.GroupName), before.SelectMany(u => u.PrivilegeGroup.Privileges))
                              .First();
             item.ID = before.Max(p => p.ID) + 1;
 
@@ -181,7 +182,7 @@ namespace DataAccess.IntegrationTests
         {
             var before = Helper.SetupData(_ctx, 3);
 
-            var item = Helper.GenFuSetup(1, before.Select(u => u.PrivilegeGroup.GroupName), before.SelectMany(u => u.PrivilegeGroup.Privileges).Select(p => p.Name))
+            var item = Helper.GenFuSetup(1, before.Select(u => u.PrivilegeGroup.GroupName), before.SelectMany(u => u.PrivilegeGroup.Privileges))
                              .First();
 
             Assert.IsFalse(before.Contains(item));
@@ -207,40 +208,38 @@ namespace DataAccess.IntegrationTests
 
         class Helper
         {
-            public static List<User> GenFuSetup(int count, IEnumerable<string> currentPGNames, IEnumerable<string> currentPrivlegeNames)
+            public static List<User> GenFuSetup(int count, IEnumerable<string> currentPGNames, IEnumerable<Privilege> currentPrivileges)
             {
-                var generatedPrivileges = A.ListOf<Privilege>();
-                var privileges = new List<Privilege>();
-                foreach (var gP in generatedPrivileges)
-                {
-                    if ((privileges.FirstOrDefault(pt => pt.Name.Equals(gP.Name, StringComparison.CurrentCultureIgnoreCase)) == null) &&
-                        (!currentPrivlegeNames.Any() || !currentPrivlegeNames.Contains(gP.Name, StringComparer.CurrentCultureIgnoreCase)))
-                    {
-                        privileges.Add(gP);
-                    }
-                }
+                var privileges = A.ListOf<Privilege>()
+                    .Concat(currentPrivileges)
+                    .DistinctBy(p => p.Name, StringComparer.CurrentCultureIgnoreCase)
+                    .ToList();
 
-                while (privileges.Count < 25)
+                //Try to get at least 10 items
+                if (privileges.Count < 10)
                 {
-                    generatedPrivileges = A.ListOf<Privilege>();
-                    foreach (var gP in generatedPrivileges)
+                    for (int i = 0; i < 3; i++)
                     {
-                        if ((privileges.FirstOrDefault(pt => pt.Name.Equals(gP.Name, StringComparison.CurrentCultureIgnoreCase)) == null) &&
-                            (!currentPrivlegeNames.Any() || !currentPrivlegeNames.Contains(gP.Name, StringComparer.CurrentCultureIgnoreCase)))
+                        privileges = A.ListOf<Privilege>()
+                                      .Concat(privileges)
+                                      .DistinctBy(p => p.Name, StringComparer.CurrentCultureIgnoreCase)
+                                      .ToList();
+
+                        if (privileges.Count >= 10)
                         {
-                            privileges.Add(gP);
+                            break;
                         }
                     }
                 }
 
                 var listOfPrivilegeLists = new List<List<Privilege>>();
 
-                listOfPrivilegeLists.Add(privileges.Take(5).ToList());
-                listOfPrivilegeLists.Add(privileges.Skip(5).Take(5).ToList());
-                listOfPrivilegeLists.Add(privileges.Skip(10).Take(5).ToList());
-                listOfPrivilegeLists.Add(privileges.Skip(15).Take(5).ToList());
-                listOfPrivilegeLists.Add(privileges.Skip(20).Take(5).ToList());
+                int slice = 3;
 
+                for (int i = 0; i < privileges.Count / slice; i++)
+                {
+                    listOfPrivilegeLists.Add(privileges.Skip(i * slice).Take(i * slice).ToList());
+                }
 
                 A.Configure<PrivilegesGroup>()
                     .Fill(pg => pg.Privileges)
@@ -267,7 +266,7 @@ namespace DataAccess.IntegrationTests
 
             public static User SetupData(VGTestContext ctx)
             {
-                var user = GenFuSetup(1, Enumerable.Empty<string>(), Enumerable.Empty<string>()).First();
+                var user = GenFuSetup(1, Enumerable.Empty<string>(), Enumerable.Empty<Privilege>()).First();
                 ctx.Users.Add(user);
                 ctx.SaveChanges();
 
@@ -276,7 +275,7 @@ namespace DataAccess.IntegrationTests
 
             public static List<User> SetupData(VGTestContext ctx, int count)
             {
-                var users = GenFuSetup(count, Enumerable.Empty<string>(), Enumerable.Empty<string>());
+                var users = GenFuSetup(count, Enumerable.Empty<string>(), Enumerable.Empty<Privilege>());
                 ctx.Users.AddRange(users);
                 ctx.SaveChanges();
 
