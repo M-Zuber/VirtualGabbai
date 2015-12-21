@@ -112,7 +112,8 @@ namespace DataAccess.IntegrationTests
 
             var before = repository.Get().ToList();
 
-            var item = Helper.GenFuSetup(1).First();
+            var item = Helper.GenFuSetup(1, before.Select(u => u.PrivilegeGroup.GroupName))
+                             .First();
             repository.Add(item);
 
             var after = repository.Get();
@@ -138,7 +139,8 @@ namespace DataAccess.IntegrationTests
         {
             var before = Helper.SetupData(_ctx, 5);
 
-            var item = Helper.GenFuSetup(1).First();
+            var item = Helper.GenFuSetup(1, before.Select(u => u.PrivilegeGroup.GroupName))
+                             .First();
             item.ID = before.Max(p => p.ID) + 1;
 
             repository.Delete(item);
@@ -179,7 +181,8 @@ namespace DataAccess.IntegrationTests
         {
             var before = Helper.SetupData(_ctx, 3);
 
-            var item = Helper.GenFuSetup(1).First();
+            var item = Helper.GenFuSetup(1, before.Select(u => u.PrivilegeGroup.GroupName))
+                             .First();
 
             Assert.IsFalse(before.Contains(item));
 
@@ -204,7 +207,7 @@ namespace DataAccess.IntegrationTests
 
         class Helper
         {
-            public static List<User> GenFuSetup(int count)
+            public static List<User> GenFuSetup(int count, IEnumerable<string> currentPGNames)
             {
                 var generatedPrivileges = A.ListOf<Privilege>();
                 var privileges = new List<Privilege>();
@@ -216,14 +219,43 @@ namespace DataAccess.IntegrationTests
                     }
                 }
 
+                while (privileges.Count < 25)
+                {
+                    generatedPrivileges = A.ListOf<Privilege>();
+                    foreach (var gP in generatedPrivileges)
+                    {
+                        if (privileges.FirstOrDefault(pt => pt.Name.Equals(gP.Name, StringComparison.CurrentCultureIgnoreCase)) == null)
+                        {
+                            privileges.Add(gP);
+                        }
+                    }
+                }
+
+                var listOfPrivilegeLists = new List<List<Privilege>>();
+
+                listOfPrivilegeLists.Add(privileges.Take(5).ToList());
+                listOfPrivilegeLists.Add(privileges.Skip(5).Take(5).ToList());
+                listOfPrivilegeLists.Add(privileges.Skip(10).Take(5).ToList());
+                listOfPrivilegeLists.Add(privileges.Skip(15).Take(5).ToList());
+                listOfPrivilegeLists.Add(privileges.Skip(20).Take(5).ToList());
+
+
                 A.Configure<PrivilegesGroup>()
-                    .Fill(pg => pg.Privileges, privileges.Skip(A.Random.Next() % privileges.Count).Take(A.Random.Next() % privileges.Count));
+                    .Fill(pg => pg.Privileges)
+                    .WithRandom(listOfPrivilegeLists);
 
                 var users = A.ListOf<User>(count);
 
                 foreach (var user in users)
                 {
-                    user.PrivilegeGroup = A.New<PrivilegesGroup>();
+                    var pg = A.New<PrivilegesGroup>();
+
+                    while (!currentPGNames.Any() || currentPGNames.Contains(pg.GroupName, StringComparer.CurrentCultureIgnoreCase))
+                    {
+                        pg = A.New<PrivilegesGroup>();
+                    }
+
+                    user.PrivilegeGroup = pg;
                 }
 
                 return users;
@@ -231,7 +263,7 @@ namespace DataAccess.IntegrationTests
 
             public static User SetupData(VGTestContext ctx)
             {
-                var user = GenFuSetup(1).First();
+                var user = GenFuSetup(1, Enumerable.Empty<string>()).First();
                 ctx.Users.Add(user);
                 ctx.SaveChanges();
 
@@ -240,7 +272,7 @@ namespace DataAccess.IntegrationTests
 
             public static List<User> SetupData(VGTestContext ctx, int count)
             {
-                var users = GenFuSetup(count);
+                var users = GenFuSetup(count, Enumerable.Empty<string>());
                 ctx.Users.AddRange(users);
                 ctx.SaveChanges();
 
