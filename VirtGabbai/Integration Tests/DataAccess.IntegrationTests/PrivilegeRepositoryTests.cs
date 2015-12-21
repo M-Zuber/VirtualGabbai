@@ -130,7 +130,7 @@ namespace DataAccess.IntegrationTests
 
                 ctx.SaveChanges();
 
-                return privilegeGroup.Privileges;
+                return privilegeGroup.Privileges.ToList();
             }
         }
     }
