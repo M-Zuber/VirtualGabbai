@@ -69,6 +69,7 @@
     <Compile Include="DonationRepositoryTests.cs" />
     <Compile Include="Helpers\VGTestContext.cs" />
     <Compile Include="PersonRepositoryTests.cs" />
+    <Compile Include="PhoneNumberRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

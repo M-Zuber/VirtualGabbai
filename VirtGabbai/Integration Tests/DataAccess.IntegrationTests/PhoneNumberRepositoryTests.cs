@@ -11,15 +11,15 @@ using System.Threading.Tasks;
 namespace DataAccess.IntegrationTests
 {
     [TestClass()]
-    public class AccountRepositoryTests
+    public class PhoneNumberRepositoryTests
     {
         VGTestContext _ctx = new VGTestContext();
-        AccountRepository repository;
+        PhoneNumberRepository repository;
 
         [TestInitialize()]
         public void Setup()
         {
-            repository = new AccountRepository(_ctx);   
+            repository = new PhoneNumberRepository(_ctx);
         }
 
         [TestCleanup()]
@@ -37,16 +37,16 @@ namespace DataAccess.IntegrationTests
         [TestMethod]
         public void Exists_Item_No_Match_Returns_False()
         {
-            var item = A.New<Account>();
+            var item = A.New<PhoneNumber>();
             Assert.IsFalse(repository.Exists(item));
         }
 
         [TestMethod]
         public void Exists_Item_Match_Found_Returns_True()
         {
-            var account = Helper.SetupData(_ctx);
+            var phoneNumber = Helper.SetupData(_ctx);
 
-            Assert.IsTrue(repository.Exists(account));
+            Assert.IsTrue(repository.Exists(phoneNumber));
         }
 
         [TestMethod]
@@ -58,17 +58,17 @@ namespace DataAccess.IntegrationTests
         [TestMethod]
         public void Exists_ID_Match_Returns_True()
         {
-            var account = Helper.SetupData(_ctx);
+            var phoneNumber = Helper.SetupData(_ctx);
 
-            Assert.IsTrue(repository.Exists(account.ID));
+            Assert.IsTrue(repository.Exists(phoneNumber.ID));
         }
 
         [TestMethod]
         public void Get_Returns_All_items()
         {
-            var accounts = Helper.SetupData(_ctx, 5);
+            var phoneNumbers = Helper.SetupData(_ctx, 5);
 
-            CollectionAssert.AreEquivalent(accounts, repository.Get().ToList());
+            CollectionAssert.AreEquivalent(phoneNumbers, repository.Get().ToList());
         }
 
         [TestMethod]
@@ -80,9 +80,9 @@ namespace DataAccess.IntegrationTests
         [TestMethod]
         public void GetByID_No_Match_Returns_Null()
         {
-            var account = Helper.SetupData(_ctx);
+            var phoneNumber = Helper.SetupData(_ctx);
 
-            Assert.IsNull(repository.GetByID(account.ID + 1));
+            Assert.IsNull(repository.GetByID(phoneNumber.ID + 1));
         }
 
         [TestMethod]
@@ -95,34 +95,54 @@ namespace DataAccess.IntegrationTests
 
         class Helper
         {
-            public static Account SetupData(VGTestContext ctx)
+            public static void GenFuSetup()
             {
+                var generatedPhoneTypes = A.ListOf<PhoneType>();
+                var phoneTypes = new List<PhoneType>();
+                foreach (var gPT in generatedPhoneTypes)
+                {
+                    if (phoneTypes.FirstOrDefault(pt => pt.Name == gPT.Name) == null)
+                    {
+                        phoneTypes.Add(gPT);
+                    }
+                }      
+
+                A.Configure<PhoneNumber>()
+                    .Fill(pn => pn.Number)
+                    .AsPhoneNumber()
+                    .Fill(pn => pn.Type)
+                    .WithRandom(phoneTypes);
+            }
+
+            public static PhoneNumber SetupData(VGTestContext ctx)
+            {
+                GenFuSetup();
                 var person = A.New<Person>();
-                person.Account = A.New<Account>();
-                person.Account.Donations = A.ListOf<Donation>();
+                person.PhoneNumbers = A.ListOf<PhoneNumber>(1);
                 ctx.People.Add(person);
 
                 ctx.SaveChanges();
 
-                return person.Account;
+                return person.PhoneNumbers.First();
             }
 
-            public static List<Account> SetupData(VGTestContext ctx, int count)
+            public static List<PhoneNumber> SetupData(VGTestContext ctx, int count)
             {
+                GenFuSetup();
                 var people = A.ListOf<Person>(count);
-                List<Account> accounts = new List<Account>();
+                List<PhoneNumber> phoneNumbers = new List<PhoneNumber>();
 
                 foreach (var person in people)
                 {
-                    var account = A.New<Account>();
-                    person.Account = account;
-                    accounts.Add(account);
+                    var phoneNumber = A.ListOf<PhoneNumber>();
+                    person.PhoneNumbers = phoneNumber;
+                    phoneNumbers.AddRange(phoneNumber);
                 }
 
                 ctx.People.AddRange(people);
                 ctx.SaveChanges();
 
-                return accounts;
+                return phoneNumbers;
             }
         }
     }
