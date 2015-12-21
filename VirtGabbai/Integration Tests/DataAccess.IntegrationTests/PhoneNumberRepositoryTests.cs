@@ -101,7 +101,7 @@ namespace DataAccess.IntegrationTests
                 var phoneTypes = new List<PhoneType>();
                 foreach (var gPT in generatedPhoneTypes)
                 {
-                    if (phoneTypes.FirstOrDefault(pt => pt.Name == gPT.Name) == null)
+                    if (phoneTypes.FirstOrDefault(pt => pt.Name.Equals(gPT.Name, StringComparison.CurrentCultureIgnoreCase)) == null)
                     {
                         phoneTypes.Add(gPT);
                     }

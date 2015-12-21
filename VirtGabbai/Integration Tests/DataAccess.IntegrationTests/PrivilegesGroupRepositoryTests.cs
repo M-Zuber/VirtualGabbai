@@ -212,7 +212,7 @@ namespace DataAccess.IntegrationTests
                 var privileges = new List<Privilege>();
                 foreach (var gP in generatedPrivileges)
                 {
-                    if (privileges.FirstOrDefault(pt => pt.Name == gP.Name) == null)
+                    if (privileges.FirstOrDefault(pt => pt.Name.Equals(gP.Name, StringComparison.CurrentCultureIgnoreCase)) == null)
                     {
                         privileges.Add(gP);
                     }
@@ -226,7 +226,7 @@ namespace DataAccess.IntegrationTests
 
                 foreach (var gPG in generatedPrivilegeGroups)
                 {
-                    if (privilegeGroups.FirstOrDefault(pg => pg.GroupName == gPG.GroupName) == null)
+                    if (privilegeGroups.FirstOrDefault(pg => pg.GroupName.Equals(gPG.GroupName, StringComparison.CurrentCultureIgnoreCase)) == null)
                     {
                         privilegeGroups.Add(gPG);
                     }
@@ -238,7 +238,7 @@ namespace DataAccess.IntegrationTests
 
                     foreach (var gPG in generatedPrivilegeGroups)
                     {
-                        if (privilegeGroups.FirstOrDefault(pg => pg.GroupName == gPG.GroupName) == null)
+                        if (privilegeGroups.FirstOrDefault(pg => pg.GroupName.Equals(gPG.GroupName, StringComparison.CurrentCultureIgnoreCase)) == null)
                         {
                             privilegeGroups.Add(gPG);
                         }
