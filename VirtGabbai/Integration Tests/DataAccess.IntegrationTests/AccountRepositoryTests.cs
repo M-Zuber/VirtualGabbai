@@ -19,7 +19,8 @@ namespace DataAccess.IntegrationTests
         [TestInitialize()]
         public void Setup()
         {
-            repository = new AccountRepository(_ctx);   
+            _ctx.Database.Delete();
+            repository = new AccountRepository(_ctx);
         }
 
         [TestCleanup()]

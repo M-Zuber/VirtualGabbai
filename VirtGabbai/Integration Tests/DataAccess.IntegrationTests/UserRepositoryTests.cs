@@ -20,6 +20,7 @@ namespace DataAccess.IntegrationTests
         [TestInitialize()]
         public void Setup()
         {
+            _ctx.Database.Delete();
             repository = new UserRepository(_ctx);
         }
 
@@ -113,8 +114,19 @@ namespace DataAccess.IntegrationTests
 
             var before = repository.Get().ToList();
 
-            var item = Helper.GenFuSetup(1, before.Select(u => u.PrivilegeGroup.GroupName), before.SelectMany(u => u.PrivilegeGroup.Privileges))
-                             .First();
+            var first = before.First();
+            var item = new User
+            {
+                UserName = first.UserName + "~",
+                Password = first.Password + "~",
+                Email = first.Email + "~",
+                PrivilegeGroup = new PrivilegesGroup
+                {
+                    GroupName = first.PrivilegeGroup.GroupName + "~",
+                    Privileges = first.PrivilegeGroup.Privileges.Select(p => new Privilege(0, p.Name + "~")).ToList()
+                }
+            };
+
             repository.Add(item);
 
             var after = repository.Get();
@@ -195,10 +207,11 @@ namespace DataAccess.IntegrationTests
         }
 
         [TestMethod]
-        public void Save_ExistingItemPrivilegeGroupChanged_ValuesAreUpdated()
+        public void Save_ExistingItemPrivilegesChanged_ValuesAreUpdated()
         {
             var item = Helper.SetupData(_ctx);
 
+            item.PrivilegeGroup.Privileges.Remove(item.PrivilegeGroup.Privileges.First());
             repository.Save(item);
 
             var after = repository.GetByID(item.ID);
@@ -242,6 +255,7 @@ namespace DataAccess.IntegrationTests
                 }
 
                 A.Configure<PrivilegesGroup>()
+                    .Fill(pg => pg.ID, 0)
                     .Fill(pg => pg.Privileges)
                     .WithRandom(listOfPrivilegeLists);
 
@@ -252,7 +266,7 @@ namespace DataAccess.IntegrationTests
                 {
                     var pg = A.New<PrivilegesGroup>();
 
-                    while (currentPGNames.Any() && currentPGNames.Contains(pg.GroupName, StringComparer.CurrentCultureIgnoreCase))
+                    while (currentPGNames.Contains(pg.GroupName, StringComparer.CurrentCultureIgnoreCase))
                     {
                         pg = A.New<PrivilegesGroup>();
                     }

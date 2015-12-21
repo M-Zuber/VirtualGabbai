@@ -19,6 +19,7 @@ namespace DataAccess.IntegrationTests
         [TestInitialize()]
         public void Setup()
         {
+            _ctx.Database.Delete();
             repository = new PersonRepository(_ctx);
         }
 
@@ -238,7 +239,10 @@ namespace DataAccess.IntegrationTests
                  .Fill(d => d.DonationDate)
                  .AsPastDate();
                 A.Configure<Account>()
-                 .Fill(p => p.Donations, A.ListOf<Donation>());
+                 .Fill(p => p.Donations, A.ListOf<Donation>())
+                 .Fill(a => a.ID, 0);
+                A.Configure<Person>()
+                 .Fill(p => p.ID, 0);
                 var people = A.ListOf<Person>(count);
 
                 foreach (var person in people)

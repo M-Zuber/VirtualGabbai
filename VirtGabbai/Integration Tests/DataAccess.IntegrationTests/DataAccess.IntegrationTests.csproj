@@ -79,6 +79,7 @@
     <Compile Include="PrivilegesGroupRepositoryTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserRepositoryTests.cs" />
+    <Compile Include="YahrtziehtRepositoryTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

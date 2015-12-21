@@ -20,6 +20,7 @@ namespace DataAccess.IntegrationTests
         [TestInitialize()]
         public void Setup()
         {
+            _ctx.Database.Delete();
             repository = new PrivilegeGroupRepository(_ctx);
         }
 

@@ -11,16 +11,16 @@ using System.Threading.Tasks;
 namespace DataAccess.IntegrationTests
 {
     [TestClass()]
-    public class PrivilegeRepositoryTests
+    public class YahrtziehtRepositoryTests
     {
         VGTestContext _ctx = new VGTestContext();
-        PrivilegeRepository repository;
+        YahrtziehtRepository repository;
 
         [TestInitialize()]
         public void Setup()
         {
             _ctx.Database.Delete();
-            repository = new PrivilegeRepository(_ctx);
+            repository = new YahrtziehtRepository(_ctx);
         }
 
         [TestCleanup()]
@@ -38,7 +38,7 @@ namespace DataAccess.IntegrationTests
         [TestMethod]
         public void Exists_Item_No_Match_Returns_False()
         {
-            var item = A.New<Privilege>();
+            var item = A.New<Yahrtzieht>();
             Assert.IsFalse(repository.Exists(item));
         }
 
@@ -81,9 +81,9 @@ namespace DataAccess.IntegrationTests
         [TestMethod]
         public void GetByID_No_Match_Returns_Null()
         {
-            var items = Helper.SetupData(_ctx, 1);
+            var item = Helper.SetupData(_ctx);
 
-            Assert.IsNull(repository.GetByID(items.Max(d => d.ID) + 1));
+            Assert.IsNull(repository.GetByID(item.ID + 1));
         }
 
         [TestMethod]
@@ -96,41 +96,24 @@ namespace DataAccess.IntegrationTests
 
         class Helper
         {
-            public static Privilege SetupData(VGTestContext ctx) => SetupData(ctx, 1).First();
+            public static Yahrtzieht SetupData(VGTestContext ctx) => SetupData(ctx, 1).First();
 
-            public static List<Privilege> SetupData(VGTestContext ctx, int count)
+            public static List<Yahrtzieht> SetupData(VGTestContext ctx, int count)
             {
-                var privilegeGroup = A.New<PrivilegesGroup>();
-                var privileges = new List<Privilege>();
-                var generatedPrivileges = A.ListOf<Privilege>(count);
+                var people = A.ListOf<Person>(count);
+                List<Yahrtzieht> items = new List<Yahrtzieht>();
 
-                foreach (var gP in generatedPrivileges)
+                foreach (var person in people)
                 {
-                    if (privileges.FirstOrDefault(p => p.Name.Equals(gP.Name, StringComparison.CurrentCultureIgnoreCase)) == null)
-                    {
-                        privileges.Add(gP);
-                    }
+                    var yahrtziehts = A.ListOf<Yahrtzieht>(count);
+                    person.Yahrtziehts = yahrtziehts;
+                    items.AddRange(yahrtziehts);
                 }
 
-                while (privileges.Count < count)
-                {
-                    generatedPrivileges = A.ListOf<Privilege>(count);
-
-                    foreach (var gP in generatedPrivileges)
-                    {
-                        if (privileges.FirstOrDefault(p => p.Name.Equals(gP.Name, StringComparison.CurrentCultureIgnoreCase)) == null)
-                        {
-                            privileges.Add(gP);
-                        }
-                    }
-                }
-
-                privilegeGroup.Privileges = privileges.Take(count).ToList();
-                ctx.PrivilegesGroups.Add(privilegeGroup);
-
+                ctx.People.AddRange(people);
                 ctx.SaveChanges();
 
-                return privilegeGroup.Privileges;
+                return items;
             }
         }
     }

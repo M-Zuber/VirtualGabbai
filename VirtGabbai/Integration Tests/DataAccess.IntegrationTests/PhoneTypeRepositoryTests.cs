@@ -19,6 +19,7 @@ namespace DataAccess.IntegrationTests
         [TestInitialize()]
         public void Setup()
         {
+            _ctx.Database.Delete();
             repository = new PhoneTypeRepository(_ctx);
         }
 
