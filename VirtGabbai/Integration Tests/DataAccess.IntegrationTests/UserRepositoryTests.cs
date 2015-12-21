@@ -112,7 +112,7 @@ namespace DataAccess.IntegrationTests
 
             var before = repository.Get().ToList();
 
-            var item = Helper.GenFuSetup(1, before.Select(u => u.PrivilegeGroup.GroupName))
+            var item = Helper.GenFuSetup(1, before.Select(u => u.PrivilegeGroup.GroupName), before.SelectMany(u => u.PrivilegeGroup.Privileges).Select(p => p.Name))
                              .First();
             repository.Add(item);
 
@@ -139,7 +139,7 @@ namespace DataAccess.IntegrationTests
         {
             var before = Helper.SetupData(_ctx, 5);
 
-            var item = Helper.GenFuSetup(1, before.Select(u => u.PrivilegeGroup.GroupName))
+            var item = Helper.GenFuSetup(1, before.Select(u => u.PrivilegeGroup.GroupName), before.SelectMany(u => u.PrivilegeGroup.Privileges).Select(p => p.Name))
                              .First();
             item.ID = before.Max(p => p.ID) + 1;
 
@@ -181,7 +181,7 @@ namespace DataAccess.IntegrationTests
         {
             var before = Helper.SetupData(_ctx, 3);
 
-            var item = Helper.GenFuSetup(1, before.Select(u => u.PrivilegeGroup.GroupName))
+            var item = Helper.GenFuSetup(1, before.Select(u => u.PrivilegeGroup.GroupName), before.SelectMany(u => u.PrivilegeGroup.Privileges).Select(p => p.Name))
                              .First();
 
             Assert.IsFalse(before.Contains(item));
@@ -207,13 +207,14 @@ namespace DataAccess.IntegrationTests
 
         class Helper
         {
-            public static List<User> GenFuSetup(int count, IEnumerable<string> currentPGNames)
+            public static List<User> GenFuSetup(int count, IEnumerable<string> currentPGNames, IEnumerable<string> currentPrivlegeNames)
             {
                 var generatedPrivileges = A.ListOf<Privilege>();
                 var privileges = new List<Privilege>();
                 foreach (var gP in generatedPrivileges)
                 {
-                    if (privileges.FirstOrDefault(pt => pt.Name.Equals(gP.Name, StringComparison.CurrentCultureIgnoreCase)) == null)
+                    if ((privileges.FirstOrDefault(pt => pt.Name.Equals(gP.Name, StringComparison.CurrentCultureIgnoreCase)) == null) &&
+                        (!currentPrivlegeNames.Any() || !currentPrivlegeNames.Contains(gP.Name, StringComparer.CurrentCultureIgnoreCase)))
                     {
                         privileges.Add(gP);
                     }
@@ -224,7 +225,8 @@ namespace DataAccess.IntegrationTests
                     generatedPrivileges = A.ListOf<Privilege>();
                     foreach (var gP in generatedPrivileges)
                     {
-                        if (privileges.FirstOrDefault(pt => pt.Name.Equals(gP.Name, StringComparison.CurrentCultureIgnoreCase)) == null)
+                        if ((privileges.FirstOrDefault(pt => pt.Name.Equals(gP.Name, StringComparison.CurrentCultureIgnoreCase)) == null) &&
+                            (!currentPrivlegeNames.Any() || !currentPrivlegeNames.Contains(gP.Name, StringComparer.CurrentCultureIgnoreCase)))
                         {
                             privileges.Add(gP);
                         }
@@ -245,17 +247,19 @@ namespace DataAccess.IntegrationTests
                     .WithRandom(listOfPrivilegeLists);
 
                 var users = A.ListOf<User>(count);
+                var currentPGNamesList = currentPGNames.ToList();
 
                 foreach (var user in users)
                 {
                     var pg = A.New<PrivilegesGroup>();
 
-                    while (!currentPGNames.Any() || currentPGNames.Contains(pg.GroupName, StringComparer.CurrentCultureIgnoreCase))
+                    while (currentPGNames.Any() && currentPGNames.Contains(pg.GroupName, StringComparer.CurrentCultureIgnoreCase))
                     {
                         pg = A.New<PrivilegesGroup>();
                     }
 
                     user.PrivilegeGroup = pg;
+                    currentPGNamesList.Add(pg.GroupName);
                 }
 
                 return users;
@@ -263,7 +267,7 @@ namespace DataAccess.IntegrationTests
 
             public static User SetupData(VGTestContext ctx)
             {
-                var user = GenFuSetup(1, Enumerable.Empty<string>()).First();
+                var user = GenFuSetup(1, Enumerable.Empty<string>(), Enumerable.Empty<string>()).First();
                 ctx.Users.Add(user);
                 ctx.SaveChanges();
 
@@ -272,7 +276,7 @@ namespace DataAccess.IntegrationTests
 
             public static List<User> SetupData(VGTestContext ctx, int count)
             {
-                var users = GenFuSetup(count, Enumerable.Empty<string>());
+                var users = GenFuSetup(count, Enumerable.Empty<string>(), Enumerable.Empty<string>());
                 ctx.Users.AddRange(users);
                 ctx.SaveChanges();
 
