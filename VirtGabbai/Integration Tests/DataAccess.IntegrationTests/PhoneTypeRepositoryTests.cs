@@ -206,7 +206,34 @@ namespace DataAccess.IntegrationTests
 
         class Helper
         {
-            public static List<PhoneType> GenFuSetup(int count) => A.ListOf<PhoneType>(count);
+            public static List<PhoneType> GenFuSetup(int count)
+            {
+                var generatedPhoneTypes = A.ListOf<PhoneType>(count);
+                var phoneTypes = new List<PhoneType>();
+
+                foreach (var gPT in generatedPhoneTypes)
+                {
+                    if (phoneTypes.FirstOrDefault(pt => pt.Name.Equals(gPT.Name, StringComparison.CurrentCultureIgnoreCase)) == null)
+                    {
+                        phoneTypes.Add(gPT);
+                    }
+                }
+
+                while (phoneTypes.Count < count)
+                {
+                    generatedPhoneTypes = A.ListOf<PhoneType>(count);
+
+                    foreach (var gPT in generatedPhoneTypes)
+                    {
+                        if (phoneTypes.FirstOrDefault(pt => pt.Name.Equals(gPT.Name, StringComparison.CurrentCultureIgnoreCase)) == null)
+                        {
+                            phoneTypes.Add(gPT);
+                        }
+                    }
+                }
+
+                return phoneTypes.Take(count).ToList();
+            }
 
             public static PhoneType SetupData(VGTestContext ctx)
             {

@@ -113,6 +113,14 @@ namespace DataAccess.IntegrationTests
             var before = repository.Get().ToList();
 
             var item = Helper.GenFuSetup(1).First();
+
+            var currentNames = before.Select(pg => pg.GroupName).ToList();
+
+            while (currentNames.Contains(item.GroupName, StringComparer.CurrentCultureIgnoreCase))
+            {
+                item = Helper.GenFuSetup(1).First();
+            }
+
             repository.Add(item);
 
             var after = repository.Get();
