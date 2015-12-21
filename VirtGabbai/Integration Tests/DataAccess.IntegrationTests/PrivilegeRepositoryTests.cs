@@ -100,13 +100,36 @@ namespace DataAccess.IntegrationTests
             public static List<Privilege> SetupData(VGTestContext ctx, int count)
             {
                 var privilegeGroup = A.New<PrivilegesGroup>();
-                var privileges = A.ListOf<Privilege>(count);
+                var privileges = new List<Privilege>();
+                var generatedPrivileges = A.ListOf<Privilege>(count);
+
+                foreach (var gP in generatedPrivileges)
+                {
+                    if (privileges.FirstOrDefault(p => p.Name.Equals(gP.Name, StringComparison.CurrentCultureIgnoreCase)) == null)
+                    {
+                        privileges.Add(gP);
+                    }
+                }
+
+                while (privileges.Count < count)
+                {
+                    generatedPrivileges = A.ListOf<Privilege>(count);
+
+                    foreach (var gP in generatedPrivileges)
+                    {
+                        if (privileges.FirstOrDefault(p => p.Name.Equals(gP.Name, StringComparison.CurrentCultureIgnoreCase)) == null)
+                        {
+                            privileges.Add(gP);
+                        }
+                    }
+                }
+
                 privilegeGroup.Privileges = privileges;
                 ctx.PrivilegesGroups.Add(privilegeGroup);
 
                 ctx.SaveChanges();
 
-                return privilegeGroup.Privileges.ToList();
+                return privilegeGroup.Privileges.Take(count).ToList();
             }
         }
     }
