@@ -44,7 +44,7 @@ namespace DataAccess.IntegrationTests
         [TestMethod]
         public void Exists_Item_Match_Found_Returns_True()
         {
-            var person = Helpers.SetupData(_ctx);
+            var person = Helper.SetupData(_ctx);
 
             Assert.IsTrue(repository.Exists(person));
         }
@@ -58,7 +58,7 @@ namespace DataAccess.IntegrationTests
         [TestMethod]
         public void Exists_ID_Match_Returns_True()
         {
-            var person = Helpers.SetupData(_ctx);
+            var person = Helper.SetupData(_ctx);
 
             Assert.IsTrue(repository.Exists(person.ID));
         }
@@ -66,7 +66,7 @@ namespace DataAccess.IntegrationTests
         [TestMethod]
         public void Get_Returns_All_items()
         {
-            var people = Helpers.SetupData(_ctx, 2);
+            var people = Helper.SetupData(_ctx, 2);
 
             CollectionAssert.AreEquivalent(people, repository.Get().ToList());
         }
@@ -80,7 +80,7 @@ namespace DataAccess.IntegrationTests
         [TestMethod]
         public void GetByID_No_Match_Returns_Null()
         {
-            var people = Helpers.SetupData(_ctx, 1);
+            var people = Helper.SetupData(_ctx, 1);
 
             Assert.IsNull(repository.GetByID(people.Max(d => d.ID) + 1));
         }
@@ -88,17 +88,135 @@ namespace DataAccess.IntegrationTests
         [TestMethod]
         public void GetByID_Match_Returns_Match()
         {
-            var expected = Helpers.SetupData(_ctx);
+            var expected = Helper.SetupData(_ctx);
 
             Assert.AreEqual(expected, repository.GetByID(expected.ID));
         }
 
-        class Helpers
+        [TestMethod]
+        public void Add_ItemIsNull_NothingHappens()
         {
-            public static void GenFuSetup()
+            var before = Helper.SetupData(_ctx, 5);
+
+            repository.Add(null);
+
+            var after = repository.Get().ToList();
+
+            CollectionAssert.AreEquivalent(before, after);
+        }
+
+        [TestMethod]
+        public void Add_ValidItem_Added()
+        {
+            Helper.SetupData(_ctx, 5);
+
+            var before = repository.Get().ToList();
+
+            var person = Helper.GenFuSetup(1).First();
+            repository.Add(person);
+
+            var after = repository.Get();
+
+            Assert.IsFalse(before.Contains(person));
+            Assert.IsTrue(after.Contains(person));
+        }
+
+        [TestMethod]
+        public void Delete_ItemIsNull_NothingHappens()
+        {
+            var before = Helper.SetupData(_ctx, 5);
+
+            repository.Delete(null);
+
+            var after = repository.Get().ToList();
+
+            CollectionAssert.AreEquivalent(before, after);
+        }
+
+        [TestMethod]
+        public void Delete_ItemNotInDatabase_NothingHappens()
+        {
+            var before = Helper.SetupData(_ctx, 5);
+
+            var person = Helper.GenFuSetup(1).First();
+            person.ID = before.Max(p => p.ID) + 1;
+
+            repository.Delete(person);
+
+            var after = repository.Get().ToList();
+
+            CollectionAssert.AreEquivalent(before, after);
+        }
+
+        [TestMethod]
+        public void Delete_ItemIsValid_IsRemovedFromDatabase()
+        {
+            var before = Helper.SetupData(_ctx, 5);
+
+            var person = before.Skip(1).First();
+            repository.Delete(person);
+
+            var after = repository.Get();
+
+            Assert.IsTrue(before.Contains(person));
+            Assert.IsFalse(after.Contains(person));
+        }
+
+        [TestMethod]
+        public void Save_ItemIsNull_NothingHappens()
+        {
+            var before = Helper.SetupData(_ctx, 3);
+
+            repository.Save(null);
+
+            var after = repository.Get().ToList();
+
+            CollectionAssert.AreEquivalent(before, after);
+        }
+
+        [TestMethod]
+        public void Save_ItemIsNew_ItemIsAddedToDatabase()
+        {
+            var before = Helper.SetupData(_ctx, 3);
+
+            var person = Helper.GenFuSetup(1).First();
+
+            Assert.IsFalse(before.Contains(person));
+
+            repository.Save(person);
+
+            var after = repository.Get().ToList();
+
+            Assert.IsTrue(after.Contains(person));
+        }
+
+        [TestMethod]
+        public void Save_ExistingItemDonationsChanged_ValuesAreUpdated()
+        {
+            var person = Helper.SetupData(_ctx);
+
+            var firstDonation = person.Account.Donations.First();
+            firstDonation.Paid = true;
+            firstDonation.DatePaid = DateTime.Today;
+
+            var newDonation = A.New<Donation>();
+            person.Account.Donations.Add(newDonation);
+
+            repository.Save(person);
+
+            var after = repository.GetByID(person.ID);
+
+            Assert.AreEqual(person, after);
+        }
+
+        class Helper
+        {
+            public static List<Person> GenFuSetup(int count)
             {
                 A.Configure<PhoneNumber>()
-                 .Fill(pn => pn.Type, A.New<PhoneType>());
+                 .Fill(pn => pn.Type, A.New<PhoneType>())
+                 .Fill(pn => pn.Number)
+                 .AsPhoneNumber();
                 A.Configure<Donation>()
                  .Fill(d => d.Paid)
                  .WithRandom(new bool[] { true, false, false })
@@ -106,22 +224,6 @@ namespace DataAccess.IntegrationTests
                  .AsPastDate();
                 A.Configure<Account>()
                  .Fill(p => p.Donations, A.ListOf<Donation>());
-            }
-
-            public static Person SetupData(VGTestContext ctx)
-            {
-                GenFuSetup();
-                var person = A.New<Person>();
-                ctx.People.Add(person);
-
-                ctx.SaveChanges();
-
-                return person;
-            }
-
-            public static List<Person> SetupData(VGTestContext ctx, int count)
-            {
-                GenFuSetup();
                 var people = A.ListOf<Person>(count);
 
                 foreach (var person in people)
@@ -134,7 +236,21 @@ namespace DataAccess.IntegrationTests
                     person.Yahrtziehts = A.ListOf<Yahrtzieht>();
                     person.PhoneNumbers = A.ListOf<PhoneNumber>();
                 }
+                return people;
+            }
 
+            public static Person SetupData(VGTestContext ctx)
+            {
+                var person = GenFuSetup(1).First();
+                ctx.People.Add(person);
+                ctx.SaveChanges();
+
+                return person;
+            }
+
+            public static List<Person> SetupData(VGTestContext ctx, int count)
+            {
+                var people = GenFuSetup(count);
                 ctx.People.AddRange(people);
                 ctx.SaveChanges();
 
