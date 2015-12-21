@@ -59,11 +59,13 @@ namespace DataAccess
                 if (current == null)
                 {
                     current = new PhoneType();
+                    current.Name = item.Name;
                     Entities.Add(current);
                 }
 
-                current.Name = item.Name;
                 _context.SaveChanges();
+
+                item.ID = current.ID;
             }
         }
     }
