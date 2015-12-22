@@ -9,7 +9,7 @@ using System.Data.Entity;
 
 namespace DataAccess
 {
-    public class YahrtziehtRepository : IRepository<Yahrtzieht>
+    public class YahrtziehtRepository : IReadOnlyRepository<Yahrtzieht>
     {
         private ZeraLeviContext _context;
 
@@ -27,42 +27,5 @@ namespace DataAccess
         public IEnumerable<Yahrtzieht> Get() => Entities;
 
         public Yahrtzieht GetByID(int id) => Entities.FirstOrDefault(y => y.ID == id);
-
-        public void Add(Yahrtzieht item)
-        {
-            if (item != null)
-            {
-                Entities.Add(item);
-                _context.SaveChanges();
-            }
-        }
-
-        public void Delete(Yahrtzieht item)
-        {
-            if (Exists(item))
-            {
-                Entities.Remove(item);
-                _context.SaveChanges();
-            }
-        }
-
-        public void Save(Yahrtzieht item)
-        {
-            if (item != null)
-            {
-                var current = GetByID(item.ID);
-
-                if (current == null)
-                {
-                    current = new Yahrtzieht();
-                    Entities.Add(current);
-                }
-
-                current.Date = item.Date;
-                current.Name = item.Name;
-                current.Relation = item.Relation;
-                _context.SaveChanges();
-            }
-        }
     }
 }

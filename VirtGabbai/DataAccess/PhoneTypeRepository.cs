@@ -9,7 +9,7 @@ using System.Data.Entity;
 
 namespace DataAccess
 {
-    public class PhoneTypeRepository : IRepository<PhoneType>
+    public class PhoneTypeRepository : IFullAccessRepository<PhoneType>
     {
         private ZeraLeviContext _context;
 
@@ -59,11 +59,13 @@ namespace DataAccess
                 if (current == null)
                 {
                     current = new PhoneType();
+                    current.Name = item.Name;
                     Entities.Add(current);
                 }
 
-                current.Name = item.Name;
                 _context.SaveChanges();
+
+                item.ID = current.ID;
             }
         }
     }

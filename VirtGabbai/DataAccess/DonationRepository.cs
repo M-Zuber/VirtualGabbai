@@ -9,7 +9,7 @@ using System.Data.Entity;
 
 namespace DataAccess
 {
-    public class DonationRepository : IRepository<Donation>
+    public class DonationRepository : IReadOnlyRepository<Donation>
     {
         private ZeraLeviContext _context;
 
@@ -27,46 +27,5 @@ namespace DataAccess
         public IEnumerable<Donation> Get() => Entities;
 
         public Donation GetByID(int id) => Entities.FirstOrDefault(d => d.ID == id);
-
-        public void Add(Donation item)
-        {
-            if (item != null)
-            {
-                Entities.Add(item);
-                _context.SaveChanges();
-            }
-        }
-
-        public void Delete(Donation item)
-        {
-            if (Exists(item))
-            {
-                Entities.Remove(item);
-                _context.SaveChanges();
-            }
-        }
-
-        public void Save(Donation item)
-        {
-            if (item != null)
-            {
-                var current = GetByID(item.ID);
-
-                if (current == null)
-                {
-                    current = new Donation();
-                    Entities.Add(current);
-                }
-
-                current.Amount = item.Amount;
-                current.Comments = item.Comments;
-                current.DatePaid = item.DatePaid;
-                current.DonationDate = item.DonationDate;
-                current.Paid = item.Paid;
-                current.Reason = item.Reason;
-
-                _context.SaveChanges();
-            }
-        }
     }
 }

@@ -9,7 +9,7 @@ using System.Data.Entity;
 
 namespace DataAccess
 {
-    public class PhoneNumberRepository : IRepository<PhoneNumber>
+    public class PhoneNumberRepository : IReadOnlyRepository<PhoneNumber>
     {
         private ZeraLeviContext _context;
 
@@ -27,41 +27,5 @@ namespace DataAccess
         public IEnumerable<PhoneNumber> Get() => Entities;
 
         public PhoneNumber GetByID(int id) => Entities.FirstOrDefault(pn => pn.ID == id);
-
-        public void Add(PhoneNumber item)
-        {
-            if (item != null)
-            {
-                Entities.Add(item);
-                _context.SaveChanges();
-            }
-        }
-
-        public void Delete(PhoneNumber item)
-        {
-            if (Exists(item))
-            {
-                Entities.Remove(item);
-                _context.SaveChanges();
-            }
-        }
-
-        public void Save(PhoneNumber item)
-        {
-            if (item != null)
-            {
-                var current = GetByID(item.ID);
-
-                if (current == null)
-                {
-                    current = new PhoneNumber();
-                    Entities.Add(current);
-                }
-
-                current.Number = item.Number;
-                current.Type = item.Type;
-                _context.SaveChanges();
-            }
-        }
     }
 }

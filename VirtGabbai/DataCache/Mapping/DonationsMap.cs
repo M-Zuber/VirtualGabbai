@@ -27,15 +27,15 @@ namespace DataCache.Mapping
             Property(t => t.AccountID).HasColumnName("AccountID");
             Property(t => t.Reason).HasColumnName("Reason");
             Property(t => t.Amount).HasColumnName("Amount");
-            Property(t => t.DonationDate).HasColumnName("DonationDate");
-            Property(t => t.DatePaid).HasColumnName("DatePaid");
+            Property(t => t.DonationDate).HasColumnName("DonationDate").HasColumnType("datetime2");
+            Property(t => t.DatePaid).HasColumnName("DatePaid").HasColumnType("datetime2");
             Property(t => t.Paid).HasColumnName("Paid");
             Property(t => t.Comments).HasColumnName("Comments");
 
             // Relationships
-            HasRequired(t => t.Account)
-                .WithMany(t => t.Donations)
-                .HasForeignKey(d => d.AccountID);
+            //HasRequired(t => t.Account)
+            //    .WithMany(t => t.Donations)
+            //    .HasForeignKey(d => d.AccountID);
 
         }
     }

@@ -50,10 +50,10 @@ namespace DataCache.Models
 
             return ReferenceEquals(this, other) ||
                    (ID == other.ID &&
-                    LastMonthlyPaymentDate.Equals(other.LastMonthlyPaymentDate) &&
+                   (LastMonthlyPaymentDate == null || LastMonthlyPaymentDate.Equals(other.LastMonthlyPaymentDate)) &&
                     PersonID == other.PersonID &&
                     MonthlyPaymentAmount == other.MonthlyPaymentAmount &&
-                    Enumerable.SequenceEqual(Donations, other.Donations));
+                    Enumerable.SequenceEqual(Donations ?? new List<Donation>(), other.Donations ?? new List<Donation>()));
         }
 
         public override string ToString()
@@ -87,8 +87,8 @@ namespace DataCache.Models
         public override int GetHashCode() => ToString().GetHashCode();
 
         //TODO maybe these should also take into account the DatePaid prop. - does it make a diff if Paid prop becomes calculated?
-        private List<Donation> GetUnpaidDonations() => Donations.Where(d => !d.Paid).ToList();
+        private List<Donation> GetUnpaidDonations() => Donations?.Where(d => !d.Paid).ToList() ?? new List<Donation>();
 
-        private List<Donation> GetPaidDonations() => Donations.Where(d => d.Paid).ToList();
+        private List<Donation> GetPaidDonations() => Donations?.Where(d => d.Paid).ToList() ?? new List<Donation>();
     }
 }

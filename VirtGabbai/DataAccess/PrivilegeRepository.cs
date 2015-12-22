@@ -9,7 +9,7 @@ using System.Data.Entity;
 
 namespace DataAccess
 {
-    public class PrivilegeRepository : IRepository<Privilege>
+    public class PrivilegeRepository : IReadOnlyRepository<Privilege>
     {
         private ZeraLeviContext _context;
 
@@ -31,41 +31,5 @@ namespace DataAccess
         public bool Exists(int id) => Entities.Any(p => p.ID == id);
 
         public bool Exists(Privilege item) => item != null && Exists(item.ID);
-
-        public void Add(Privilege item)
-        {
-            if (item != null)
-            {
-                Entities.Add(item);
-                _context.SaveChanges();
-            }
-        }
-
-        public void Delete(Privilege item)
-        {
-            if (Exists(item))
-            {
-                Entities.Remove(item);
-                _context.SaveChanges();
-            }
-        }
-
-
-        public void Save(Privilege item)
-        {
-            if (item != null)
-            {
-                var current = GetByID(item.ID);
-
-                if (current == null)
-                {
-                    current = new Privilege();
-                    Entities.Add(current);
-                }
-
-                current.Name = item.Name;
-                _context.SaveChanges();
-            }
-        }
     }
 }

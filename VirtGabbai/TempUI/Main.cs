@@ -15,12 +15,8 @@ namespace TempUI
             {
                 using (var ctx = new ZeraLeviContext())
                 {
-                    var pt = new PhoneType { Name = "thing" };
-                    var r = new PhoneTypeRepository(ctx);
-                    r.Add(pt);
 
-                    var find = r.GetByName("THING");
-                    Console.WriteLine(find);
+                    var t = ctx.Accounts.Any();
                     ctx.Database.Delete();
                 }
             }
@@ -28,7 +24,6 @@ namespace TempUI
             {
                 Console.WriteLine(e.ToString());
             }
-            //DataCache.Cache.CacheData.Database.Delete();
         }
     }
 }

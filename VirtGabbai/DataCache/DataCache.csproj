@@ -54,7 +54,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Cache.cs" />
     <Compile Include="Mapping\AccountsMap.cs" />
     <Compile Include="Mapping\DonationsMap.cs" />
     <Compile Include="Mapping\PeopleMap.cs" />

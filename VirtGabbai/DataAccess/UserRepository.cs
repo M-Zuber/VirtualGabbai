@@ -10,7 +10,7 @@ using System.Data.Entity;
 
 namespace DataAccess
 {
-    public class UserRepository : IRepository<User>
+    public class UserRepository : IFullAccessRepository<User>
     {
         private ZeraLeviContext _context;
 
@@ -56,14 +56,16 @@ namespace DataAccess
                 if (current == null)
                 {
                     current = new User();
+                    current.Email = item.Email;
+                    current.Password = item.Password;
+                    current.PrivilegeGroup = item.PrivilegeGroup;
+                    current.UserName = item.UserName;
                     Entities.Add(current);
                 }
 
-                current.Email = item.Email;
-                current.Password = item.Password;
-                current.PrivilegeGroup = item.PrivilegeGroup;
-                current.UserName = item.UserName;
                 _context.SaveChanges();
+
+                item.ID = current.ID;
             }
         }
     }

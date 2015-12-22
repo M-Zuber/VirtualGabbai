@@ -10,7 +10,7 @@ using System.Data.Entity;
 
 namespace DataAccess
 {
-    public class PersonRepository : IRepository<Person>
+    public class PersonRepository : IFullAccessRepository<Person>
     {
         private ZeraLeviContext _context;
 
@@ -56,18 +56,20 @@ namespace DataAccess
                 if (current == null)
                 {
                     current = new Person();
+                    current.Account = item.Account;
+                    current.Address = item.Address;
+                    current.Email = item.Email;
+                    current.FamilyName = item.FamilyName;
+                    current.GivenName = item.GivenName;
+                    current.Member = item.Member;
+                    current.PhoneNumbers = item.PhoneNumbers;
+                    current.Yahrtziehts = item.Yahrtziehts;
                     Entities.Add(current);
                 }
 
-                current.Account = item.Account;
-                current.Address = item.Address;
-                current.Email = item.Email;
-                current.FamilyName = item.FamilyName;
-                current.GivenName = item.GivenName;
-                current.Member = item.Member;
-                current.PhoneNumbers = item.PhoneNumbers;
-                current.Yahrtziehts = item.Yahrtziehts;
                 _context.SaveChanges();
+
+                item.ID = current.ID;
             }
         }
     }
