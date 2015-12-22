@@ -26,7 +26,7 @@ namespace DataCache.Mapping
             this.Property(t => t.ID).HasColumnName("ID");
             this.Property(t => t.PersonID).HasColumnName("PersonID");
             this.Property(t => t.Relation).HasColumnName("Relation");
-            this.Property(t => t.Date).HasColumnName("Date");
+            this.Property(t => t.Date).HasColumnName("Date").HasColumnType("datetime2");
             this.Property(t => t.Name).HasColumnName("Name");
 
             // Relationships

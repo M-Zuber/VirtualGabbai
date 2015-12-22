@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DataAccess;
+using DataCache.Models;
 
 namespace TempUI
 {
@@ -12,12 +13,17 @@ namespace TempUI
         {
             try
             {
+                using (var ctx = new ZeraLeviContext())
+                {
+
+                    var t = ctx.Accounts.Any();
+                    ctx.Database.Delete();
+                }
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
             }
-            DataCache.Cache.CacheData.Database.Delete();
         }
     }
 }
