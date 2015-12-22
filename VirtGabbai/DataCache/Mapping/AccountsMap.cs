@@ -14,11 +14,14 @@ namespace DataCache.Mapping
             // Properties
             Property(t => t.ID);
 
+            Ignore(t => t.PaidDonations);
+            Ignore(t => t.UnpaidDonations);
+
             // Table & Column Mappings
             ToTable("Accounts", "ZeraLevi");
             Property(t => t.ID).HasColumnName("ID");
             Property(t => t.PersonID).HasColumnName("PersonID");
-            Property(t => t.LastMonthlyPaymentDate).HasColumnName("LastMonthlyPaymentDate");
+            Property(t => t.LastMonthlyPaymentDate).HasColumnName("LastMonthlyPaymentDate").HasColumnType("datetime2");
             Property(t => t.MonthlyPaymentAmount).HasColumnName("MonthlyPaymentAmount");
 
             // Relationships

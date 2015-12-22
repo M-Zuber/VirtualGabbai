@@ -32,7 +32,7 @@ namespace DataCache.Models
         public string FamilyName { get; set; }
         public string Address { get; set; }
         public bool Member { get; set; }
-        public virtual Account Account { get; set; }
+        public virtual Account Account { get; set; } = new Account();
         public virtual ICollection<PhoneNumber> PhoneNumbers { get; set; } = new List<PhoneNumber>();
         public virtual ICollection<Yahrtzieht> Yahrtziehts { get; set; } = new List<Yahrtzieht>();
         public static Person Createt_people(int _Id) => new Person { ID = _Id };
@@ -50,11 +50,11 @@ namespace DataCache.Models
 
             return ReferenceEquals(this, other) ||
                     (ID == other.ID &&
-                    Email.Equals(other.Email) &&
+                    Email == other.Email &&
                     GivenName == other.GivenName &&
                     FamilyName == other.FamilyName &&
                     Member == other.Member &&
-                    Address.Equals(other.Address) &&
+                    Address == other.Address &&
                     Account.Equals(other.Account) &&
                     PhoneNumbers.SameAs(other.PhoneNumbers) &&
                     Yahrtziehts.SameAs(other.Yahrtziehts));

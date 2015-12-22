@@ -52,17 +52,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccountAccess.cs" />
-    <Compile Include="DonationAccess.cs" />
-    <Compile Include="Infrastructure\BaseDataAccess.cs" />
-    <Compile Include="Infrastructure\IDataAccess.cs" />
-    <Compile Include="PersonAccess.cs" />
-    <Compile Include="PhoneNumberAccess.cs" />
-    <Compile Include="PhoneTypeAccess.cs" />
-    <Compile Include="PrivilegeAccess.cs" />
-    <Compile Include="PrivilegeGroupAccess.cs" />
-    <Compile Include="UserAccess.cs" />
-    <Compile Include="YahrtziehtAccess.cs" />
+    <Compile Include="AccountRepository.cs" />
+    <Compile Include="DonationRepository.cs" />
+    <Compile Include="Interfaces\IReadOnlyRepository.cs" />
+    <Compile Include="Interfaces\IFullAccessRepository.cs" />
+    <Compile Include="PersonRepository.cs" />
+    <Compile Include="PhoneNumberRepository.cs" />
+    <Compile Include="PhoneTypeRepository.cs" />
+    <Compile Include="PrivilegeGroupRepository.cs" />
+    <Compile Include="PrivilegeRepository.cs" />
+    <Compile Include="UserRepository.cs" />
+    <Compile Include="YahrtziehtRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
