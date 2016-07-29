@@ -30,11 +30,18 @@ namespace DataCache.Models
         {
             get
             {
-                //TODO help-wanted/first-timers-only make this calculation more accurate.
-                //TODO null check this thing
-                decimal? monthesOwedFor = (decimal?)(DateTime.Today - LastMonthlyPaymentDate)?.TotalDays / 30;
+                decimal monthsOwedFor = 0;
+                if (LastMonthlyPaymentDate != null)
+                {
+                    DateTime firstBillableDate = new DateTime(LastMonthlyPaymentDate.Value.AddDays(1).Ticks);
+                    while (firstBillableDate <= DateTime.Today)
+                    {
+                        monthsOwedFor += decimal.Divide(1, DateTime.DaysInMonth(firstBillableDate.Year, firstBillableDate.Month));
+                        firstBillableDate = firstBillableDate.AddDays(1);
+                    }
+                }
 
-                return !monthesOwedFor.HasValue ? 0 : monthesOwedFor.Value * MonthlyPaymentAmount;
+                return monthsOwedFor * MonthlyPaymentAmount;
             }
         }
         public List<Donation> UnpaidDonations => GetUnpaidDonations();
