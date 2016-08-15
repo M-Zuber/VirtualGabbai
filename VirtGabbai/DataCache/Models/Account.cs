@@ -30,19 +30,20 @@ namespace DataCache.Models
         {
             get
             {
-                decimal monthsOwedFor = 0;
+                int monthsOwedFor = 0;
                 if (LastMonthlyPaymentDate != null)
                 {
-                    DateTime firstBillableDate = new DateTime(LastMonthlyPaymentDate.Value.AddDays(1).Ticks);
-                    while (firstBillableDate <= DateTime.Today)
-                    {
-                        monthsOwedFor += decimal.Divide(1, DateTime.DaysInMonth(firstBillableDate.Year, firstBillableDate.Month));
-                        firstBillableDate = firstBillableDate.AddDays(1);
-                    }
+                    DateTime iterationDate = new DateTime(LastMonthlyPaymentDate.Value.Ticks);
+                    
+                    monthsOwedFor = NumberOfMonthsBetweenTwoDates(iterationDate, DateTime.Today);
                 }
 
                 return monthsOwedFor * MonthlyPaymentAmount;
             }
+        }
+        private int NumberOfMonthsBetweenTwoDates(DateTime startDateTime, DateTime endDateTime)
+        {
+            return ((endDateTime.Year - startDateTime.Year)*12) + (endDateTime.Month - startDateTime.Month);
         }
         public List<Donation> UnpaidDonations => GetUnpaidDonations();
         public List<Donation> PaidDonations => GetPaidDonations();

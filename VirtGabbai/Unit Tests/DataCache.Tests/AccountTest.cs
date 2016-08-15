@@ -193,17 +193,16 @@ namespace DataCache.Tests
         {
             DateTime lastPaymentDateTime = new DateTime(DateTime.Today.Year, DateTime.Today.Month - 1, DateTime.DaysInMonth(DateTime.Today.Year, DateTime.Today.Month - 1));
             Account actual = new Account(1, 50.50M, lastPaymentDateTime, new List<Donation>());
-            decimal expectedPaymentTotal = 50.50M * Decimal.Divide((DateTime.Today - lastPaymentDateTime).Days, DateTime.DaysInMonth(DateTime.Today.Year, DateTime.Today.Month));
-            AssertAreEqualDecimal(expectedPaymentTotal, actual.MonthlyPaymentTotal, 0.0001M);
+            decimal expectedPaymentTotal = 50.50M ;
+            Assert.AreEqual(expectedPaymentTotal, actual.MonthlyPaymentTotal);
         }
 
         [TestMethod()]
-        public void AccountMonthlyPaymentTotal_LastPaymentMadeOnDayInCurrentMonth_Equals()
+        public void AccountMonthlyPaymentTotal_LastPaymentMadeOnDayInCurrentMonth_EqualsZero()
         {
-            DateTime lastPaymentDateTime = new DateTime(DateTime.Today.Year, DateTime.Today.Month, 25);
+            DateTime lastPaymentDateTime = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day);
             Account actual = new Account(1, 50.50M, lastPaymentDateTime, new List<Donation>());
-            decimal expectedPaymentTotal = 50.50M * Decimal.Divide((decimal) (DateTime.Today - lastPaymentDateTime).TotalDays, DateTime.DaysInMonth(DateTime.Today.Year, DateTime.Today.Month));
-            AssertAreEqualDecimal(expectedPaymentTotal, actual.MonthlyPaymentTotal, delta: 0.0001M);
+            Assert.AreEqual(0, actual.MonthlyPaymentTotal);
         }
 
         [TestMethod()]
@@ -218,20 +217,8 @@ namespace DataCache.Tests
         {
             DateTime lastPaymentDateTime = new DateTime(DateTime.Today.Year, DateTime.Today.AddMonths(-5).Month, 25);
             Account actual = new Account(1, 50.50M, lastPaymentDateTime, new List<Donation>());
-            decimal expectedPaymentTotal = 0.0M;
-            DateTime firstBillableDate = lastPaymentDateTime.AddDays(1);
-            while (firstBillableDate <= DateTime.Today)
-            {
-                expectedPaymentTotal += decimal.Divide(1, DateTime.DaysInMonth(firstBillableDate.Year, firstBillableDate.Month));
-                firstBillableDate = firstBillableDate.AddDays(1);
-            }
-            expectedPaymentTotal *= 50.50M;
+            decimal expectedPaymentTotal = 50.50M * 5;
             Assert.AreEqual(expectedPaymentTotal, actual.MonthlyPaymentTotal);
-        }
-
-        private static void AssertAreEqualDecimal(decimal expected, decimal actual, decimal delta)
-        {
-            Assert.IsTrue(Math.Abs(expected - actual) < delta);
         }
     }
 }
