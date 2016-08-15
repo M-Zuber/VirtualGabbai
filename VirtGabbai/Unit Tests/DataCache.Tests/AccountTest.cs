@@ -180,5 +180,45 @@ namespace DataCache.Tests
 
             Assert.AreEqual(expected, actual);
         }
+
+        [TestMethod()]
+        public void AccountMonthlyPaymentTotal_SameDateAsPaymentDate_EqualZero()
+        {
+            Account actual = new Account(1, 100.30M, DateTime.Today, new List<Donation>());
+            Assert.AreEqual(0, actual.MonthlyPaymentTotal);
+        }
+
+        [TestMethod()]
+        public void AccountMonthlyPaymentTotal_LastPaymentMadeOnDayOfPreviousMonth_Equals()
+        {
+            DateTime lastPaymentDateTime = new DateTime(DateTime.Today.Year, DateTime.Today.Month - 1, DateTime.DaysInMonth(DateTime.Today.Year, DateTime.Today.Month - 1));
+            Account actual = new Account(1, 50.50M, lastPaymentDateTime, new List<Donation>());
+            decimal expectedPaymentTotal = 50.50M ;
+            Assert.AreEqual(expectedPaymentTotal, actual.MonthlyPaymentTotal);
+        }
+
+        [TestMethod()]
+        public void AccountMonthlyPaymentTotal_LastPaymentMadeOnDayInCurrentMonth_EqualsZero()
+        {
+            DateTime lastPaymentDateTime = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day);
+            Account actual = new Account(1, 50.50M, lastPaymentDateTime, new List<Donation>());
+            Assert.AreEqual(0, actual.MonthlyPaymentTotal);
+        }
+
+        [TestMethod()]
+        public void AccountMonthlyPaymentTotal_LastMonthlyPaymentDateIsNull_EqualsZero()
+        {
+            Account actual = new Account(1, 50.50M, null, new List<Donation>());
+            Assert.AreEqual(0, actual.MonthlyPaymentTotal);
+        }
+
+        [TestMethod()]
+        public void AccountMonthlyPaymentTotal_LastMonthlyPaymentDateIsInAPreviousMonth_EqualsZero()
+        {
+            DateTime lastPaymentDateTime = new DateTime(DateTime.Today.Year, DateTime.Today.AddMonths(-5).Month, 25);
+            Account actual = new Account(1, 50.50M, lastPaymentDateTime, new List<Donation>());
+            decimal expectedPaymentTotal = 50.50M * 5;
+            Assert.AreEqual(expectedPaymentTotal, actual.MonthlyPaymentTotal);
+        }
     }
 }
