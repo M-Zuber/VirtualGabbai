@@ -6,6 +6,7 @@ classTemplates/
 IntegrationTester.cs
 Design Files/
 !packages/repositories.config
+.vs/
 
 #################
 ## Eclipse
