@@ -1,29 +1,25 @@
-﻿using DataAccess.IntegrationTests.Helpers;
-using DataCache.Models;
-using GenFu;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using DataAccess.IntegrationTests.Helpers;
+using DataCache.Models;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DataAccess.IntegrationTests
 {
-    [TestClass()]
+    [TestClass]
     public class AccountRepositoryTests
     {
-        VGTestContext _ctx = new VGTestContext();
-        AccountRepository repository;
+        private readonly VgTestContext _ctx = new VgTestContext();
+        private AccountRepository _repository;
 
-        [TestInitialize()]
+        [TestInitialize]
         public void Setup()
         {
             _ctx.Database.Delete();
-            repository = new AccountRepository(_ctx);
+            _repository = new AccountRepository(_ctx);
         }
 
-        [TestCleanup()]
+        [TestCleanup]
         public void Cleanup()
         {
             _ctx.Database.Delete();
@@ -32,14 +28,14 @@ namespace DataAccess.IntegrationTests
         [TestMethod]
         public void Exists_Item_Null_Item_Returns_False()
         {
-            Assert.IsFalse(repository.Exists(null));
+            Assert.IsFalse(_repository.Exists(null));
         }
 
         [TestMethod]
         public void Exists_Item_No_Match_Returns_False()
         {
-            var item = A.New<Account>();
-            Assert.IsFalse(repository.Exists(item));
+            var item = GenFu.GenFu.New<Account>();
+            Assert.IsFalse(_repository.Exists(item));
         }
 
         [TestMethod]
@@ -47,13 +43,13 @@ namespace DataAccess.IntegrationTests
         {
             var account = Helper.SetupData(_ctx);
 
-            Assert.IsTrue(repository.Exists(account));
+            Assert.IsTrue(_repository.Exists(account));
         }
 
         [TestMethod]
         public void Exists_ID_No_Match_Returns_False()
         {
-            Assert.IsFalse(repository.Exists(1));
+            Assert.IsFalse(_repository.Exists(1));
         }
 
         [TestMethod]
@@ -61,7 +57,7 @@ namespace DataAccess.IntegrationTests
         {
             var account = Helper.SetupData(_ctx);
 
-            Assert.IsTrue(repository.Exists(account.ID));
+            Assert.IsTrue(_repository.Exists(account.ID));
         }
 
         [TestMethod]
@@ -69,13 +65,13 @@ namespace DataAccess.IntegrationTests
         {
             var accounts = Helper.SetupData(_ctx, 5);
 
-            CollectionAssert.AreEquivalent(accounts, repository.Get().ToList());
+            CollectionAssert.AreEquivalent(accounts, _repository.Get().ToList());
         }
 
         [TestMethod]
         public void GetByID_No_Data_Returns_Null()
         {
-            Assert.IsNull(repository.GetByID(1));
+            Assert.IsNull(_repository.GetByID(1));
         }
 
         [TestMethod]
@@ -83,7 +79,7 @@ namespace DataAccess.IntegrationTests
         {
             var account = Helper.SetupData(_ctx);
 
-            Assert.IsNull(repository.GetByID(account.ID + 1));
+            Assert.IsNull(_repository.GetByID(account.ID + 1));
         }
 
         [TestMethod]
@@ -91,16 +87,16 @@ namespace DataAccess.IntegrationTests
         {
             var expected = Helper.SetupData(_ctx);
 
-            Assert.AreEqual(expected, repository.GetByID(expected.ID));
+            Assert.AreEqual(expected, _repository.GetByID(expected.ID));
         }
 
-        class Helper
+        private static class Helper
         {
-            public static Account SetupData(VGTestContext ctx)
+            public static Account SetupData(ZeraLeviContext ctx)
             {
-                var person = A.New<Person>();
-                person.Account = A.New<Account>();
-                person.Account.Donations = A.ListOf<Donation>();
+                var person = GenFu.GenFu.New<Person>();
+                person.Account = GenFu.GenFu.New<Account>();
+                person.Account.Donations = GenFu.GenFu.ListOf<Donation>();
                 ctx.People.Add(person);
 
                 ctx.SaveChanges();
@@ -108,14 +104,14 @@ namespace DataAccess.IntegrationTests
                 return person.Account;
             }
 
-            public static List<Account> SetupData(VGTestContext ctx, int count)
+            public static List<Account> SetupData(ZeraLeviContext ctx, int count)
             {
-                var people = A.ListOf<Person>(count);
-                List<Account> accounts = new List<Account>();
+                var people = GenFu.GenFu.ListOf<Person>(count);
+                var accounts = new List<Account>();
 
                 foreach (var person in people)
                 {
-                    var account = A.New<Account>();
+                    var account = GenFu.GenFu.New<Account>();
                     person.Account = account;
                     accounts.Add(account);
                 }

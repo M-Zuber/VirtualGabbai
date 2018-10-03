@@ -4,21 +4,21 @@ using System;
 
 namespace DataCache.Tests
 {
-    [TestClass()]
+    [TestClass]
     public class YahrtziehtTest
     {
-        private Yahrtzieht target;
+        private Yahrtzieht _target;
 
-        [TestInitialize()]
+        [TestInitialize]
         public void MyTestInitialize()
         {
-            target = new Yahrtzieht(1, DateTime.Today, "rufus", "cats");
+            _target = new Yahrtzieht(1, DateTime.Today, "rufus", "cats");
         }
-       
-        [TestCleanup()]
+
+        [TestCleanup]
         public void MyTestCleanup()
         {
-            target = null;
+            _target = null;
         }
 
         #region Equals
@@ -26,106 +26,108 @@ namespace DataCache.Tests
         /// <summary>
         ///Everything is the same
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void AllIsEqualEqualsTest()
         {
-            Yahrtzieht other = new Yahrtzieht(1, DateTime.Today, "rufus", "cats");
+            var other = new Yahrtzieht(1, DateTime.Today, "rufus", "cats");
 
-            Assert.IsTrue(target.Equals(other));
-            Assert.IsTrue(other.Equals(target));
+            Assert.IsTrue(_target.Equals(other));
+            Assert.IsTrue(other.Equals(_target));
         }
 
         /// <summary>
         ///The id is different
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DiffIdEqualsTest()
         {
-            Yahrtzieht other = new Yahrtzieht(14, DateTime.Today, "rufus", "cats");
+            var other = new Yahrtzieht(14, DateTime.Today, "rufus", "cats");
 
-            Assert.IsFalse(target.Equals(other));
-            Assert.IsFalse(other.Equals(target));
+            Assert.IsFalse(_target.Equals(other));
+            Assert.IsFalse(other.Equals(_target));
         }
 
         /// <summary>
         ///The date is different
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DiffDateEqualsTest()
         {
-            Yahrtzieht other = new Yahrtzieht(1, DateTime.MinValue, "rufus", "cats");
+            var other = new Yahrtzieht(1, DateTime.MinValue, "rufus", "cats");
 
-            Assert.IsFalse(target.Equals(other));
-            Assert.IsFalse(other.Equals(target));
+            Assert.IsFalse(_target.Equals(other));
+            Assert.IsFalse(other.Equals(_target));
         }
 
         /// <summary>
         ///The name is different
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DiffNameEqualsTest()
         {
-            Yahrtzieht other = new Yahrtzieht(1, DateTime.Today, "fido", "cats");
+            var other = new Yahrtzieht(1, DateTime.Today, "fido", "cats");
 
-            Assert.IsFalse(target.Equals(other));
-            Assert.IsFalse(other.Equals(target));
+            Assert.IsFalse(_target.Equals(other));
+            Assert.IsFalse(other.Equals(_target));
         }
 
         /// <summary>
         ///The relation is different
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DiffRelationEqualsTest()
         {
-            Yahrtzieht other = new Yahrtzieht(1, DateTime.Today, "rufus", "dogs");
+            var other = new Yahrtzieht(1, DateTime.Today, "rufus", "dogs");
 
-            Assert.IsFalse(target.Equals(other));
-            Assert.IsFalse(other.Equals(target));
+            Assert.IsFalse(_target.Equals(other));
+            Assert.IsFalse(other.Equals(_target));
         }
 
         /// <summary>
         ///Everything is different
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void AllDiffEqualsTest()
         {
-            Yahrtzieht other = new Yahrtzieht(12, DateTime.MinValue, "fido", "dogs");
+            var other = new Yahrtzieht(12, DateTime.MinValue, "fido", "dogs");
 
-            Assert.IsFalse(target.Equals(other));
-            Assert.IsFalse(other.Equals(target));
+            Assert.IsFalse(_target.Equals(other));
+            Assert.IsFalse(other.Equals(_target));
         }
 
         /// <summary>
         ///Multiple properties are different
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void MultiDiffEqualsTest()
         {
-            Yahrtzieht other = new Yahrtzieht(14, DateTime.Today, "fido", "cats");
+            var other = new Yahrtzieht(14, DateTime.Today, "fido", "cats");
 
-            Assert.IsFalse(target.Equals(other));
-            Assert.IsFalse(other.Equals(target));
+            Assert.IsFalse(_target.Equals(other));
+            Assert.IsFalse(other.Equals(_target));
         }
 
         [TestMethod]
-        public void Yarhtzieht_Equals_Null_Returns_False()
+        public void Yahrtzieht_Equals_Null_Returns_False()
         {
-            Assert.IsFalse(target.Equals(null));
+            Assert.IsFalse(_target.Equals(null));
         }
 
         [TestMethod]
-        public void Yarhtzieht_Equals_Non_Yarhtzieht_Returns_False()
+        public void Yahrtzieht_Equals_Non_Yahrtzieht_Returns_False()
         {
-            Assert.IsFalse(target.Equals(0));
+            // ReSharper disable SuspiciousTypeConversion.Global
+            Assert.IsFalse(_target.Equals(0));
+            // ReSharper restore SuspiciousTypeConversion.Global
         }
 
         [TestMethod]
         public void Yahrtzieht_Equals_Same_Ref_Returns_True()
         {
-            var other = target;
+            var other = _target;
 
-            Assert.IsTrue(target.Equals(other));
-            Assert.IsTrue(other.Equals(target));
+            Assert.IsTrue(_target.Equals(other));
+            Assert.IsTrue(other.Equals(_target));
         }
 
         #endregion
@@ -135,14 +137,14 @@ namespace DataCache.Tests
         /// <summary>
         ///A test for ToString
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void ToStringTest()
         {
-            string expected = "Deceased's Name:\"rufus\" " +
+            var expected = "Deceased's Name:\"rufus\" " +
                               "Date:\"" + DateTime.Today.Date.ToString("dd/MM/yyyy") + "\" " +
                               "Relation:\"cats\"";
-            
-            Assert.AreEqual(expected, target.ToString());
+
+            Assert.AreEqual(expected, _target.ToString());
         }
 
         #endregion

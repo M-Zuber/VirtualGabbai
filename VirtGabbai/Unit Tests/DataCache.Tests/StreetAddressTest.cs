@@ -1,10 +1,9 @@
 ﻿using DataCache.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 
 namespace DataCache.Tests
 {
-    [TestClass()]
+    [TestClass]
     public class StreetAddressTest
     {
         #region C'tor Tests
@@ -12,11 +11,11 @@ namespace DataCache.Tests
         /// <summary>
         ///A test for StreetAddress Constructor
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void StreetAddressConstructorTest()
         {
-            string address = ";1894;beacon st;brookline;ma;usa;02445";
-            StreetAddress target = new StreetAddress(address);
+            const string address = ";1894;beacon st;brookline;ma;usa;02445";
+            var target = new StreetAddress(address);
             Assert.AreEqual("", target.ApartmentNumber);
             Assert.AreEqual("1894", target.House);
             Assert.AreEqual("beacon st", target.Street);
@@ -25,14 +24,14 @@ namespace DataCache.Tests
             Assert.AreEqual("USA", target.Country);
             Assert.AreEqual("02445", target.Zipcode);
         }
-        
+
         /// <summary>
         ///A test for StreetAddress Constructor with explicit parameters
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void StreetAddressExplicitConstructorTest()
         {
-            StreetAddress target = new StreetAddress("", "1894", "beacon st", "brookline", "MA", "USA", "02445");
+            var target = new StreetAddress("", "1894", "beacon st", "brookline", "MA", "USA", "02445");
             Assert.AreEqual("", target.ApartmentNumber);
             Assert.AreEqual("1894", target.House);
             Assert.AreEqual("beacon st", target.Street);
@@ -49,13 +48,13 @@ namespace DataCache.Tests
         /// <summary>
         ///A test for Equals
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void AllSameEqualsTest()
         {
-            string address = "1;1894;beacon st;brookline;ma;usa;02445";
+            const string address = "1;1894;beacon st;brookline;ma;usa;02445";
 
-            StreetAddress target = new StreetAddress(address);
-            StreetAddress obj = new StreetAddress(address);
+            var target = new StreetAddress(address);
+            var obj = new StreetAddress(address);
 
             Assert.IsTrue(target.Equals(obj));
             Assert.IsTrue(obj.Equals(target));
@@ -64,11 +63,11 @@ namespace DataCache.Tests
         /// <summary>
         ///A test for Equals
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DiffStateEqualsTest()
         {
-            StreetAddress target = new StreetAddress("1;1894;beacon st;brookline;ma;usa;02445");
-            StreetAddress obj = new StreetAddress("1;1894;beacon st;brookline;;usa;02445");
+            var target = new StreetAddress("1;1894;beacon st;brookline;ma;usa;02445");
+            var obj = new StreetAddress("1;1894;beacon st;brookline;;usa;02445");
 
             Assert.IsFalse(target.Equals(obj));
             Assert.IsFalse(obj.Equals(target));
@@ -77,11 +76,11 @@ namespace DataCache.Tests
         /// <summary>
         ///A test for Equals
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void AllDiffEqualsTest()
         {
-            StreetAddress target = new StreetAddress("1;1894;beacon st;brookline;ma;usa;02445");
-            StreetAddress obj = new StreetAddress(";;;;;;");
+            var target = new StreetAddress("1;1894;beacon st;brookline;ma;usa;02445");
+            var obj = new StreetAddress(";;;;;;");
 
             Assert.IsFalse(target.Equals(obj));
             Assert.IsFalse(obj.Equals(target));
@@ -90,11 +89,11 @@ namespace DataCache.Tests
         /// <summary>
         ///A test for Equals
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DiffAptNoEqualsTest()
         {
-            StreetAddress target = new StreetAddress("1;1894;beacon st;brookline;ma;usa;02445");
-            StreetAddress obj = new StreetAddress(";1894;beacon st;brookline;ma;usa;02445");
+            var target = new StreetAddress("1;1894;beacon st;brookline;ma;usa;02445");
+            var obj = new StreetAddress(";1894;beacon st;brookline;ma;usa;02445");
 
             Assert.IsFalse(target.Equals(obj));
             Assert.IsFalse(obj.Equals(target));
@@ -103,11 +102,11 @@ namespace DataCache.Tests
         /// <summary>
         ///A test for Equals
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DiffHouseNoEqualsTest()
         {
-            StreetAddress target = new StreetAddress("1;1894;beacon st;brookline;ma;usa;02445");
-            StreetAddress obj = new StreetAddress("1;;beacon st;brookline;ma;usa;02445");
+            var target = new StreetAddress("1;1894;beacon st;brookline;ma;usa;02445");
+            var obj = new StreetAddress("1;;beacon st;brookline;ma;usa;02445");
 
             Assert.IsFalse(target.Equals(obj));
             Assert.IsFalse(obj.Equals(target));
@@ -116,11 +115,11 @@ namespace DataCache.Tests
         /// <summary>
         ///A test for Equals
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DiffStreetEqualsTest()
         {
-            StreetAddress target = new StreetAddress("1;1894;beacon st;brookline;ma;usa;02445");
-            StreetAddress obj = new StreetAddress("1;1894;;brookline;ma;usa;02445");
+            var target = new StreetAddress("1;1894;beacon st;brookline;ma;usa;02445");
+            var obj = new StreetAddress("1;1894;;brookline;ma;usa;02445");
 
             Assert.IsFalse(target.Equals(obj));
             Assert.IsFalse(obj.Equals(target));
@@ -129,11 +128,11 @@ namespace DataCache.Tests
         /// <summary>
         ///A test for Equals
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DiffCityEqualsTest()
         {
-            StreetAddress target = new StreetAddress("1;1894;beacon st;brookline;ma;usa;02445");
-            StreetAddress obj = new StreetAddress("1;1894;beacon st;;ma;usa;02445");
+            var target = new StreetAddress("1;1894;beacon st;brookline;ma;usa;02445");
+            var obj = new StreetAddress("1;1894;beacon st;;ma;usa;02445");
 
             Assert.IsFalse(target.Equals(obj));
             Assert.IsFalse(obj.Equals(target));
@@ -142,11 +141,11 @@ namespace DataCache.Tests
         /// <summary>
         ///A test for Equals
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DiffCountryEqualsTest()
         {
-            StreetAddress target = new StreetAddress("1;1894;beacon st;brookline;ma;usa;02445");
-            StreetAddress obj = new StreetAddress("1;1894;beacon st;brookline;ma;;02445");
+            var target = new StreetAddress("1;1894;beacon st;brookline;ma;usa;02445");
+            var obj = new StreetAddress("1;1894;beacon st;brookline;ma;;02445");
 
             Assert.IsFalse(target.Equals(obj));
             Assert.IsFalse(obj.Equals(target));
@@ -155,11 +154,11 @@ namespace DataCache.Tests
         /// <summary>
         ///A test for Equals
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void ZipcodeDiffEqualsTest()
         {
-            StreetAddress target = new StreetAddress("1;1894;beacon st;brookline;ma;usa;02445");
-            StreetAddress obj = new StreetAddress("1;1894;beacon st;brookline;ma;usa;");
+            var target = new StreetAddress("1;1894;beacon st;brookline;ma;usa;02445");
+            var obj = new StreetAddress("1;1894;beacon st;brookline;ma;usa;");
 
             Assert.IsFalse(target.Equals(obj));
             Assert.IsFalse(obj.Equals(target));
@@ -168,7 +167,7 @@ namespace DataCache.Tests
         [TestMethod]
         public void StreetAddress_Equals_Null_Returns_False()
         {
-            StreetAddress target = new StreetAddress("1;1894;beacon st;brookline;ma;usa;02445");
+            var target = new StreetAddress("1;1894;beacon st;brookline;ma;usa;02445");
 
             Assert.IsFalse(target.Equals(null));
         }
@@ -176,15 +175,17 @@ namespace DataCache.Tests
         [TestMethod]
         public void StreetAddress_Equals_Non_StreetAddress_Returns_False()
         {
-            StreetAddress target = new StreetAddress("1;1894;beacon st;brookline;ma;usa;02445");
+            var target = new StreetAddress("1;1894;beacon st;brookline;ma;usa;02445");
 
+            // ReSharper disable SuspiciousTypeConversion.Global
             Assert.IsFalse(target.Equals(0));
+            // ReSharper restore SuspiciousTypeConversion.Global
         }
 
         [TestMethod]
         public void StreetAddress_Equals_Same_Ref_Returns_True()
         {
-            StreetAddress target = new StreetAddress("1;1894;beacon st;brookline;ma;usa;02445");
+            var target = new StreetAddress("1;1894;beacon st;brookline;ma;usa;02445");
             var other = target;
 
             Assert.IsTrue(target.Equals(other));
@@ -197,25 +198,24 @@ namespace DataCache.Tests
         /// <summary>
         ///A test for ToString
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void ApartmentAndStateToStringTest()
         {
-            StreetAddress target = new StreetAddress("1;1894;beacon st;brookline;ma;usa;02445");
-            string expected = "1894 beacon st\tApartment #1\n" +
+            var target = new StreetAddress("1;1894;beacon st;brookline;ma;usa;02445");
+            const string expected = "1894 beacon st\tApartment #1\n" +
                               "brookline MA USA\n02445";
 
             Assert.AreEqual(expected, target.ToString());
         }
 
-
         /// <summary>
         ///A test for ToString
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void ApartmentNoStateToStringTest()
         {
-            StreetAddress target = new StreetAddress("1;1894;beacon st;brookline;;usa;02445");
-            string expected = "1894 beacon st\tApartment #1\n" +
+            var target = new StreetAddress("1;1894;beacon st;brookline;;usa;02445");
+            const string expected = "1894 beacon st\tApartment #1\n" +
                               "brookline USA\n02445";
 
             Assert.AreEqual(expected, target.ToString());
@@ -224,11 +224,11 @@ namespace DataCache.Tests
         /// <summary>
         ///A test for ToString
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void StateNoApartmentToStringTest()
         {
-            StreetAddress target = new StreetAddress(";1894;beacon st;brookline;ma;usa;02445");
-            string expected = "1894 beacon st\n" +
+            var target = new StreetAddress(";1894;beacon st;brookline;ma;usa;02445");
+            const string expected = "1894 beacon st\n" +
                               "brookline MA USA\n02445";
 
             Assert.AreEqual(expected, target.ToString());
@@ -237,29 +237,29 @@ namespace DataCache.Tests
         /// <summary>
         ///A test for ToString
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void NoStateOrApartmentToStringTest()
         {
-            StreetAddress target = new StreetAddress(";1894;beacon st;brookline;;usa;02445");
-            string expected = "1894 beacon st\n" +
+            var target = new StreetAddress(";1894;beacon st;brookline;;usa;02445");
+            const string expected = "1894 beacon st\n" +
                               "brookline USA\n02445";
 
             Assert.AreEqual(expected, target.ToString());
         }
 
         #endregion
-        
+
         #region ToDbString Tests
 
         /// <summary>
         ///A test for ToDbString
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void AptAndStateToDbStringTest()
         {
-            string address = "1;1894;beacon st;brookline;ma;usa;02445";
+            const string address = "1;1894;beacon st;brookline;ma;usa;02445";
 
-            StreetAddress target = new StreetAddress(address);
+            var target = new StreetAddress(address);
 
             Assert.AreEqual(address, target.ToDbString(), true);
         }
@@ -267,12 +267,12 @@ namespace DataCache.Tests
         /// <summary>
         ///A test for ToDbString
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void NoAptYesStateToDbStringTest()
         {
-            string address = ";1894;beacon st;brookline;ma;usa;02445";
+            const string address = ";1894;beacon st;brookline;ma;usa;02445";
 
-            StreetAddress target = new StreetAddress(address);
+            var target = new StreetAddress(address);
 
             Assert.AreEqual(address, target.ToDbString(), true);
         }
@@ -280,12 +280,12 @@ namespace DataCache.Tests
         /// <summary>
         ///A test for ToDbString
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void NoStateYesAptToDbStringTest()
         {
-            string address = "1;1894;beacon st;brookline;;usa;02445";
+            const string address = "1;1894;beacon st;brookline;;usa;02445";
 
-            StreetAddress target = new StreetAddress(address);
+            var target = new StreetAddress(address);
 
             Assert.AreEqual(address, target.ToDbString(), true);
         }
@@ -293,16 +293,16 @@ namespace DataCache.Tests
         /// <summary>
         ///A test for ToDbString
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void NoStateNoAptToDbStringTest()
         {
-            string address = ";1894;beacon st;brookline;;usa;02445";
+            const string address = ";1894;beacon st;brookline;;usa;02445";
 
-            StreetAddress target = new StreetAddress(address);
+            var target = new StreetAddress(address);
 
             Assert.AreEqual(address, target.ToDbString(), true);
         }
-        
+
         #endregion
     }
 }

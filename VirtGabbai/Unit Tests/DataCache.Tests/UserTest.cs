@@ -1,43 +1,41 @@
 ﻿using DataCache.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using System.Collections.Generic;
 
 namespace DataCache.Tests
 {
-    [TestClass()]
+    [TestClass]
     public class UserTest
     {
-        private int id = 1;
-        private string userName = "mez613";
-        private string password = "*******";
-        private string email = "jack@jingle.high";
-        private PrivilegesGroup privilegeGroup;
+        private readonly int _id = 1;
+        private readonly string _userName = "mez613";
+        private readonly string _password = "*******";
+        private readonly string _email = "jack@jingle.high";
+        private PrivilegesGroup _privilegeGroup;
 
-        private User target;
+        private User _target;
 
-        [TestInitialize()]
+        [TestInitialize]
         public void MyTestInitialize()
         {
-            privilegeGroup = new PrivilegesGroup(1, "admin",
-                new List<Privilege>()
+            _privilegeGroup = new PrivilegesGroup(1, "admin",
+                new List<Privilege>
                 {
                     new Privilege(1,"privilege:1"),
                     new Privilege(2,"privilege:2")
                 });
 
-            target = new User(id, userName, password, email, privilegeGroup);
+            _target = new User(_id, _userName, _password, _email, _privilegeGroup);
         }
 
-        [TestCleanup()]
+        [TestCleanup]
         public void MyTestCleanup()
         {
-            privilegeGroup = null;
-            target = null;
+            _privilegeGroup = null;
+            _target = null;
         }
 
         #region Setup
-
 
         #endregion
 
@@ -46,122 +44,124 @@ namespace DataCache.Tests
         /// <summary>
         ///A test for Equals
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void AllSameEqualsTest()
         {
-            var other = new User(id, userName, password, email, privilegeGroup);
+            var other = new User(_id, _userName, _password, _email, _privilegeGroup);
 
-            Assert.IsTrue(target.Equals(other));
-            Assert.IsTrue(other.Equals(target));
+            Assert.IsTrue(_target.Equals(other));
+            Assert.IsTrue(other.Equals(_target));
         }
 
         /// <summary>
         ///A test for Equals
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void AllDiffEqualsTest()
         {
-            int diff_id = 0;
-            string diiUserName = "different";
-            string diffPassword = "different";
-            string diffEmail = "blah@maz.blah";
-            PrivilegesGroup diffUserGroup = new PrivilegesGroup(325, "DSATGE", new List<Privilege>()
-                {
+            const int diffId = 0;
+            const string diiUserName = "different";
+            const string diffPassword = "different";
+            const string diffEmail = "blah@maz.blah";
+            var diffUserGroup = new PrivilegesGroup(325, "DSATGE", new List<Privilege>
+            {
                     new Privilege(456, "3254235")
                 });
-            var  other = new User(diff_id, diiUserName, diffPassword, diffEmail, diffUserGroup); ;
+            var other = new User(diffId, diiUserName, diffPassword, diffEmail, diffUserGroup);
 
-            Assert.IsFalse(target.Equals(other));
-            Assert.IsFalse(other.Equals(target));
+            Assert.IsFalse(_target.Equals(other));
+            Assert.IsFalse(other.Equals(_target));
         }
 
         /// <summary>
         ///A test for Equals
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DiffIdEqualsTest()
         {
-            int _id = 0;
-            var  other = new User(_id, userName, password, email, privilegeGroup);
+            const int id = 0;
+            var other = new User(id, _userName, _password, _email, _privilegeGroup);
 
-            Assert.IsFalse(target.Equals(other));
-            Assert.IsFalse(other.Equals(target));
+            Assert.IsFalse(_target.Equals(other));
+            Assert.IsFalse(other.Equals(_target));
         }
 
         /// <summary>
         ///A test for Equals
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DiffUserNameEqualsTest()
         {
-            string diffUserName = "blah";
-            var  other = new User(id, diffUserName, password, email, privilegeGroup);
+            const string diffUserName = "blah";
+            var other = new User(_id, diffUserName, _password, _email, _privilegeGroup);
 
-            Assert.IsFalse(target.Equals(other));
-            Assert.IsFalse(other.Equals(target));
+            Assert.IsFalse(_target.Equals(other));
+            Assert.IsFalse(other.Equals(_target));
         }
 
         /// <summary>
         ///A test for Equals
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DiffPasswordEqualsTest()
         {
-            string diffPassword = "123432";
-            var  other = new User(id, userName, diffPassword, email, privilegeGroup);
+            const string diffPassword = "123432";
+            var other = new User(_id, _userName, diffPassword, _email, _privilegeGroup);
 
-            Assert.IsFalse(target.Equals(other));
-            Assert.IsFalse(other.Equals(target));
+            Assert.IsFalse(_target.Equals(other));
+            Assert.IsFalse(other.Equals(_target));
         }
 
         /// <summary>
         ///A test for Equals
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DiffEmailEqualsTest()
         {
-            string diffEmail = "blah@blah.iter";
-            var  other = new User(id, userName, password, diffEmail, privilegeGroup);
+            const string diffEmail = "blah@blah.iter";
+            var other = new User(_id, _userName, _password, diffEmail, _privilegeGroup);
 
-            Assert.IsFalse(target.Equals(other));
-            Assert.IsFalse(other.Equals(target));
+            Assert.IsFalse(_target.Equals(other));
+            Assert.IsFalse(other.Equals(_target));
         }
 
         /// <summary>
         ///A test for Equals
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DiffUserGroupEqualsTest()
         {
-            PrivilegesGroup diffUserGroup = new PrivilegesGroup(325, "DSATGE", new List<Privilege>()
-                {
+            var diffUserGroup = new PrivilegesGroup(325, "DSATGE", new List<Privilege>
+            {
                     new Privilege(456, "3254235")
                 });
-            var  other = new User(id, userName, password, email, diffUserGroup);
+            var other = new User(_id, _userName, _password, _email, diffUserGroup);
 
-            Assert.IsFalse(target.Equals(other));
-            Assert.IsFalse(other.Equals(target));
+            Assert.IsFalse(_target.Equals(other));
+            Assert.IsFalse(other.Equals(_target));
         }
 
         [TestMethod]
         public void User_Equals_Null_Returns_False()
         {
-            Assert.IsFalse(target.Equals(null));
+            Assert.IsFalse(_target.Equals(null));
         }
 
         [TestMethod]
         public void User_Equals_Non_User_Returns_False()
         {
-            Assert.IsFalse(target.Equals(0));
+            // ReSharper disable SuspiciousTypeConversion.Global
+            Assert.IsFalse(_target.Equals(0));
+            // ReSharper restore SuspiciousTypeConversion.Global
         }
 
         [TestMethod]
         public void User_Equals_Same_Ref_Returns_True()
         {
-            var other = target;
+            var other = _target;
 
-            Assert.IsTrue(other.Equals(target));
-            Assert.IsTrue(target.Equals(other));
+            Assert.IsTrue(other.Equals(_target));
+            Assert.IsTrue(_target.Equals(other));
         }
 
         #endregion
@@ -171,13 +171,13 @@ namespace DataCache.Tests
         /// <summary>
         ///A test for ToString
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void ToStringTest()
         {
-            string expected = "UserName: mez613\nEmail: jack@jingle.high\n";
-            expected += privilegeGroup.ToString();
+            var expected = "UserName: mez613\nEmail: jack@jingle.high\n";
+            expected += _privilegeGroup.ToString();
 
-            Assert.AreEqual(expected, target.ToString());
+            Assert.AreEqual(expected, _target.ToString());
         }
 
         #endregion

@@ -4,31 +4,31 @@ using System;
 
 namespace DataCache.Tests
 {
-    [TestClass()]
+    [TestClass]
     public class DonationTest
     {
-        Donation targetDonation = null;
-        int id;
-        string reason;
-        double amount;
-        string comments;
-        DateTime donationDate = DateTime.Today;
+        private Donation _targetDonation;
+        private int _id;
+        private string _reason;
+        private double _amount;
+        private string _comments;
+        private readonly DateTime _donationDate = DateTime.Today;
 
-        [TestInitialize()]
+        [TestInitialize]
         public void MyTestInitialize()
         {
-            id = 1;
-            reason = "Just because";
-            amount = 10.5;
-            comments = "not to much";
+            _id = 1;
+            _reason = "Just because";
+            _amount = 10.5;
+            _comments = "not to much";
 
-            targetDonation = new Donation { ID = id, Reason = reason, Amount = amount, DonationDate = donationDate, Comments = comments };
+            _targetDonation = new Donation { ID = _id, Reason = _reason, Amount = _amount, DonationDate = _donationDate, Comments = _comments };
         }
-       
-        [TestCleanup()]
+
+        [TestCleanup]
         public void MyTestCleanup()
         {
-            targetDonation = null;
+            _targetDonation = null;
         }
 
         #region ToString Test
@@ -36,28 +36,28 @@ namespace DataCache.Tests
         /// <summary>
         ///Donation.ToString() with all fields set
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void Donation_ToString_AllFieldsSet()
         {
-            string expected = "Donated for: \"" + targetDonation.Reason +
-                              "\" Amount donated: \"" + targetDonation.Amount +
-                              "\" Date donated: \"" + targetDonation.DonationDate.ToString("dd/MM/yyyy") +
-                              "\" Comments: \"" + targetDonation.Comments + "\"";
-            string actual = targetDonation.ToString();
+            var expected = "Donated for: \"" + _targetDonation.Reason +
+                              "\" Amount donated: \"" + _targetDonation.Amount +
+                              "\" Date donated: \"" + _targetDonation.DonationDate.ToString("dd/MM/yyyy") +
+                              "\" Comments: \"" + _targetDonation.Comments + "\"";
+            var actual = _targetDonation.ToString();
             Assert.AreEqual(expected, actual);
         }
 
         /// <summary>
         ///Donation.ToString() with no comment
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void Donation_ToString_NoComment()
         {
-            Donation target = new Donation { ID = id, Reason = reason, Amount = amount, DonationDate = donationDate };
-            string expected = "Donated for: \"" + target.Reason +
+            var target = new Donation { ID = _id, Reason = _reason, Amount = _amount, DonationDate = _donationDate };
+            var expected = "Donated for: \"" + target.Reason +
                               "\" Amount donated: \"" + target.Amount +
                               "\" Date donated: \"" + target.DonationDate.ToString("dd/MM/yyyy") + "\"";
-            string actual = target.ToString();
+            var actual = target.ToString();
 
             Assert.AreEqual(expected, actual);
         }
@@ -69,106 +69,108 @@ namespace DataCache.Tests
         /// <summary>
         ///Comparing two donations with no differences
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void Donation_Equals_NoDifferences()
         {
-            Donation otherDonation = new Donation { ID = id, Reason = reason, Amount = amount, DonationDate = donationDate, Comments = comments };
+            var otherDonation = new Donation { ID = _id, Reason = _reason, Amount = _amount, DonationDate = _donationDate, Comments = _comments };
 
-            Assert.IsTrue(targetDonation.Equals(otherDonation));
-            Assert.IsTrue(otherDonation.Equals(targetDonation));
+            Assert.IsTrue(_targetDonation.Equals(otherDonation));
+            Assert.IsTrue(otherDonation.Equals(_targetDonation));
         }
 
         /// <summary>
         ///Comparing two donations with a difference in the id
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void Donation_Equals_DifferenceInId()
         {
-            Donation otherDonation = new Donation { ID = (id * 2), Reason = reason, Amount = amount, DonationDate = donationDate, Comments = comments };
+            var otherDonation = new Donation { ID = _id * 2, Reason = _reason, Amount = _amount, DonationDate = _donationDate, Comments = _comments };
 
-            Assert.IsFalse(targetDonation.Equals(otherDonation));
-            Assert.IsFalse(otherDonation.Equals(targetDonation));
+            Assert.IsFalse(_targetDonation.Equals(otherDonation));
+            Assert.IsFalse(otherDonation.Equals(_targetDonation));
         }
 
         /// <summary>
         ///Comparing two donations with a difference in the reason
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void Donation_Equals_DifferenceInReason()
         {
-            Donation otherDonation = new Donation { ID = id, Reason = reason + reason, Amount = amount, DonationDate = donationDate, Comments = comments };
+            var otherDonation = new Donation { ID = _id, Reason = _reason + _reason, Amount = _amount, DonationDate = _donationDate, Comments = _comments };
 
-            Assert.IsFalse(targetDonation.Equals(otherDonation));
-            Assert.IsFalse(otherDonation.Equals(targetDonation));
+            Assert.IsFalse(_targetDonation.Equals(otherDonation));
+            Assert.IsFalse(otherDonation.Equals(_targetDonation));
         }
 
         /// <summary>
         ///Comparing two donations with a difference in the amount
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void Donation_Equals_DifferenceInAmount()
         {
-            Donation otherDonation = new Donation { ID = id, Reason = reason, Amount = (amount * 2), DonationDate = donationDate, Comments = comments };
+            var otherDonation = new Donation { ID = _id, Reason = _reason, Amount = _amount * 2, DonationDate = _donationDate, Comments = _comments };
 
-            Assert.IsFalse(targetDonation.Equals(otherDonation));
-            Assert.IsFalse(otherDonation.Equals(targetDonation));
+            Assert.IsFalse(_targetDonation.Equals(otherDonation));
+            Assert.IsFalse(otherDonation.Equals(_targetDonation));
         }
 
         /// <summary>
         ///Comparing two donations with a difference in the donation date
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void Donation_Equals_DifferenceInDonationDate()
         {
-            Donation otherDonation = new Donation { ID = id, Reason = reason, Amount = amount, DonationDate = DateTime.MaxValue, Comments = comments };
+            var otherDonation = new Donation { ID = _id, Reason = _reason, Amount = _amount, DonationDate = DateTime.MaxValue, Comments = _comments };
 
-            Assert.IsFalse(targetDonation.Equals(otherDonation));
-            Assert.IsFalse(otherDonation.Equals(targetDonation));
+            Assert.IsFalse(_targetDonation.Equals(otherDonation));
+            Assert.IsFalse(otherDonation.Equals(_targetDonation));
         }
 
         /// <summary>
         ///Comparing two donations with a difference in the comment
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void Donation_Equals_DifferenceInComment()
         {
-            Donation otherDonation = new Donation { ID = id, Reason = reason, Amount = amount, DonationDate = donationDate, Comments = comments + comments };
+            var otherDonation = new Donation { ID = _id, Reason = _reason, Amount = _amount, DonationDate = _donationDate, Comments = _comments + _comments };
 
-            Assert.IsFalse(targetDonation.Equals(otherDonation));
-            Assert.IsFalse(otherDonation.Equals(targetDonation));
+            Assert.IsFalse(_targetDonation.Equals(otherDonation));
+            Assert.IsFalse(otherDonation.Equals(_targetDonation));
         }
 
         /// <summary>
         ///Comparing two donations with a difference in ever field
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void Donation_Equals_DifferencesInAllFields()
         {
-            Donation otherDonation = new Donation { ID = (id * 2), Reason = reason + reason, Amount = (amount * 2), DonationDate = DateTime.MaxValue, Comments = comments + comments };
+            var otherDonation = new Donation { ID = _id * 2, Reason = _reason + _reason, Amount = _amount * 2, DonationDate = DateTime.MaxValue, Comments = _comments + _comments };
 
-            Assert.IsFalse(targetDonation.Equals(otherDonation));
-            Assert.IsFalse(otherDonation.Equals(targetDonation));
+            Assert.IsFalse(_targetDonation.Equals(otherDonation));
+            Assert.IsFalse(otherDonation.Equals(_targetDonation));
         }
 
         [TestMethod]
         public void Donation_Equals_Null_Returns_False()
         {
-            Assert.IsFalse(targetDonation.Equals(null));
+            Assert.IsFalse(_targetDonation.Equals(null));
         }
 
         [TestMethod]
         public void Donation_Equals_Same_Ref_Returns_True()
         {
-            var other = targetDonation;
+            var other = _targetDonation;
 
-            Assert.IsTrue(targetDonation.Equals(other));
-            Assert.IsTrue(other.Equals(targetDonation));
+            Assert.IsTrue(_targetDonation.Equals(other));
+            Assert.IsTrue(other.Equals(_targetDonation));
         }
 
         [TestMethod]
         public void Donation_Equals_Non_Donation_Returns_True()
         {
-            Assert.IsFalse(targetDonation.Equals(3));
+            // ReSharper disable SuspiciousTypeConversion.Global
+            Assert.IsFalse(_targetDonation.Equals(3));
+            // ReSharper restore SuspiciousTypeConversion.Global
         }
 
         #endregion

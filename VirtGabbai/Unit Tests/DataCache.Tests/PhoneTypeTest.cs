@@ -4,21 +4,21 @@ using System;
 
 namespace DataCache.Tests
 {
-    [TestClass()]
+    [TestClass]
     public class PhoneTypeTest
     {
-        private PhoneType targetPhoneType = null;
+        private PhoneType _targetPhoneType;
 
-        [TestInitialize()]
+        [TestInitialize]
         public void MyTestInitialize()
         {
-            targetPhoneType = new PhoneType(1, "one");
+            _targetPhoneType = new PhoneType(1, "one");
         }
 
-        [TestCleanup()]
+        [TestCleanup]
         public void MyTestCleanup()
         {
-            targetPhoneType = null;
+            _targetPhoneType = null;
         }
 
         #region Equals
@@ -26,68 +26,70 @@ namespace DataCache.Tests
         /// <summary>
         ///Comparing two phone types with no differences
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void PhoneType_Equals_NoDifferences()
         {
-            PhoneType otherPhoneType =
-                new PhoneType(targetPhoneType.ID, targetPhoneType.Name);
-            Assert.IsTrue(targetPhoneType.Equals(otherPhoneType));
+            var otherPhoneType =
+                new PhoneType(_targetPhoneType.ID, _targetPhoneType.Name);
+            Assert.IsTrue(_targetPhoneType.Equals(otherPhoneType));
         }
 
         /// <summary>
         ///Comparing two phone types with a difference in the id
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void PhoneType_Equals_DifferenceInId()
         {
-            PhoneType otherPhoneType =
-                new PhoneType((targetPhoneType.ID * 2), targetPhoneType.Name);
-            Assert.IsFalse(targetPhoneType.Equals(otherPhoneType));
+            var otherPhoneType =
+                new PhoneType(_targetPhoneType.ID * 2, _targetPhoneType.Name);
+            Assert.IsFalse(_targetPhoneType.Equals(otherPhoneType));
         }
 
         /// <summary>
         ///Comparing two phone types with a difference in the type
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void PhoneType_Equals_DifferenceInType()
         {
-            PhoneType otherPhoneType =
-                new PhoneType(targetPhoneType.ID,
-                    targetPhoneType.Name + targetPhoneType.Name);
-            Assert.IsFalse(targetPhoneType.Equals(otherPhoneType));
+            var otherPhoneType =
+                new PhoneType(_targetPhoneType.ID,
+                    _targetPhoneType.Name + _targetPhoneType.Name);
+            Assert.IsFalse(_targetPhoneType.Equals(otherPhoneType));
         }
 
         /// <summary>
         ///Comparing two phone types with a difference in every field
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void PhoneType_Equals_DifferenceInEveryField()
         {
-            PhoneType otherPhoneType =
-                new PhoneType((targetPhoneType.ID * 2),
-                    targetPhoneType.Name + targetPhoneType.Name);
-            Assert.IsFalse(targetPhoneType.Equals(otherPhoneType));
+            var otherPhoneType =
+                new PhoneType(_targetPhoneType.ID * 2,
+                    _targetPhoneType.Name + _targetPhoneType.Name);
+            Assert.IsFalse(_targetPhoneType.Equals(otherPhoneType));
         }
 
         [TestMethod]
         public void PhoneType_Equals_Null_Returns_False()
         {
-            Assert.IsFalse(targetPhoneType.Equals(null));
+            Assert.IsFalse(_targetPhoneType.Equals(null));
         }
 
         [TestMethod]
         public void PhoneType_Equals_Non_PhoneType_Returns_False()
         {
-            Assert.IsFalse(targetPhoneType.Equals(0));
+            // ReSharper disable SuspiciousTypeConversion.Global
+            Assert.IsFalse(_targetPhoneType.Equals(0));
+            // ReSharper restore SuspiciousTypeConversion.Global
         }
 
         [TestMethod]
         public void PhoneType_Equals_Same_Ref_Returns_True()
         {
-            var other = targetPhoneType;
+            var other = _targetPhoneType;
 
-            Assert.IsTrue(other.Equals(targetPhoneType));
-            Assert.IsTrue(targetPhoneType.Equals(other));
+            Assert.IsTrue(other.Equals(_targetPhoneType));
+            Assert.IsTrue(_targetPhoneType.Equals(other));
         }
 
         #endregion
@@ -97,11 +99,11 @@ namespace DataCache.Tests
         /// <summary>
         ///PhoneType,ToString() Test
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void PhoneType_ToString()
         {
-            string expected = "Type:\"one\"";
-            string actual = targetPhoneType.ToString();
+            const string expected = "Type:\"one\"";
+            var actual = _targetPhoneType.ToString();
             Assert.AreEqual(expected, actual);
         }
 

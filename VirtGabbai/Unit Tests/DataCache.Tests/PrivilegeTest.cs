@@ -1,100 +1,99 @@
 ﻿using DataCache.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 
 namespace DataCache.Tests
 {
-
-
     /// <summary>
     ///This is a test class for PrivilegeTest and is intended
     ///to contain all PrivilegeTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class PrivilegeTest
     {
-        int id = 1;
-        string privilegeName = "admin";
-        Privilege target = null;
+        private const int Id = 1;
+        private const string PrivilegeName = "admin";
+        private Privilege _target;
 
-        [TestInitialize()]
+        [TestInitialize]
         public void MyTestInitialize()
         {
-            target = new Privilege(id, privilegeName); ;
+            _target = new Privilege(Id, PrivilegeName);
         }
 
-        [TestCleanup()]
+        [TestCleanup]
         public void MyTestCleanup()
         {
-            target = null;
+            _target = null;
         }
 
         #region Equals Tests
 
         /// <summary>
-        ///Comparing two privleges with no differences
+        ///Comparing two privileges with no differences
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void Privilege_Equals_NoDifferences()
         {
-            Privilege other = new Privilege(id, privilegeName);
-            Assert.IsTrue(target.Equals(other));
-            Assert.IsTrue(other.Equals(target));
+            var other = new Privilege(Id, PrivilegeName);
+            Assert.IsTrue(_target.Equals(other));
+            Assert.IsTrue(other.Equals(_target));
         }
 
         /// <summary>
         ///Comparing two privileges with a difference in every field
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void Privilege_Equals_DifferenceInEveryField()
         {
-            Privilege other = new Privilege((id * 2), privilegeName + privilegeName);
-            Assert.IsFalse(target.Equals(other));
-            Assert.IsFalse(other.Equals(target));
+            var other = new Privilege(Id * 2, PrivilegeName + PrivilegeName);
+            Assert.IsFalse(_target.Equals(other));
+            Assert.IsFalse(other.Equals(_target));
         }
 
         /// <summary>
         ///Comparing two privileges with a difference in the id
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void Privilege_Equals_DifferenceInId()
         {
-            Privilege other = new Privilege((id * 2), privilegeName);
-            Assert.IsFalse(target.Equals(other));
-            Assert.IsFalse(other.Equals(target));
+            var other = new Privilege(Id * 2, PrivilegeName);
+            Assert.IsFalse(_target.Equals(other));
+            Assert.IsFalse(other.Equals(_target));
         }
 
         /// <summary>
-        ///Comparing two privleges with a difference in the privilege name
+        ///Comparing two privileges with a difference in the privilege name
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void Privilege_Equals_DifferenceInPrivilegeName()
         {
-            Privilege other = new Privilege(id, privilegeName + privilegeName);
+            var other = new Privilege(Id, PrivilegeName + PrivilegeName);
 
-            Assert.IsFalse(target.Equals(other));
-            Assert.IsFalse(other.Equals(target));
+            Assert.IsFalse(_target.Equals(other));
+            Assert.IsFalse(other.Equals(_target));
         }
 
         [TestMethod]
         public void Privilege_Equals_Null_Returns_False()
         {
-            Assert.IsFalse(target.Equals(null));
+            Assert.IsFalse(_target.Equals(null));
         }
 
         [TestMethod]
         public void Privilege_Equals_Non_Privilege_Returns_False()
         {
-            Assert.IsFalse(target.Equals(0));
+            // ReSharper disable SuspiciousTypeConversion.Global
+            Assert.IsFalse(_target.Equals(0));
+            // ReSharper restore SuspiciousTypeConversion.Global
         }
 
         [TestMethod]
         public void Privilege_Equals_Same_Ref_Returns_True()
         {
-            var other = target;
+            var other = _target;
 
-            Assert.IsTrue(target.Equals(other));
-            Assert.IsTrue(other.Equals(target));
+            Assert.IsTrue(_target.Equals(other));
+            Assert.IsTrue(other.Equals(_target));
         }
 
         #endregion
@@ -104,11 +103,11 @@ namespace DataCache.Tests
         /// <summary>
         ///Privilege.ToString() Test
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void Privilege_ToString()
         {
-            string expected = "admin";
-            Assert.AreEqual(expected, target.ToString());
+            const string expected = "admin";
+            Assert.AreEqual(expected, _target.ToString());
         }
 
         #endregion
