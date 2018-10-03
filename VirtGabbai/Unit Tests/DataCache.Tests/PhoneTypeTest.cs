@@ -1,6 +1,5 @@
 ﻿using DataCache.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 
 namespace DataCache.Tests
 {
@@ -12,7 +11,7 @@ namespace DataCache.Tests
         [TestInitialize]
         public void MyTestInitialize()
         {
-            _targetPhoneType = new PhoneType(1, "one");
+            _targetPhoneType = new PhoneType { Id = 1, Name = "one" };
         }
 
         [TestCleanup]
@@ -30,7 +29,7 @@ namespace DataCache.Tests
         public void PhoneType_Equals_NoDifferences()
         {
             var otherPhoneType =
-                new PhoneType(_targetPhoneType.Id, _targetPhoneType.Name);
+                new PhoneType { Id = _targetPhoneType.Id, Name = _targetPhoneType.Name };
             Assert.IsTrue(_targetPhoneType.Equals(otherPhoneType));
         }
 
@@ -41,7 +40,7 @@ namespace DataCache.Tests
         public void PhoneType_Equals_DifferenceInId()
         {
             var otherPhoneType =
-                new PhoneType(_targetPhoneType.Id * 2, _targetPhoneType.Name);
+                new PhoneType { Id = _targetPhoneType.Id * 2, Name = _targetPhoneType.Name };
             Assert.IsFalse(_targetPhoneType.Equals(otherPhoneType));
         }
 
@@ -52,8 +51,12 @@ namespace DataCache.Tests
         public void PhoneType_Equals_DifferenceInType()
         {
             var otherPhoneType =
-                new PhoneType(_targetPhoneType.Id,
-                    _targetPhoneType.Name + _targetPhoneType.Name);
+                new PhoneType
+                {
+                    Id = _targetPhoneType.Id,
+                    Name =
+                    _targetPhoneType.Name + _targetPhoneType.Name
+                };
             Assert.IsFalse(_targetPhoneType.Equals(otherPhoneType));
         }
 
@@ -64,8 +67,12 @@ namespace DataCache.Tests
         public void PhoneType_Equals_DifferenceInEveryField()
         {
             var otherPhoneType =
-                new PhoneType(_targetPhoneType.Id * 2,
-                    _targetPhoneType.Name + _targetPhoneType.Name);
+                new PhoneType
+                {
+                    Id = _targetPhoneType.Id * 2,
+                    Name =
+                    _targetPhoneType.Name + _targetPhoneType.Name
+                };
             Assert.IsFalse(_targetPhoneType.Equals(otherPhoneType));
         }
 

@@ -18,14 +18,25 @@ namespace DataCache.Tests
         [TestInitialize]
         public void MyTestInitialize()
         {
-            _privilegeGroup = new PrivilegesGroup(1, "admin",
-                new List<Privilege>
+            _privilegeGroup = new PrivilegesGroup
+            {
+                Id = 1,
+                GroupName = "admin",
+                Privileges = new List<Privilege>
                 {
                     new Privilege(1,"privilege:1"),
                     new Privilege(2,"privilege:2")
-                });
+                }
+            };
 
-            _target = new User(_id, _userName, _password, _email, _privilegeGroup);
+            _target = new User
+            {
+                Id = _id,
+                UserName = _userName,
+                Password = _password,
+                Email = _email,
+                PrivilegeGroup = _privilegeGroup
+            };
         }
 
         [TestCleanup]
@@ -47,7 +58,14 @@ namespace DataCache.Tests
         [TestMethod]
         public void AllSameEqualsTest()
         {
-            var other = new User(_id, _userName, _password, _email, _privilegeGroup);
+            var other = new User
+            {
+                Id = _id,
+                UserName = _userName,
+                Password = _password,
+                Email = _email,
+                PrivilegeGroup = _privilegeGroup
+            };
 
             Assert.IsTrue(_target.Equals(other));
             Assert.IsTrue(other.Equals(_target));
@@ -63,12 +81,23 @@ namespace DataCache.Tests
             const string diiUserName = "different";
             const string diffPassword = "different";
             const string diffEmail = "blah@maz.blah";
-            var diffUserGroup = new PrivilegesGroup(325, "DSATGE", new List<Privilege>
+            var diffUserGroup = new PrivilegesGroup
             {
+                Id = 325,
+                GroupName = "DSATGE",
+                Privileges = new List<Privilege>
+                {
                     new Privilege(456, "3254235")
-                });
-            var other = new User(diffId, diiUserName, diffPassword, diffEmail, diffUserGroup);
-
+                }
+            };
+            var other = new User
+            {
+                Id = diffId,
+                UserName = diiUserName,
+                Password = diffPassword,
+                Email = diffEmail,
+                PrivilegeGroup = diffUserGroup
+            };
             Assert.IsFalse(_target.Equals(other));
             Assert.IsFalse(other.Equals(_target));
         }
@@ -80,7 +109,14 @@ namespace DataCache.Tests
         public void DiffIdEqualsTest()
         {
             const int id = 0;
-            var other = new User(id, _userName, _password, _email, _privilegeGroup);
+            var other = new User
+            {
+                Id = id,
+                UserName = _userName,
+                Password = _password,
+                Email = _email,
+                PrivilegeGroup = _privilegeGroup
+            };
 
             Assert.IsFalse(_target.Equals(other));
             Assert.IsFalse(other.Equals(_target));
@@ -93,7 +129,14 @@ namespace DataCache.Tests
         public void DiffUserNameEqualsTest()
         {
             const string diffUserName = "blah";
-            var other = new User(_id, diffUserName, _password, _email, _privilegeGroup);
+            var other = new User
+            {
+                Id = _id,
+                UserName = diffUserName,
+                Password = _password,
+                Email = _email,
+                PrivilegeGroup = _privilegeGroup
+            };
 
             Assert.IsFalse(_target.Equals(other));
             Assert.IsFalse(other.Equals(_target));
@@ -106,7 +149,14 @@ namespace DataCache.Tests
         public void DiffPasswordEqualsTest()
         {
             const string diffPassword = "123432";
-            var other = new User(_id, _userName, diffPassword, _email, _privilegeGroup);
+            var other = new User
+            {
+                Id = _id,
+                UserName = _userName,
+                Password = diffPassword,
+                Email = _email,
+                PrivilegeGroup = _privilegeGroup
+            };
 
             Assert.IsFalse(_target.Equals(other));
             Assert.IsFalse(other.Equals(_target));
@@ -119,7 +169,14 @@ namespace DataCache.Tests
         public void DiffEmailEqualsTest()
         {
             const string diffEmail = "blah@blah.iter";
-            var other = new User(_id, _userName, _password, diffEmail, _privilegeGroup);
+            var other = new User
+            {
+                Id = _id,
+                UserName = _userName,
+                Password = _password,
+                Email = diffEmail,
+                PrivilegeGroup = _privilegeGroup
+            };
 
             Assert.IsFalse(_target.Equals(other));
             Assert.IsFalse(other.Equals(_target));
@@ -131,11 +188,24 @@ namespace DataCache.Tests
         [TestMethod]
         public void DiffUserGroupEqualsTest()
         {
-            var diffUserGroup = new PrivilegesGroup(325, "DSATGE", new List<Privilege>
+            var diffUserGroup = new PrivilegesGroup
+            {
+                Id = 325,
+                GroupName = "DSATGE",
+                Privileges = new List<Privilege>
             {
                     new Privilege(456, "3254235")
-                });
-            var other = new User(_id, _userName, _password, _email, diffUserGroup);
+                }
+            };
+
+            var other = new User
+            {
+                Id = _id,
+                UserName = _userName,
+                Password = _password,
+                Email = _email,
+                PrivilegeGroup = diffUserGroup
+            };
 
             Assert.IsFalse(_target.Equals(other));
             Assert.IsFalse(other.Equals(_target));
