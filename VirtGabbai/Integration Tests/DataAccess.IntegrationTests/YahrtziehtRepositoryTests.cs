@@ -57,7 +57,7 @@ namespace DataAccess.IntegrationTests
         {
             var item = Helper.SetupData(_ctx);
 
-            Assert.IsTrue(_repository.Exists(item.ID));
+            Assert.IsTrue(_repository.Exists(item.Id));
         }
 
         [TestMethod]
@@ -71,7 +71,7 @@ namespace DataAccess.IntegrationTests
         [TestMethod]
         public void GetByID_No_Data_Returns_Null()
         {
-            Assert.IsNull(_repository.GetByID(1));
+            Assert.IsNull(_repository.GetById(1));
         }
 
         [TestMethod]
@@ -79,7 +79,7 @@ namespace DataAccess.IntegrationTests
         {
             var item = Helper.SetupData(_ctx);
 
-            Assert.IsNull(_repository.GetByID(item.ID + 1));
+            Assert.IsNull(_repository.GetById(item.Id + 1));
         }
 
         [TestMethod]
@@ -87,7 +87,7 @@ namespace DataAccess.IntegrationTests
         {
             var expected = Helper.SetupData(_ctx);
 
-            Assert.AreEqual(expected, _repository.GetByID(expected.ID));
+            Assert.AreEqual(expected, _repository.GetById(expected.Id));
         }
 
         private static class Helper

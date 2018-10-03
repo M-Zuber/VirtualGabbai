@@ -1,81 +1,69 @@
-using Framework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace DataCache.Models
 {
-    public partial class Account
+    public class Account
     {
-        public Account()
-        {
-
-        }
-
-        public Account(int id, decimal monthlyPaymentAmount, DateTime? lastMonthlyPaymentDate, IEnumerable<Donation> donations)
-        {
-            ID = id;
-            MonthlyPaymentAmount = monthlyPaymentAmount;
-            LastMonthlyPaymentDate = lastMonthlyPaymentDate;
-            Donations = donations.ToList();
-        }
-
-        public int ID { get; set; }
-        public int PersonID { get; set; }
+        public int Id { get; set; }
+        public int PersonId { get; set; }
         public decimal MonthlyPaymentAmount { get; set; }
         public DateTime? LastMonthlyPaymentDate { get; set; }
         public virtual Person Person { get; set; }
         public virtual ICollection<Donation> Donations { get; set; } = new List<Donation>();
+
         public decimal MonthlyPaymentTotal
         {
             get
             {
-                int monthsOwedFor = 0;
+                var monthsOwedFor = 0;
                 if (LastMonthlyPaymentDate != null)
                 {
-                    DateTime iterationDate = new DateTime(LastMonthlyPaymentDate.Value.Ticks);
-                    
+                    var iterationDate = new DateTime(LastMonthlyPaymentDate.Value.Ticks);
+
                     monthsOwedFor = NumberOfMonthsBetweenTwoDates(iterationDate, DateTime.Today);
                 }
 
                 return monthsOwedFor * MonthlyPaymentAmount;
             }
         }
-        private int NumberOfMonthsBetweenTwoDates(DateTime startDateTime, DateTime endDateTime)
+
+        private static int NumberOfMonthsBetweenTwoDates(DateTime startDateTime, DateTime endDateTime)
         {
-            return ((endDateTime.Year - startDateTime.Year)*12) + (endDateTime.Month - startDateTime.Month);
+            return ((endDateTime.Year - startDateTime.Year) * 12) + (endDateTime.Month - startDateTime.Month);
         }
+
         public List<Donation> UnpaidDonations => GetUnpaidDonations();
         public List<Donation> PaidDonations => GetPaidDonations();
 
         public override bool Equals(object obj)
         {
-            var other = obj as Account;
-            if (ReferenceEquals(null, other))
+            if (!(obj is Account other))
             {
                 return false;
             }
 
-            return ReferenceEquals(this, other) ||
-                   (ID == other.ID &&
-                   (LastMonthlyPaymentDate == null || LastMonthlyPaymentDate.Equals(other.LastMonthlyPaymentDate)) &&
-                    PersonID == other.PersonID &&
-                    MonthlyPaymentAmount == other.MonthlyPaymentAmount &&
-                    Enumerable.SequenceEqual(Donations ?? new List<Donation>(), other.Donations ?? new List<Donation>()));
+            return ReferenceEquals(this, other)
+                   || (Id == other.Id
+                   && (LastMonthlyPaymentDate == null || LastMonthlyPaymentDate.Equals(other.LastMonthlyPaymentDate))
+                   && PersonId == other.PersonId
+                   && MonthlyPaymentAmount == other.MonthlyPaymentAmount
+                   && (Donations ?? new List<Donation>()).SequenceEqual(other.Donations ?? new List<Donation>()));
         }
 
         public override string ToString()
         {
-            string donations = "";
-            foreach (Donation CurrDonation in UnpaidDonations)
+            var donations = "";
+            foreach (var curDonation in UnpaidDonations)
             {
-                donations += CurrDonation.ToString();
+                donations += curDonation.ToString();
                 donations += "\n";
             }
 
-            foreach (Donation CurrPaidDonation in PaidDonations)
+            foreach (var curPaidDonation in PaidDonations)
             {
-                donations += CurrPaidDonation.ToString();
+                donations += curPaidDonation.ToString();
                 donations += "\n";
             }
             if (donations.Length > 1)
@@ -84,7 +72,7 @@ namespace DataCache.Models
             }
 
             // TODO string should represent whether LastMonthlyPaymentDate is null
-            // TODO string should relect the absence of any donations
+            // TODO string should reflect the absence of any donations
             //TODO should include information on amount paying every month
 
             return $"Total owed for the monthly payment: '{MonthlyPaymentTotal}'\n" +

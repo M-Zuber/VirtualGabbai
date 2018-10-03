@@ -1,5 +1,4 @@
 using DataCache.Models;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
 
 namespace DataCache.Mapping
@@ -9,18 +8,18 @@ namespace DataCache.Mapping
         public AccountsMap()
         {
             // Primary Key
-            HasKey(t => t.ID);
+            HasKey(t => t.Id);
 
             // Properties
-            Property(t => t.ID);
+            Property(t => t.Id);
 
             Ignore(t => t.PaidDonations);
             Ignore(t => t.UnpaidDonations);
 
             // Table & Column Mappings
             ToTable("Accounts", "ZeraLevi");
-            Property(t => t.ID).HasColumnName("ID");
-            Property(t => t.PersonID).HasColumnName("PersonID");
+            Property(t => t.Id).HasColumnName("ID");
+            Property(t => t.PersonId).HasColumnName("PersonID");
             Property(t => t.LastMonthlyPaymentDate).HasColumnName("LastMonthlyPaymentDate").HasColumnType("datetime2");
             Property(t => t.MonthlyPaymentAmount).HasColumnName("MonthlyPaymentAmount");
 

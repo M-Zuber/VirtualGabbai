@@ -58,7 +58,7 @@ namespace DataAccess.IntegrationTests
         {
             var item = Helper.SetupData(_ctx);
 
-            Assert.IsTrue(_repository.Exists(item.ID));
+            Assert.IsTrue(_repository.Exists(item.Id));
         }
 
         [TestMethod]
@@ -72,7 +72,7 @@ namespace DataAccess.IntegrationTests
         [TestMethod]
         public void GetByID_No_Data_Returns_Null()
         {
-            Assert.IsNull(_repository.GetByID(1));
+            Assert.IsNull(_repository.GetById(1));
         }
 
         [TestMethod]
@@ -80,7 +80,7 @@ namespace DataAccess.IntegrationTests
         {
             var items = Helper.SetupData(_ctx, 1);
 
-            Assert.IsNull(_repository.GetByID(items.Max(d => d.ID) + 1));
+            Assert.IsNull(_repository.GetById(items.Max(d => d.Id) + 1));
         }
 
         [TestMethod]
@@ -88,7 +88,7 @@ namespace DataAccess.IntegrationTests
         {
             var expected = Helper.SetupData(_ctx);
 
-            Assert.AreEqual(expected, _repository.GetByID(expected.ID));
+            Assert.AreEqual(expected, _repository.GetById(expected.Id));
         }
 
         [TestMethod]
@@ -139,7 +139,7 @@ namespace DataAccess.IntegrationTests
 
             var item = Helper.GenFuSetup(1, before.Select(pt => pt.Name))
                              .First();
-            item.ID = before.Max(p => p.ID) + 1;
+            item.Id = before.Max(p => p.Id) + 1;
 
             _repository.Delete(item);
 
@@ -186,7 +186,7 @@ namespace DataAccess.IntegrationTests
 
             _repository.Save(item);
 
-            var expected = _repository.GetByID(item.ID);
+            var expected = _repository.GetById(item.Id);
             Assert.IsNotNull(expected);
             Assert.AreEqual(expected, item);
 
@@ -204,7 +204,7 @@ namespace DataAccess.IntegrationTests
 
             _repository.Save(item);
 
-            var after = _repository.GetByID(item.ID);
+            var after = _repository.GetById(item.Id);
 
             Assert.AreEqual(item, after);
         }

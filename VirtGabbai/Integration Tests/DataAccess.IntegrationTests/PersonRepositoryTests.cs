@@ -59,7 +59,7 @@ namespace DataAccess.IntegrationTests
         {
             var person = Helper.SetupData(_ctx);
 
-            Assert.IsTrue(_repository.Exists(person.ID));
+            Assert.IsTrue(_repository.Exists(person.Id));
         }
 
         [TestMethod]
@@ -73,7 +73,7 @@ namespace DataAccess.IntegrationTests
         [TestMethod]
         public void GetByID_No_Data_Returns_Null()
         {
-            Assert.IsNull(_repository.GetByID(1));
+            Assert.IsNull(_repository.GetById(1));
         }
 
         [TestMethod]
@@ -81,7 +81,7 @@ namespace DataAccess.IntegrationTests
         {
             var people = Helper.SetupData(_ctx, 2);
 
-            Assert.IsNull(_repository.GetByID(people.Max(d => d.ID) + 1));
+            Assert.IsNull(_repository.GetById(people.Max(d => d.Id) + 1));
         }
 
         [TestMethod]
@@ -89,7 +89,7 @@ namespace DataAccess.IntegrationTests
         {
             var expected = Helper.SetupData(_ctx);
 
-            Assert.AreEqual(expected, _repository.GetByID(expected.ID));
+            Assert.AreEqual(expected, _repository.GetById(expected.Id));
         }
 
         [TestMethod]
@@ -139,7 +139,7 @@ namespace DataAccess.IntegrationTests
             var before = Helper.SetupData(_ctx, 5);
 
             var person = Helper.GenFuSetup(1, Enumerable.Empty<string>()).First();
-            person.ID = before.Max(p => p.ID) + 1;
+            person.Id = before.Max(p => p.Id) + 1;
 
             _repository.Delete(person);
 
@@ -205,7 +205,7 @@ namespace DataAccess.IntegrationTests
 
             _repository.Save(person);
 
-            var after = _repository.GetByID(person.ID);
+            var after = _repository.GetById(person.Id);
 
             Assert.AreEqual(person, after);
         }
@@ -238,9 +238,9 @@ namespace DataAccess.IntegrationTests
                  .AsPastDate();
                 GenFu.GenFu.Configure<Account>()
                  .Fill(p => p.Donations, GenFu.GenFu.ListOf<Donation>())
-                 .Fill(a => a.ID, 0);
+                 .Fill(a => a.Id, 0);
                 GenFu.GenFu.Configure<Person>()
-                 .Fill(p => p.ID, 0);
+                 .Fill(p => p.Id, 0);
                 var people = GenFu.GenFu.ListOf<Person>(count);
 
                 foreach (var person in people)

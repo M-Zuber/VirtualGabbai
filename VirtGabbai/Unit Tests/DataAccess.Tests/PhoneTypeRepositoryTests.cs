@@ -36,7 +36,7 @@ namespace DataAccess.Tests
         {
             var mock = RepositoryMocks.GetMockPhoneTypeRepository();
 
-            var actual = mock.GetByID(1);
+            var actual = mock.GetById(1);
 
             Assert.IsNull(actual);
         }
@@ -46,7 +46,7 @@ namespace DataAccess.Tests
         {
             var mock = RepositoryMocks.GetMockPhoneTypeRepository(new List<PhoneType> { new PhoneType(2, "second") });
 
-            var actual = mock.GetByID(1);
+            var actual = mock.GetById(1);
 
             Assert.IsNull(actual);
         }
@@ -57,7 +57,7 @@ namespace DataAccess.Tests
             var expected = new PhoneType(1, "First");
             var mock = RepositoryMocks.GetMockPhoneTypeRepository(new List<PhoneType> { expected });
 
-            var actual = mock.GetByID(1);
+            var actual = mock.GetById(1);
 
             Assert.IsNotNull(actual);
             Assert.AreEqual(expected, actual);

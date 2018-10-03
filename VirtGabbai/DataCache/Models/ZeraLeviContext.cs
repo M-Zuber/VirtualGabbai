@@ -1,10 +1,9 @@
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using DataCache.Mapping;
 
 namespace DataCache.Models
 {
-    public partial class ZeraLeviContext : DbContext
+    public class ZeraLeviContext : DbContext
     {
         public ZeraLeviContext()
             : this("Name=VGContext")

@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Framework
 {
@@ -22,18 +20,21 @@ namespace Framework
                 return true;
             }
 
-            if ((source == null && value != null) || (source != null && value == null))
+            if (source == null || value == null)
             {
                 return false;
             }
-            if (source.Count() != value.Count())
+
+            var sourceList = source.ToList();
+            var valueList = value.ToList();
+            if (sourceList.Count != valueList.Count)
             {
                 return false;
             }
-            
-            for (int i = 0; i < source.Count(); i++)
+
+            for (var i = 0; i < sourceList.Count; i++)
             {
-                if ((!source.Contains(value.ElementAt(i))) || (!value.Contains(source.ElementAt(i))))
+                if (!sourceList.Contains(valueList[i]) || !valueList.Contains(sourceList[i]))
                 {
                     return false;
                 }
@@ -45,16 +46,10 @@ namespace Framework
         public static bool Contains<TSource>(this IEnumerable<TSource> source, IEnumerable<TSource> value)
         {
             //TODO try and catch -in catch throw exception (new or otherwise) size exceeeded if size is different
-            for (int i = 0; i < value.Count(); i++)
-            {
-                //TODO is it enough to check only this direction?
-                if ((!source.Contains(value.ElementAt(i))))
-                {
-                    return false;
-                }
-            }
+            var valueList = value.ToList();
+            var sourceList = source.ToList();
 
-            return true;
+            return valueList.All(t => sourceList.Contains(t));
         }
     }
 }

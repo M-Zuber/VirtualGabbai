@@ -2,16 +2,14 @@
 using DataCache.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data.Entity;
+using System.Linq;
 
 namespace DataAccess
 {
     public class PrivilegeRepository : IReadOnlyRepository<Privilege>
     {
-        private ZeraLeviContext _context;
+        private readonly ZeraLeviContext _context;
 
         public DbSet<Privilege> Entities => _context.Privileges;
 
@@ -22,14 +20,14 @@ namespace DataAccess
 
         public IEnumerable<Privilege> Get() => Entities;
 
-        public Privilege GetByID(int id) => Entities.FirstOrDefault(p => p.ID == id);
+        public Privilege GetById(int id) => Entities.FirstOrDefault(p => p.Id == id);
 
         public Privilege GetByName(string name) => Entities.FirstOrDefault(p => p.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
 
         public bool NameExists(string name) => GetByName(name) != null;
 
-        public bool Exists(int id) => Entities.Any(p => p.ID == id);
+        public bool Exists(int id) => Entities.Any(p => p.Id == id);
 
-        public bool Exists(Privilege item) => item != null && Exists(item.ID);
+        public bool Exists(Privilege item) => item != null && Exists(item.Id);
     }
 }

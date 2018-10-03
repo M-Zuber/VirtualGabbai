@@ -1,53 +1,37 @@
 using Framework;
-using System;
 using System.Collections.Generic;
 
 namespace DataCache.Models
 {
-    public partial class PrivilegesGroup
+    public class PrivilegesGroup
     {
-        public PrivilegesGroup()
-        {
-
-        }
-        public PrivilegesGroup(int id, string groupName, List<Privilege> privileges)
-        {
-            ID = id;
-            GroupName = groupName;
-            Privileges = privileges;
-        }
-
-        public int ID { get; set; }
+        public int Id { get; set; }
         public string GroupName { get; set; }
         public virtual ICollection<User> Users { get; set; }
         public virtual ICollection<Privilege> Privileges { get; set; } = new List<Privilege>();
 
-        public static PrivilegesGroup Createt_privilege_groups(int _Id) => new PrivilegesGroup { ID = _Id };
-
         public override bool Equals(object obj)
         {
-            PrivilegesGroup other = obj as PrivilegesGroup;
-
-            if (ReferenceEquals(null, other))
+            if (!(obj is PrivilegesGroup other))
             {
                 return false;
             }
 
-            return ReferenceEquals(this, other) ||
-                   (ID == other.ID &&
-                    GroupName == other.GroupName &&
-                    Privileges.SameAs(other.Privileges));
+            return ReferenceEquals(this, other)
+                   || (Id == other.Id
+                   && GroupName == other.GroupName
+                   && Privileges.SameAs(other.Privileges));
         }
 
-        public override int GetHashCode() => ID.GetHashCode();
+        public override int GetHashCode() => Id.GetHashCode();
 
         public override string ToString()
         {
-            string privilegeGroupString = GroupName;
+            var privilegeGroupString = GroupName;
 
-            foreach (Privilege CurrPrivilege in Privileges)
+            foreach (var curPrivilege in Privileges)
             {
-                privilegeGroupString += "\n" + CurrPrivilege.ToString();
+                privilegeGroupString += "\n" + curPrivilege;
             }
 
             return privilegeGroupString;

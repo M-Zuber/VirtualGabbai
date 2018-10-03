@@ -10,18 +10,18 @@ namespace DataCache.Mapping
         public PrivilegesMap()
         {
             // Primary Key
-            this.HasKey(t => t.ID);
+            HasKey(t => t.Id);
 
             // Properties
-            this.Property(t => t.ID);
+            Property(t => t.Id);
 
-            this.Property(t => t.Name)
+            Property(t => t.Name)
                 .HasMaxLength(45);
 
             // Table & Column Mappings
-            this.ToTable("Privileges", "ZeraLevi");
-            this.Property(t => t.ID).HasColumnName("ID");
-            this.Property(t => t.Name)
+            ToTable("Privileges", "ZeraLevi");
+            Property(t => t.Id).HasColumnName("ID");
+            Property(t => t.Name)
                 .HasColumnName("Name")
                 .HasColumnAnnotation(IndexAnnotation.AnnotationName,
                             new IndexAnnotation(new IndexAttribute("IX_Privileges_Name") { IsUnique = true }));

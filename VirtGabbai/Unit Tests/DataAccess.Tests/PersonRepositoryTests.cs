@@ -36,7 +36,7 @@ namespace DataAccess.Tests
         {
             var mock = RepositoryMocks.GetMockPersonRepository();
 
-            var actual = mock.GetByID(1);
+            var actual = mock.GetById(1);
 
             Assert.IsNull(actual);
         }
@@ -46,7 +46,7 @@ namespace DataAccess.Tests
         {
             var mock = RepositoryMocks.GetMockPersonRepository(new List<Person> { new Person() });
 
-            var actual = mock.GetByID(1);
+            var actual = mock.GetById(1);
 
             Assert.IsNull(actual);
         }
@@ -54,10 +54,10 @@ namespace DataAccess.Tests
         [TestMethod]
         public void GetByID_Returns_The_Item_With_The_Given_ID()
         {
-            var expected = new Person { ID = 1 };
+            var expected = new Person { Id = 1 };
             var mock = RepositoryMocks.GetMockPersonRepository(new List<Person> { expected });
 
-            var actual = mock.GetByID(1);
+            var actual = mock.GetById(1);
 
             Assert.IsNotNull(actual);
             Assert.AreEqual(expected, actual);
@@ -74,7 +74,7 @@ namespace DataAccess.Tests
         [TestMethod]
         public void Exists_Match_Found_Returns_True()
         {
-            var mock = RepositoryMocks.GetMockPersonRepository(new List<Person> { new Person { ID = 1 } });
+            var mock = RepositoryMocks.GetMockPersonRepository(new List<Person> { new Person { Id = 1 } });
 
             Assert.IsTrue(mock.Exists(1));
         }
@@ -90,17 +90,17 @@ namespace DataAccess.Tests
         [TestMethod]
         public void Exists_Item_No_Match_Returns_False()
         {
-            var mock = RepositoryMocks.GetMockPersonRepository(new List<Person> { new Person { ID = 1 } });
+            var mock = RepositoryMocks.GetMockPersonRepository(new List<Person> { new Person { Id = 1 } });
 
-            Assert.IsFalse(mock.Exists(new Person { ID = 2 }));
+            Assert.IsFalse(mock.Exists(new Person { Id = 2 }));
         }
 
         [TestMethod]
         public void Exists_Item_Match_Found_Returns_True()
         {
-            var mock = RepositoryMocks.GetMockPersonRepository(new List<Person> { new Person { ID = 1 } });
+            var mock = RepositoryMocks.GetMockPersonRepository(new List<Person> { new Person { Id = 1 } });
 
-            Assert.IsTrue(mock.Exists(new Person { ID = 1 }));
+            Assert.IsTrue(mock.Exists(new Person { Id = 1 }));
         }
     }
 }

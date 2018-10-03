@@ -10,10 +10,10 @@ namespace DataCache.Mapping
         public PhoneTypesMap()
         {
             // Primary Key
-            HasKey(t => t.ID);
+            HasKey(t => t.Id);
 
             // Properties
-            Property(t => t.ID);
+            Property(t => t.Id);
 
             Property(t => t.Name)
                 .IsRequired()
@@ -21,7 +21,7 @@ namespace DataCache.Mapping
 
             // Table & Column Mappings
             ToTable("PhoneTypes", "ZeraLevi");
-            Property(t => t.ID).HasColumnName("ID");
+            Property(t => t.Id).HasColumnName("ID");
             Property(t => t.Name)
                 .HasColumnName("Name")
                 .HasColumnAnnotation(IndexAnnotation.AnnotationName,

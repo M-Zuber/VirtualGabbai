@@ -36,7 +36,7 @@ namespace DataAccess.Tests
         {
             var mock = RepositoryMocks.GetMockPrivilegeRepository();
 
-            var actual = mock.GetByID(1);
+            var actual = mock.GetById(1);
 
             Assert.IsNull(actual);
         }
@@ -46,7 +46,7 @@ namespace DataAccess.Tests
         {
             var mock = RepositoryMocks.GetMockPrivilegeRepository(new List<Privilege> { new Privilege(2, "second") });
 
-            var actual = mock.GetByID(1);
+            var actual = mock.GetById(1);
 
             Assert.IsNull(actual);
         }
@@ -57,7 +57,7 @@ namespace DataAccess.Tests
             var expected = new Privilege(1, "First");
             var mock = RepositoryMocks.GetMockPrivilegeRepository(new List<Privilege> { expected });
 
-            var actual = mock.GetByID(1);
+            var actual = mock.GetById(1);
 
             Assert.IsNotNull(actual);
             Assert.AreEqual(expected, actual);
@@ -148,7 +148,7 @@ namespace DataAccess.Tests
         {
             var mock = RepositoryMocks.GetMockPrivilegeRepository(new List<Privilege> { new Privilege(1, "Admin") });
 
-            Assert.IsFalse(mock.Exists(new Privilege { ID = 2 }));
+            Assert.IsFalse(mock.Exists(new Privilege { Id = 2 }));
         }
 
         [TestMethod]
@@ -156,7 +156,7 @@ namespace DataAccess.Tests
         {
             var mock = RepositoryMocks.GetMockPrivilegeRepository(new List<Privilege> { new Privilege(1, "Admin") });
 
-            Assert.IsTrue(mock.Exists(new Privilege { ID = 1 }));
+            Assert.IsTrue(mock.Exists(new Privilege { Id = 1 }));
         }
     }
 }

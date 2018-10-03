@@ -2,16 +2,14 @@
 using DataCache.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data.Entity;
+using System.Linq;
 
 namespace DataAccess
 {
     public class PhoneTypeRepository : IFullAccessRepository<PhoneType>
     {
-        private ZeraLeviContext _context;
+        private readonly ZeraLeviContext _context;
 
         public DbSet<PhoneType> Entities => _context.PhoneTypes;
 
@@ -22,15 +20,15 @@ namespace DataAccess
 
         public IEnumerable<PhoneType> Get() => Entities;
 
-        public PhoneType GetByID(int id) => Entities.FirstOrDefault(pt => pt.ID == id);
+        public PhoneType GetById(int id) => Entities.FirstOrDefault(pt => pt.Id == id);
 
         public PhoneType GetByName(string name) => Entities.FirstOrDefault(pt => pt.Name.Equals(name, StringComparison.InvariantCultureIgnoreCase));
 
         public bool NameExists(string name) => GetByName(name) != null;
 
-        public bool Exists(int id) => Entities.Any(pt => pt.ID == id);
+        public bool Exists(int id) => Entities.Any(pt => pt.Id == id);
 
-        public bool Exists(PhoneType item) => item != null && Exists(item.ID);
+        public bool Exists(PhoneType item) => item != null && Exists(item.Id);
 
         public void Add(PhoneType item)
         {
@@ -54,18 +52,17 @@ namespace DataAccess
         {
             if (item != null)
             {
-                var current = GetByID(item.ID);
+                var current = GetById(item.Id);
 
                 if (current == null)
                 {
-                    current = new PhoneType();
-                    current.Name = item.Name;
+                    current = new PhoneType { Name = item.Name };
                     Entities.Add(current);
                 }
 
                 _context.SaveChanges();
 
-                item.ID = current.ID;
+                item.Id = current.Id;
             }
         }
     }
