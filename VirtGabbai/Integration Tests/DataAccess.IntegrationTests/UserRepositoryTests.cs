@@ -247,7 +247,7 @@ namespace DataAccess.IntegrationTests
 
                 for (var i = 0; i < privileges.Count / slice; i++)
                 {
-                    listOfPrivilegeLists.Add(privileges.Skip(i * slice).Take(i * slice).DistinctBy(p => p.Name, StringComparer.CurrentCultureIgnoreCase).ToList());
+                    listOfPrivilegeLists.Add(privileges.Skip(i * slice).Take(slice).DistinctBy(p => p.Name, StringComparer.CurrentCultureIgnoreCase).ToList());
                 }
 
                 GenFu.GenFu.Configure<PrivilegesGroup>()
