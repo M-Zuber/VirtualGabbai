@@ -1,15 +1,11 @@
 ﻿using DataCache.Models;
 using Moq;
-using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess.Tests
 {
-    //TODO move this into a seperate project
+    //TODO move this into a separate project
     internal static class RepositoryMocks
     {
         internal static PhoneTypeRepository GetMockPhoneTypeRepository(List<PhoneType> data = null)

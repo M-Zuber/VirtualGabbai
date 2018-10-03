@@ -1,14 +1,11 @@
 ﻿using DataCache.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess.Tests
 {
-    [TestClass()]
+    [TestClass]
     public class PrivilegesGroupRepositoryTests
     {
         [TestMethod]
@@ -47,7 +44,7 @@ namespace DataAccess.Tests
         [TestMethod]
         public void GetByID_No_Match_Returns_Null()
         {
-            var mock = RepositoryMocks.GetMockPrivilegesGroupRepository(new List<PrivilegesGroup> { new PrivilegesGroup(2, "second", new List<Privilege> { new Privilege(1, "admin")}) });
+            var mock = RepositoryMocks.GetMockPrivilegesGroupRepository(new List<PrivilegesGroup> { new PrivilegesGroup(2, "second", new List<Privilege> { new Privilege(1, "admin") }) });
 
             var actual = mock.GetByID(1);
 
@@ -151,7 +148,7 @@ namespace DataAccess.Tests
         {
             var mock = RepositoryMocks.GetMockPrivilegesGroupRepository(new List<PrivilegesGroup> { new PrivilegesGroup(1, "Admin", new List<Privilege>()) });
 
-            Assert.IsFalse(mock.Exists(new PrivilegesGroup { ID = 2}));
+            Assert.IsFalse(mock.Exists(new PrivilegesGroup { ID = 2 }));
         }
 
         [TestMethod]
@@ -159,7 +156,7 @@ namespace DataAccess.Tests
         {
             var mock = RepositoryMocks.GetMockPrivilegesGroupRepository(new List<PrivilegesGroup> { new PrivilegesGroup(1, "Admin", new List<Privilege>()) });
 
-            Assert.IsTrue(mock.Exists(new PrivilegesGroup { ID = 1}));
+            Assert.IsTrue(mock.Exists(new PrivilegesGroup { ID = 1 }));
         }
     }
 }

@@ -1,29 +1,25 @@
-﻿using DataAccess.IntegrationTests.Helpers;
-using DataCache.Models;
-using GenFu;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using DataAccess.IntegrationTests.Helpers;
+using DataCache.Models;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DataAccess.IntegrationTests
 {
-    [TestClass()]
+    [TestClass]
     public class YahrtziehtRepositoryTests
     {
-        VGTestContext _ctx = new VGTestContext();
-        YahrtziehtRepository repository;
+        private readonly VgTestContext _ctx = new VgTestContext();
+        private YahrtziehtRepository _repository;
 
-        [TestInitialize()]
+        [TestInitialize]
         public void Setup()
         {
             _ctx.Database.Delete();
-            repository = new YahrtziehtRepository(_ctx);
+            _repository = new YahrtziehtRepository(_ctx);
         }
 
-        [TestCleanup()]
+        [TestCleanup]
         public void Cleanup()
         {
             _ctx.Database.Delete();
@@ -32,14 +28,14 @@ namespace DataAccess.IntegrationTests
         [TestMethod]
         public void Exists_Item_Null_Item_Returns_False()
         {
-            Assert.IsFalse(repository.Exists(null));
+            Assert.IsFalse(_repository.Exists(null));
         }
 
         [TestMethod]
         public void Exists_Item_No_Match_Returns_False()
         {
-            var item = A.New<Yahrtzieht>();
-            Assert.IsFalse(repository.Exists(item));
+            var item = GenFu.GenFu.New<Yahrtzieht>();
+            Assert.IsFalse(_repository.Exists(item));
         }
 
         [TestMethod]
@@ -47,13 +43,13 @@ namespace DataAccess.IntegrationTests
         {
             var item = Helper.SetupData(_ctx);
 
-            Assert.IsTrue(repository.Exists(item));
+            Assert.IsTrue(_repository.Exists(item));
         }
 
         [TestMethod]
         public void Exists_ID_No_Match_Returns_False()
         {
-            Assert.IsFalse(repository.Exists(1));
+            Assert.IsFalse(_repository.Exists(1));
         }
 
         [TestMethod]
@@ -61,7 +57,7 @@ namespace DataAccess.IntegrationTests
         {
             var item = Helper.SetupData(_ctx);
 
-            Assert.IsTrue(repository.Exists(item.ID));
+            Assert.IsTrue(_repository.Exists(item.ID));
         }
 
         [TestMethod]
@@ -69,13 +65,13 @@ namespace DataAccess.IntegrationTests
         {
             var items = Helper.SetupData(_ctx, 5);
 
-            CollectionAssert.AreEquivalent(items, repository.Get().ToList());
+            CollectionAssert.AreEquivalent(items, _repository.Get().ToList());
         }
 
         [TestMethod]
         public void GetByID_No_Data_Returns_Null()
         {
-            Assert.IsNull(repository.GetByID(1));
+            Assert.IsNull(_repository.GetByID(1));
         }
 
         [TestMethod]
@@ -83,7 +79,7 @@ namespace DataAccess.IntegrationTests
         {
             var item = Helper.SetupData(_ctx);
 
-            Assert.IsNull(repository.GetByID(item.ID + 1));
+            Assert.IsNull(_repository.GetByID(item.ID + 1));
         }
 
         [TestMethod]
@@ -91,21 +87,21 @@ namespace DataAccess.IntegrationTests
         {
             var expected = Helper.SetupData(_ctx);
 
-            Assert.AreEqual(expected, repository.GetByID(expected.ID));
+            Assert.AreEqual(expected, _repository.GetByID(expected.ID));
         }
 
-        class Helper
+        private static class Helper
         {
-            public static Yahrtzieht SetupData(VGTestContext ctx) => SetupData(ctx, 1).First();
+            public static Yahrtzieht SetupData(ZeraLeviContext ctx) => SetupData(ctx, 1).First();
 
-            public static List<Yahrtzieht> SetupData(VGTestContext ctx, int count)
+            public static List<Yahrtzieht> SetupData(ZeraLeviContext ctx, int count)
             {
-                var people = A.ListOf<Person>(count);
-                List<Yahrtzieht> items = new List<Yahrtzieht>();
+                var people = GenFu.GenFu.ListOf<Person>(count);
+                var items = new List<Yahrtzieht>();
 
                 foreach (var person in people)
                 {
-                    var yahrtziehts = A.ListOf<Yahrtzieht>(count);
+                    var yahrtziehts = GenFu.GenFu.ListOf<Yahrtzieht>(count);
                     person.Yahrtziehts = yahrtziehts;
                     items.AddRange(yahrtziehts);
                 }

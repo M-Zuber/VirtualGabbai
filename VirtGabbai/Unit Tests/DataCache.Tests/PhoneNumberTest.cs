@@ -1,24 +1,23 @@
 ﻿using DataCache.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 
 namespace DataCache.Tests
 {
-    [TestClass()]
+    [TestClass]
     public class PhoneNumberTest
     {
-        private PhoneNumber targetPhoneNumber = null;
+        private PhoneNumber _targetPhoneNumber;
 
-        [TestInitialize()]
+        [TestInitialize]
         public void MyTestInitialize()
         {
-            targetPhoneNumber = new PhoneNumber(1, "0546137475", new PhoneType(1, "cell phone"));
+            _targetPhoneNumber = new PhoneNumber(1, "0546137475", new PhoneType(1, "cell phone"));
         }
-        
-        [TestCleanup()]
+
+        [TestCleanup]
         public void MyTestCleanup()
         {
-            targetPhoneNumber = null;
+            _targetPhoneNumber = null;
         }
 
         #region Equals Test
@@ -26,72 +25,74 @@ namespace DataCache.Tests
         /// <summary>
         ///Comparing two phone numbers with no differences
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void PhoneNumber_Equals_NoDifferences()
         {
-            PhoneNumber comparedNumber = new PhoneNumber(1, "0546137475", new PhoneType(1, "cell phone"));
-            Assert.IsTrue(targetPhoneNumber.Equals(comparedNumber));
+            var comparedNumber = new PhoneNumber(1, "0546137475", new PhoneType(1, "cell phone"));
+            Assert.IsTrue(_targetPhoneNumber.Equals(comparedNumber));
         }
 
         /// <summary>
         ///Comparing two phone numbers with a difference in every field
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void PhoneNumber_Equals_DifferenceInEveryField()
         {
-            PhoneNumber comparedNumber = new PhoneNumber(2, "0546147485", new PhoneType(2, "house phone"));
-            Assert.IsFalse(targetPhoneNumber.Equals(comparedNumber));
+            var comparedNumber = new PhoneNumber(2, "0546147485", new PhoneType(2, "house phone"));
+            Assert.IsFalse(_targetPhoneNumber.Equals(comparedNumber));
         }
 
         /// <summary>
         ///Comparing two phone numbers with a difference in the id
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void PhoneNumber_Equals_DifferenceInId()
         {
-            PhoneNumber comparedNumber = new PhoneNumber(2, "0546137475", new PhoneType(1, "cell phone"));
-            Assert.IsFalse(targetPhoneNumber.Equals(comparedNumber));
+            var comparedNumber = new PhoneNumber(2, "0546137475", new PhoneType(1, "cell phone"));
+            Assert.IsFalse(_targetPhoneNumber.Equals(comparedNumber));
         }
 
         /// <summary>
         ///Comparing two phone numbers with a difference in the numnber
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void PhoneNumber_Equals_DifferenceInNumber()
         {
-            PhoneNumber comparedNumber = new PhoneNumber(1, "0546147485", new PhoneType(1, "cell phone"));
-            Assert.IsFalse(targetPhoneNumber.Equals(comparedNumber));
+            var comparedNumber = new PhoneNumber(1, "0546147485", new PhoneType(1, "cell phone"));
+            Assert.IsFalse(_targetPhoneNumber.Equals(comparedNumber));
         }
 
         /// <summary>
         ///Comparing two phone numbers with a difference in the type
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void PhoneNumber_Equals_DifferenceInType()
         {
-            PhoneNumber comparedNumber = new PhoneNumber(1, "0546137475", new PhoneType(2, "house phone"));
-            Assert.IsFalse(targetPhoneNumber.Equals(comparedNumber));
+            var comparedNumber = new PhoneNumber(1, "0546137475", new PhoneType(2, "house phone"));
+            Assert.IsFalse(_targetPhoneNumber.Equals(comparedNumber));
         }
 
         [TestMethod]
         public void PhoneNumber_Equals_Null_Returns_False()
         {
-            Assert.IsFalse(targetPhoneNumber.Equals(null));
+            Assert.IsFalse(_targetPhoneNumber.Equals(null));
         }
 
         [TestMethod]
         public void PhoneNumber_Equals_Non_PhoneNumber_Returns_False()
         {
-            Assert.IsFalse(targetPhoneNumber.Equals(0));
+            // ReSharper disable SuspiciousTypeConversion.Global
+            Assert.IsFalse(_targetPhoneNumber.Equals(0));
+            // ReSharper restore SuspiciousTypeConversion.Global
         }
 
         [TestMethod]
         public void PhoneNumber_Equals_Same_Ref_Returns_True()
         {
-            var other = targetPhoneNumber;
+            var other = _targetPhoneNumber;
 
-            Assert.IsTrue(targetPhoneNumber.Equals(other));
-            Assert.IsTrue(other.Equals(targetPhoneNumber));
+            Assert.IsTrue(_targetPhoneNumber.Equals(other));
+            Assert.IsTrue(other.Equals(_targetPhoneNumber));
         }
 
         #endregion
@@ -101,12 +102,12 @@ namespace DataCache.Tests
         /// <summary>
         ///PhoneNumber.ToString() test
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void PhoneNUmber_ToString()
         {
-            string expected = "Number:\"" + targetPhoneNumber.Number + "\" " +
-                              targetPhoneNumber.Type.ToString();
-            string actual = targetPhoneNumber.ToString();
+            var expected = "Number:\"" + _targetPhoneNumber.Number + "\" " +
+                              _targetPhoneNumber.Type;
+            var actual = _targetPhoneNumber.ToString();
             Assert.AreEqual(expected, actual);
         }
 

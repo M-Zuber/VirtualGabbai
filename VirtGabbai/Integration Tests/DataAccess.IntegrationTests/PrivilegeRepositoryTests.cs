@@ -1,29 +1,26 @@
-﻿using DataAccess.IntegrationTests.Helpers;
-using DataCache.Models;
-using GenFu;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using DataAccess.IntegrationTests.Helpers;
+using DataCache.Models;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DataAccess.IntegrationTests
 {
-    [TestClass()]
+    [TestClass]
     public class PrivilegeRepositoryTests
     {
-        VGTestContext _ctx = new VGTestContext();
-        PrivilegeRepository repository;
+        private readonly VgTestContext _ctx = new VgTestContext();
+        private PrivilegeRepository _repository;
 
-        [TestInitialize()]
+        [TestInitialize]
         public void Setup()
         {
             _ctx.Database.Delete();
-            repository = new PrivilegeRepository(_ctx);
+            _repository = new PrivilegeRepository(_ctx);
         }
 
-        [TestCleanup()]
+        [TestCleanup]
         public void Cleanup()
         {
             _ctx.Database.Delete();
@@ -32,14 +29,14 @@ namespace DataAccess.IntegrationTests
         [TestMethod]
         public void Exists_Item_Null_Item_Returns_False()
         {
-            Assert.IsFalse(repository.Exists(null));
+            Assert.IsFalse(_repository.Exists(null));
         }
 
         [TestMethod]
         public void Exists_Item_No_Match_Returns_False()
         {
-            var item = A.New<Privilege>();
-            Assert.IsFalse(repository.Exists(item));
+            var item = GenFu.GenFu.New<Privilege>();
+            Assert.IsFalse(_repository.Exists(item));
         }
 
         [TestMethod]
@@ -47,13 +44,13 @@ namespace DataAccess.IntegrationTests
         {
             var item = Helper.SetupData(_ctx);
 
-            Assert.IsTrue(repository.Exists(item));
+            Assert.IsTrue(_repository.Exists(item));
         }
 
         [TestMethod]
         public void Exists_ID_No_Match_Returns_False()
         {
-            Assert.IsFalse(repository.Exists(1));
+            Assert.IsFalse(_repository.Exists(1));
         }
 
         [TestMethod]
@@ -61,7 +58,7 @@ namespace DataAccess.IntegrationTests
         {
             var item = Helper.SetupData(_ctx);
 
-            Assert.IsTrue(repository.Exists(item.ID));
+            Assert.IsTrue(_repository.Exists(item.ID));
         }
 
         [TestMethod]
@@ -69,13 +66,13 @@ namespace DataAccess.IntegrationTests
         {
             var items = Helper.SetupData(_ctx, 5);
 
-            CollectionAssert.AreEquivalent(items, repository.Get().ToList());
+            CollectionAssert.AreEquivalent(items, _repository.Get().ToList());
         }
 
         [TestMethod]
         public void GetByID_No_Data_Returns_Null()
         {
-            Assert.IsNull(repository.GetByID(1));
+            Assert.IsNull(_repository.GetByID(1));
         }
 
         [TestMethod]
@@ -83,7 +80,7 @@ namespace DataAccess.IntegrationTests
         {
             var items = Helper.SetupData(_ctx, 1);
 
-            Assert.IsNull(repository.GetByID(items.Max(d => d.ID) + 1));
+            Assert.IsNull(_repository.GetByID(items.Max(d => d.ID) + 1));
         }
 
         [TestMethod]
@@ -91,22 +88,22 @@ namespace DataAccess.IntegrationTests
         {
             var expected = Helper.SetupData(_ctx);
 
-            Assert.AreEqual(expected, repository.GetByID(expected.ID));
+            Assert.AreEqual(expected, _repository.GetByID(expected.ID));
         }
 
-        class Helper
+        private static class Helper
         {
-            public static Privilege SetupData(VGTestContext ctx) => SetupData(ctx, 1).First();
+            public static Privilege SetupData(ZeraLeviContext ctx) => SetupData(ctx, 1).First();
 
-            public static List<Privilege> SetupData(VGTestContext ctx, int count)
+            public static List<Privilege> SetupData(ZeraLeviContext ctx, int count)
             {
-                var privilegeGroup = A.New<PrivilegesGroup>();
+                var privilegeGroup = GenFu.GenFu.New<PrivilegesGroup>();
                 var privileges = new List<Privilege>();
-                var generatedPrivileges = A.ListOf<Privilege>(count);
+                var generatedPrivileges = GenFu.GenFu.ListOf<Privilege>(count);
 
                 foreach (var gP in generatedPrivileges)
                 {
-                    if (privileges.FirstOrDefault(p => p.Name.Equals(gP.Name, StringComparison.CurrentCultureIgnoreCase)) == null)
+                    if (privileges.Find(p => p.Name.Equals(gP.Name, StringComparison.CurrentCultureIgnoreCase)) == null)
                     {
                         privileges.Add(gP);
                     }
@@ -114,11 +111,11 @@ namespace DataAccess.IntegrationTests
 
                 while (privileges.Count < count)
                 {
-                    generatedPrivileges = A.ListOf<Privilege>(count);
+                    generatedPrivileges = GenFu.GenFu.ListOf<Privilege>(count);
 
                     foreach (var gP in generatedPrivileges)
                     {
-                        if (privileges.FirstOrDefault(p => p.Name.Equals(gP.Name, StringComparison.CurrentCultureIgnoreCase)) == null)
+                        if (privileges.Find(p => p.Name.Equals(gP.Name, StringComparison.CurrentCultureIgnoreCase)) == null)
                         {
                             privileges.Add(gP);
                         }

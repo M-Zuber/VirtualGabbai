@@ -1,29 +1,27 @@
-﻿using DataAccess.IntegrationTests.Helpers;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using DataAccess.IntegrationTests.Helpers;
 using DataCache.Models;
 using GenFu;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess.IntegrationTests
 {
-    [TestClass()]
+    [TestClass]
     public class PhoneNumberRepositoryTests
     {
-        VGTestContext _ctx = new VGTestContext();
-        PhoneNumberRepository repository;
+        private readonly VgTestContext _ctx = new VgTestContext();
+        private PhoneNumberRepository _repository;
 
-        [TestInitialize()]
+        [TestInitialize]
         public void Setup()
         {
             _ctx.Database.Delete();
-            repository = new PhoneNumberRepository(_ctx);
+            _repository = new PhoneNumberRepository(_ctx);
         }
 
-        [TestCleanup()]
+        [TestCleanup]
         public void Cleanup()
         {
             _ctx.Database.Delete();
@@ -32,14 +30,14 @@ namespace DataAccess.IntegrationTests
         [TestMethod]
         public void Exists_Item_Null_Item_Returns_False()
         {
-            Assert.IsFalse(repository.Exists(null));
+            Assert.IsFalse(_repository.Exists(null));
         }
 
         [TestMethod]
         public void Exists_Item_No_Match_Returns_False()
         {
-            var item = A.New<PhoneNumber>();
-            Assert.IsFalse(repository.Exists(item));
+            var item = GenFu.GenFu.New<PhoneNumber>();
+            Assert.IsFalse(_repository.Exists(item));
         }
 
         [TestMethod]
@@ -47,13 +45,13 @@ namespace DataAccess.IntegrationTests
         {
             var phoneNumber = Helper.SetupData(_ctx);
 
-            Assert.IsTrue(repository.Exists(phoneNumber));
+            Assert.IsTrue(_repository.Exists(phoneNumber));
         }
 
         [TestMethod]
         public void Exists_ID_No_Match_Returns_False()
         {
-            Assert.IsFalse(repository.Exists(1));
+            Assert.IsFalse(_repository.Exists(1));
         }
 
         [TestMethod]
@@ -61,7 +59,7 @@ namespace DataAccess.IntegrationTests
         {
             var phoneNumber = Helper.SetupData(_ctx);
 
-            Assert.IsTrue(repository.Exists(phoneNumber.ID));
+            Assert.IsTrue(_repository.Exists(phoneNumber.ID));
         }
 
         [TestMethod]
@@ -69,13 +67,13 @@ namespace DataAccess.IntegrationTests
         {
             var phoneNumbers = Helper.SetupData(_ctx, 5);
 
-            CollectionAssert.AreEquivalent(phoneNumbers, repository.Get().ToList());
+            CollectionAssert.AreEquivalent(phoneNumbers, _repository.Get().ToList());
         }
 
         [TestMethod]
         public void GetByID_No_Data_Returns_Null()
         {
-            Assert.IsNull(repository.GetByID(1));
+            Assert.IsNull(_repository.GetByID(1));
         }
 
         [TestMethod]
@@ -83,7 +81,7 @@ namespace DataAccess.IntegrationTests
         {
             var phoneNumber = Helper.SetupData(_ctx);
 
-            Assert.IsNull(repository.GetByID(phoneNumber.ID + 1));
+            Assert.IsNull(_repository.GetByID(phoneNumber.ID + 1));
         }
 
         [TestMethod]
@@ -91,35 +89,35 @@ namespace DataAccess.IntegrationTests
         {
             var expected = Helper.SetupData(_ctx);
 
-            Assert.AreEqual(expected, repository.GetByID(expected.ID));
+            Assert.AreEqual(expected, _repository.GetByID(expected.ID));
         }
 
-        class Helper
+        private static class Helper
         {
-            public static void GenFuSetup()
+            private static void GenFuSetup()
             {
-                var generatedPhoneTypes = A.ListOf<PhoneType>();
+                var generatedPhoneTypes = GenFu.GenFu.ListOf<PhoneType>();
                 var phoneTypes = new List<PhoneType>();
-                foreach (var gPT in generatedPhoneTypes)
+                foreach (var gPt in generatedPhoneTypes)
                 {
-                    if (phoneTypes.FirstOrDefault(pt => pt.Name.Equals(gPT.Name, StringComparison.CurrentCultureIgnoreCase)) == null)
+                    if (phoneTypes.Find(pt => pt.Name.Equals(gPt.Name, StringComparison.CurrentCultureIgnoreCase)) == null)
                     {
-                        phoneTypes.Add(gPT);
+                        phoneTypes.Add(gPt);
                     }
-                }      
+                }
 
-                A.Configure<PhoneNumber>()
+                GenFu.GenFu.Configure<PhoneNumber>()
                     .Fill(pn => pn.Number)
                     .AsPhoneNumber()
                     .Fill(pn => pn.Type)
                     .WithRandom(phoneTypes);
             }
 
-            public static PhoneNumber SetupData(VGTestContext ctx)
+            public static PhoneNumber SetupData(ZeraLeviContext ctx)
             {
                 GenFuSetup();
-                var person = A.New<Person>();
-                person.PhoneNumbers = A.ListOf<PhoneNumber>(1);
+                var person = GenFu.GenFu.New<Person>();
+                person.PhoneNumbers = GenFu.GenFu.ListOf<PhoneNumber>(1);
                 ctx.People.Add(person);
 
                 ctx.SaveChanges();
@@ -127,15 +125,15 @@ namespace DataAccess.IntegrationTests
                 return person.PhoneNumbers.First();
             }
 
-            public static List<PhoneNumber> SetupData(VGTestContext ctx, int count)
+            public static List<PhoneNumber> SetupData(ZeraLeviContext ctx, int count)
             {
                 GenFuSetup();
-                var people = A.ListOf<Person>(count);
-                List<PhoneNumber> phoneNumbers = new List<PhoneNumber>();
+                var people = GenFu.GenFu.ListOf<Person>(count);
+                var phoneNumbers = new List<PhoneNumber>();
 
                 foreach (var person in people)
                 {
-                    var phoneNumber = A.ListOf<PhoneNumber>();
+                    var phoneNumber = GenFu.GenFu.ListOf<PhoneNumber>();
                     person.PhoneNumbers = phoneNumber;
                     phoneNumbers.AddRange(phoneNumber);
                 }

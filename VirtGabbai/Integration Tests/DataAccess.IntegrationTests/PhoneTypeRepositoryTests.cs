@@ -1,29 +1,26 @@
-﻿using DataAccess.IntegrationTests.Helpers;
-using DataCache.Models;
-using GenFu;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using DataAccess.IntegrationTests.Helpers;
+using DataCache.Models;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace DataAccess.IntegrationTests
 {
-    [TestClass()]
+    [TestClass]
     public class PhoneTypeRepositoryTests
     {
-        VGTestContext _ctx = new VGTestContext();
-        PhoneTypeRepository repository;
+        private readonly VgTestContext _ctx = new VgTestContext();
+        private PhoneTypeRepository _repository;
 
-        [TestInitialize()]
+        [TestInitialize]
         public void Setup()
         {
             _ctx.Database.Delete();
-            repository = new PhoneTypeRepository(_ctx);
+            _repository = new PhoneTypeRepository(_ctx);
         }
 
-        [TestCleanup()]
+        [TestCleanup]
         public void Cleanup()
         {
             _ctx.Database.Delete();
@@ -32,14 +29,14 @@ namespace DataAccess.IntegrationTests
         [TestMethod]
         public void Exists_Item_Null_Item_Returns_False()
         {
-            Assert.IsFalse(repository.Exists(null));
+            Assert.IsFalse(_repository.Exists(null));
         }
 
         [TestMethod]
         public void Exists_Item_No_Match_Returns_False()
         {
-            var item = A.New<PhoneType>();
-            Assert.IsFalse(repository.Exists(item));
+            var item = GenFu.GenFu.New<PhoneType>();
+            Assert.IsFalse(_repository.Exists(item));
         }
 
         [TestMethod]
@@ -47,13 +44,13 @@ namespace DataAccess.IntegrationTests
         {
             var item = Helper.SetupData(_ctx);
 
-            Assert.IsTrue(repository.Exists(item));
+            Assert.IsTrue(_repository.Exists(item));
         }
 
         [TestMethod]
         public void Exists_ID_No_Match_Returns_False()
         {
-            Assert.IsFalse(repository.Exists(1));
+            Assert.IsFalse(_repository.Exists(1));
         }
 
         [TestMethod]
@@ -61,7 +58,7 @@ namespace DataAccess.IntegrationTests
         {
             var item = Helper.SetupData(_ctx);
 
-            Assert.IsTrue(repository.Exists(item.ID));
+            Assert.IsTrue(_repository.Exists(item.ID));
         }
 
         [TestMethod]
@@ -69,13 +66,13 @@ namespace DataAccess.IntegrationTests
         {
             var items = Helper.SetupData(_ctx, 2);
 
-            CollectionAssert.AreEquivalent(items, repository.Get().ToList());
+            CollectionAssert.AreEquivalent(items, _repository.Get().ToList());
         }
 
         [TestMethod]
         public void GetByID_No_Data_Returns_Null()
         {
-            Assert.IsNull(repository.GetByID(1));
+            Assert.IsNull(_repository.GetByID(1));
         }
 
         [TestMethod]
@@ -83,7 +80,7 @@ namespace DataAccess.IntegrationTests
         {
             var items = Helper.SetupData(_ctx, 1);
 
-            Assert.IsNull(repository.GetByID(items.Max(d => d.ID) + 1));
+            Assert.IsNull(_repository.GetByID(items.Max(d => d.ID) + 1));
         }
 
         [TestMethod]
@@ -91,7 +88,7 @@ namespace DataAccess.IntegrationTests
         {
             var expected = Helper.SetupData(_ctx);
 
-            Assert.AreEqual(expected, repository.GetByID(expected.ID));
+            Assert.AreEqual(expected, _repository.GetByID(expected.ID));
         }
 
         [TestMethod]
@@ -99,9 +96,9 @@ namespace DataAccess.IntegrationTests
         {
             var before = Helper.SetupData(_ctx, 5);
 
-            repository.Add(null);
+            _repository.Add(null);
 
-            var after = repository.Get().ToList();
+            var after = _repository.Get().ToList();
 
             CollectionAssert.AreEquivalent(before, after);
         }
@@ -111,13 +108,13 @@ namespace DataAccess.IntegrationTests
         {
             Helper.SetupData(_ctx, 5);
 
-            var before = repository.Get().ToList();
+            var before = _repository.Get().ToList();
 
             var item = Helper.GenFuSetup(1, before.Select(pt => pt.Name))
                              .First();
-            repository.Add(item);
+            _repository.Add(item);
 
-            var after = repository.Get();
+            var after = _repository.Get();
 
             Assert.IsFalse(before.Contains(item));
             Assert.IsTrue(after.Contains(item));
@@ -128,9 +125,9 @@ namespace DataAccess.IntegrationTests
         {
             var before = Helper.SetupData(_ctx, 5);
 
-            repository.Delete(null);
+            _repository.Delete(null);
 
-            var after = repository.Get().ToList();
+            var after = _repository.Get().ToList();
 
             CollectionAssert.AreEquivalent(before, after);
         }
@@ -140,13 +137,13 @@ namespace DataAccess.IntegrationTests
         {
             var before = Helper.SetupData(_ctx, 5);
 
-            var iten = Helper.GenFuSetup(1, before.Select(pt => pt.Name))
+            var item = Helper.GenFuSetup(1, before.Select(pt => pt.Name))
                              .First();
-            iten.ID = before.Max(p => p.ID) + 1;
+            item.ID = before.Max(p => p.ID) + 1;
 
-            repository.Delete(iten);
+            _repository.Delete(item);
 
-            var after = repository.Get().ToList();
+            var after = _repository.Get().ToList();
 
             CollectionAssert.AreEquivalent(before, after);
         }
@@ -157,9 +154,9 @@ namespace DataAccess.IntegrationTests
             var before = Helper.SetupData(_ctx, 5);
 
             var item = before.Skip(1).First();
-            repository.Delete(item);
+            _repository.Delete(item);
 
-            var after = repository.Get();
+            var after = _repository.Get();
 
             Assert.IsTrue(before.Contains(item));
             Assert.IsFalse(after.Contains(item));
@@ -170,9 +167,9 @@ namespace DataAccess.IntegrationTests
         {
             var before = Helper.SetupData(_ctx, 3);
 
-            repository.Save(null);
+            _repository.Save(null);
 
-            var after = repository.Get().ToList();
+            var after = _repository.Get().ToList();
 
             CollectionAssert.AreEquivalent(before, after);
         }
@@ -182,18 +179,18 @@ namespace DataAccess.IntegrationTests
         {
             var before = Helper.SetupData(_ctx, 3);
 
-            var item = Helper.GenFuSetup(1, before.Select(pt =>pt.Name))
+            var item = Helper.GenFuSetup(1, before.Select(pt => pt.Name))
                              .First();
 
             Assert.IsFalse(before.Contains(item));
 
-            repository.Save(item);
+            _repository.Save(item);
 
-            var expected = repository.GetByID(item.ID);
+            var expected = _repository.GetByID(item.ID);
             Assert.IsNotNull(expected);
             Assert.AreEqual(expected, item);
 
-            var after = repository.Get().ToList();
+            var after = _repository.Get().ToList();
 
             Assert.IsTrue(after.Contains(item));
         }
@@ -205,39 +202,40 @@ namespace DataAccess.IntegrationTests
 
             item.Name += $" {item.Name}";
 
-            repository.Save(item);
+            _repository.Save(item);
 
-            var after = repository.GetByID(item.ID);
+            var after = _repository.GetByID(item.ID);
 
             Assert.AreEqual(item, after);
         }
 
-        class Helper
+        private static class Helper
         {
             public static List<PhoneType> GenFuSetup(int count, IEnumerable<string> currentTypes)
             {
-                var generatedPhoneTypes = A.ListOf<PhoneType>(count);
+                var generatedPhoneTypes = GenFu.GenFu.ListOf<PhoneType>(count);
                 var phoneTypes = new List<PhoneType>();
 
-                foreach (var gPT in generatedPhoneTypes)
+                var currentTypeList = currentTypes.ToList();
+                foreach (var gPt in generatedPhoneTypes)
                 {
-                    if ((phoneTypes.FirstOrDefault(pt => pt.Name.Equals(gPT.Name, StringComparison.CurrentCultureIgnoreCase)) == null) &&
-                        (!currentTypes.Any() || !currentTypes.Contains(gPT.Name, StringComparer.CurrentCultureIgnoreCase)))
+                    if (phoneTypes.Find(pt => pt.Name.Equals(gPt.Name, StringComparison.CurrentCultureIgnoreCase)) == null
+                        && (currentTypeList.Count == 0 || !currentTypeList.Contains(gPt.Name, StringComparer.CurrentCultureIgnoreCase)))
                     {
-                        phoneTypes.Add(gPT);
+                        phoneTypes.Add(gPt);
                     }
                 }
 
                 while (phoneTypes.Count < count)
                 {
-                    generatedPhoneTypes = A.ListOf<PhoneType>(count);
+                    generatedPhoneTypes = GenFu.GenFu.ListOf<PhoneType>(count);
 
-                    foreach (var gPT in generatedPhoneTypes)
+                    foreach (var gPt in generatedPhoneTypes)
                     {
-                        if ((phoneTypes.FirstOrDefault(pt => pt.Name.Equals(gPT.Name, StringComparison.CurrentCultureIgnoreCase)) == null) &&
-                            (!currentTypes.Any() || !currentTypes.Contains(gPT.Name, StringComparer.CurrentCultureIgnoreCase)))
+                        if (phoneTypes.Find(pt => pt.Name.Equals(gPt.Name, StringComparison.CurrentCultureIgnoreCase)) == null
+                            && (currentTypeList.Count == 0 || !currentTypeList.Contains(gPt.Name, StringComparer.CurrentCultureIgnoreCase)))
                         {
-                            phoneTypes.Add(gPT);
+                            phoneTypes.Add(gPt);
                         }
                     }
                 }
@@ -245,7 +243,7 @@ namespace DataAccess.IntegrationTests
                 return phoneTypes.Take(count).ToList();
             }
 
-            public static PhoneType SetupData(VGTestContext ctx)
+            public static PhoneType SetupData(ZeraLeviContext ctx)
             {
                 var phoneType = GenFuSetup(1, Enumerable.Empty<string>()).First();
                 ctx.PhoneTypes.Add(phoneType);
@@ -254,7 +252,7 @@ namespace DataAccess.IntegrationTests
                 return phoneType;
             }
 
-            public static List<PhoneType> SetupData(VGTestContext ctx, int count)
+            public static List<PhoneType> SetupData(ZeraLeviContext ctx, int count)
             {
                 var items = GenFuSetup(count, Enumerable.Empty<string>());
                 ctx.PhoneTypes.AddRange(items);

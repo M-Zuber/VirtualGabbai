@@ -1,14 +1,11 @@
 ﻿using DataCache.Models;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess.Tests
 {
-    [TestClass()]
+    [TestClass]
     public class PhoneTypeRepositoryTests
     {
         [TestMethod]
@@ -133,7 +130,7 @@ namespace DataAccess.Tests
         [TestMethod]
         public void Exists_Match_Found_Returns_True()
         {
-            var mock = RepositoryMocks.GetMockPhoneTypeRepository(new List<PhoneType> { new PhoneType(1, "house")});
+            var mock = RepositoryMocks.GetMockPhoneTypeRepository(new List<PhoneType> { new PhoneType(1, "house") });
 
             Assert.IsTrue(mock.Exists(1));
         }

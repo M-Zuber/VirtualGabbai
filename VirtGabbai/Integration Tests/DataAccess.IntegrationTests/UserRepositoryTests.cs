@@ -1,30 +1,27 @@
-﻿using DataAccess.IntegrationTests.Helpers;
-using DataCache.Models;
-using GenFu;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MoreLinq;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using DataAccess.IntegrationTests.Helpers;
+using DataCache.Models;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MoreLinq;
 
 namespace DataAccess.IntegrationTests
 {
-    [TestClass()]
+    [TestClass]
     public class UserRepositoryTests
     {
-        VGTestContext _ctx = new VGTestContext();
-        UserRepository repository;
+        private readonly VgTestContext _ctx = new VgTestContext();
+        private UserRepository _repository;
 
-        [TestInitialize()]
+        [TestInitialize]
         public void Setup()
         {
             _ctx.Database.Delete();
-            repository = new UserRepository(_ctx);
+            _repository = new UserRepository(_ctx);
         }
 
-        [TestCleanup()]
+        [TestCleanup]
         public void Cleanup()
         {
             _ctx.Database.Delete();
@@ -33,14 +30,14 @@ namespace DataAccess.IntegrationTests
         [TestMethod]
         public void Exists_Item_Null_Item_Returns_False()
         {
-            Assert.IsFalse(repository.Exists(null));
+            Assert.IsFalse(_repository.Exists(null));
         }
 
         [TestMethod]
         public void Exists_Item_No_Match_Returns_False()
         {
-            var item = A.New<User>();
-            Assert.IsFalse(repository.Exists(item));
+            var item = GenFu.GenFu.New<User>();
+            Assert.IsFalse(_repository.Exists(item));
         }
 
         [TestMethod]
@@ -48,13 +45,13 @@ namespace DataAccess.IntegrationTests
         {
             var item = Helper.SetupData(_ctx);
 
-            Assert.IsTrue(repository.Exists(item));
+            Assert.IsTrue(_repository.Exists(item));
         }
 
         [TestMethod]
         public void Exists_ID_No_Match_Returns_False()
         {
-            Assert.IsFalse(repository.Exists(1));
+            Assert.IsFalse(_repository.Exists(1));
         }
 
         [TestMethod]
@@ -62,7 +59,7 @@ namespace DataAccess.IntegrationTests
         {
             var item = Helper.SetupData(_ctx);
 
-            Assert.IsTrue(repository.Exists(item.ID));
+            Assert.IsTrue(_repository.Exists(item.ID));
         }
 
         [TestMethod]
@@ -70,13 +67,13 @@ namespace DataAccess.IntegrationTests
         {
             var items = Helper.SetupData(_ctx, 2);
 
-            CollectionAssert.AreEquivalent(items, repository.Get().ToList());
+            CollectionAssert.AreEquivalent(items, _repository.Get().ToList());
         }
 
         [TestMethod]
         public void GetByID_No_Data_Returns_Null()
         {
-            Assert.IsNull(repository.GetByID(1));
+            Assert.IsNull(_repository.GetByID(1));
         }
 
         [TestMethod]
@@ -84,7 +81,7 @@ namespace DataAccess.IntegrationTests
         {
             var items = Helper.SetupData(_ctx, 2);
 
-            Assert.IsNull(repository.GetByID(items.Max(d => d.ID) + 1));
+            Assert.IsNull(_repository.GetByID(items.Max(d => d.ID) + 1));
         }
 
         [TestMethod]
@@ -92,7 +89,7 @@ namespace DataAccess.IntegrationTests
         {
             var expected = Helper.SetupData(_ctx);
 
-            Assert.AreEqual(expected, repository.GetByID(expected.ID));
+            Assert.AreEqual(expected, _repository.GetByID(expected.ID));
         }
 
         [TestMethod]
@@ -100,9 +97,9 @@ namespace DataAccess.IntegrationTests
         {
             var before = Helper.SetupData(_ctx, 5);
 
-            repository.Add(null);
+            _repository.Add(null);
 
-            var after = repository.Get().ToList();
+            var after = _repository.Get().ToList();
 
             CollectionAssert.AreEquivalent(before, after);
         }
@@ -112,9 +109,9 @@ namespace DataAccess.IntegrationTests
         {
             Helper.SetupData(_ctx, 5);
 
-            var before = repository.Get().ToList();
+            var before = _repository.Get().ToList();
 
-            var first = before.First();
+            var first = before[0];
             var item = new User
             {
                 UserName = first.UserName + "~",
@@ -127,9 +124,9 @@ namespace DataAccess.IntegrationTests
                 }
             };
 
-            repository.Add(item);
+            _repository.Add(item);
 
-            var after = repository.Get();
+            var after = _repository.Get();
 
             Assert.IsFalse(before.Contains(item));
             Assert.IsTrue(after.Contains(item));
@@ -140,9 +137,9 @@ namespace DataAccess.IntegrationTests
         {
             var before = Helper.SetupData(_ctx, 5);
 
-            repository.Delete(null);
+            _repository.Delete(null);
 
-            var after = repository.Get().ToList();
+            var after = _repository.Get().ToList();
 
             CollectionAssert.AreEquivalent(before, after);
         }
@@ -156,9 +153,9 @@ namespace DataAccess.IntegrationTests
                              .First();
             item.ID = before.Max(p => p.ID) + 1;
 
-            repository.Delete(item);
+            _repository.Delete(item);
 
-            var after = repository.Get().ToList();
+            var after = _repository.Get().ToList();
 
             CollectionAssert.AreEquivalent(before, after);
         }
@@ -169,9 +166,9 @@ namespace DataAccess.IntegrationTests
             var before = Helper.SetupData(_ctx, 5);
 
             var item = before.Skip(1).First();
-            repository.Delete(item);
+            _repository.Delete(item);
 
-            var after = repository.Get();
+            var after = _repository.Get();
 
             Assert.IsTrue(before.Contains(item));
             Assert.IsFalse(after.Contains(item));
@@ -182,9 +179,9 @@ namespace DataAccess.IntegrationTests
         {
             var before = Helper.SetupData(_ctx, 3);
 
-            repository.Save(null);
+            _repository.Save(null);
 
-            var after = repository.Get().ToList();
+            var after = _repository.Get().ToList();
 
             CollectionAssert.AreEquivalent(before, after);
         }
@@ -199,9 +196,9 @@ namespace DataAccess.IntegrationTests
 
             Assert.IsFalse(before.Contains(item));
 
-            repository.Save(item);
+            _repository.Save(item);
 
-            var after = repository.Get().ToList();
+            var after = _repository.Get().ToList();
 
             Assert.IsTrue(after.Contains(item));
         }
@@ -212,28 +209,28 @@ namespace DataAccess.IntegrationTests
             var item = Helper.SetupData(_ctx);
 
             item.PrivilegeGroup.Privileges.Remove(item.PrivilegeGroup.Privileges.First());
-            repository.Save(item);
+            _repository.Save(item);
 
-            var after = repository.GetByID(item.ID);
+            var after = _repository.GetByID(item.ID);
 
             Assert.AreEqual(item, after);
         }
 
-        class Helper
+        private static class Helper
         {
-            public static List<User> GenFuSetup(int count, IEnumerable<string> currentPGNames, IEnumerable<Privilege> currentPrivileges)
+            public static List<User> GenFuSetup(int count, IEnumerable<string> currentPgNames, IEnumerable<Privilege> currentPrivileges)
             {
-                var privileges = A.ListOf<Privilege>()
-                    .Concat(currentPrivileges)
+                var privileges = GenFu.GenFu.ListOf<Privilege>()
+                    //.Concat(currentPrivileges)
                     .DistinctBy(p => p.Name, StringComparer.CurrentCultureIgnoreCase)
                     .ToList();
-
+                privileges.RemoveAll(currentPrivileges.Contains);
                 //Try to get at least 10 items
                 if (privileges.Count < 10)
                 {
-                    for (int i = 0; i < 3; i++)
+                    for (var i = 0; i < 3; i++)
                     {
-                        privileges = A.ListOf<Privilege>()
+                        privileges = GenFu.GenFu.ListOf<Privilege>()
                                       .Concat(privileges)
                                       .DistinctBy(p => p.Name, StringComparer.CurrentCultureIgnoreCase)
                                       .ToList();
@@ -247,38 +244,38 @@ namespace DataAccess.IntegrationTests
 
                 var listOfPrivilegeLists = new List<List<Privilege>>();
 
-                int slice = 3;
+                const int slice = 3;
 
-                for (int i = 0; i < privileges.Count / slice; i++)
+                for (var i = 0; i < privileges.Count / slice; i++)
                 {
-                    listOfPrivilegeLists.Add(privileges.Skip(i * slice).Take(i * slice).ToList());
+                    listOfPrivilegeLists.Add(privileges.Skip(i * slice).Take(i * slice).DistinctBy(p => p.Name, StringComparer.CurrentCultureIgnoreCase).ToList());
                 }
 
-                A.Configure<PrivilegesGroup>()
+                GenFu.GenFu.Configure<PrivilegesGroup>()
                     .Fill(pg => pg.ID, 0)
                     .Fill(pg => pg.Privileges)
                     .WithRandom(listOfPrivilegeLists);
 
-                var users = A.ListOf<User>(count);
-                var currentPGNamesList = currentPGNames.ToList();
+                var users = GenFu.GenFu.ListOf<User>(count);
+                var currentPgNamesList = currentPgNames.ToList();
 
                 foreach (var user in users)
                 {
-                    var pg = A.New<PrivilegesGroup>();
+                    var pg = GenFu.GenFu.New<PrivilegesGroup>();
 
-                    while (currentPGNames.Contains(pg.GroupName, StringComparer.CurrentCultureIgnoreCase))
+                    while (currentPgNamesList.Contains(pg.GroupName, StringComparer.CurrentCultureIgnoreCase))
                     {
-                        pg = A.New<PrivilegesGroup>();
+                        pg = GenFu.GenFu.New<PrivilegesGroup>();
                     }
 
                     user.PrivilegeGroup = pg;
-                    currentPGNamesList.Add(pg.GroupName);
+                    currentPgNamesList.Add(pg.GroupName);
                 }
 
                 return users;
             }
 
-            public static User SetupData(VGTestContext ctx)
+            public static User SetupData(ZeraLeviContext ctx)
             {
                 var user = GenFuSetup(1, Enumerable.Empty<string>(), Enumerable.Empty<Privilege>()).First();
                 ctx.Users.Add(user);
@@ -287,7 +284,7 @@ namespace DataAccess.IntegrationTests
                 return user;
             }
 
-            public static List<User> SetupData(VGTestContext ctx, int count)
+            public static List<User> SetupData(ZeraLeviContext ctx, int count)
             {
                 var users = GenFuSetup(count, Enumerable.Empty<string>(), Enumerable.Empty<Privilege>());
                 ctx.Users.AddRange(users);
