@@ -221,17 +221,14 @@ namespace DataAccess.IntegrationTests
             public static List<User> GenFuSetup(int count, IEnumerable<string> currentPgNames, IEnumerable<Privilege> currentPrivileges)
             {
                 var privileges = GenFu.GenFu.ListOf<Privilege>()
-                    //.Concat(currentPrivileges)
                     .DistinctBy(p => p.Name, StringComparer.CurrentCultureIgnoreCase)
                     .ToList();
-                privileges.RemoveAll(currentPrivileges.Contains);
                 //Try to get at least 10 items
                 if (privileges.Count < 10)
                 {
                     for (var i = 0; i < 3; i++)
                     {
                         privileges = GenFu.GenFu.ListOf<Privilege>()
-                                      .Concat(privileges)
                                       .DistinctBy(p => p.Name, StringComparer.CurrentCultureIgnoreCase)
                                       .ToList();
 
@@ -241,6 +238,8 @@ namespace DataAccess.IntegrationTests
                         }
                     }
                 }
+
+                privileges.RemoveAll(currentPrivileges.Contains);
 
                 var listOfPrivilegeLists = new List<List<Privilege>>();
 
