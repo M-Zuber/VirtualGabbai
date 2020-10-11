@@ -19,7 +19,7 @@ namespace DataCache.Models
             return ReferenceEquals(this, other)
                    || (Id == other.Id
                    && Number == other.Number
-                   && Type.Equals(other.Type));
+                   && Type?.Equals(other.Type) != false);
         }
 
         public override string ToString() => $"Number:\"{Number}\" {Type}";

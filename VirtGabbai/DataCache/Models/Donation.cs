@@ -51,7 +51,7 @@ namespace DataCache.Models
             }
             return ReferenceEquals(this, other)
                    || (Id == other.Id
-                   && Math.Abs(Amount - other.Amount) < 0
+                   && Amount.Equals(other.Amount)
                    && Comments == other.Comments
                    && DonationDate == other.DonationDate
                    && Reason == other.Reason);

@@ -20,8 +20,8 @@ namespace DataCache.Models
                    || (Id == other.Id
                    && UserName == other.UserName
                    && Password == other.Password
-                   && Email.Equals(other.Email)
-                   && PrivilegeGroup.Equals(other.PrivilegeGroup));
+                   && Email?.Equals(other.Email) != false
+                   && PrivilegeGroup?.Equals(other.PrivilegeGroup) != false);
         }
 
         public override int GetHashCode() => Id.GetHashCode();
