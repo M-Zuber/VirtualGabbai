@@ -214,33 +214,22 @@ namespace DataAccess.IntegrationTests
             public static List<PhoneType> GenFuSetup(int count, IEnumerable<string> currentTypes)
             {
                 var generatedPhoneTypes = GenFu.GenFu.ListOf<PhoneType>(count);
-                var phoneTypes = new List<PhoneType>();
-
-                var currentTypeList = currentTypes.ToList();
-                foreach (var gPt in generatedPhoneTypes)
+                var generatedNames = generatedPhoneTypes.Select(g => g.Name);
+                var pass = false;
+                while (!pass)
                 {
-                    if (phoneTypes.Find(pt => pt.Name.Equals(gPt.Name, StringComparison.CurrentCultureIgnoreCase)) == null
-                        && (currentTypeList.Count == 0 || !currentTypeList.Contains(gPt.Name, StringComparer.CurrentCultureIgnoreCase)))
+                    if (currentTypes.Any(t => generatedNames.Contains(t, StringComparer.CurrentCultureIgnoreCase)))
                     {
-                        phoneTypes.Add(gPt);
+                        generatedPhoneTypes = GenFu.GenFu.ListOf<PhoneType>(count);
+                        generatedNames = generatedPhoneTypes.Select(g => g.Name);
+                    }
+                    else
+                    {
+                        pass = true;
                     }
                 }
 
-                while (phoneTypes.Count < count)
-                {
-                    generatedPhoneTypes = GenFu.GenFu.ListOf<PhoneType>(count);
-
-                    foreach (var gPt in generatedPhoneTypes)
-                    {
-                        if (phoneTypes.Find(pt => pt.Name.Equals(gPt.Name, StringComparison.CurrentCultureIgnoreCase)) == null
-                            && (currentTypeList.Count == 0 || !currentTypeList.Contains(gPt.Name, StringComparer.CurrentCultureIgnoreCase)))
-                        {
-                            phoneTypes.Add(gPt);
-                        }
-                    }
-                }
-
-                return phoneTypes.Take(count).ToList();
+                return generatedPhoneTypes;
             }
 
             public static PhoneType SetupData(ZeraLeviContext ctx)
