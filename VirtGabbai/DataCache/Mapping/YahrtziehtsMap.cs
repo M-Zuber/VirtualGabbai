@@ -1,5 +1,4 @@
 using DataCache.Models;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
 
 namespace DataCache.Mapping
@@ -9,31 +8,30 @@ namespace DataCache.Mapping
         public YahrtziehtsMap()
         {
             // Primary Key
-            this.HasKey(t => t.ID);
+            HasKey(t => t.Id);
 
             // Properties
-            this.Property(t => t.ID);
+            Property(t => t.Id);
 
-            this.Property(t => t.Relation)
+            Property(t => t.Relation)
                 .HasMaxLength(45);
 
-            this.Property(t => t.Name)
+            Property(t => t.Name)
                 .IsRequired()
                 .HasMaxLength(45);
 
             // Table & Column Mappings
-            this.ToTable("Yahrtziehts", "ZeraLevi");
-            this.Property(t => t.ID).HasColumnName("ID");
-            this.Property(t => t.PersonID).HasColumnName("PersonID");
-            this.Property(t => t.Relation).HasColumnName("Relation");
-            this.Property(t => t.Date).HasColumnName("Date").HasColumnType("datetime2");
-            this.Property(t => t.Name).HasColumnName("Name");
+            ToTable("Yahrtziehts", "ZeraLevi");
+            Property(t => t.Id).HasColumnName("ID");
+            Property(t => t.PersonId).HasColumnName("PersonID");
+            Property(t => t.Relation).HasColumnName("Relation");
+            Property(t => t.Date).HasColumnName("Date").HasColumnType("datetime2");
+            Property(t => t.Name).HasColumnName("Name");
 
             // Relationships
-            this.HasRequired(t => t.Person)
+            HasRequired(t => t.Person)
                 .WithMany(t => t.Yahrtziehts)
-                .HasForeignKey(d => d.PersonID);
-
+                .HasForeignKey(d => d.PersonId);
         }
     }
 }

@@ -59,7 +59,7 @@ namespace DataAccess.IntegrationTests
         {
             var item = Helper.SetupData(_ctx);
 
-            Assert.IsTrue(_repository.Exists(item.ID));
+            Assert.IsTrue(_repository.Exists(item.Id));
         }
 
         [TestMethod]
@@ -73,7 +73,7 @@ namespace DataAccess.IntegrationTests
         [TestMethod]
         public void GetByID_No_Data_Returns_Null()
         {
-            Assert.IsNull(_repository.GetByID(1));
+            Assert.IsNull(_repository.GetById(1));
         }
 
         [TestMethod]
@@ -81,7 +81,7 @@ namespace DataAccess.IntegrationTests
         {
             var items = Helper.SetupData(_ctx, 2);
 
-            Assert.IsNull(_repository.GetByID(items.Max(d => d.ID) + 1));
+            Assert.IsNull(_repository.GetById(items.Max(d => d.Id) + 1));
         }
 
         [TestMethod]
@@ -89,7 +89,7 @@ namespace DataAccess.IntegrationTests
         {
             var expected = Helper.SetupData(_ctx);
 
-            Assert.AreEqual(expected, _repository.GetByID(expected.ID));
+            Assert.AreEqual(expected, _repository.GetById(expected.Id));
         }
 
         [TestMethod]
@@ -151,7 +151,7 @@ namespace DataAccess.IntegrationTests
 
             var item = Helper.GenFuSetup(1, before.Select(u => u.PrivilegeGroup.GroupName), before.SelectMany(u => u.PrivilegeGroup.Privileges))
                              .First();
-            item.ID = before.Max(p => p.ID) + 1;
+            item.Id = before.Max(p => p.Id) + 1;
 
             _repository.Delete(item);
 
@@ -211,7 +211,7 @@ namespace DataAccess.IntegrationTests
             item.PrivilegeGroup.Privileges.Remove(item.PrivilegeGroup.Privileges.First());
             _repository.Save(item);
 
-            var after = _repository.GetByID(item.ID);
+            var after = _repository.GetById(item.Id);
 
             Assert.AreEqual(item, after);
         }
@@ -221,17 +221,14 @@ namespace DataAccess.IntegrationTests
             public static List<User> GenFuSetup(int count, IEnumerable<string> currentPgNames, IEnumerable<Privilege> currentPrivileges)
             {
                 var privileges = GenFu.GenFu.ListOf<Privilege>()
-                    //.Concat(currentPrivileges)
                     .DistinctBy(p => p.Name, StringComparer.CurrentCultureIgnoreCase)
                     .ToList();
-                privileges.RemoveAll(currentPrivileges.Contains);
                 //Try to get at least 10 items
                 if (privileges.Count < 10)
                 {
                     for (var i = 0; i < 3; i++)
                     {
                         privileges = GenFu.GenFu.ListOf<Privilege>()
-                                      .Concat(privileges)
                                       .DistinctBy(p => p.Name, StringComparer.CurrentCultureIgnoreCase)
                                       .ToList();
 
@@ -242,19 +239,23 @@ namespace DataAccess.IntegrationTests
                     }
                 }
 
+                privileges.RemoveAll(currentPrivileges.Contains);
+
                 var listOfPrivilegeLists = new List<List<Privilege>>();
 
                 const int slice = 3;
 
                 for (var i = 0; i < privileges.Count / slice; i++)
                 {
-                    listOfPrivilegeLists.Add(privileges.Skip(i * slice).Take(i * slice).DistinctBy(p => p.Name, StringComparer.CurrentCultureIgnoreCase).ToList());
+                    listOfPrivilegeLists.Add(privileges.Skip(i * slice).Take(slice).DistinctBy(p => p.Name, StringComparer.CurrentCultureIgnoreCase).ToList());
                 }
 
                 GenFu.GenFu.Configure<PrivilegesGroup>()
-                    .Fill(pg => pg.ID, 0)
+                    .Fill(pg => pg.Id, 0)
                     .Fill(pg => pg.Privileges)
-                    .WithRandom(listOfPrivilegeLists);
+                    .Fill(pg => pg.Privileges, listOfPrivilegeLists[0])
+                    //.WithRandom(listOfPrivilegeLists)
+                    ;
 
                 var users = GenFu.GenFu.ListOf<User>(count);
                 var currentPgNamesList = currentPgNames.ToList();

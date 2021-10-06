@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccess.Interfaces
 {
@@ -12,7 +8,7 @@ namespace DataAccess.Interfaces
         DbSet<TEntity> Entities { get; }
 
         IEnumerable<TEntity> Get();
-        TEntity GetByID(int id);
+        TEntity GetById(int id);
 
         bool Exists(int id);
         bool Exists(TEntity item);

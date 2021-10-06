@@ -1,5 +1,4 @@
 using DataCache.Models;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
 
 namespace DataCache.Mapping
@@ -9,30 +8,29 @@ namespace DataCache.Mapping
         public PhoneNumbersMap()
         {
             // Primary Key
-            HasKey(t => t.ID);
+            HasKey(t => t.Id);
 
             // Properties
             Property(t => t.Number)
                 .IsRequired()
                 .HasMaxLength(45);
 
-            Property(t => t.ID);
+            Property(t => t.Id);
 
             // Table & Column Mappings
             ToTable("PhoneNumbers", "ZeraLevi");
-            Property(t => t.PersonID).HasColumnName("PersonID");
+            Property(t => t.PersonId).HasColumnName("PersonID");
             Property(t => t.Number).HasColumnName("Number");
-            Property(t => t.NumberTypeID).HasColumnName("NumberTypeID");
-            Property(t => t.ID).HasColumnName("ID");
+            Property(t => t.NumberTypeId).HasColumnName("NumberTypeID");
+            Property(t => t.Id).HasColumnName("ID");
 
             // Relationships
             HasRequired(t => t.Person)
                 .WithMany(t => t.PhoneNumbers)
-                .HasForeignKey(d => d.PersonID);
+                .HasForeignKey(d => d.PersonId);
             HasRequired(t => t.Type)
                 .WithMany(t => t.PhoneNumbers)
-                .HasForeignKey(d => d.NumberTypeID);
-
+                .HasForeignKey(d => d.NumberTypeId);
         }
     }
 }

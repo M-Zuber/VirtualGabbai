@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using DataCache;
-using Framework;
-using System.Net.Mail;
+﻿using DataAccess.Interfaces;
 using DataCache.Models;
-using DataAccess.Interfaces;
+using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
 
 namespace DataAccess
 {
     public class PersonRepository : IFullAccessRepository<Person>
     {
-        private ZeraLeviContext _context;
+        private readonly ZeraLeviContext _context;
 
         public DbSet<Person> Entities => _context.People;
 
@@ -21,13 +17,13 @@ namespace DataAccess
             _context = context;
         }
 
-        public bool Exists(Person item) => item != null && Exists(item.ID);
+        public bool Exists(Person item) => item != null && Exists(item.Id);
 
-        public bool Exists(int id) => Entities.Any(p => p.ID == id);
+        public bool Exists(int id) => Entities.Any(p => p.Id == id);
 
         public IEnumerable<Person> Get() => Entities;
 
-        public Person GetByID(int id) => Entities.FirstOrDefault(p => p.ID == id);
+        public Person GetById(int id) => Entities.FirstOrDefault(p => p.Id == id);
 
         public void Add(Person item)
         {
@@ -51,25 +47,27 @@ namespace DataAccess
         {
             if (item != null)
             {
-                var current = GetByID(item.ID);
+                var current = GetById(item.Id);
 
                 if (current == null)
                 {
-                    current = new Person();
-                    current.Account = item.Account;
-                    current.Address = item.Address;
-                    current.Email = item.Email;
-                    current.FamilyName = item.FamilyName;
-                    current.GivenName = item.GivenName;
-                    current.Member = item.Member;
-                    current.PhoneNumbers = item.PhoneNumbers;
-                    current.Yahrtziehts = item.Yahrtziehts;
+                    current = new Person
+                    {
+                        Account = item.Account,
+                        Address = item.Address,
+                        Email = item.Email,
+                        FamilyName = item.FamilyName,
+                        GivenName = item.GivenName,
+                        Member = item.Member,
+                        PhoneNumbers = item.PhoneNumbers,
+                        Yahrtziehts = item.Yahrtziehts
+                    };
                     Entities.Add(current);
                 }
 
                 _context.SaveChanges();
 
-                item.ID = current.ID;
+                item.Id = current.Id;
             }
         }
     }

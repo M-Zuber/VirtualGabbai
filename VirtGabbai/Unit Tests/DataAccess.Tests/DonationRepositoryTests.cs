@@ -36,7 +36,7 @@ namespace DataAccess.Tests
         {
             var mock = RepositoryMocks.GetMockDonationRepository();
 
-            var actual = mock.GetByID(1);
+            var actual = mock.GetById(1);
 
             Assert.IsNull(actual);
         }
@@ -46,7 +46,7 @@ namespace DataAccess.Tests
         {
             var mock = RepositoryMocks.GetMockDonationRepository(new List<Donation> { new Donation() });
 
-            var actual = mock.GetByID(1);
+            var actual = mock.GetById(1);
 
             Assert.IsNull(actual);
         }
@@ -54,10 +54,10 @@ namespace DataAccess.Tests
         [TestMethod]
         public void GetByID_Returns_The_Item_With_The_Given_ID()
         {
-            var expected = new Donation { ID = 1 };
+            var expected = new Donation { Id = 1 };
             var mock = RepositoryMocks.GetMockDonationRepository(new List<Donation> { expected });
 
-            var actual = mock.GetByID(1);
+            var actual = mock.GetById(1);
 
             Assert.IsNotNull(actual);
             Assert.AreEqual(expected, actual);
@@ -74,7 +74,7 @@ namespace DataAccess.Tests
         [TestMethod]
         public void Exists_Match_Found_Returns_True()
         {
-            var mock = RepositoryMocks.GetMockDonationRepository(new List<Donation> { new Donation { ID = 1 } });
+            var mock = RepositoryMocks.GetMockDonationRepository(new List<Donation> { new Donation { Id = 1 } });
 
             Assert.IsTrue(mock.Exists(1));
         }
@@ -90,17 +90,17 @@ namespace DataAccess.Tests
         [TestMethod]
         public void Exists_Item_No_Match_Returns_False()
         {
-            var mock = RepositoryMocks.GetMockDonationRepository(new List<Donation> { new Donation { ID = 1 } });
+            var mock = RepositoryMocks.GetMockDonationRepository(new List<Donation> { new Donation { Id = 1 } });
 
-            Assert.IsFalse(mock.Exists(new Donation { ID = 2 }));
+            Assert.IsFalse(mock.Exists(new Donation { Id = 2 }));
         }
 
         [TestMethod]
         public void Exists_Item_Match_Found_Returns_True()
         {
-            var mock = RepositoryMocks.GetMockDonationRepository(new List<Donation> { new Donation { ID = 1 } });
+            var mock = RepositoryMocks.GetMockDonationRepository(new List<Donation> { new Donation { Id = 1 } });
 
-            Assert.IsTrue(mock.Exists(new Donation { ID = 1 }));
+            Assert.IsTrue(mock.Exists(new Donation { Id = 1 }));
         }
     }
 }

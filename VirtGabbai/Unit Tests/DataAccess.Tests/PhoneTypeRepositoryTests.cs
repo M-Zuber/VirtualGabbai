@@ -36,7 +36,7 @@ namespace DataAccess.Tests
         {
             var mock = RepositoryMocks.GetMockPhoneTypeRepository();
 
-            var actual = mock.GetByID(1);
+            var actual = mock.GetById(1);
 
             Assert.IsNull(actual);
         }
@@ -44,9 +44,9 @@ namespace DataAccess.Tests
         [TestMethod]
         public void GetByID_No_Match_Returns_Null()
         {
-            var mock = RepositoryMocks.GetMockPhoneTypeRepository(new List<PhoneType> { new PhoneType(2, "second") });
+            var mock = RepositoryMocks.GetMockPhoneTypeRepository(new List<PhoneType> { new PhoneType { Id = 2, Name = "second" } });
 
-            var actual = mock.GetByID(1);
+            var actual = mock.GetById(1);
 
             Assert.IsNull(actual);
         }
@@ -54,10 +54,10 @@ namespace DataAccess.Tests
         [TestMethod]
         public void GetByID_Returns_The_Item_With_The_Given_ID()
         {
-            var expected = new PhoneType(1, "First");
+            var expected = new PhoneType { Id = 1, Name = "First" };
             var mock = RepositoryMocks.GetMockPhoneTypeRepository(new List<PhoneType> { expected });
 
-            var actual = mock.GetByID(1);
+            var actual = mock.GetById(1);
 
             Assert.IsNotNull(actual);
             Assert.AreEqual(expected, actual);
@@ -76,7 +76,7 @@ namespace DataAccess.Tests
         [TestMethod]
         public void GetByName_No_Match_Returns_Null()
         {
-            var mock = RepositoryMocks.GetMockPhoneTypeRepository(new List<PhoneType> { new PhoneType(2, "second") });
+            var mock = RepositoryMocks.GetMockPhoneTypeRepository(new List<PhoneType> { new PhoneType { Id = 2, Name = "second" } });
 
             var actual = mock.GetByName("first");
 
@@ -86,7 +86,7 @@ namespace DataAccess.Tests
         [TestMethod]
         public void GetByName_Returns_The_Item_With_The_Given_ID()
         {
-            var expected = new PhoneType(1, "First");
+            var expected = new PhoneType { Id = 1, Name = "First" };
             var mock = RepositoryMocks.GetMockPhoneTypeRepository(new List<PhoneType> { expected });
 
             var actual = mock.GetByName("first");
@@ -98,7 +98,7 @@ namespace DataAccess.Tests
         [TestMethod]
         public void NameExists_Match_Found_Returns_True()
         {
-            var mock = RepositoryMocks.GetMockPhoneTypeRepository(new List<PhoneType> { new PhoneType(1, "First") });
+            var mock = RepositoryMocks.GetMockPhoneTypeRepository(new List<PhoneType> { new PhoneType { Id = 1, Name = "First" } });
 
             Assert.IsTrue(mock.NameExists("first"));
         }
@@ -106,7 +106,7 @@ namespace DataAccess.Tests
         [TestMethod]
         public void NameExists_No_Match_Found_Returns_False()
         {
-            var mock = RepositoryMocks.GetMockPhoneTypeRepository(new List<PhoneType> { new PhoneType(1, "First") });
+            var mock = RepositoryMocks.GetMockPhoneTypeRepository(new List<PhoneType> { new PhoneType { Id = 1, Name = "First" } });
 
             Assert.IsFalse(mock.NameExists("Second"));
         }
@@ -130,7 +130,7 @@ namespace DataAccess.Tests
         [TestMethod]
         public void Exists_Match_Found_Returns_True()
         {
-            var mock = RepositoryMocks.GetMockPhoneTypeRepository(new List<PhoneType> { new PhoneType(1, "house") });
+            var mock = RepositoryMocks.GetMockPhoneTypeRepository(new List<PhoneType> { new PhoneType { Id = 1, Name = "house" } });
 
             Assert.IsTrue(mock.Exists(1));
         }
@@ -138,7 +138,7 @@ namespace DataAccess.Tests
         [TestMethod]
         public void Exists_Item_Is_Null_Returns_False()
         {
-            var mock = RepositoryMocks.GetMockPhoneTypeRepository(new List<PhoneType> { new PhoneType(1, "house") });
+            var mock = RepositoryMocks.GetMockPhoneTypeRepository(new List<PhoneType> { new PhoneType { Id = 1, Name = "house" } });
 
             Assert.IsFalse(mock.Exists(null));
         }
@@ -146,17 +146,17 @@ namespace DataAccess.Tests
         [TestMethod]
         public void Exists_Item_No_Match_Returns_False()
         {
-            var mock = RepositoryMocks.GetMockPhoneTypeRepository(new List<PhoneType> { new PhoneType(1, "house") });
+            var mock = RepositoryMocks.GetMockPhoneTypeRepository(new List<PhoneType> { new PhoneType { Id = 1, Name = "house" } });
 
-            Assert.IsFalse(mock.Exists(new PhoneType(2, "cell")));
+            Assert.IsFalse(mock.Exists(new PhoneType { Id = 2, Name = "cell" }));
         }
 
         [TestMethod]
         public void Exists_Item_Match_Found_Returns_True()
         {
-            var mock = RepositoryMocks.GetMockPhoneTypeRepository(new List<PhoneType> { new PhoneType(1, "house") });
+            var mock = RepositoryMocks.GetMockPhoneTypeRepository(new List<PhoneType> { new PhoneType { Id = 1, Name = "house" } });
 
-            Assert.IsTrue(mock.Exists(new PhoneType(1, "house")));
+            Assert.IsTrue(mock.Exists(new PhoneType { Id = 1, Name = "house" }));
         }
     }
 }

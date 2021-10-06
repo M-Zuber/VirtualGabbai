@@ -28,26 +28,26 @@ namespace DataCache.Tests
             _streetAddress = ";12;somwhere road;city;state;country;325";
             _account = new Account
             {
-                ID = 1,
+                Id = 1,
                 MonthlyPaymentAmount = 50,
                 LastMonthlyPaymentDate = new DateTime(DateTime.Today.Year, 1, DateTime.Today.Day),
                 Donations = new List<Donation>
                 {
-                    new Donation { ID  = 1,Reason = "cuz i wanna",Amount = 45.90, DonationDate = DateTime.Today,Comments = "i dont know that we will ever see the money" },
-                    new Donation { ID = 2, Reason = "it was a glorious day", Amount = 4010, DonationDate = DateTime.Today, Comments = "it was good that this money came in", DatePaid = DateTime.Today , Paid = true }
+                    new Donation { Id  = 1,Reason = "cuz i wanna",Amount = 45.90, DonationDate = DateTime.Today,Comments = "i dont know that we will ever see the money" },
+                    new Donation { Id = 2, Reason = "it was a glorious day", Amount = 4010, DonationDate = DateTime.Today, Comments = "it was good that this money came in", DatePaid = DateTime.Today , Paid = true }
                 }
             };
             _phoneNumbers = new List<PhoneNumber>
             {
-                new PhoneNumber { ID = 1, Number = "123456789", Type = new PhoneType { ID = 1, Name = "nothing" } }
+                new PhoneNumber { Id = 1, Number = "123456789", Type = new PhoneType { Id = 1, Name = "nothing" } }
             };
             _yahrtziehts = new List<Yahrtzieht>
             {
-                new Yahrtzieht { ID = 1, Date = DateTime.MinValue, Name = "ploni ben almoni", Relation =  "they where not related" }
+                new Yahrtzieht { Id = 1, Date = DateTime.MinValue, Name = "ploni ben almoni", Relation =  "they where not related" }
             };
             _targetPerson = new Person
             {
-                ID = _id,
+                Id = _id,
                 Email = _emailAddress,
                 GivenName = _givenName,
                 FamilyName = _familyName,
@@ -76,9 +76,18 @@ namespace DataCache.Tests
         [TestMethod]
         public void Person_Equals_NoDifferences()
         {
-            var otherPerson = new Person(_targetPerson.ID, _targetPerson.Email, _targetPerson.GivenName,
-                                    _targetPerson.FamilyName, _targetPerson.Member, _targetPerson.Address,
-                                    _targetPerson.Account, _targetPerson.PhoneNumbers, _targetPerson.Yahrtziehts);
+            var otherPerson = new Person
+            {
+                Id =_targetPerson.Id,
+                Email = _targetPerson.Email,
+                GivenName  =_targetPerson.GivenName,
+                FamilyName =  _targetPerson.FamilyName,
+                Member = _targetPerson.Member,
+                Address = _targetPerson.Address,
+                Account = _targetPerson.Account,
+                PhoneNumbers = _targetPerson.PhoneNumbers,
+                Yahrtziehts = _targetPerson.Yahrtziehts
+            };
             Assert.IsTrue(_targetPerson.Equals(otherPerson));
         }
 
@@ -93,21 +102,43 @@ namespace DataCache.Tests
             const string secondGivenName = "Jack";
             const string secondFamilyName = "O'niell";
             const string secondStreetAddress = "12;45;cheyenne mountain;summer springs;colorado;usa;87254";
-            var secondAccount = new Account(18, 500, new DateTime(DateTime.Today.Year, 2, DateTime.Today.Day),
-                new List<Donation>
-                {new Donation(1, "cuz i wanna", 45.90, DateTime.Today, "i dont know that we will ever see the money"),
-                                      new Donation(2, "it was a glorious day", 4010, DateTime.Today, "it was good that this money came in", DateTime.Today, true)});
+            var secondAccount = new Account
+            {
+                Id = 18,
+                MonthlyPaymentAmount = 500,
+                LastMonthlyPaymentDate = new DateTime(DateTime.Today.Year, 2, DateTime.Today.Day),
+                Donations = new List<Donation>{
+                    new Donation(1, "cuz i wanna", 45.90, DateTime.Today, "i dont know that we will ever see the money"),
+                    new Donation(2, "it was a glorious day", 4010, DateTime.Today, "it was good that this money came in", DateTime.Today, true)
+                }
+            };
+
             var secondPhoneNumbers = new List<PhoneNumber>
             {
-                new PhoneNumber(1,"987654321",new PhoneType(1,"nothing"))
+                new PhoneNumber
+                {
+                    Id = 1,
+                    Number = "987654321",
+                    Type = new PhoneType { Id =1, Name = "nothing" }
+                }
             };
             var secondYahrtziehts = new List<Yahrtzieht>
             {
                 new Yahrtzieht(18,DateTime.MinValue,"ploni ben almoni","they where not related")
             };
-            var otherPerson = new Person(secondId, secondEmailAddress, secondGivenName,
-                                    secondFamilyName, false, secondStreetAddress, secondAccount,
-                                    secondPhoneNumbers, secondYahrtziehts);
+
+            var otherPerson = new Person
+            {
+                Id = secondId,
+                Email = secondEmailAddress,
+                GivenName = secondGivenName,
+                FamilyName = secondFamilyName,
+                Member = false,
+                Address = secondStreetAddress,
+                Account = secondAccount,
+                PhoneNumbers = secondPhoneNumbers,
+                Yahrtziehts = secondYahrtziehts
+            };
             Assert.IsFalse(_targetPerson.Equals(otherPerson));
         }
 
@@ -117,9 +148,18 @@ namespace DataCache.Tests
         [TestMethod]
         public void Person_Equals_DifferenceInMembership()
         {
-            var otherPerson = new Person(_targetPerson.ID, _targetPerson.Email, _targetPerson.GivenName,
-                                    _targetPerson.FamilyName, false, _targetPerson.Address,
-                                    _targetPerson.Account, _targetPerson.PhoneNumbers, _targetPerson.Yahrtziehts);
+            var otherPerson = new Person
+            {
+                Id = _targetPerson.Id,
+                Email = _targetPerson.Email,
+                GivenName = _targetPerson.GivenName,
+                FamilyName = _targetPerson.FamilyName,
+                Member = false,
+                Address = _targetPerson.Address,
+                Account = _targetPerson.Account,
+                PhoneNumbers = _targetPerson.PhoneNumbers,
+                Yahrtziehts = _targetPerson.Yahrtziehts
+            };
             Assert.IsFalse(_targetPerson.Equals(otherPerson));
         }
 
@@ -129,9 +169,18 @@ namespace DataCache.Tests
         [TestMethod]
         public void Person_Equals_DifferenceInEmail()
         {
-            var otherPerson = new Person(_targetPerson.ID, "yeahright@somethingelse.blah", _targetPerson.GivenName, _targetPerson.FamilyName,
-                                    _targetPerson.Member, _targetPerson.Address, _targetPerson.Account,
-                                    _targetPerson.PhoneNumbers, _targetPerson.Yahrtziehts);
+            var otherPerson = new Person
+            {
+                Id = _targetPerson.Id,
+                Email = "yeahright@somethingelse.blah",
+                GivenName = _targetPerson.GivenName,
+                FamilyName = _targetPerson.FamilyName,
+                Member = _targetPerson.Member,
+                Address = _targetPerson.Address,
+                Account = _targetPerson.Account,
+                PhoneNumbers = _targetPerson.PhoneNumbers,
+                Yahrtziehts = _targetPerson.Yahrtziehts
+            };
             Assert.IsFalse(_targetPerson.Equals(otherPerson));
         }
 
@@ -141,9 +190,18 @@ namespace DataCache.Tests
         [TestMethod]
         public void People_Equals_DfferenceInGivenName()
         {
-            var otherPerson = new Person(_targetPerson.ID, _targetPerson.Email, "not him again", _targetPerson.FamilyName,
-                                    _targetPerson.Member, _targetPerson.Address, _targetPerson.Account,
-                                    _targetPerson.PhoneNumbers, _targetPerson.Yahrtziehts);
+            var otherPerson = new Person
+            {
+                Id = _targetPerson.Id,
+                Email = _targetPerson.Email,
+                GivenName = "Not him again",
+                FamilyName = _targetPerson.FamilyName,
+                Member = _targetPerson.Member,
+                Address = _targetPerson.Address,
+                Account = _targetPerson.Account,
+                PhoneNumbers = _targetPerson.PhoneNumbers,
+                Yahrtziehts = _targetPerson.Yahrtziehts
+            };
             Assert.IsFalse(_targetPerson.Equals(otherPerson));
         }
 
@@ -153,9 +211,18 @@ namespace DataCache.Tests
         [TestMethod]
         public void People_Equals_DifferenceInFamilyName()
         {
-            var otherPerson = new Person(_targetPerson.ID, _targetPerson.Email, _targetPerson.GivenName, "no it wasnt me",
-                                     _targetPerson.Member, _targetPerson.Address, _targetPerson.Account,
-                                     _targetPerson.PhoneNumbers, _targetPerson.Yahrtziehts);
+            var otherPerson = new Person
+            {
+                Id = _targetPerson.Id,
+                Email = _targetPerson.Email,
+                GivenName = _targetPerson.GivenName,
+                FamilyName = "No it wasn't me",
+                Member = _targetPerson.Member,
+                Address = _targetPerson.Address,
+                Account = _targetPerson.Account,
+                PhoneNumbers = _targetPerson.PhoneNumbers,
+                Yahrtziehts = _targetPerson.Yahrtziehts
+            };
             Assert.IsFalse(_targetPerson.Equals(otherPerson));
         }
 
@@ -165,9 +232,18 @@ namespace DataCache.Tests
         [TestMethod]
         public void People_Equals_DifferenceInStreetAddress()
         {
-            var otherPerson = new Person(_targetPerson.ID, _targetPerson.Email, _targetPerson.GivenName, _targetPerson.FamilyName,
-                                     _targetPerson.Member, ";;;;;;", _targetPerson.Account,
-                                     _targetPerson.PhoneNumbers, _targetPerson.Yahrtziehts);
+            var otherPerson = new Person
+            {
+                Id = _targetPerson.Id,
+                Email = _targetPerson.Email,
+                GivenName = _targetPerson.GivenName,
+                FamilyName = _targetPerson.FamilyName,
+                Member = _targetPerson.Member,
+                Address = ";;;;;;",
+                Account = _targetPerson.Account,
+                PhoneNumbers = _targetPerson.PhoneNumbers,
+                Yahrtziehts = _targetPerson.Yahrtziehts
+            };
             Assert.IsFalse(_targetPerson.Equals(otherPerson));
         }
 
@@ -177,13 +253,28 @@ namespace DataCache.Tests
         [TestMethod]
         public void People_Equals_DifferenceInAccount()
         {
-            var secondAccount = new Account(18, 500, new DateTime(DateTime.Today.Year, 2, DateTime.Today.Day),
-                new List<Donation>
-                {new Donation(1, "cuz i wanna", 45.90, DateTime.Today, "i dont know that we will ever see the money"),
-                                      new Donation(2, "it was a glorious day", 4010, DateTime.Today, "it was good that this money came in", DateTime.Today, true)});
-            var otherPerson = new Person(_targetPerson.ID, _targetPerson.Email, _targetPerson.GivenName,
-                                    _targetPerson.FamilyName, _targetPerson.Member, _targetPerson.Address,
-                                    secondAccount, _targetPerson.PhoneNumbers, _targetPerson.Yahrtziehts);
+            var secondAccount = new Account
+            {
+                Id = 18,
+                MonthlyPaymentAmount = 500,
+                LastMonthlyPaymentDate = new DateTime(DateTime.Today.Year, 2, DateTime.Today.Day),
+                Donations = new List<Donation>{
+                    new Donation(1, "cuz i wanna", 45.90, DateTime.Today, "i dont know that we will ever see the money"),
+                    new Donation(2, "it was a glorious day", 4010, DateTime.Today, "it was good that this money came in", DateTime.Today, true)
+                }
+            };
+            var otherPerson = new Person
+            {
+                Id = _targetPerson.Id,
+                Email = _targetPerson.Email,
+                GivenName = _targetPerson.GivenName,
+                FamilyName = _targetPerson.FamilyName,
+                Member = _targetPerson.Member,
+                Address = _targetPerson.Address,
+                Account = secondAccount,
+                PhoneNumbers = _targetPerson.PhoneNumbers,
+                Yahrtziehts = _targetPerson.Yahrtziehts
+            };
             Assert.IsFalse(_targetPerson.Equals(otherPerson));
         }
 
@@ -195,11 +286,25 @@ namespace DataCache.Tests
         {
             var secondPhoneNumbers = new List<PhoneNumber>
             {
-                new PhoneNumber(1, "987654321", new PhoneType(1,"nothing"))
+                new PhoneNumber
+                {
+                    Id = 1,
+                    Number = "987654321",
+                    Type = new PhoneType { Id =1, Name = "nothing" }
+                }
             };
-            var otherPerson = new Person(_targetPerson.ID, _targetPerson.Email, _targetPerson.GivenName,
-                                    _targetPerson.FamilyName, _targetPerson.Member, _targetPerson.Address,
-                                    _targetPerson.Account, secondPhoneNumbers, _targetPerson.Yahrtziehts);
+            var otherPerson = new Person
+            {
+                Id = _targetPerson.Id,
+                Email = _targetPerson.Email,
+                GivenName = _targetPerson.GivenName,
+                FamilyName = _targetPerson.FamilyName,
+                Member = _targetPerson.Member,
+                Address = _targetPerson.Address,
+                Account = _targetPerson.Account,
+                PhoneNumbers = secondPhoneNumbers,
+                Yahrtziehts = _targetPerson.Yahrtziehts
+            };
             Assert.IsFalse(_targetPerson.Equals(otherPerson));
         }
 
@@ -213,9 +318,18 @@ namespace DataCache.Tests
             {
                 new Yahrtzieht(18, DateTime.MinValue, "ploni ben almoni", "they where not related")
             };
-            var otherPerson = new Person(_targetPerson.ID, _targetPerson.Email, _targetPerson.GivenName,
-                                    _targetPerson.FamilyName, _targetPerson.Member, _targetPerson.Address,
-                                    _targetPerson.Account, _targetPerson.PhoneNumbers, secondYahrtziehts);
+            var otherPerson = new Person
+            {
+                Id = _targetPerson.Id,
+                Email = _targetPerson.Email,
+                GivenName = _targetPerson.GivenName,
+                FamilyName = _targetPerson.FamilyName,
+                Member = _targetPerson.Member,
+                Address = _targetPerson.Address,
+                Account = _targetPerson.Account,
+                PhoneNumbers = _targetPerson.PhoneNumbers,
+                Yahrtziehts = secondYahrtziehts
+            };
             Assert.IsFalse(_targetPerson.Equals(otherPerson));
         }
 
@@ -287,9 +401,18 @@ namespace DataCache.Tests
         [TestMethod]
         public void Person_ToString_IsNotAMember()
         {
-            var newTarget = new Person(_targetPerson.ID, _targetPerson.Email, _targetPerson.GivenName, _targetPerson.FamilyName,
-                                          false, _targetPerson.Address, _targetPerson.Account,
-                                          _targetPerson.PhoneNumbers, _targetPerson.Yahrtziehts);
+            var newTarget = new Person
+            {
+                Id = _targetPerson.Id,
+                Email = _targetPerson.Email,
+                GivenName = _targetPerson.GivenName,
+                FamilyName = _targetPerson.FamilyName,
+                Member = false,
+                Address = _targetPerson.Address,
+                Account = _targetPerson.Account,
+                PhoneNumbers = _targetPerson.PhoneNumbers,
+                Yahrtziehts = _targetPerson.Yahrtziehts
+            };
             var phoneNumberStrings = "";
             if (_phoneNumbers.Count > 0)
             {

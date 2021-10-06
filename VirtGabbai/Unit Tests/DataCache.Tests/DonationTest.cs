@@ -22,7 +22,7 @@ namespace DataCache.Tests
             _amount = 10.5;
             _comments = "not to much";
 
-            _targetDonation = new Donation { ID = _id, Reason = _reason, Amount = _amount, DonationDate = _donationDate, Comments = _comments };
+            _targetDonation = new Donation { Id = _id, Reason = _reason, Amount = _amount, DonationDate = _donationDate, Comments = _comments };
         }
 
         [TestCleanup]
@@ -53,7 +53,7 @@ namespace DataCache.Tests
         [TestMethod]
         public void Donation_ToString_NoComment()
         {
-            var target = new Donation { ID = _id, Reason = _reason, Amount = _amount, DonationDate = _donationDate };
+            var target = new Donation { Id = _id, Reason = _reason, Amount = _amount, DonationDate = _donationDate };
             var expected = "Donated for: \"" + target.Reason +
                               "\" Amount donated: \"" + target.Amount +
                               "\" Date donated: \"" + target.DonationDate.ToString("dd/MM/yyyy") + "\"";
@@ -72,7 +72,7 @@ namespace DataCache.Tests
         [TestMethod]
         public void Donation_Equals_NoDifferences()
         {
-            var otherDonation = new Donation { ID = _id, Reason = _reason, Amount = _amount, DonationDate = _donationDate, Comments = _comments };
+            var otherDonation = new Donation { Id = _id, Reason = _reason, Amount = _amount, DonationDate = _donationDate, Comments = _comments };
 
             Assert.IsTrue(_targetDonation.Equals(otherDonation));
             Assert.IsTrue(otherDonation.Equals(_targetDonation));
@@ -84,7 +84,7 @@ namespace DataCache.Tests
         [TestMethod]
         public void Donation_Equals_DifferenceInId()
         {
-            var otherDonation = new Donation { ID = _id * 2, Reason = _reason, Amount = _amount, DonationDate = _donationDate, Comments = _comments };
+            var otherDonation = new Donation { Id = _id * 2, Reason = _reason, Amount = _amount, DonationDate = _donationDate, Comments = _comments };
 
             Assert.IsFalse(_targetDonation.Equals(otherDonation));
             Assert.IsFalse(otherDonation.Equals(_targetDonation));
@@ -96,7 +96,7 @@ namespace DataCache.Tests
         [TestMethod]
         public void Donation_Equals_DifferenceInReason()
         {
-            var otherDonation = new Donation { ID = _id, Reason = _reason + _reason, Amount = _amount, DonationDate = _donationDate, Comments = _comments };
+            var otherDonation = new Donation { Id = _id, Reason = _reason + _reason, Amount = _amount, DonationDate = _donationDate, Comments = _comments };
 
             Assert.IsFalse(_targetDonation.Equals(otherDonation));
             Assert.IsFalse(otherDonation.Equals(_targetDonation));
@@ -108,7 +108,7 @@ namespace DataCache.Tests
         [TestMethod]
         public void Donation_Equals_DifferenceInAmount()
         {
-            var otherDonation = new Donation { ID = _id, Reason = _reason, Amount = _amount * 2, DonationDate = _donationDate, Comments = _comments };
+            var otherDonation = new Donation { Id = _id, Reason = _reason, Amount = _amount * 2, DonationDate = _donationDate, Comments = _comments };
 
             Assert.IsFalse(_targetDonation.Equals(otherDonation));
             Assert.IsFalse(otherDonation.Equals(_targetDonation));
@@ -120,7 +120,7 @@ namespace DataCache.Tests
         [TestMethod]
         public void Donation_Equals_DifferenceInDonationDate()
         {
-            var otherDonation = new Donation { ID = _id, Reason = _reason, Amount = _amount, DonationDate = DateTime.MaxValue, Comments = _comments };
+            var otherDonation = new Donation { Id = _id, Reason = _reason, Amount = _amount, DonationDate = DateTime.MaxValue, Comments = _comments };
 
             Assert.IsFalse(_targetDonation.Equals(otherDonation));
             Assert.IsFalse(otherDonation.Equals(_targetDonation));
@@ -132,7 +132,7 @@ namespace DataCache.Tests
         [TestMethod]
         public void Donation_Equals_DifferenceInComment()
         {
-            var otherDonation = new Donation { ID = _id, Reason = _reason, Amount = _amount, DonationDate = _donationDate, Comments = _comments + _comments };
+            var otherDonation = new Donation { Id = _id, Reason = _reason, Amount = _amount, DonationDate = _donationDate, Comments = _comments + _comments };
 
             Assert.IsFalse(_targetDonation.Equals(otherDonation));
             Assert.IsFalse(otherDonation.Equals(_targetDonation));
@@ -144,7 +144,7 @@ namespace DataCache.Tests
         [TestMethod]
         public void Donation_Equals_DifferencesInAllFields()
         {
-            var otherDonation = new Donation { ID = _id * 2, Reason = _reason + _reason, Amount = _amount * 2, DonationDate = DateTime.MaxValue, Comments = _comments + _comments };
+            var otherDonation = new Donation { Id = _id * 2, Reason = _reason + _reason, Amount = _amount * 2, DonationDate = DateTime.MaxValue, Comments = _comments + _comments };
 
             Assert.IsFalse(_targetDonation.Equals(otherDonation));
             Assert.IsFalse(otherDonation.Equals(_targetDonation));

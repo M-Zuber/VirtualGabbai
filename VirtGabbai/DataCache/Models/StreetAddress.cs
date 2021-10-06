@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Framework;
+﻿using Framework;
+using System;
 
 namespace DataCache.Models
 {
@@ -30,7 +27,7 @@ namespace DataCache.Models
 
         public StreetAddress(string address)
         {
-            string[] addressParts = address.Split(new string[] { Globals.DELIMITER }, StringSplitOptions.None);
+            var addressParts = address.Split(new[] { Globals.Delimiter }, StringSplitOptions.None);
 
             if (addressParts.Length == 7)
             {
@@ -61,27 +58,26 @@ namespace DataCache.Models
 
         public override bool Equals(object obj)
         {
-            var other = obj as StreetAddress;
-            if (ReferenceEquals(null, other))
+            if (!(obj is StreetAddress other))
             {
                 return false;
             }
 
-            return ReferenceEquals(this, other) ||
-                    (ApartmentNumber == other.ApartmentNumber &&
-                     House == other.House &&
-                     Street == other.Street &&
-                     City == other.City &&
-                     State == other.State &&
-                     Country == other.Country &&
-                     Zipcode == other.Zipcode);
+            return ReferenceEquals(this, other)
+                    || (ApartmentNumber == other.ApartmentNumber
+                   && House == other.House
+                   && Street == other.Street
+                   && City == other.City
+                   && State == other.State
+                   && Country == other.Country
+                   && Zipcode == other.Zipcode);
         }
 
-        public override int GetHashCode() => base.GetHashCode();
+        public override int GetHashCode() => Zipcode.GetHashCode();
 
         public override string ToString()
         {
-            string addressToString = House + " " + Street;
+            var addressToString = House + " " + Street;
             if (!string.IsNullOrWhiteSpace(ApartmentNumber))
             {
                 addressToString += "\tApartment #" + ApartmentNumber;
@@ -100,13 +96,13 @@ namespace DataCache.Models
 
         #region Other Methods
 
-        public string ToDbString() => (ApartmentNumber + Globals.DELIMITER + 
-                                       House + Globals.DELIMITER + 
-                                       Street + Globals.DELIMITER +
-                                       City + Globals.DELIMITER +
-                                       State + Globals.DELIMITER +
-                                       Country + Globals.DELIMITER +
-                                       Zipcode);
+        public string ToDbString() => ApartmentNumber + Globals.Delimiter +
+                                      House + Globals.Delimiter +
+                                      Street + Globals.Delimiter +
+                                      City + Globals.Delimiter +
+                                      State + Globals.Delimiter +
+                                      Country + Globals.Delimiter +
+                                      Zipcode;
 
         #endregion
     }

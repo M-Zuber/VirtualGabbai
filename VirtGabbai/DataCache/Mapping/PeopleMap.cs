@@ -1,5 +1,4 @@
 using DataCache.Models;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
 
 namespace DataCache.Mapping
@@ -9,10 +8,10 @@ namespace DataCache.Mapping
         public PeopleMap()
         {
             // Primary Key
-            HasKey(t => t.ID);
+            HasKey(t => t.Id);
 
             // Properties
-            Property(t => t.ID);
+            Property(t => t.Id);
 
             Property(t => t.Email)
                 .HasMaxLength(45);
@@ -28,7 +27,7 @@ namespace DataCache.Mapping
 
             // Table & Column Mappings
             ToTable("People", "ZeraLevi");
-            Property(t => t.ID).HasColumnName("ID");
+            Property(t => t.Id).HasColumnName("ID");
             Property(t => t.Email).HasColumnName("Email");
             Property(t => t.GivenName).HasColumnName("GivenName");
             Property(t => t.FamilyName).HasColumnName("FamilyName");

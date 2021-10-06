@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Framework;
-using DataCache;
-using System.Data;
+﻿using DataAccess.Interfaces;
 using DataCache.Models;
-using DataAccess.Interfaces;
+using System;
+using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
 
 namespace DataAccess
 {
     public class PrivilegeGroupRepository : IFullAccessRepository<PrivilegesGroup>
     {
-        private ZeraLeviContext _context;
+        private readonly ZeraLeviContext _context;
 
         public DbSet<PrivilegesGroup> Entities => _context.PrivilegesGroups;
 
@@ -23,15 +20,15 @@ namespace DataAccess
 
         public IEnumerable<PrivilegesGroup> Get() => Entities;
 
-        public PrivilegesGroup GetByID(int id) => Entities.FirstOrDefault(pg => pg.ID == id);
+        public PrivilegesGroup GetById(int id) => Entities.FirstOrDefault(pg => pg.Id == id);
 
         public PrivilegesGroup GetByGroupName(string name) => Entities.FirstOrDefault(pg => pg.GroupName.Equals(name, StringComparison.InvariantCultureIgnoreCase));
 
         public bool GroupNameExists(string name) => GetByGroupName(name) != null;
 
-        public bool Exists(int id) => Entities.Any(pg => pg.ID == id);
+        public bool Exists(int id) => Entities.Any(pg => pg.Id == id);
 
-        public bool Exists(PrivilegesGroup item) => item != null && Exists(item.ID);
+        public bool Exists(PrivilegesGroup item) => item != null && Exists(item.Id);
 
         public void Add(PrivilegesGroup item)
         {
@@ -55,19 +52,17 @@ namespace DataAccess
         {
             if (item != null)
             {
-                var current = GetByID(item.ID);
+                var current = GetById(item.Id);
 
                 if (current == null)
                 {
-                    current = new PrivilegesGroup();
-                    current.GroupName = item.GroupName;
-                    current.Privileges = item.Privileges;
+                    current = new PrivilegesGroup { GroupName = item.GroupName, Privileges = item.Privileges };
                     Entities.Add(current);
                 }
 
                 _context.SaveChanges();
 
-                item.ID = current.ID;
+                item.Id = current.Id;
             }
         }
     }

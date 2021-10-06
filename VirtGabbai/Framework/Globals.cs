@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Framework
+﻿namespace Framework
 {
     public static class Globals
     {
-        public const string DELIMITER = ";";
+        public const string Delimiter = ";";
     }
 }

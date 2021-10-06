@@ -58,7 +58,7 @@ namespace DataAccess.IntegrationTests
         {
             var item = Helper.SetupData(_ctx);
 
-            Assert.IsTrue(_repository.Exists(item.ID));
+            Assert.IsTrue(_repository.Exists(item.Id));
         }
 
         [TestMethod]
@@ -72,7 +72,7 @@ namespace DataAccess.IntegrationTests
         [TestMethod]
         public void GetByID_No_Data_Returns_Null()
         {
-            Assert.IsNull(_repository.GetByID(1));
+            Assert.IsNull(_repository.GetById(1));
         }
 
         [TestMethod]
@@ -80,7 +80,7 @@ namespace DataAccess.IntegrationTests
         {
             var items = Helper.SetupData(_ctx, 1);
 
-            Assert.IsNull(_repository.GetByID(items.Max(d => d.ID) + 1));
+            Assert.IsNull(_repository.GetById(items.Max(d => d.Id) + 1));
         }
 
         [TestMethod]
@@ -88,7 +88,7 @@ namespace DataAccess.IntegrationTests
         {
             var expected = Helper.SetupData(_ctx);
 
-            Assert.AreEqual(expected, _repository.GetByID(expected.ID));
+            Assert.AreEqual(expected, _repository.GetById(expected.Id));
         }
 
         [TestMethod]
@@ -139,7 +139,7 @@ namespace DataAccess.IntegrationTests
 
             var item = Helper.GenFuSetup(1, before.Select(pt => pt.Name))
                              .First();
-            item.ID = before.Max(p => p.ID) + 1;
+            item.Id = before.Max(p => p.Id) + 1;
 
             _repository.Delete(item);
 
@@ -186,7 +186,7 @@ namespace DataAccess.IntegrationTests
 
             _repository.Save(item);
 
-            var expected = _repository.GetByID(item.ID);
+            var expected = _repository.GetById(item.Id);
             Assert.IsNotNull(expected);
             Assert.AreEqual(expected, item);
 
@@ -204,7 +204,7 @@ namespace DataAccess.IntegrationTests
 
             _repository.Save(item);
 
-            var after = _repository.GetByID(item.ID);
+            var after = _repository.GetById(item.Id);
 
             Assert.AreEqual(item, after);
         }
@@ -214,33 +214,22 @@ namespace DataAccess.IntegrationTests
             public static List<PhoneType> GenFuSetup(int count, IEnumerable<string> currentTypes)
             {
                 var generatedPhoneTypes = GenFu.GenFu.ListOf<PhoneType>(count);
-                var phoneTypes = new List<PhoneType>();
-
-                var currentTypeList = currentTypes.ToList();
-                foreach (var gPt in generatedPhoneTypes)
+                var generatedNames = generatedPhoneTypes.Select(g => g.Name);
+                var pass = false;
+                while (!pass)
                 {
-                    if (phoneTypes.Find(pt => pt.Name.Equals(gPt.Name, StringComparison.CurrentCultureIgnoreCase)) == null
-                        && (currentTypeList.Count == 0 || !currentTypeList.Contains(gPt.Name, StringComparer.CurrentCultureIgnoreCase)))
+                    if (currentTypes.Any(t => generatedNames.Contains(t, StringComparer.CurrentCultureIgnoreCase)))
                     {
-                        phoneTypes.Add(gPt);
+                        generatedPhoneTypes = GenFu.GenFu.ListOf<PhoneType>(count);
+                        generatedNames = generatedPhoneTypes.Select(g => g.Name);
+                    }
+                    else
+                    {
+                        pass = true;
                     }
                 }
 
-                while (phoneTypes.Count < count)
-                {
-                    generatedPhoneTypes = GenFu.GenFu.ListOf<PhoneType>(count);
-
-                    foreach (var gPt in generatedPhoneTypes)
-                    {
-                        if (phoneTypes.Find(pt => pt.Name.Equals(gPt.Name, StringComparison.CurrentCultureIgnoreCase)) == null
-                            && (currentTypeList.Count == 0 || !currentTypeList.Contains(gPt.Name, StringComparer.CurrentCultureIgnoreCase)))
-                        {
-                            phoneTypes.Add(gPt);
-                        }
-                    }
-                }
-
-                return phoneTypes.Take(count).ToList();
+                return generatedPhoneTypes;
             }
 
             public static PhoneType SetupData(ZeraLeviContext ctx)

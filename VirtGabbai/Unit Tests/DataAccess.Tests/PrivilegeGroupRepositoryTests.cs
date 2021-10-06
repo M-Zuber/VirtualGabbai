@@ -36,7 +36,7 @@ namespace DataAccess.Tests
         {
             var mock = RepositoryMocks.GetMockPrivilegesGroupRepository();
 
-            var actual = mock.GetByID(1);
+            var actual = mock.GetById(1);
 
             Assert.IsNull(actual);
         }
@@ -44,9 +44,12 @@ namespace DataAccess.Tests
         [TestMethod]
         public void GetByID_No_Match_Returns_Null()
         {
-            var mock = RepositoryMocks.GetMockPrivilegesGroupRepository(new List<PrivilegesGroup> { new PrivilegesGroup(2, "second", new List<Privilege> { new Privilege(1, "admin") }) });
+            var mock = RepositoryMocks.GetMockPrivilegesGroupRepository(new List<PrivilegesGroup>
+            {
+                new PrivilegesGroup { Id= 2, GroupName = "second", Privileges = new List<Privilege> { new Privilege(1, "admin") }}
+            });
 
-            var actual = mock.GetByID(1);
+            var actual = mock.GetById(1);
 
             Assert.IsNull(actual);
         }
@@ -54,10 +57,10 @@ namespace DataAccess.Tests
         [TestMethod]
         public void GetByID_Returns_The_Item_With_The_Given_ID()
         {
-            var expected = new PrivilegesGroup(1, "First", new List<Privilege> { new Privilege(1, "admin") });
+            var expected = new PrivilegesGroup { Id = 1, GroupName = "First", Privileges = new List<Privilege> { new Privilege(1, "admin") } };
             var mock = RepositoryMocks.GetMockPrivilegesGroupRepository(new List<PrivilegesGroup> { expected });
 
-            var actual = mock.GetByID(1);
+            var actual = mock.GetById(1);
 
             Assert.IsNotNull(actual);
             Assert.AreEqual(expected, actual);
@@ -76,7 +79,7 @@ namespace DataAccess.Tests
         [TestMethod]
         public void GetByGroupName_No_Match_Returns_Null()
         {
-            var mock = RepositoryMocks.GetMockPrivilegesGroupRepository(new List<PrivilegesGroup> { new PrivilegesGroup(2, "second", new List<Privilege> { new Privilege(1, "admin") }) });
+            var mock = RepositoryMocks.GetMockPrivilegesGroupRepository(new List<PrivilegesGroup> { new PrivilegesGroup { Id = 2, GroupName = "second", Privileges = new List<Privilege> { new Privilege(1, "admin") } } });
 
             var actual = mock.GetByGroupName("first");
 
@@ -86,7 +89,7 @@ namespace DataAccess.Tests
         [TestMethod]
         public void GetByGroupName_Returns_The_Item_With_The_Given_ID()
         {
-            var expected = new PrivilegesGroup(1, "First", new List<Privilege> { new Privilege(1, "admin") });
+            var expected = new PrivilegesGroup { Id = 1, GroupName = "First", Privileges = new List<Privilege> { new Privilege(1, "admin") } };
             var mock = RepositoryMocks.GetMockPrivilegesGroupRepository(new List<PrivilegesGroup> { expected });
 
             var actual = mock.GetByGroupName("first");
@@ -98,7 +101,7 @@ namespace DataAccess.Tests
         [TestMethod]
         public void GroupNameExists_Match_Found_Returns_True()
         {
-            var mock = RepositoryMocks.GetMockPrivilegesGroupRepository(new List<PrivilegesGroup> { new PrivilegesGroup(1, "First", new List<Privilege> { new Privilege(1, "admin") }) });
+            var mock = RepositoryMocks.GetMockPrivilegesGroupRepository(new List<PrivilegesGroup> { new PrivilegesGroup { Id = 1, GroupName = "First", Privileges = new List<Privilege> { new Privilege(1, "admin") } } });
 
             Assert.IsTrue(mock.GroupNameExists("first"));
         }
@@ -106,7 +109,7 @@ namespace DataAccess.Tests
         [TestMethod]
         public void GroupNameExists_No_Match_Found_Returns_False()
         {
-            var mock = RepositoryMocks.GetMockPrivilegesGroupRepository(new List<PrivilegesGroup> { new PrivilegesGroup(1, "First", new List<Privilege> { new Privilege(1, "admin") }) });
+            var mock = RepositoryMocks.GetMockPrivilegesGroupRepository(new List<PrivilegesGroup> { new PrivilegesGroup { Id = 1, GroupName = "First", Privileges = new List<Privilege> { new Privilege(1, "admin") } } });
 
             Assert.IsFalse(mock.GroupNameExists("Second"));
         }
@@ -130,7 +133,7 @@ namespace DataAccess.Tests
         [TestMethod]
         public void Exists_Match_Found_Returns_True()
         {
-            var mock = RepositoryMocks.GetMockPrivilegesGroupRepository(new List<PrivilegesGroup> { new PrivilegesGroup(1, "Admin", new List<Privilege>()) });
+            var mock = RepositoryMocks.GetMockPrivilegesGroupRepository(new List<PrivilegesGroup> { new PrivilegesGroup { Id = 1, GroupName = "Admin", Privileges = new List<Privilege>() } });
 
             Assert.IsTrue(mock.Exists(1));
         }
@@ -138,7 +141,7 @@ namespace DataAccess.Tests
         [TestMethod]
         public void Exists_Item_Is_Null_Returns_False()
         {
-            var mock = RepositoryMocks.GetMockPrivilegesGroupRepository(new List<PrivilegesGroup> { new PrivilegesGroup(1, "Admin", new List<Privilege>()) });
+            var mock = RepositoryMocks.GetMockPrivilegesGroupRepository(new List<PrivilegesGroup> { new PrivilegesGroup { Id = 1, GroupName = "Admin", Privileges = new List<Privilege>() } });
 
             Assert.IsFalse(mock.Exists(null));
         }
@@ -146,17 +149,17 @@ namespace DataAccess.Tests
         [TestMethod]
         public void Exists_Item_No_Match_Returns_False()
         {
-            var mock = RepositoryMocks.GetMockPrivilegesGroupRepository(new List<PrivilegesGroup> { new PrivilegesGroup(1, "Admin", new List<Privilege>()) });
+            var mock = RepositoryMocks.GetMockPrivilegesGroupRepository(new List<PrivilegesGroup> { new PrivilegesGroup { Id = 1, GroupName = "Admin", Privileges = new List<Privilege>() } });
 
-            Assert.IsFalse(mock.Exists(new PrivilegesGroup { ID = 2 }));
+            Assert.IsFalse(mock.Exists(new PrivilegesGroup { Id = 2 }));
         }
 
         [TestMethod]
         public void Exists_Item_Match_Found_Returns_True()
         {
-            var mock = RepositoryMocks.GetMockPrivilegesGroupRepository(new List<PrivilegesGroup> { new PrivilegesGroup(1, "Admin", new List<Privilege>()) });
+            var mock = RepositoryMocks.GetMockPrivilegesGroupRepository(new List<PrivilegesGroup> { new PrivilegesGroup { Id = 1, GroupName = "Admin", Privileges = new List<Privilege>() } });
 
-            Assert.IsTrue(mock.Exists(new PrivilegesGroup { ID = 1 }));
+            Assert.IsTrue(mock.Exists(new PrivilegesGroup { Id = 1 }));
         }
     }
 }

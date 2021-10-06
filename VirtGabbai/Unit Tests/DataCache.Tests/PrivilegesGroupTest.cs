@@ -19,7 +19,7 @@ namespace DataCache.Tests
                 new Privilege(2, "privilege:2")
             };
             const string groupName = "firstGroup";
-            _target = new PrivilegesGroup(id, groupName, privileges);
+            _target = new PrivilegesGroup { Id = id, GroupName = groupName, Privileges = privileges };
         }
 
         [TestCleanup]
@@ -43,7 +43,7 @@ namespace DataCache.Tests
                 new Privilege(2, "privilege:2")
             };
             const string groupName = "firstGroup";
-            var obj = new PrivilegesGroup(id, groupName, privileges);
+            var obj = new PrivilegesGroup { Id = id, GroupName = groupName, Privileges = privileges };
 
             Assert.IsTrue(_target.Equals(obj));
             Assert.IsTrue(obj.Equals(_target));
@@ -55,9 +55,15 @@ namespace DataCache.Tests
         [TestMethod]
         public void AllDiffEqualsTest()
         {
-            var obj = new PrivilegesGroup(2, "OtherGroup", new List<Privilege>
+            var obj = new PrivilegesGroup
             {
-                                new Privilege(4, "privilege:4")});
+                Id = 2,
+                GroupName = "OtherGroup",
+                Privileges = new List<Privilege>
+                {
+                    new Privilege(4, "privilege:4")
+                }
+            };
 
             Assert.IsFalse(_target.Equals(obj));
             Assert.IsFalse(obj.Equals(_target));
@@ -75,7 +81,7 @@ namespace DataCache.Tests
                 new Privilege(1, "privilege:1"),
                 new Privilege(2, "privilege:2")
             };
-            var obj = new PrivilegesGroup(id, "OtherGroup", privileges);
+            var obj = new PrivilegesGroup { Id = id, GroupName = "Other Group", Privileges = privileges };
 
             Assert.IsFalse(_target.Equals(obj));
             Assert.IsFalse(obj.Equals(_target));
@@ -93,7 +99,7 @@ namespace DataCache.Tests
                 new Privilege(2, "privilege:2")
             };
             const string groupName = "firstGroup";
-            var obj = new PrivilegesGroup(2, groupName, privileges);
+            var obj = new PrivilegesGroup { Id = 2, GroupName = groupName, Privileges = privileges };
 
             Assert.IsFalse(_target.Equals(obj));
             Assert.IsFalse(obj.Equals(_target));
@@ -107,9 +113,16 @@ namespace DataCache.Tests
         {
             const int id = 1;
             const string groupName = "firstGroup";
-            var obj = new PrivilegesGroup(id, groupName, new List<Privilege>
+
+            var obj = new PrivilegesGroup
             {
-                                new Privilege(4, "privilege:4")});
+                Id = id,
+                GroupName = groupName,
+                Privileges = new List<Privilege>
+                {
+                    new Privilege(4, "privilege:4")
+                }
+            };
 
             Assert.IsFalse(_target.Equals(obj));
             Assert.IsFalse(obj.Equals(_target));
@@ -155,7 +168,7 @@ namespace DataCache.Tests
                 new Privilege(2, "privilege:2")
             };
             const string groupName = "firstGroup";
-            var target = new PrivilegesGroup(id, groupName, privileges);
+            var target = new PrivilegesGroup { Id = id, GroupName = groupName, Privileges = privileges };
             var expected = target.GroupName;
 
             foreach (var item in target.Privileges)

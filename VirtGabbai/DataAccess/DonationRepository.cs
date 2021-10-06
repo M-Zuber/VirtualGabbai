@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using DataCache;
-using Framework;
+﻿using DataAccess.Interfaces;
 using DataCache.Models;
-using DataAccess.Interfaces;
+using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
 
 namespace DataAccess
 {
     public class DonationRepository : IReadOnlyRepository<Donation>
     {
-        private ZeraLeviContext _context;
+        private readonly ZeraLeviContext _context;
 
         public DbSet<Donation> Entities => _context.Donations;
 
@@ -20,12 +17,12 @@ namespace DataAccess
             _context = context;
         }
 
-        public bool Exists(Donation item) => item != null && Exists(item.ID);
+        public bool Exists(Donation item) => item != null && Exists(item.Id);
 
-        public bool Exists(int id) => Entities.Any(d => d.ID == id);
+        public bool Exists(int id) => Entities.Any(d => d.Id == id);
 
         public IEnumerable<Donation> Get() => Entities;
 
-        public Donation GetByID(int id) => Entities.FirstOrDefault(d => d.ID == id);
+        public Donation GetById(int id) => Entities.FirstOrDefault(d => d.Id == id);
     }
 }

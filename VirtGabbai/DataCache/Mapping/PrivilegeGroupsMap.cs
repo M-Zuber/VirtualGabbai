@@ -10,24 +10,24 @@ namespace DataCache.Mapping
         public PrivilegeGroupsMap()
         {
             // Primary Key
-            this.HasKey(t => t.ID);
+            HasKey(t => t.Id);
 
             // Properties
-            this.Property(t => t.ID);
+            Property(t => t.Id);
 
-            this.Property(t => t.GroupName)
+            Property(t => t.GroupName)
                 .HasMaxLength(45);
 
             // Table & Column Mappings
-            this.ToTable("PrivilegesGroup", "ZeraLevi");
-            this.Property(t => t.ID).HasColumnName("ID");
-            this.Property(t => t.GroupName)
+            ToTable("PrivilegesGroup", "ZeraLevi");
+            Property(t => t.Id).HasColumnName("ID");
+            Property(t => t.GroupName)
                 .HasColumnName("GroupName")
                 .HasColumnAnnotation(IndexAnnotation.AnnotationName,
                             new IndexAnnotation(new IndexAttribute("IX_PrivilegeGroups_GroupName") { IsUnique = true }));
 
             // Relationships
-            this.HasMany(t => t.Privileges)
+            HasMany(t => t.Privileges)
                 .WithMany(t => t.PrivilegesGroup)
                 .Map(m =>
                     {
@@ -35,8 +35,6 @@ namespace DataCache.Mapping
                         m.MapLeftKey("GroupID");
                         m.MapRightKey("PrivilegeId");
                     });
-
-
         }
     }
 }
