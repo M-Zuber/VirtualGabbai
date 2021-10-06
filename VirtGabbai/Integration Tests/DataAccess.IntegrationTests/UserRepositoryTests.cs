@@ -253,7 +253,9 @@ namespace DataAccess.IntegrationTests
                 GenFu.GenFu.Configure<PrivilegesGroup>()
                     .Fill(pg => pg.Id, 0)
                     .Fill(pg => pg.Privileges)
-                    .WithRandom(listOfPrivilegeLists);
+                    .Fill(pg => pg.Privileges, listOfPrivilegeLists[0])
+                    //.WithRandom(listOfPrivilegeLists)
+                    ;
 
                 var users = GenFu.GenFu.ListOf<User>(count);
                 var currentPgNamesList = currentPgNames.ToList();
