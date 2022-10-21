@@ -17,7 +17,7 @@ namespace DataCache.Models
         public string Number { get; set; }
         public int Id { get; set; }
         public virtual Person Person { get; set; }
-        public PhoneType Type { get; set; }
+        public PhoneType Type { get; set; } = PhoneType.Unknown;
 
         public override bool Equals(object obj)
         {
