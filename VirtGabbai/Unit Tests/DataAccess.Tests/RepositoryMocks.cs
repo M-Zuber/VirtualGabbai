@@ -8,14 +8,6 @@ namespace DataAccess.Tests
     //TODO move this into a separate project
     internal static class RepositoryMocks
     {
-        internal static PhoneTypeRepository GetMockPhoneTypeRepository(List<PhoneType> data = null)
-        {
-            var mockContext = new Mock<ZeraLeviContext>();
-            var mockSet = new Mock<DbSet<PhoneType>>().SetupData(data ?? new List<PhoneType>());
-            mockContext.Setup(c => c.PhoneTypes).Returns(mockSet.Object);
-            return new PhoneTypeRepository(mockContext.Object);
-        }
-
         internal static DonationRepository GetMockDonationRepository(List<Donation> data = null)
         {
             var mockContext = new Mock<ZeraLeviContext>();

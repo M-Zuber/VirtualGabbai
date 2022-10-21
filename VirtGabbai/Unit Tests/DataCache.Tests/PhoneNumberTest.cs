@@ -11,7 +11,7 @@ namespace DataCache.Tests
         [TestInitialize]
         public void MyTestInitialize()
         {
-            _targetPhoneNumber = new PhoneNumber { Id = 1, Number = "0546137475", Type = new PhoneType { Id = 1, Name = "cell phone" } };
+            _targetPhoneNumber = new PhoneNumber { Id = 1, Number = "0546137475", Type = PhoneType.Cellphone };
         }
 
         [TestCleanup]
@@ -28,7 +28,7 @@ namespace DataCache.Tests
         [TestMethod]
         public void PhoneNumber_Equals_NoDifferences()
         {
-            var comparedNumber = new PhoneNumber { Id = 1, Number = "0546137475", Type = new PhoneType { Id = 1, Name = "cell phone" } };
+            var comparedNumber = new PhoneNumber { Id = 1, Number = "0546137475", Type = PhoneType.Cellphone };
             Assert.IsTrue(_targetPhoneNumber.Equals(comparedNumber));
         }
 
@@ -38,7 +38,7 @@ namespace DataCache.Tests
         [TestMethod]
         public void PhoneNumber_Equals_DifferenceInEveryField()
         {
-            var comparedNumber = new PhoneNumber { Id = 2, Number = "0546147485", Type = new PhoneType { Id = 2, Name = "house phone" } };
+            var comparedNumber = new PhoneNumber { Id = 2, Number = "0546147485", Type = PhoneType.Landline };
             Assert.IsFalse(_targetPhoneNumber.Equals(comparedNumber));
         }
 
@@ -48,7 +48,7 @@ namespace DataCache.Tests
         [TestMethod]
         public void PhoneNumber_Equals_DifferenceInId()
         {
-            var comparedNumber = new PhoneNumber { Id = 2, Number = "0546137475", Type = new PhoneType { Id = 1, Name = "cell phone" } };
+            var comparedNumber = new PhoneNumber { Id = 2, Number = "0546137475", Type = PhoneType.Cellphone };
             Assert.IsFalse(_targetPhoneNumber.Equals(comparedNumber));
         }
 
@@ -58,7 +58,7 @@ namespace DataCache.Tests
         [TestMethod]
         public void PhoneNumber_Equals_DifferenceInNumber()
         {
-            var comparedNumber = new PhoneNumber { Id = 1, Number = "0546147485", Type = new PhoneType { Id = 1, Name = "cell phone" } };
+            var comparedNumber = new PhoneNumber { Id = 1, Number = "0546147485", Type = PhoneType.Cellphone };
             Assert.IsFalse(_targetPhoneNumber.Equals(comparedNumber));
         }
 
@@ -68,7 +68,7 @@ namespace DataCache.Tests
         [TestMethod]
         public void PhoneNumber_Equals_DifferenceInType()
         {
-            var comparedNumber = new PhoneNumber { Id = 1, Number = "0546137475", Type = new PhoneType { Id = 2, Name = "house phone" } };
+            var comparedNumber = new PhoneNumber { Id = 1, Number = "0546137475", Type = PhoneType.Landline };
             Assert.IsFalse(_targetPhoneNumber.Equals(comparedNumber));
         }
 

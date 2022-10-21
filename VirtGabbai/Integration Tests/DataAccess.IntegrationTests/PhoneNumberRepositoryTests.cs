@@ -96,21 +96,9 @@ namespace DataAccess.IntegrationTests
         {
             private static void GenFuSetup()
             {
-                var generatedPhoneTypes = GenFu.GenFu.ListOf<PhoneType>();
-                var phoneTypes = new List<PhoneType>();
-                foreach (var gPt in generatedPhoneTypes)
-                {
-                    if (phoneTypes.Find(pt => pt.Name.Equals(gPt.Name, StringComparison.CurrentCultureIgnoreCase)) == null)
-                    {
-                        phoneTypes.Add(gPt);
-                    }
-                }
-
                 GenFu.GenFu.Configure<PhoneNumber>()
                     .Fill(pn => pn.Number)
-                    .AsPhoneNumber()
-                    .Fill(pn => pn.Type)
-                    .WithRandom(phoneTypes);
+                    .AsPhoneNumber();
             }
 
             public static PhoneNumber SetupData(ZeraLeviContext ctx)

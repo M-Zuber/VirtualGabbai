@@ -111,7 +111,7 @@ namespace DataAccess.IntegrationTests
 
             var before = _repository.Get().ToList();
 
-            var person = Helper.GenFuSetup(1, before.SelectMany(p => p.PhoneNumbers).Select(pn => pn.Type).Select(pt => pt.Name))
+            var person = Helper.GenFuSetup(1)
                                .First();
             _repository.Add(person);
 
@@ -138,7 +138,7 @@ namespace DataAccess.IntegrationTests
         {
             var before = Helper.SetupData(_ctx, 5);
 
-            var person = Helper.GenFuSetup(1, Enumerable.Empty<string>()).First();
+            var person = Helper.GenFuSetup(1).First();
             person.Id = before.Max(p => p.Id) + 1;
 
             _repository.Delete(person);
@@ -179,7 +179,7 @@ namespace DataAccess.IntegrationTests
         {
             var before = Helper.SetupData(_ctx, 3);
 
-            var person = Helper.GenFuSetup(1, before.SelectMany(p => p.PhoneNumbers.Select(pn => pn.Type)).Select(pt => pt.Name))
+            var person = Helper.GenFuSetup(1)
                                .First();
 
             Assert.IsFalse(before.Contains(person));
@@ -212,23 +212,10 @@ namespace DataAccess.IntegrationTests
 
         private static class Helper
         {
-            public static List<Person> GenFuSetup(int count, IEnumerable<string> existingNames)
+            public static List<Person> GenFuSetup(int count)
             {
-                var generatedPhoneTypes = GenFu.GenFu.ListOf<PhoneType>();
-                var phoneTypes = new List<PhoneType>();
-                var existingNamesList = existingNames.ToList();
-                foreach (var gPt in generatedPhoneTypes)
-                {
-                    if (phoneTypes.Find(pt => pt.Name.Equals(gPt.Name, StringComparison.CurrentCultureIgnoreCase)) == null
-                        && !existingNamesList.Any(g => string.Equals(g, gPt.Name, StringComparison.CurrentCultureIgnoreCase)))
-                    {
-                        phoneTypes.Add(gPt);
-                    }
-                }
-
                 GenFu.GenFu.Configure<PhoneNumber>()
                  .Fill(pn => pn.Type)
-                 .WithRandom(phoneTypes)
                  .Fill(pn => pn.Number)
                  .AsPhoneNumber();
                 GenFu.GenFu.Configure<Donation>()
@@ -258,7 +245,7 @@ namespace DataAccess.IntegrationTests
 
             public static Person SetupData(ZeraLeviContext ctx)
             {
-                var person = GenFuSetup(1, Enumerable.Empty<string>()).First();
+                var person = GenFuSetup(1).First();
                 ctx.People.Add(person);
                 ctx.SaveChanges();
 
@@ -267,7 +254,7 @@ namespace DataAccess.IntegrationTests
 
             public static List<Person> SetupData(ZeraLeviContext ctx, int count)
             {
-                var people = GenFuSetup(count, Enumerable.Empty<string>());
+                var people = GenFuSetup(count);
                 ctx.People.AddRange(people);
                 ctx.SaveChanges();
 

@@ -19,7 +19,6 @@ namespace DataCache.Models
         public virtual DbSet<Donation> Donations { get; set; }
         public virtual DbSet<Person> People { get; set; }
         public virtual DbSet<PhoneNumber> PhoneNumbers { get; set; }
-        public virtual DbSet<PhoneType> PhoneTypes { get; set; }
         public virtual DbSet<PrivilegesGroup> PrivilegesGroups { get; set; }
         public virtual DbSet<Privilege> Privileges { get; set; }
         public virtual DbSet<User> Users { get; set; }
@@ -31,7 +30,6 @@ namespace DataCache.Models
             modelBuilder.Configurations.Add(new AccountsMap());
             modelBuilder.Configurations.Add(new PeopleMap());
             modelBuilder.Configurations.Add(new PhoneNumbersMap());
-            modelBuilder.Configurations.Add(new PhoneTypesMap());
             modelBuilder.Configurations.Add(new PrivilegeGroupsMap());
             modelBuilder.Configurations.Add(new PrivilegesMap());
             modelBuilder.Configurations.Add(new UsersMap());

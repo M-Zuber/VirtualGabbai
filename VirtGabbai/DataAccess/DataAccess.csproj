@@ -59,7 +59,6 @@
     <Compile Include="Interfaces\IFullAccessRepository.cs" />
     <Compile Include="PersonRepository.cs" />
     <Compile Include="PhoneNumberRepository.cs" />
-    <Compile Include="PhoneTypeRepository.cs" />
     <Compile Include="PrivilegeGroupRepository.cs" />
     <Compile Include="PrivilegeRepository.cs" />
     <Compile Include="UserRepository.cs" />
