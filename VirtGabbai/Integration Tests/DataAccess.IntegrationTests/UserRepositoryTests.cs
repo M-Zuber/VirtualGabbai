@@ -224,20 +224,20 @@ namespace DataAccess.IntegrationTests
                     .DistinctBy(p => p.Name, StringComparer.CurrentCultureIgnoreCase)
                     .ToList();
                 //Try to get at least 10 items
-                if (privileges.Count < 10)
-                {
-                    for (var i = 0; i < 3; i++)
-                    {
-                        privileges = GenFu.GenFu.ListOf<Privilege>()
-                                      .DistinctBy(p => p.Name, StringComparer.CurrentCultureIgnoreCase)
-                                      .ToList();
+                //if (privileges.Count < 10)
+                //{
+                //    for (var i = 0; i < 3; i++)
+                //    {
+                //        privileges = GenFu.GenFu.ListOf<Privilege>()
+                //                      .DistinctBy(p => p.Name, StringComparer.CurrentCultureIgnoreCase)
+                //                      .ToList();
 
-                        if (privileges.Count >= 10)
-                        {
-                            break;
-                        }
-                    }
-                }
+                //        if (privileges.Count >= 10)
+                //        {
+                //            break;
+                //        }
+                //    }
+                //}
 
                 privileges.RemoveAll(currentPrivileges.Contains);
 
