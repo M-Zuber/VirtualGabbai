@@ -59,7 +59,6 @@
     <Compile Include="Mapping\DonationsMap.cs" />
     <Compile Include="Mapping\PeopleMap.cs" />
     <Compile Include="Mapping\PhoneNumbersMap.cs" />
-    <Compile Include="Mapping\PhoneTypesMap.cs" />
     <Compile Include="Mapping\PrivilegesMap.cs" />
     <Compile Include="Mapping\PrivilegeGroupsMap.cs" />
     <Compile Include="Mapping\UsersMap.cs" />
@@ -68,7 +67,6 @@
     <Compile Include="Models\Donation.cs" />
     <Compile Include="Models\Person.cs" />
     <Compile Include="Models\PhoneNumber.cs" />
-    <Compile Include="Models\PhoneType.cs" />
     <Compile Include="Models\Privilege.cs" />
     <Compile Include="Models\PrivilegesGroup.cs" />
     <Compile Include="Models\User.cs" />

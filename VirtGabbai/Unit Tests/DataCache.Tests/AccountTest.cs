@@ -273,7 +273,7 @@ namespace DataCache.Tests
         [TestMethod]
         public void AccountMonthlyPaymentTotal_LastMonthlyPaymentDateIsInAPreviousMonth_EqualsZero()
         {
-            var lastPaymentDateTime = new DateTime(DateTime.Today.Year, DateTime.Today.AddMonths(-5).Month, 25);
+            var lastPaymentDateTime = DateTime.Today.AddMonths(-5);
             var actual = new Account
             {
                 Id = 1,

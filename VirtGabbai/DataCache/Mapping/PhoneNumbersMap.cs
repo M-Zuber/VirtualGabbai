@@ -21,16 +21,12 @@ namespace DataCache.Mapping
             ToTable("PhoneNumbers", "ZeraLevi");
             Property(t => t.PersonId).HasColumnName("PersonID");
             Property(t => t.Number).HasColumnName("Number");
-            Property(t => t.NumberTypeId).HasColumnName("NumberTypeID");
             Property(t => t.Id).HasColumnName("ID");
 
             // Relationships
             HasRequired(t => t.Person)
                 .WithMany(t => t.PhoneNumbers)
                 .HasForeignKey(d => d.PersonId);
-            HasRequired(t => t.Type)
-                .WithMany(t => t.PhoneNumbers)
-                .HasForeignKey(d => d.NumberTypeId);
         }
     }
 }

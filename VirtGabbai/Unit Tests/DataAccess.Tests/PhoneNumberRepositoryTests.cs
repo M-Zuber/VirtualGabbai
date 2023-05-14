@@ -22,7 +22,7 @@ namespace DataAccess.Tests
         [TestMethod]
         public void Get_Returns_All_Data()
         {
-            var expected = new List<PhoneNumber> { new PhoneNumber(), new PhoneNumber() };
+            var expected = new List<PhoneNumber> { new PhoneNumber() { Number =""}, new PhoneNumber() { Number = "" } };
             var mock = RepositoryMocks.GetMockPhoneNumberRepository(expected);
 
             var actual = mock.Get();

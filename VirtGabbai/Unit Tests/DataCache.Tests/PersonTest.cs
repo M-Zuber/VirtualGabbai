@@ -39,7 +39,7 @@ namespace DataCache.Tests
             };
             _phoneNumbers = new List<PhoneNumber>
             {
-                new PhoneNumber { Id = 1, Number = "123456789", Type = new PhoneType { Id = 1, Name = "nothing" } }
+                new PhoneNumber { Id = 1, Number = "123456789", Type = PhoneType.Landline }
             };
             _yahrtziehts = new List<Yahrtzieht>
             {
@@ -119,7 +119,7 @@ namespace DataCache.Tests
                 {
                     Id = 1,
                     Number = "987654321",
-                    Type = new PhoneType { Id =1, Name = "nothing" }
+                    Type = PhoneType.Unknown
                 }
             };
             var secondYahrtziehts = new List<Yahrtzieht>
@@ -290,7 +290,7 @@ namespace DataCache.Tests
                 {
                     Id = 1,
                     Number = "987654321",
-                    Type = new PhoneType { Id =1, Name = "nothing" }
+                    Type = PhoneType.Unknown
                 }
             };
             var otherPerson = new Person
